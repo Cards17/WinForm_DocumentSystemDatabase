@@ -1,4 +1,7 @@
-﻿namespace DSD_WinformsApp.View
+﻿using System.Collections.Generic;
+using System.Windows.Forms;
+
+namespace DSD_WinformsApp.View
 {
     partial class DocumentView
     {
@@ -35,21 +38,25 @@
             // dataGridView1
             // 
             dataGridView1.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridView1.Location = new Point(80, 41);
+            dataGridView1.Location = new Point(250, 275);
             dataGridView1.Name = "dataGridView1";
             dataGridView1.RowHeadersWidth = 62;
             dataGridView1.RowTemplate.Height = 33;
-            dataGridView1.Size = new Size(615, 256);
+            dataGridView1.Size = new Size(1125, 539);
             dataGridView1.TabIndex = 0;
+            dataGridView1.RowHeadersVisible = false;
+
+
             // 
-            // MainForm
+            // DocumentView
             // 
             AutoScaleDimensions = new SizeF(10F, 25F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(800, 450);
+            ClientSize = new Size(1418, 968);
             Controls.Add(dataGridView1);
-            Name = "MainForm";
+            Name = "DocumentView";
             Text = "MainForm";
+            Load += DocumentView_Load_1;
             ((System.ComponentModel.ISupportInitialize)dataGridView1).EndInit();
             ResumeLayout(false);
         }
