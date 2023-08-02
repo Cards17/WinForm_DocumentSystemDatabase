@@ -1,6 +1,6 @@
 ﻿namespace DSD_WinformsApp
 {
-    partial class Form1
+    partial class DetailsForm
     {
         /// <summary>
         ///  Required designer variable.

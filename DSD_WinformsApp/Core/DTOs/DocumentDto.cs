@@ -20,5 +20,6 @@ namespace DSD_WinformsApp.Core.DTOs
 
         [MaxLength(150)]
         public string Notes { get; set; } = string.Empty;
+        public byte[] FileData { get; set; } = new byte[0];
     }
 }

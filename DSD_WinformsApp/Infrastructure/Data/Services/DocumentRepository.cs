@@ -28,5 +28,13 @@ namespace DSD_WinformsApp.Infrastructure.Data.Services
             var documents = _mapper.Map<List<DocumentModel>, List<DocumentDto>>(allDocuments);
             return documents;
         }
+
+        // Create a document
+        public void CreateDocument(DocumentDto document)
+        {
+            var documentModel = _mapper.Map<DocumentDto, DocumentModel>(document);
+            _dbContext.Documents.Add(documentModel);
+            _dbContext.SaveChanges();
+        }
     }
 }

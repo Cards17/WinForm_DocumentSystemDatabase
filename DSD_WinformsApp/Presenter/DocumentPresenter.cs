@@ -27,5 +27,10 @@ namespace DSD_WinformsApp.Presenter
             _view.BindData(documents);
 
         }
+
+        public void SaveDocument(DocumentDto document)
+        {
+             _repository.CreateDocument(document);
+        }
     }
 }

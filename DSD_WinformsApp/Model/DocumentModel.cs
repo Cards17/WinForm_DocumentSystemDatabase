@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace DSD_WinformsApp.Model
 {
-    public class DocumentModel : IDocumentModel
+    public class DocumentModel 
     {
         public int Id { get; set; }
         public string Filename { get; set; } = string.Empty;
@@ -18,5 +18,6 @@ namespace DSD_WinformsApp.Model
         public string ModifiedBy { get; set; } = string.Empty;
         public DateTime ModifiedDate { get; set; }
         public string Notes { get; set; } = string.Empty;
+        public byte[] FileData { get; set; } = new byte[0];
     }
 }

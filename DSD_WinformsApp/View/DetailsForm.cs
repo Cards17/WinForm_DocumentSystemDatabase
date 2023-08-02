@@ -1,8 +1,8 @@
 namespace DSD_WinformsApp
 {
-    public partial class Form1 : Form
+    public partial class DetailsForm : Form
     {
-        public Form1()
+        public DetailsForm()
         {
             InitializeComponent();
         }

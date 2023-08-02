@@ -14,11 +14,11 @@ using System.Windows.Forms;
 
 namespace DSD_WinformsApp.View
 {
-    public partial class DocumentView : Form, IDocumentView
+    public partial class Document_MainView : Form, IDocumentView
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly DocumentPresenter _presenter;
-        public DocumentView(IUnitOfWork unitOfWork)
+        public Document_MainView(IUnitOfWork unitOfWork)
         {
             InitializeComponent();
             _unitOfWork = unitOfWork;
@@ -30,6 +30,8 @@ namespace DSD_WinformsApp.View
         {
             dataGridView1.DataSource = documents;
         }
+
+
 
         private async void DocumentView_Load_1(object sender, EventArgs e)
         {
@@ -46,6 +48,7 @@ namespace DSD_WinformsApp.View
             dataGridView1.Columns["ModifiedBy"].Visible = false;
             dataGridView1.Columns["ModifiedDate"].Visible = false;
             dataGridView1.Columns["Notes"].Visible = false;
+            dataGridView1.Columns["FileData"].Visible = false;
 
 
             // Add details button functionality
@@ -103,11 +106,10 @@ namespace DSD_WinformsApp.View
             }
         }
 
-
         private void ShowDocumentDetailsModal(DocumentDto selectedDocument)
         {
             // Create a new form to display the document details (modal form).
-            Form1 detailsForm = new Form1();
+            DetailsForm detailsForm = new DetailsForm();
 
             detailsForm.Text = "Document Details";
             detailsForm.FormBorderStyle = FormBorderStyle.FixedDialog;
@@ -246,12 +248,6 @@ namespace DSD_WinformsApp.View
 
         }
 
-
-
-
-
-
-
         private void DeleteDocument(DocumentDto document)
         {
             // Your logic to delete the document goes here.
@@ -261,6 +257,15 @@ namespace DSD_WinformsApp.View
         private void button1_Click(object sender, EventArgs e)
         {
 
+        }
+
+        private void pictureBox1_Click(object sender, EventArgs e)
+        {
+            using (AddForm newForm = new AddForm(_unitOfWork, _presenter))
+            {
+                newForm.StartPosition = FormStartPosition.CenterParent;
+                newForm.ShowDialog();
+            }
         }
     }
 }

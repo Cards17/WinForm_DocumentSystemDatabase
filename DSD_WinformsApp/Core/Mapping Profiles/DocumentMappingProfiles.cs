@@ -13,7 +13,7 @@ namespace DSD_WinformsApp.Core.Mapping_Profiles
     {
         public DocumentMappingProfiles()
         {
-            CreateMap<IDocumentModel, DocumentDto>().ReverseMap();
+            CreateMap<DocumentModel, DocumentDto>().ReverseMap();
 
         }
        
