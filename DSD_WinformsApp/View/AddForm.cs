@@ -17,7 +17,9 @@ namespace DSD_WinformsApp.View
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly DocumentPresenter _presenter;
-        private byte[] uploadedFileData = null!; // Store the uploaded file data as a byte array
+
+        private string selectedFilePath = null!; // Class-level variable to store the selected file path
+
 
         public AddForm(IUnitOfWork unitOfWork, DocumentPresenter presenter)
         {
@@ -47,21 +49,30 @@ namespace DSD_WinformsApp.View
 
         private async void btnSave_Click(object sender, EventArgs e)
         {
+            // Check if a file is selected
+            if (string.IsNullOrEmpty(selectedFilePath))
+            {
+                MessageBox.Show("Please select a file before saving.");
+                return;
+            }
+
+            // Read the file data from the selected file
+            byte[] fileDataBytes = File.ReadAllBytes(selectedFilePath);
+
             // Create an instance of DocumentDto to hold the data
             var documentDto = new DocumentDto
             {
                 Filename = textBoxFilename.Text,
-                Category = cmbCategories.SelectedItem?.ToString() ?? "DefaultCategory",
-                Status = cmbStatus.SelectedItem?.ToString() ?? "DefaultStatus",
+                Category = cmbCategories.SelectedItem?.ToString() ?? "Select Category",
+                Status = cmbStatus.SelectedItem?.ToString() ?? "Select Status",
                 Notes = txtBoxNotes.Text,
-
-                // update this code!! to upload file to database or filesystem.
-                // idea ensure to update database when changing properties in the model
-                // FileData = uploadedFileData // Set the file data to the DocumentDto
+                CreatedBy = textBoxCreatedBy.Text,
+                CreatedDate = DateTime.Now.Date,
 
             };
-            // Use the presenter to save the document 
-            _presenter.SaveDocument(documentDto);
+
+            // Use the presenter to save the document with file data
+            _presenter.SaveDocument(documentDto, fileDataBytes);
 
             // Load the documents again to update the view
             await _presenter.LoadDocuments();
@@ -78,18 +89,23 @@ namespace DSD_WinformsApp.View
 
         private void buttonUploadFile_Click(object sender, EventArgs e)
         {
-            using (OpenFileDialog openFileDialog = new OpenFileDialog())
+            OpenFileDialog openFileDialog = new OpenFileDialog();
+            openFileDialog.Filter = "All Files|*.*";
+            if (openFileDialog.ShowDialog() == DialogResult.OK)
             {
-                openFileDialog.Filter = "All Files (*.*)|*.*";
-                if (openFileDialog.ShowDialog() == DialogResult.OK)
-                {
-                    // Read the file data into the uploadedFileData byte array
-                    uploadedFileData = File.ReadAllBytes(openFileDialog.FileName);
+                selectedFilePath = openFileDialog.FileName; // Store the selected file path
 
-                    // Display the selected file name in the label
-                    labelFileUpload.Text = openFileDialog.SafeFileName;
-                }
+                // Display only the file name without the extension in the label and the TextBox
+                string fileNameWithoutExtension = Path.GetFileNameWithoutExtension(openFileDialog.FileName);
+                labelFileUpload.Text = fileNameWithoutExtension;
+                textBoxFilename.Text = fileNameWithoutExtension;
             }
+
+
+        }
+
+        private void AddForm_Load(object sender, EventArgs e)
+        {
 
         }
     }

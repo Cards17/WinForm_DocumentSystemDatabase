@@ -15,7 +15,7 @@ namespace DSD_WinformsApp.Presenter
     {
         private readonly IDocumentView _view;
         private readonly IDocumentRepository _repository;
-        public DocumentPresenter( IDocumentView view, IDocumentRepository repository )
+        public DocumentPresenter( IDocumentView view, IDocumentRepository repository)
         {
             _view = view;
             _repository = repository;
@@ -28,9 +28,33 @@ namespace DSD_WinformsApp.Presenter
 
         }
 
-        public void SaveDocument(DocumentDto document)
+        public void SaveDocument(DocumentDto document, byte[] fileDataBytes)
         {
-             _repository.CreateDocument(document);
+            // Set the file data to the DocumentDto
+            document.FileData = fileDataBytes;
+            _repository.CreateDocument(document, fileDataBytes); // Pass fileDataBytes to the repository
+        }
+
+        public async Task<bool> DeleteDocument(DocumentDto document)
+        {
+            try
+            {
+                // Delete the document using the repository
+                bool isDeleted = await _repository.DeleteDocument(document.Id);
+
+                if (isDeleted)
+                {
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+            }
+            catch (Exception)
+            {
+                return false;
+            }
         }
     }
 }

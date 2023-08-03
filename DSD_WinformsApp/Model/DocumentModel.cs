@@ -18,6 +18,6 @@ namespace DSD_WinformsApp.Model
         public string ModifiedBy { get; set; } = string.Empty;
         public DateTime ModifiedDate { get; set; }
         public string Notes { get; set; } = string.Empty;
-        public byte[] FileData { get; set; } = new byte[0];
+        public string FilePath { get; set; } = string.Empty;
     }
 }

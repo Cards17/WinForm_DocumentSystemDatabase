@@ -1,0 +1,66 @@
+public class MyDbContext : DbContext
+{
+    public DbSet<MyData> MyData { get; set; }
+
+    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+    {
+        optionsBuilder.UseSqlServer("connection string");
+    }
+}
+
+public interface IRepository<T>
+{
+    IEnumerable<T> GetAll();
+}
+
+public class Repository<T> : IRepository<T>
+{
+    private readonly DbSet<T> _dbSet;
+
+    public Repository(MyDbContext dbContext)
+    {
+        _dbSet = dbContext.Set<T>();
+    }
+
+    public IEnumerable<T> GetAll()
+    {
+        return _dbSet.ToList();
+    }
+}
+
+public class MyForm : Form
+{
+    private readonly IRepository<MyData> _repository;
+
+    public MyForm(IRepository<MyData> repository)
+    {
+        _repository = repository;
+
+        var dataGridView = new DataGridView();
+        dataGridView.DataSource = _repository.GetAll().ToList();
+
+        Controls.Add(dataGridView);
+    }
+}
+
+public class MappingProfile : Profile
+{
+    public MappingProfile()
+    {
+        CreateMap<MyData, MyDataDto>();
+    }
+}
+
+public class MyDataDto
+{
+    public int Id { get; set; }
+    public string Name { get; set; }
+}
+
+public static class AutoMapperConfig
+{
+    public static void Configure()
+    {
+        Mapper.Initialize(cfg => cfg.AddProfile<MappingProfile>());
+    }
+}

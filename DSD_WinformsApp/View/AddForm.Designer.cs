@@ -41,12 +41,14 @@
             label1 = new Label();
             buttonUploadFile = new Button();
             labelFileUpload = new Label();
+            textBoxCreatedBy = new TextBox();
+            labelCreatedBy = new Label();
             SuspendLayout();
             // 
             // txtFileName
             // 
             txtFileName.AutoSize = true;
-            txtFileName.Location = new Point(21, 86);
+            txtFileName.Location = new Point(378, 81);
             txtFileName.Name = "txtFileName";
             txtFileName.Size = new Size(82, 25);
             txtFileName.TabIndex = 0;
@@ -54,9 +56,9 @@
             // 
             // textBoxFilename
             // 
-            textBoxFilename.Location = new Point(122, 80);
+            textBoxFilename.Location = new Point(464, 77);
             textBoxFilename.Name = "textBoxFilename";
-            textBoxFilename.Size = new Size(227, 31);
+            textBoxFilename.Size = new Size(293, 31);
             textBoxFilename.TabIndex = 1;
             // 
             // txtCategory
@@ -80,7 +82,7 @@
             // cmbStatus
             // 
             cmbStatus.FormattingEnabled = true;
-            cmbStatus.Location = new Point(122, 224);
+            cmbStatus.Location = new Point(127, 224);
             cmbStatus.Name = "cmbStatus";
             cmbStatus.Size = new Size(227, 33);
             cmbStatus.TabIndex = 5;
@@ -88,7 +90,7 @@
             // Notes_Label
             // 
             Notes_Label.AutoSize = true;
-            Notes_Label.Location = new Point(415, 153);
+            Notes_Label.Location = new Point(378, 148);
             Notes_Label.Name = "Notes_Label";
             Notes_Label.Size = new Size(59, 25);
             Notes_Label.TabIndex = 6;
@@ -96,22 +98,23 @@
             // 
             // txtBoxNotes
             // 
-            txtBoxNotes.Location = new Point(492, 145);
+            txtBoxNotes.Location = new Point(464, 145);
+            txtBoxNotes.Multiline = true;
             txtBoxNotes.Name = "txtBoxNotes";
-            txtBoxNotes.Size = new Size(227, 31);
+            txtBoxNotes.Size = new Size(293, 174);
             txtBoxNotes.TabIndex = 7;
             // 
             // cmbCategories
             // 
             cmbCategories.FormattingEnabled = true;
-            cmbCategories.Location = new Point(122, 145);
+            cmbCategories.Location = new Point(127, 145);
             cmbCategories.Name = "cmbCategories";
             cmbCategories.Size = new Size(227, 33);
             cmbCategories.TabIndex = 3;
             // 
             // btnSave
             // 
-            btnSave.Location = new Point(563, 363);
+            btnSave.Location = new Point(645, 363);
             btnSave.Name = "btnSave";
             btnSave.Size = new Size(112, 34);
             btnSave.TabIndex = 9;
@@ -121,7 +124,7 @@
             // 
             // btnCancel
             // 
-            btnCancel.Location = new Point(424, 363);
+            btnCancel.Location = new Point(490, 363);
             btnCancel.Name = "btnCancel";
             btnCancel.Size = new Size(112, 34);
             btnCancel.TabIndex = 8;
@@ -132,15 +135,15 @@
             // label1
             // 
             label1.AutoSize = true;
-            label1.Location = new Point(415, 86);
+            label1.Location = new Point(27, 80);
             label1.Name = "label1";
-            label1.Size = new Size(59, 25);
+            label1.Size = new Size(95, 25);
             label1.TabIndex = 10;
-            label1.Text = "Notes";
+            label1.Text = "Document";
             // 
             // buttonUploadFile
             // 
-            buttonUploadFile.Location = new Point(492, 80);
+            buttonUploadFile.Location = new Point(128, 74);
             buttonUploadFile.Name = "buttonUploadFile";
             buttonUploadFile.Size = new Size(110, 34);
             buttonUploadFile.TabIndex = 11;
@@ -150,18 +153,34 @@
             // 
             // labelFileUpload
             // 
-            labelFileUpload.AutoSize = true;
-            labelFileUpload.Location = new Point(616, 83);
+            labelFileUpload.Location = new Point(0, 0);
             labelFileUpload.Name = "labelFileUpload";
-            labelFileUpload.Size = new Size(107, 25);
-            labelFileUpload.TabIndex = 12;
-            labelFileUpload.Text = "dsadasdasd";
+            labelFileUpload.Size = new Size(100, 23);
+            labelFileUpload.TabIndex = 0;
+            // 
+            // textBoxCreatedBy
+            // 
+            textBoxCreatedBy.Location = new Point(124, 288);
+            textBoxCreatedBy.Name = "textBoxCreatedBy";
+            textBoxCreatedBy.Size = new Size(230, 31);
+            textBoxCreatedBy.TabIndex = 13;
+            // 
+            // labelCreatedBy
+            // 
+            labelCreatedBy.AutoSize = true;
+            labelCreatedBy.Location = new Point(23, 292);
+            labelCreatedBy.Name = "labelCreatedBy";
+            labelCreatedBy.Size = new Size(97, 25);
+            labelCreatedBy.TabIndex = 12;
+            labelCreatedBy.Text = "Created By";
             // 
             // AddForm
             // 
             AutoScaleDimensions = new SizeF(10F, 25F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(800, 450);
+            Controls.Add(textBoxCreatedBy);
+            Controls.Add(labelCreatedBy);
             Controls.Add(labelFileUpload);
             Controls.Add(buttonUploadFile);
             Controls.Add(label1);
@@ -177,6 +196,7 @@
             Controls.Add(txtFileName);
             Name = "AddForm";
             Text = "AddForm";
+            Load += AddForm_Load;
             ResumeLayout(false);
             PerformLayout();
         }
@@ -200,5 +220,7 @@
         private Label label1;
         private Button buttonUploadFile;
         private Label labelFileUpload;
+        private TextBox textBoxCreatedBy;
+        private Label labelCreatedBy;
     }
 }

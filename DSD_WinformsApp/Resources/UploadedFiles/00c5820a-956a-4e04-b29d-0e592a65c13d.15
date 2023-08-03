@@ -1,0 +1,37 @@
+1. Access the Application ==> OK
+2. Log a request , click button until submit
+3. View my Request, click button until load page ==> OK
+4. Filter my Request using search bar, search until results displayed ==> OK
+5. Filter my Request All created date 
+	a. Last 30 days, until results displayed ==> OK
+	b. Date range , 6.14.23 , until results displayed ==> OK
+6.Filter my request using status 
+	a. Awaiting Approval ==> OK
+7. View Detailed Acccess Request, click specific request until data loads ==> OK
+8. Cancel a Request, click button until confirmation display ==> OK
+9. Revoke a Request, click button until confirmation of revoke ==> OK
+10. Navigate pagination, navigate throughout the pages ==> OK
+
+// my approvals page
+11. View my approvals page, from click button until rsults displayed ==> OK
+12. View Detailed Group Request, click specific group until data loads ==> OK
+13. Approve a group request, click approve button until confirmation and update approve status ==> OK
+14. Reject a group request, click approve button until confirmation and update approve status ==> OK
+
+----------------------------------------------------------------
+
+Admin appp , 10 users
+
+1. Access the Application, until app displays ==> OK
+
+2. Filter All Request using search bar, search until results displayed ==> OK
+3. Filter All Request at All created date 
+	a. Last 30 days, until results displayed  ==> OK
+	b. Date range , 6.14.23 , until results displayed ==> OK
+4.Filter All request using status 
+	a. Awaiting Approval ==> OK
+5. View Detailed Acccess Request, click specific request until data loads ==> OK
+6. Cancel a Request, click button until confirmation display ==> OK
+7. Revoke a Request, click button until confirmation of revoke ==> OK
+8. Navigate pagination, navigate throughout the pages  ==> OK
+9. Configure approver ML, click settings until save changes confirmation.==> OK

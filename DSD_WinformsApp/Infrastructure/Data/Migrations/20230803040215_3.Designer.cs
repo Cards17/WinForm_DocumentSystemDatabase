@@ -4,6 +4,7 @@ using DSD_WinformsApp.Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DSD_WinformsApp.Migrations
 {
     [DbContext(typeof(DocumentDbContext))]
-    partial class DocumentDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230803040215_3")]
+    partial class _3
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -41,7 +44,7 @@ namespace DSD_WinformsApp.Migrations
                     b.Property<DateTime>("CreatedDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<string>("FilePath")
+                    b.Property<string>("FileData")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 

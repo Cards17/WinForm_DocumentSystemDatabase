@@ -24,13 +24,13 @@ namespace DSD_WinformsApp.View
             _unitOfWork = unitOfWork;
             _presenter = new DocumentPresenter(this, _unitOfWork.Documents);
 
+
         }
 
         public void BindData(List<DocumentDto> documents)
         {
             dataGridView1.DataSource = documents;
         }
-
 
 
         private async void DocumentView_Load_1(object sender, EventArgs e)
@@ -42,7 +42,7 @@ namespace DSD_WinformsApp.View
             dataGridView1.Columns["Id"].Width = 60;
             dataGridView1.Columns["Filename"].Width = 300;
             dataGridView1.Columns["Category"].Width = 200;
-            dataGridView1.Columns["Status"].Width = 150;
+            dataGridView1.Columns["Status"].Width = 160;
             dataGridView1.Columns["CreatedDate"].Width = 200;
             dataGridView1.Columns["CreatedBy"].Visible = false;
             dataGridView1.Columns["ModifiedBy"].Visible = false;
@@ -96,7 +96,7 @@ namespace DSD_WinformsApp.View
                 if (result == DialogResult.Yes)
                 {
                     // User clicked "Yes," proceed with the deletion
-                    DeleteDocument(selectedDocument);
+                    ConfirmDeleteDocument(selectedDocument);
                 }
                 else
                 {
@@ -159,14 +159,14 @@ namespace DSD_WinformsApp.View
             notesTextBox.ReadOnly = true;
             notesTextBox.Multiline = true;
             notesTextBox.ScrollBars = ScrollBars.Vertical; // Optional: Set the scrollbar type (vertical scrollbar in this case).
-            notesTextBox.MaxLength = 150;
+            notesTextBox.MaxLength = 50;
 
             // Calculate the preferred height for the multiline TextBox based on the text content
             using (Graphics g = notesTextBox.CreateGraphics())
             {
                 SizeF textSize = g.MeasureString(notesTextBox.Text, notesTextBox.Font, notesTextBox.Width);
-                int preferredHeight = (int)textSize.Height + 10; // Add some buffer to avoid cutting off the text.
-                notesTextBox.Height = Math.Max(preferredHeight, 0); // Set a minimum height to prevent the TextBox from becoming too small.
+                int preferredHeight = (int)textSize.Height + 1; // Add some buffer to avoid cutting off the text.
+                notesTextBox.Height = Math.Max(preferredHeight, 10); // Set a minimum height to prevent the TextBox from becoming too small.
             }
 
             AddRow(groupBox, "Notes:", notesTextBox);
@@ -248,10 +248,11 @@ namespace DSD_WinformsApp.View
 
         }
 
-        private void DeleteDocument(DocumentDto document)
+        private async void ConfirmDeleteDocument(DocumentDto selectedDocument)
         {
-            // Your logic to delete the document goes here.
-            // For example, remove it from the data source or perform any necessary operations.
+             await _presenter.DeleteDocument(selectedDocument);
+            // Load the documents again to update the view
+            await _presenter.LoadDocuments();
         }
 
         private void button1_Click(object sender, EventArgs e)
