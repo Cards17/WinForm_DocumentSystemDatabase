@@ -13,10 +13,10 @@ namespace DSD_WinformsApp.Core.DTOs
         public string Filename { get; set; } = string.Empty;
         public string Category { get; set; } = string.Empty;
         public string Status { get; set; } = string.Empty;
-        public DateTime CreatedDate { get; set; }
+        public DateTime CreatedDate { get; set; } = DateTime.Now.Date;
         public string CreatedBy { get; set; } = string.Empty;
         public string ModifiedBy { get; set; } = string.Empty;
-        public DateTime ModifiedDate { get; set; }
+        public DateTime ModifiedDate { get; set; } = DateTime.Now.Date;
 
         [MaxLength(150)]
         public string Notes { get; set; } = string.Empty;

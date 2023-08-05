@@ -1,9 +1,0 @@
-test.cs
-
-public interface test
-{
-    List<Book> getAll
-
-    // create alist to store books
-    
-}

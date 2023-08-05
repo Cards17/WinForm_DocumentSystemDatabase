@@ -67,5 +67,48 @@ namespace DSD_WinformsApp.Infrastructure.Data.Services
             _dbContext.SaveChanges();
             return true;
         }
+
+        // Edit a document
+        public async Task<bool> EditDocument(int documentId, DocumentDto updatedDocument)
+        {
+            var existingDocument = await _dbContext.Documents.FindAsync(documentId);
+            if (existingDocument == null)
+            {
+                return false; // Document not found, cannot edit.
+            }
+
+            // Update properties of the existing document with the data from the updatedDocument DTO
+            existingDocument.Filename = updatedDocument.Filename;
+            existingDocument.Category = updatedDocument.Category;
+            existingDocument.Status = updatedDocument.Status;
+            existingDocument.CreatedDate = updatedDocument.CreatedDate;
+            existingDocument.CreatedBy = updatedDocument.CreatedBy;
+            existingDocument.ModifiedBy = updatedDocument.ModifiedBy;
+            existingDocument.ModifiedDate = updatedDocument.ModifiedDate;
+            existingDocument.Notes = updatedDocument.Notes;
+
+            // Save the updated file if provided
+            if (updatedDocument.FileData != null)
+            {
+                // Generate a unique file name (e.g., using Guid) to avoid conflicts for the updated file
+                var fileName = Guid.NewGuid().ToString() + Path.GetExtension(updatedDocument.Filename);
+                var filePath = Path.Combine(@"C:\Users\ricardo.piquero.jr\source\repos\Document Management Database Solution v.20\DSD_WinformsApp\Resources\UploadedFiles", fileName);
+
+                // Remove the existing file from the server
+                if (File.Exists(existingDocument.FilePath))
+                {
+                    File.Delete(existingDocument.FilePath);
+                }
+
+                // Save the updated file to the server
+                File.WriteAllBytes(filePath, updatedDocument.FileData);
+
+                existingDocument.FilePath = filePath;
+            }
+
+            // Save changes to the database
+            _dbContext.SaveChanges();
+            return true;
+        }
     }
 }

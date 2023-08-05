@@ -42,9 +42,9 @@ namespace DSD_WinformsApp.View
         // Category selection
         private void CategoryComboBox()
         {
-            cmbCategories.Items.Add("Type A");
-            cmbCategories.Items.Add("Type B");
-            cmbCategories.Items.Add("Type C");
+            cmbCategories.Items.Add("Category 1");
+            cmbCategories.Items.Add("Category 2");
+            cmbCategories.Items.Add("Category 3");
         }
 
         private async void btnSave_Click(object sender, EventArgs e)
@@ -68,6 +68,7 @@ namespace DSD_WinformsApp.View
                 Notes = txtBoxNotes.Text,
                 CreatedBy = textBoxCreatedBy.Text,
                 CreatedDate = DateTime.Now.Date,
+                ModifiedDate = DateTime.Now.Date,
 
             };
 

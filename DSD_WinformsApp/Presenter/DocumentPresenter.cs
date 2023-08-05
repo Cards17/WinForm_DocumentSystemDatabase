@@ -34,6 +34,12 @@ namespace DSD_WinformsApp.Presenter
             document.FileData = fileDataBytes;
             _repository.CreateDocument(document, fileDataBytes); // Pass fileDataBytes to the repository
         }
+        public void EditDocument(DocumentDto document, byte[] fileDataBytes)
+        {
+            // Set the file data to the DocumentDto
+            document.FileData = fileDataBytes;
+            _repository.EditDocument(document.Id, document); // Pass fileDataBytes to the repository
+        }
 
         public async Task<bool> DeleteDocument(DocumentDto document)
         {

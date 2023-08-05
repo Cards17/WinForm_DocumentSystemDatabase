@@ -18,6 +18,9 @@ namespace DSD_WinformsApp.View
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly DocumentPresenter _presenter;
+        private string selectedFilePath = "";
+        private bool isNewFileUploaded = false;
+
         public Document_MainView(IUnitOfWork unitOfWork)
         {
             InitializeComponent();
@@ -142,48 +145,99 @@ namespace DSD_WinformsApp.View
             // Add the GroupBox to the detailsForm
             detailsForm.Controls.Add(groupBox);
 
-            // Add controls to display the document details.
-            AddRow(groupBox, "ID:", new TextBox { Text = selectedDocument.Id.ToString(), ReadOnly = true });
-            AddRow(groupBox, "Filename:", new TextBox { Text = selectedDocument.Filename, ReadOnly = true });
-            AddRow(groupBox, "Category:", new TextBox { Text = selectedDocument.Category, ReadOnly = true });
-            AddRow(groupBox, "Status:", new TextBox { Text = selectedDocument.Status, ReadOnly = true });
-            AddRow(groupBox, "Created Date:", new TextBox { Text = selectedDocument.CreatedDate.ToString("yyyy-MM-dd"), ReadOnly = true });
+            int textBoxWidth = 450; // You can adjust the default width for TextBox controls
 
-            // Add controls for the additional properties.
-            AddRow(groupBox, "Created By:", new TextBox { Text = selectedDocument.CreatedBy, ReadOnly = true });
-            AddRow(groupBox, "Modified By:", new TextBox { Text = selectedDocument.ModifiedBy, ReadOnly = true });
-            AddRow(groupBox, "Modified Date:", new TextBox { Text = selectedDocument.ModifiedDate.ToString("yyyy-MM-dd"), ReadOnly = true });
+            // Create a TextBox for "Filename"
+            TextBox filenameTextBox = new TextBox();
+            filenameTextBox.Text = selectedDocument.Filename;
+            filenameTextBox.ReadOnly = true;
+            int filenameTextBoxWidth = textBoxWidth - 130; // Adjust the width as needed
+            AddRow(groupBox, "Filename:", filenameTextBox, filenameTextBoxWidth);
+
+            // Create the "Upload File" button and pass the filenameTextBox as a parameter
+            Button uploadFileButton = new Button();
+            uploadFileButton.Text = "Upload File";
+            uploadFileButton.Location = new Point(filenameTextBox.Right + 10, filenameTextBox.Top); // Right next to the Filename TextBox
+            uploadFileButton.Height = filenameTextBox.Height; // Match the height of the TextBox
+            uploadFileButton.Width = 120; // Adjust the width as needed
+            uploadFileButton.Enabled = false; // Disable the button initially
+            uploadFileButton.Click += (sender, e) => UploadFileButton_Click(sender, e, filenameTextBox);
+            groupBox.Controls.Add(uploadFileButton);
+
+            // Create the Category ComboBox
+            ComboBox categoryComboBox = new ComboBox();
+            categoryComboBox.DropDownStyle = ComboBoxStyle.DropDownList; // Make it a drop-down list
+            categoryComboBox.Items.Add("Category 1"); // Add your category options here
+            categoryComboBox.Items.Add("Category 2");
+            categoryComboBox.Items.Add("Category 3");
+            categoryComboBox.Text = selectedDocument.Category; // Set the initial selected item
+            categoryComboBox.Enabled = false; // Disable the ComboBox initially, enable it when editing
+            int categoryComboBoxWidth = textBoxWidth; // Adjust the width as needed
+            AddRow(groupBox, "Category:", categoryComboBox, categoryComboBoxWidth);
+
+            // Create the Status ComboBox
+            ComboBox statusComboBox = new ComboBox();
+            statusComboBox.DropDownStyle = ComboBoxStyle.DropDownList; // Make it a drop-down list
+            statusComboBox.Items.Add("Open"); // Add your status options here
+            statusComboBox.Items.Add("In Progress");
+            statusComboBox.Items.Add("Closed");
+            statusComboBox.Text = selectedDocument.Status; // Set the initial selected item
+            statusComboBox.Enabled = false; // Disable the ComboBox initially, enable it when editing
+            int statusComboBoxWidth = textBoxWidth; // Adjust the width as needed
+            AddRow(groupBox, "Status:", statusComboBox, statusComboBoxWidth);
+
+            // Create a TextBox for the "Created Date" property and set its initial value
+            TextBox createdDateTextBox = new TextBox();
+            createdDateTextBox.Text = selectedDocument.CreatedDate.ToString("yyyy-MM-dd");
+            createdDateTextBox.ReadOnly = true;
+            int createdDateTextBoxWidth = textBoxWidth; // Adjust the width as needed
+            AddRow(groupBox, "Created Date:", createdDateTextBox, createdDateTextBoxWidth);
+
+            // Create a TextBox for the "Created By" property and set its initial value
+            TextBox createdByTextBox = new TextBox();
+            createdByTextBox.Text = selectedDocument.CreatedBy;
+            createdByTextBox.ReadOnly = true;
+            int createdByTextBoxWidth = textBoxWidth; // Adjust the width as needed
+            AddRow(groupBox, "Created By:", createdByTextBox, createdByTextBoxWidth);
+
+            // Create a TextBox for the "Modified By" property and set its initial value
+            TextBox modifiedByTextBox = new TextBox();
+            modifiedByTextBox.Text = selectedDocument.ModifiedBy;
+            modifiedByTextBox.ReadOnly = true;
+            int modifiedByTextBoxWidth = textBoxWidth; // Adjust the width as needed
+            AddRow(groupBox, "Modified By:", modifiedByTextBox, modifiedByTextBoxWidth);
+
+            // Create a TextBox for the "Modified Date" property and set its initial value
+            TextBox modifiedDateTextBox = new TextBox();
+            modifiedDateTextBox.Text = selectedDocument.ModifiedDate.ToString("yyyy-MM-dd");
+            modifiedDateTextBox.ReadOnly = true;
+            int modifiedDateTextBoxWidth = textBoxWidth; // Adjust the width as needed
+            AddRow(groupBox, "Modified Date:", modifiedDateTextBox, modifiedDateTextBoxWidth);
+
             // Create a multiline TextBox for the "Notes" property
             TextBox notesTextBox = new TextBox();
             notesTextBox.Text = selectedDocument.Notes;
             notesTextBox.ReadOnly = true;
             notesTextBox.Multiline = true;
-            notesTextBox.ScrollBars = ScrollBars.Vertical; // Optional: Set the scrollbar type (vertical scrollbar in this case).
-            notesTextBox.MaxLength = 50;
+            notesTextBox.MaxLength = 200; // Set the maximum length to 150 characters
+            notesTextBox.Height = 150; // Set the fixed height to 100 pixels (adjust the value as needed)
 
-            // Calculate the preferred height for the multiline TextBox based on the text content
-            using (Graphics g = notesTextBox.CreateGraphics())
-            {
-                SizeF textSize = g.MeasureString(notesTextBox.Text, notesTextBox.Font, notesTextBox.Width);
-                int preferredHeight = (int)textSize.Height + 1; // Add some buffer to avoid cutting off the text.
-                notesTextBox.Height = Math.Max(preferredHeight, 10); // Set a minimum height to prevent the TextBox from becoming too small.
-            }
-
-            AddRow(groupBox, "Notes:", notesTextBox);
+            int notesTextBoxWidth = textBoxWidth ; // Adjust the width as needed
+            AddRow(groupBox, "Notes:", notesTextBox, notesTextBoxWidth);
 
             // Function to add a row (label + control) to the GroupBox
-            void AddRow(GroupBox parent, string labelText, Control control)
+            void AddRow(GroupBox parent, string labelText, Control control, int controlWidth)
             {
                 Label label = new Label();
                 label.Text = labelText;
                 label.AutoSize = true;
 
-                int labelTop = parent.Controls.Count * 20 + 40;
-                label.Location = new Point(10, labelTop);
+                int labelTop = parent.Controls.Count * 20 + 50;
+                label.Location = new Point(50, labelTop);
 
-                int controlLeft = label.Right + 50;
+                int controlLeft = label.Right + 80;
                 control.Location = new Point(controlLeft, labelTop);
-                control.Width = parent.Width - controlLeft - 80;
+                control.Width = controlWidth;
 
                 parent.Controls.Add(label);
                 parent.Controls.Add(control);
@@ -215,6 +269,128 @@ namespace DSD_WinformsApp.View
             closeButton.Click += CloseButton_Click;
             detailsForm.Controls.Add(closeButton);
 
+            // Create the Save button
+            Button saveButton = new Button(); // Define the saveButton as a local variable
+            saveButton.Text = "Save";
+            saveButton.Name = "saveButton";
+            saveButton.Location = new Point(closeButton.Left - 10 - saveButton.Width, closeButton.Top);
+            saveButton.Height = closeButton.Height;
+            saveButton.Width = closeButton.Width;
+            saveButton.Enabled = false; // Disable the Save button initially
+
+            // Create a dictionary to store the original values of the TextBoxes
+            var originalTextBoxValues = new Dictionary<TextBox, string>();
+
+            // Save button click event
+            saveButton.Click += async (sender, e) =>
+            {
+                // Check if a file has been uploaded
+                string? filePath = filenameTextBox.Tag as string;
+
+                // Read the file data from the selected file if a new file has been uploaded
+                byte[] fileDataBytes = isNewFileUploaded ? File.ReadAllBytes(filePath) : selectedDocument.FileData;
+
+
+                // Get the modified data from the TextBoxes and ComboBoxes
+                string filename = filenameTextBox.Text;
+                string category = categoryComboBox.Text;
+                string status = statusComboBox.Text;
+                DateTime createdDate = DateTime.Parse(createdDateTextBox.Text);
+                string createdBy = createdByTextBox.Text;
+                string modifiedBy = modifiedByTextBox.Text;
+                DateTime modifiedDate = DateTime.Parse(modifiedDateTextBox.Text);
+                string notes = notesTextBox.Text;
+
+                // Check if the file name has been changed
+                if (filename != Path.GetFileName(filePath))
+                {
+                    // Update the filenameTextBox with the new file name
+                    filenameTextBox.Text = Path.GetFileNameWithoutExtension(filePath);
+                }
+
+                // Create a new DocumentDto with the modified data
+                DocumentDto modifiedDocument = new DocumentDto
+                {
+                    Id = selectedDocument.Id,
+                    Filename = filename,
+                    Category = category,
+                    Status = status,
+                    CreatedDate = createdDate,
+                    CreatedBy = createdBy,
+                    ModifiedBy = modifiedBy,
+                    ModifiedDate = modifiedDate,
+                    Notes = notes
+                };
+
+                // Save the modified document to the database using the presenter
+                _presenter.EditDocument(modifiedDocument, fileDataBytes);
+
+                // Load the documents again to update the view
+                await _presenter.LoadDocuments();
+
+                // Show a confirmation dialog
+                var result = MessageBox.Show("Document has been successfully saved. Do you want to proceed to MainView?", "Confirmation", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+                // Check if the user clicked "Yes"
+                if (result == DialogResult.Yes)
+                {
+                    // Close the DetailsForm (current form) to go back to MainView
+                    detailsForm.Close();
+                }
+
+                // After saving, make the TextBoxes read-only again
+                foreach (Control control in groupBox.Controls)
+                {
+                    if (control is TextBox textBox)
+                    {
+                        textBox.ReadOnly = true;
+                        textBox.TextChanged -= TextBox_TextChanged; // Detach the event handler to stop tracking changes
+                    }
+                    else if (control is ComboBox comboBox)
+                    {
+                        comboBox.Enabled = false; // Disable the ComboBox controls
+                        comboBox.SelectedIndexChanged -= ComboBox_SelectedIndexChanged; // Detach the event handler to stop tracking changes
+                    }
+                }
+                // Reset the flag for the next upload
+                isNewFileUploaded = false;
+
+                // Disable the Save button after saving
+                saveButton.Enabled = false;
+                // Re-enable the Edit button
+                editButton.Enabled = true;
+            };
+
+            detailsForm.Controls.Add(saveButton);
+
+            // Handle the Edit button click event
+            editButton.Click += (sender, e) =>
+            {
+                // Enable editing of the controls inside the GroupBox.
+                foreach (Control control in groupBox.Controls)
+                {
+                    if (control is TextBox textBox)
+                    {
+                        // Store the original value of the TextBox
+                        originalTextBoxValues[textBox] = textBox.Text;
+
+                        textBox.ReadOnly = false;
+                        textBox.TextChanged += TextBox_TextChanged; // Attach the event handler to track changes
+                    }
+
+                    else if (control is ComboBox comboBox)
+                    {
+                        comboBox.Enabled = true; // Enable the ComboBox controls
+                        comboBox.SelectedIndexChanged += ComboBox_SelectedIndexChanged; // Attach the event handler to track changes
+                    }
+                }
+
+                // Enable the Upload File button only if there's a file uploaded
+                uploadFileButton.Enabled = true;
+
+                // Disable the Edit button after enabling editing
+                editButton.Enabled = false;
+            };
+
             // Adjust the size of the detailsForm to fit the GroupBox and its contents
             detailsForm.ClientSize = new Size(groupBox.Right + 40, groupBox.Bottom + 80); // Add some buffer (e.g., 40 pixels) to avoid cutting off any controls.
 
@@ -233,14 +409,47 @@ namespace DSD_WinformsApp.View
             // Handle the Edit button click event
             void EditButton_Click(object? sender, EventArgs e)
             {
-                // Add the logic to handle the Edit button click here.
-                // For example, you can enable editing of the controls inside the GroupBox.
+                // Enable editing of the controls inside the GroupBox except for Created Date and Modified Date.
+                foreach (Control control in groupBox.Controls)
+                {
+                    // Check if the control is a TextBox and make it editable, except for Created Date and Modified Date
+                    if (control is TextBox textBox && textBox != createdDateTextBox && textBox != modifiedDateTextBox)
+                    {
+                        textBox.ReadOnly = false;
+                    }
+                }
+
+                // Disable the Edit button after enabling editing
+                editButton.Enabled = false;
             }
 
             // Handle the Close button click event
             void CloseButton_Click(object? sender, EventArgs e)
             {
                 detailsForm.Close(); // Close the form when the Close button is clicked.
+            }
+
+            void TextBox_TextChanged(object? sender, EventArgs e)
+            {
+                // Enable the Save button when changes are made in any of the TextBoxes
+                saveButton.Enabled = true;
+
+                // Check if the value in the TextBox has been reverted to the original value
+                if (sender is TextBox textBox && originalTextBoxValues.ContainsKey(textBox))
+                {
+                    if (textBox.Text == originalTextBoxValues[textBox])
+                    {
+                        // If the current value matches the original value, disable the Save button
+                        saveButton.Enabled = false;
+                    }
+                }
+            }
+
+            // ComboBox SelectedIndexChanged event handler to track changes
+            void ComboBox_SelectedIndexChanged(object? sender, EventArgs e)
+            {
+                // Enable the Save button when changes are made in any of the ComboBoxes
+                saveButton.Enabled = true;
             }
 
             // Show the detailsForm
@@ -253,6 +462,49 @@ namespace DSD_WinformsApp.View
              await _presenter.DeleteDocument(selectedDocument);
             // Load the documents again to update the view
             await _presenter.LoadDocuments();
+        }
+
+        private void UploadFileButton_Click(object? sender, EventArgs e, TextBox filenameTextBox)
+        {
+            OpenFileDialog openFileDialog = new OpenFileDialog();
+            openFileDialog.Filter = "All files (*.*)|*.*";
+            openFileDialog.RestoreDirectory = true;
+
+            if (openFileDialog.ShowDialog() == DialogResult.OK)
+            {
+
+                // Get the selected file path
+                string filePath = openFileDialog.FileName;
+
+                // Check if the selected file is different from the current file
+                if (filePath != filenameTextBox.Tag as string)
+                {
+
+                    // Update the TextBox with the selected file name
+                    filenameTextBox.Text = Path.GetFileName(filePath);
+
+                    // Set the flag to indicate that a new file has been uploaded
+                    isNewFileUploaded = true;
+                }
+
+                // Get the filename from the selected file path
+                string selectedFileName = Path.GetFileNameWithoutExtension(filePath);
+
+                // Check if a file already exists with the same name
+                if (filenameTextBox.Text == selectedFileName)
+                {
+                    DialogResult result = MessageBox.Show("A file with the same name already exists. Do you want to replace it?", "File Replacement", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+                    if (result == DialogResult.No)
+                    {
+                        return; // User chose not to replace the file, so exit the method.
+                    }
+                }
+
+                // Update the TextBox with the selected file name
+                filenameTextBox.Text = Path.GetFileNameWithoutExtension(filePath);
+                // Set the Tag property of filenameTextBox to store the selected file path
+                filenameTextBox.Tag = filePath;
+            }
         }
 
         private void button1_Click(object sender, EventArgs e)
