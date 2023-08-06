@@ -118,7 +118,7 @@ namespace DSD_WinformsApp.View
             // 
             pictureBox1.Cursor = Cursors.Hand;
             pictureBox1.Image = (Image)resources.GetObject("pictureBox1.Image");
-            pictureBox1.Location = new Point(67, 112);
+            pictureBox1.Location = new Point(20, 127);
             pictureBox1.Name = "pictureBox1";
             pictureBox1.Size = new Size(41, 43);
             pictureBox1.SizeMode = PictureBoxSizeMode.Zoom;

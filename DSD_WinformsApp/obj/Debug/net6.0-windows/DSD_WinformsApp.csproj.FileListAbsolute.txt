@@ -88,7 +88,6 @@ C:\Users\ricardo.piquero.jr\source\repos\Document Management Database Solution\D
 C:\Users\ricardo.piquero.jr\source\repos\Document Management Database Solution v.20\DSD_WinformsApp\obj\Debug\net6.0-windows\DSD_WinformsApp.csproj.AssemblyReference.cache
 C:\Users\ricardo.piquero.jr\source\repos\Document Management Database Solution v.20\DSD_WinformsApp\obj\Debug\net6.0-windows\DSD_WinformsApp.Properties.Resources.resources
 C:\Users\ricardo.piquero.jr\source\repos\Document Management Database Solution v.20\DSD_WinformsApp\obj\Debug\net6.0-windows\DSD_WinformsApp.View.AddForm.resources
-C:\Users\ricardo.piquero.jr\source\repos\Document Management Database Solution v.20\DSD_WinformsApp\obj\Debug\net6.0-windows\DSD_WinformsApp.DetailsForm.resources
 C:\Users\ricardo.piquero.jr\source\repos\Document Management Database Solution v.20\DSD_WinformsApp\obj\Debug\net6.0-windows\DSD_WinformsApp.View.Document_MainView.resources
 C:\Users\ricardo.piquero.jr\source\repos\Document Management Database Solution v.20\DSD_WinformsApp\obj\Debug\net6.0-windows\DSD_WinformsApp.csproj.GenerateResource.cache
 C:\Users\ricardo.piquero.jr\source\repos\Document Management Database Solution v.20\DSD_WinformsApp\obj\Debug\net6.0-windows\DSD_WinformsApp.GeneratedMSBuildEditorConfig.editorconfig
@@ -174,3 +173,4 @@ C:\Users\ricardo.piquero.jr\source\repos\Document Management Database Solution v
 C:\Users\ricardo.piquero.jr\source\repos\Document Management Database Solution v.20\DSD_WinformsApp\obj\Debug\net6.0-windows\DSD_WinformsApp.pdb
 C:\Users\ricardo.piquero.jr\source\repos\Document Management Database Solution v.20\DSD_WinformsApp\obj\Debug\net6.0-windows\DSD_WinformsApp.genruntimeconfig.cache
 C:\Users\ricardo.piquero.jr\source\repos\Document Management Database Solution v.20\DSD_WinformsApp\obj\Debug\net6.0-windows\ref\DSD_WinformsApp.dll
+C:\Users\ricardo.piquero.jr\source\repos\Document Management Database Solution v.20\DSD_WinformsApp\obj\Debug\net6.0-windows\DSD_WinformsApp.DetailsFormView.resources

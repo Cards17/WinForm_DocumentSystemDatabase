@@ -6,6 +6,6 @@ namespace DSD_WinformsApp.View
 {
     public interface IDocumentView
     {
-        void BindData(List<DocumentDto> documents);
+        void BindDataMainView(List<DocumentDto> documents);
     }
 }

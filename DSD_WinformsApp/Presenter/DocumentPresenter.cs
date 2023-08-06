@@ -13,18 +13,19 @@ namespace DSD_WinformsApp.Presenter
 {
     public class DocumentPresenter
     {
-        private readonly IDocumentView _view;
+        private readonly IDocumentView _mainDocumentView;
         private readonly IDocumentRepository _repository;
-        public DocumentPresenter( IDocumentView view, IDocumentRepository repository)
+        public DocumentPresenter( IDocumentView mainDocumentView, IDocumentRepository repository)
         {
-            _view = view;
+            _mainDocumentView = mainDocumentView;
             _repository = repository;
 
         }
         public async Task LoadDocuments()
         {
             List<DocumentDto> documents = await _repository.GetAllDocuments();
-            _view.BindData(documents);
+            _mainDocumentView.BindDataMainView(documents);
+
 
         }
 

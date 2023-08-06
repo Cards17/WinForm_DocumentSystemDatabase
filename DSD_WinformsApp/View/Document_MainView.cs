@@ -25,12 +25,12 @@ namespace DSD_WinformsApp.View
         {
             InitializeComponent();
             _unitOfWork = unitOfWork;
-            _presenter = new DocumentPresenter(this, _unitOfWork.Documents);
+            _presenter = new DocumentPresenter( this, _unitOfWork.Documents);
 
 
         }
 
-        public void BindData(List<DocumentDto> documents)
+        public void BindDataMainView(List<DocumentDto> documents)
         {
             dataGridView1.DataSource = documents;
         }
@@ -112,7 +112,7 @@ namespace DSD_WinformsApp.View
         private void ShowDocumentDetailsModal(DocumentDto selectedDocument)
         {
             // Create a new form to display the document details (modal form).
-            DetailsForm detailsForm = new DetailsForm();
+            DetailsFormView detailsForm = new DetailsFormView();
 
             detailsForm.Text = "Document Details";
             detailsForm.FormBorderStyle = FormBorderStyle.FixedDialog;
@@ -248,6 +248,41 @@ namespace DSD_WinformsApp.View
             int groupBoxHeight = groupBox.Controls.Count * 30 + 30; // Add some buffer (e.g., 40 pixels) to avoid cutting off any controls.
             groupBox.Width = groupBoxWidth;
             groupBox.Height = groupBoxHeight;
+
+
+            // Create the GroupBox containing the second DataGridView (DataGridView2)
+            GroupBox groupBox2 = new GroupBox();
+            groupBox2.Text = "File Details";
+            groupBox2.AutoSize = true;
+            groupBox2.Location = new Point(20, button2.Bottom + 20); // Adjust the position as needed
+            groupBox2.Visible = false; // Set the initial visibility to false
+            detailsForm.Controls.Add(groupBox2);
+
+            DataGridView dataGridView2 = new DataGridView();
+            dataGridView2.Dock = DockStyle.Fill;
+            dataGridView2.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            dataGridView2.RowHeadersVisible = false;
+            groupBox2.Controls.Add(dataGridView2);
+
+            // Adjust the size of the DetailsFormView to fit the contents including groupBox2
+            int groupBox2Width = detailsForm.ClientSize.Width - 50; // 40 pixels less than the client width of DetailsFormView
+            int groupBox2Height = detailsForm.ClientSize.Height - groupBox2.Top - 40; // 40 pixels buffer at the bottom
+            groupBox2.Size = new Size(groupBox2Width, groupBox2Height);
+
+            // Get the data for the second DataGridView (DataGridView2)
+            IList<object> dataForDataGridView2 = dataGridView1.Rows.Cast<DataGridViewRow>()
+                .Select(row => new
+                {
+                    Id = row.Cells["Id"].Value,
+                    Filename = row.Cells["Filename"].Value
+                }).ToList<object>();
+
+            // Bind the data to the second DataGridView (DataGridView2)
+            dataGridView2.DataSource = new BindingList<object>(dataForDataGridView2);
+
+            // Set the width of each column in dataGridView2 manually
+            dataGridView2.Columns["Id"].Width = 50; // Set the width of the "Id" column to 100 pixels
+            dataGridView2.Columns["Filename"].Width = 200; // Set the width of the "Filename" column to 200 pixels
 
             // Create the Edit button
             Button editButton = new Button();
@@ -404,6 +439,8 @@ namespace DSD_WinformsApp.View
             button2.Click += (sender, e) =>
             {
                 groupBox.Visible = false; // hide the GroupBox when Button 1 is clicked.
+                groupBox2.Visible = true; // Show the GroupBox containing DataGridView2 when Button 2 is clicked.
+    
             };
 
             // Handle the Edit button click event
@@ -520,5 +557,6 @@ namespace DSD_WinformsApp.View
                 newForm.ShowDialog();
             }
         }
+
     }
 }

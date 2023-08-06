@@ -1,6 +1,6 @@
 ﻿namespace DSD_WinformsApp
 {
-    partial class DetailsForm
+    partial class DetailsFormView
     {
         /// <summary>
         ///  Required designer variable.
@@ -30,12 +30,12 @@
         {
             SuspendLayout();
             // 
-            // Form1
+            // DetailsFormView
             // 
             AutoScaleDimensions = new SizeF(10F, 25F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(800, 450);
-            Name = "Form1";
+            Name = "DetailsFormView";
             Text = "Form1";
             ResumeLayout(false);
         }
