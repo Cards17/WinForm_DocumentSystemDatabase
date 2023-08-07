@@ -260,10 +260,11 @@ namespace DSD_WinformsApp.View
 
             DataGridView dataGridView2 = new DataGridView();
             dataGridView2.Dock = DockStyle.Fill;
-            dataGridView2.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            dataGridView2.AllowUserToAddRows = false; 
             dataGridView2.RowHeadersVisible = false;
             groupBox2.Controls.Add(dataGridView2);
 
+            
             // Adjust the size of the DetailsFormView to fit the contents including groupBox2
             int groupBox2Width = detailsForm.ClientSize.Width - 50; // 40 pixels less than the client width of DetailsFormView
             int groupBox2Height = detailsForm.ClientSize.Height - groupBox2.Top - 40; // 40 pixels buffer at the bottom
@@ -281,8 +282,26 @@ namespace DSD_WinformsApp.View
             dataGridView2.DataSource = new BindingList<object>(dataForDataGridView2);
 
             // Set the width of each column in dataGridView2 manually
-            dataGridView2.Columns["Id"].Width = 50; // Set the width of the "Id" column to 100 pixels
-            dataGridView2.Columns["Filename"].Width = 200; // Set the width of the "Filename" column to 200 pixels
+            dataGridView2.Columns["Id"].Width = 50;
+            dataGridView2.Columns["Filename"].Width = 400; 
+
+            // Add download button functionality
+            DataGridViewButtonColumn downloadColumn = new DataGridViewButtonColumn();
+            downloadColumn.Text = "Download";
+            downloadColumn.Name = "";
+            downloadColumn.Width = 100;
+            downloadColumn.UseColumnTextForButtonValue = true;
+            dataGridView2.Columns.Add(downloadColumn);
+
+            // Add delete button functionality
+            DataGridViewButtonColumn deleteColumn = new DataGridViewButtonColumn();
+            deleteColumn.Text = "Delete";
+            deleteColumn.Name = "";
+            deleteColumn.Width = 100;
+            deleteColumn.UseColumnTextForButtonValue = true;
+            dataGridView2.Columns.Add(deleteColumn);
+
+
 
             // Create the Edit button
             Button editButton = new Button();

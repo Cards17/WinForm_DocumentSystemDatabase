@@ -94,10 +94,19 @@ namespace DSD_WinformsApp.Infrastructure.Data.Services
                 var fileName = Guid.NewGuid().ToString() + Path.GetExtension(updatedDocument.Filename);
                 var filePath = Path.Combine(@"C:\Users\ricardo.piquero.jr\source\repos\Document Management Database Solution v.20\DSD_WinformsApp\Resources\UploadedFiles", fileName);
 
+
                 // Remove the existing file from the server
                 if (File.Exists(existingDocument.FilePath))
                 {
-                    File.Delete(existingDocument.FilePath);
+                    var backupFolderPath = Path.Combine(@"C:\Users\ricardo.piquero.jr\source\repos\Document Management Database Solution v.20\DSD_WinformsApp\Resources\BackupFiles");
+                    if (!Directory.Exists(backupFolderPath))
+                    {
+                        Directory.CreateDirectory(backupFolderPath);
+                    }
+
+                    var backupFileName = Guid.NewGuid().ToString() + Path.GetExtension(existingDocument.Filename);
+                    var backupFilePath = Path.Combine(backupFolderPath, backupFileName);
+                    File.Move(existingDocument.FilePath, backupFilePath);
                 }
 
                 // Save the updated file to the server
