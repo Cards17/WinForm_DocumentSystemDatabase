@@ -1,6 +1,7 @@
 ﻿using DSD_WinformsApp.Core.DTOs;
 using DSD_WinformsApp.Infrastructure.Data;
 using DSD_WinformsApp.Infrastructure.Data.Services;
+using DSD_WinformsApp.Model;
 using DSD_WinformsApp.Presenter;
 using System;
 using System.Collections.Generic;
@@ -25,17 +26,13 @@ namespace DSD_WinformsApp.View
         {
             InitializeComponent();
             _unitOfWork = unitOfWork;
-            _presenter = new DocumentPresenter( this, _unitOfWork.Documents);
-
-
+            _presenter = new DocumentPresenter( this, _unitOfWork.Documents, _unitOfWork.BackUpFiles);
         }
 
         public void BindDataMainView(List<DocumentDto> documents)
         {
             dataGridView1.DataSource = documents;
         }
-
-
         private async void DocumentView_Load_1(object sender, EventArgs e)
         {
             // Loads all documents list from data source.
@@ -84,6 +81,7 @@ namespace DSD_WinformsApp.View
             {
                 DocumentDto selectedDocument = (DocumentDto)dataGridView1.Rows[e.RowIndex].DataBoundItem;
                 ShowDocumentDetailsModal(selectedDocument);
+                
             }
         }
 
@@ -109,7 +107,7 @@ namespace DSD_WinformsApp.View
             }
         }
 
-        private void ShowDocumentDetailsModal(DocumentDto selectedDocument)
+        private async void ShowDocumentDetailsModal(DocumentDto selectedDocument)
         {
             // Create a new form to display the document details (modal form).
             DetailsFormView detailsForm = new DetailsFormView();
@@ -249,7 +247,6 @@ namespace DSD_WinformsApp.View
             groupBox.Width = groupBoxWidth;
             groupBox.Height = groupBoxHeight;
 
-
             // Create the GroupBox containing the second DataGridView (DataGridView2)
             GroupBox groupBox2 = new GroupBox();
             groupBox2.Text = "File Details";
@@ -263,27 +260,30 @@ namespace DSD_WinformsApp.View
             dataGridView2.AllowUserToAddRows = false; 
             dataGridView2.RowHeadersVisible = false;
             groupBox2.Controls.Add(dataGridView2);
-
             
             // Adjust the size of the DetailsFormView to fit the contents including groupBox2
-            int groupBox2Width = detailsForm.ClientSize.Width - 50; // 40 pixels less than the client width of DetailsFormView
-            int groupBox2Height = detailsForm.ClientSize.Height - groupBox2.Top - 40; // 40 pixels buffer at the bottom
+            int groupBox2Width = detailsForm.ClientSize.Width - 50; 
+            int groupBox2Height = detailsForm.ClientSize.Height - groupBox2.Top - 40; 
             groupBox2.Size = new Size(groupBox2Width, groupBox2Height);
 
-            // Get the data for the second DataGridView (DataGridView2)
-            IList<object> dataForDataGridView2 = dataGridView1.Rows.Cast<DataGridViewRow>()
-                .Select(row => new
-                {
-                    Id = row.Cells["Id"].Value,
-                    Filename = row.Cells["Filename"].Value
-                }).ToList<object>();
+            // Binding related backup file data to dataGridView2 based on the selected document's ID
+            var relatedBackupFiles = await _presenter.GetRelatedBackupFiles(selectedDocument.Id);
+            dataGridView2.DataSource = relatedBackupFiles;
 
-            // Bind the data to the second DataGridView (DataGridView2)
-            dataGridView2.DataSource = new BindingList<object>(dataForDataGridView2);
+            
+            // Display Columns in datagridview2
+            dataGridView2.Columns["BackupId"].Width = 50;
+            dataGridView2.Columns["Filename"].Width = 320;
+            dataGridView2.Columns["BackupDate"].Width = 170;
 
-            // Set the width of each column in dataGridView2 manually
-            dataGridView2.Columns["Id"].Width = 50;
-            dataGridView2.Columns["Filename"].Width = 400; 
+            dataGridView2.Columns["BackupId"].HeaderText = "Id";
+            dataGridView2.Columns["Filename"].HeaderText = "Filename";
+            dataGridView2.Columns["BackupDate"].HeaderText = "Modified Date";
+
+            dataGridView2.Columns["OriginalFilePath"].Visible = false;
+            dataGridView2.Columns["BackupFilePath"].Visible = false;
+            dataGridView2.Columns["Id"].Visible = false;
+
 
             // Add download button functionality
             DataGridViewButtonColumn downloadColumn = new DataGridViewButtonColumn();
@@ -300,8 +300,6 @@ namespace DSD_WinformsApp.View
             deleteColumn.Width = 100;
             deleteColumn.UseColumnTextForButtonValue = true;
             dataGridView2.Columns.Add(deleteColumn);
-
-
 
             // Create the Edit button
             Button editButton = new Button();
@@ -343,7 +341,6 @@ namespace DSD_WinformsApp.View
 
                 // Read the file data from the selected file if a new file has been uploaded
                 byte[] fileDataBytes = isNewFileUploaded ? File.ReadAllBytes(filePath) : selectedDocument.FileData;
-
 
                 // Get the modified data from the TextBoxes and ComboBoxes
                 string filename = filenameTextBox.Text;
@@ -535,7 +532,6 @@ namespace DSD_WinformsApp.View
                 // Check if the selected file is different from the current file
                 if (filePath != filenameTextBox.Tag as string)
                 {
-
                     // Update the TextBox with the selected file name
                     filenameTextBox.Text = Path.GetFileName(filePath);
 

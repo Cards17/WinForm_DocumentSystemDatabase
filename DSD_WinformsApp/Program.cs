@@ -30,7 +30,8 @@ namespace DSD_WinformsApp
             return Host.CreateDefaultBuilder()
                 .ConfigureServices((context, services) => {
                     services.AddTransient<IUnitOfWork, UnitOfWork>();
-                     services.AddTransient<IDocumentRepository, DocumentRepository>();
+                    services.AddTransient<IDocumentRepository, DocumentRepository>();
+                    services.AddTransient<IBackUpFileRepository, BackUpFileRepository>();
                     services.AddTransient<IDocumentDbContext, DocumentDbContext>();
                     services.AddAutoMapper(typeof(DocumentMappingProfiles));
                     services.AddTransient<Document_MainView>();

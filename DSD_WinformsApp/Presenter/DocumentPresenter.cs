@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using DSD_WinformsApp.Core.DTOs;
 using DSD_WinformsApp.Infrastructure.Data.Services;
+using DSD_WinformsApp.Model;
 using DSD_WinformsApp.View;
 using System;
 using System.Collections.Generic;
@@ -14,16 +15,18 @@ namespace DSD_WinformsApp.Presenter
     public class DocumentPresenter
     {
         private readonly IDocumentView _mainDocumentView;
-        private readonly IDocumentRepository _repository;
-        public DocumentPresenter( IDocumentView mainDocumentView, IDocumentRepository repository)
+        private readonly IDocumentRepository _documentRepository;
+        private readonly IBackUpFileRepository _backUpFileRepository;
+        public DocumentPresenter( IDocumentView mainDocumentView, IDocumentRepository documentRepository, IBackUpFileRepository backUpFileRepository)
         {
             _mainDocumentView = mainDocumentView;
-            _repository = repository;
+            _documentRepository = documentRepository;
+            _backUpFileRepository = backUpFileRepository;
 
         }
         public async Task LoadDocuments()
         {
-            List<DocumentDto> documents = await _repository.GetAllDocuments();
+            List<DocumentDto> documents = await _documentRepository.GetAllDocuments();
             _mainDocumentView.BindDataMainView(documents);
 
 
@@ -33,13 +36,13 @@ namespace DSD_WinformsApp.Presenter
         {
             // Set the file data to the DocumentDto
             document.FileData = fileDataBytes;
-            _repository.CreateDocument(document, fileDataBytes); // Pass fileDataBytes to the repository
+            _documentRepository.CreateDocument(document, fileDataBytes); // Pass fileDataBytes to the repository
         }
         public void EditDocument(DocumentDto document, byte[] fileDataBytes)
         {
             // Set the file data to the DocumentDto
             document.FileData = fileDataBytes;
-            _repository.EditDocument(document.Id, document); // Pass fileDataBytes to the repository
+            _documentRepository.EditDocument(document.Id, document); // Pass fileDataBytes to the repository
         }
 
         public async Task<bool> DeleteDocument(DocumentDto document)
@@ -47,7 +50,7 @@ namespace DSD_WinformsApp.Presenter
             try
             {
                 // Delete the document using the repository
-                bool isDeleted = await _repository.DeleteDocument(document.Id);
+                bool isDeleted = await _documentRepository.DeleteDocument(document.Id);
 
                 if (isDeleted)
                 {
@@ -63,5 +66,12 @@ namespace DSD_WinformsApp.Presenter
                 return false;
             }
         }
+
+        public async Task<List<BackUpFileDto>> GetRelatedBackupFiles(int documentId)
+        {
+            return await _backUpFileRepository.GetRelatedBackupFiles(documentId);
+        }
+
+
     }
 }

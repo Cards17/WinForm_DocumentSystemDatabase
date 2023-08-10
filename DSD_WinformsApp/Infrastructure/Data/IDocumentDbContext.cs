@@ -6,6 +6,7 @@ namespace DSD_WinformsApp.Infrastructure.Data
     public interface IDocumentDbContext
     {
         DbSet<DocumentModel> Documents { get; set; }
+        DbSet<BackUpFileModel> BackupFiles { get; set; }
 
         void SetModified(object entity);
         void Dispose();

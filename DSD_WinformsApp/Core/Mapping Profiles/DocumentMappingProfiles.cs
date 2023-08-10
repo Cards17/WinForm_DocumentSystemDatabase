@@ -14,6 +14,7 @@ namespace DSD_WinformsApp.Core.Mapping_Profiles
         public DocumentMappingProfiles()
         {
             CreateMap<DocumentModel, DocumentDto>().ReverseMap();
+            CreateMap<BackUpFileModel, BackUpFileDto>().ReverseMap();
 
         }
        

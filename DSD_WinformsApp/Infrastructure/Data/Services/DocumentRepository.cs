@@ -107,6 +107,20 @@ namespace DSD_WinformsApp.Infrastructure.Data.Services
                     var backupFileName = Guid.NewGuid().ToString() + Path.GetExtension(existingDocument.Filename);
                     var backupFilePath = Path.Combine(backupFolderPath, backupFileName);
                     File.Move(existingDocument.FilePath, backupFilePath);
+
+                    // Create a new BackupFile record
+                    var backupFile = new BackUpFileModel
+                    {
+                        Filename = existingDocument.Filename,
+                        OriginalFilePath = existingDocument.FilePath,
+                        BackupFilePath = backupFilePath,
+                        BackupDate = DateTime.Now.Date,
+                        Id = existingDocument.Id
+                        
+                    };
+
+                    // Add the new record to the BackupFiles DbSet
+                    _dbContext.BackupFiles.Add(backupFile);
                 }
 
                 // Save the updated file to the server

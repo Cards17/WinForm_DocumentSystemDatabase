@@ -20,6 +20,7 @@ public partial class DocumentDbContext : DbContext, IDocumentDbContext
         Database.EnsureCreatedAsync().Wait();
     }
     public DbSet<DocumentModel> Documents { get; set; }
+    public DbSet<BackUpFileModel> BackupFiles { get; set; }
 
     public void SetModified(object entity)
     {
