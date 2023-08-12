@@ -8,6 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.IO;
+using System.Reflection.Metadata;
 
 namespace DSD_WinformsApp.Infrastructure.Data.Services
 {
@@ -115,6 +116,8 @@ namespace DSD_WinformsApp.Infrastructure.Data.Services
 
             if (updatedDocument.FileData != null)
             {
+                //filename varible with guid
+
                 var fileName = Path.GetFileName(updatedDocument.Filename);
                 var filePath = Path.Combine(@"C:\Users\ricardo.piquero.jr\source\repos\Document Management Database Solution v.20\DSD_WinformsApp\Resources\UploadedFiles", fileName);
                 // Save the updated file to the server

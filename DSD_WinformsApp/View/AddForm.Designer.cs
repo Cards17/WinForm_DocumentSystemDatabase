@@ -102,7 +102,9 @@
             txtBoxNotes.Multiline = true;
             txtBoxNotes.Name = "txtBoxNotes";
             txtBoxNotes.Size = new Size(293, 174);
+            txtBoxNotes.MaxLength = 300;
             txtBoxNotes.TabIndex = 7;
+
             // 
             // cmbCategories
             // 
@@ -114,6 +116,7 @@
             // 
             // btnSave
             // 
+            btnSave = new CustomButton(ColorTranslator.FromHtml("#05982E"), SystemColors.Control);
             btnSave.Location = new Point(645, 363);
             btnSave.Name = "btnSave";
             btnSave.Size = new Size(112, 34);
@@ -124,12 +127,14 @@
             // 
             // btnCancel
             // 
+            btnCancel.BackColor = SystemColors.ActiveBorder;
+            btnCancel.Cursor = Cursors.Hand;
             btnCancel.Location = new Point(490, 363);
             btnCancel.Name = "btnCancel";
             btnCancel.Size = new Size(112, 34);
             btnCancel.TabIndex = 8;
             btnCancel.Text = "Cancel";
-            btnCancel.UseVisualStyleBackColor = true;
+            btnCancel.UseVisualStyleBackColor = false;
             btnCancel.Click += btnCancel_Click;
             // 
             // label1
@@ -143,12 +148,14 @@
             // 
             // buttonUploadFile
             // 
+            buttonUploadFile.BackColor = SystemColors.ControlLight;
+            buttonUploadFile.Cursor = Cursors.Hand;
             buttonUploadFile.Location = new Point(128, 74);
             buttonUploadFile.Name = "buttonUploadFile";
             buttonUploadFile.Size = new Size(110, 34);
             buttonUploadFile.TabIndex = 11;
             buttonUploadFile.Text = "Upload File";
-            buttonUploadFile.UseVisualStyleBackColor = true;
+            buttonUploadFile.UseVisualStyleBackColor = false;
             buttonUploadFile.Click += buttonUploadFile_Click;
             // 
             // labelFileUpload
@@ -163,6 +170,7 @@
             textBoxCreatedBy.Location = new Point(124, 288);
             textBoxCreatedBy.Name = "textBoxCreatedBy";
             textBoxCreatedBy.Size = new Size(230, 31);
+            textBoxCreatedBy.MaxLength = 50;
             textBoxCreatedBy.TabIndex = 13;
             // 
             // labelCreatedBy

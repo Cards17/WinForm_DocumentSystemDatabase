@@ -18,6 +18,8 @@ namespace DSD_WinformsApp.View
         private readonly IUnitOfWork _unitOfWork;
         private readonly DocumentPresenter _presenter;
 
+        private ErrorProvider errorProvider = null!; // Class-level variable to store the ErrorProvider component
+
         private string selectedFilePath = null!; // Class-level variable to store the selected file path
 
 
@@ -26,10 +28,33 @@ namespace DSD_WinformsApp.View
             InitializeComponent();
             _unitOfWork = unitOfWork;
             _presenter = presenter;
+
+            // Initialize the ErrorProvider component
+            errorProvider = new ErrorProvider();
+
+            // Initialize the ComboBox controls
             StatusComboBox();
             CategoryComboBox();
         }
 
+        private void AddForm_Load(object sender, EventArgs e)
+        {
+            // Set the title of the form
+            MaximizeBox = false;
+
+            // Disable the Save button initially
+            btnSave.Enabled = false;
+
+            // Attach TextChanged event handlers to relevant controls
+            textBoxFilename.TextChanged += Control_TextChanged;
+            txtBoxNotes.TextChanged += Control_TextChanged;
+            textBoxCreatedBy.TextChanged += Control_TextChanged;
+
+            // Attach SelectedIndexChanged event handlers to ComboBox controls
+            cmbCategories.SelectedIndexChanged += Control_SelectedIndexChanged;
+            cmbStatus.SelectedIndexChanged += Control_SelectedIndexChanged;
+
+        }
 
         // Status selection
         private void StatusComboBox()
@@ -55,6 +80,7 @@ namespace DSD_WinformsApp.View
                 MessageBox.Show("Please select a file before saving.");
                 return;
             }
+
 
             // Read the file data from the selected file
             byte[] fileDataBytes = File.ReadAllBytes(selectedFilePath);
@@ -100,7 +126,6 @@ namespace DSD_WinformsApp.View
 
                 // Display only the file name without the extension in the label and the TextBox
                 string fileNameWithExtension = Path.GetFileName(openFileDialog.FileName);
-                //labelFileUpload.Text = fileNameWithoutExtension;
                 textBoxFilename.Text = fileNameWithExtension;
             }
             textBoxFilename.Enabled = false;
@@ -108,9 +133,56 @@ namespace DSD_WinformsApp.View
 
         }
 
-        private void AddForm_Load(object sender, EventArgs e)
-        {
+    
 
+        private void Control_TextChanged(object? sender, EventArgs e)
+        {
+            ValidateForm();
         }
+
+        private void Control_SelectedIndexChanged(object? sender, EventArgs e)
+        {
+            ValidateForm();
+        }
+
+        private void ValidateForm()
+        {
+            bool isValid = true;
+            errorProvider.Clear();
+
+            if (string.IsNullOrWhiteSpace(textBoxFilename.Text))
+            {
+                errorProvider.SetError(textBoxFilename, "Filename is required.");
+                isValid = false;
+            }
+
+            if (cmbCategories.SelectedItem == null)
+            {
+                errorProvider.SetError(cmbCategories, "Category is required.");
+                isValid = false;
+            }
+
+            if (cmbStatus.SelectedItem == null)
+            {
+                errorProvider.SetError(cmbStatus, "Status is required.");
+                isValid = false;
+            }
+
+            if (string.IsNullOrWhiteSpace(txtBoxNotes.Text))
+            {
+                errorProvider.SetError(txtBoxNotes, "Notes are required.");
+                isValid = false;
+            }
+
+            if (string.IsNullOrWhiteSpace(textBoxCreatedBy.Text))
+            {
+                errorProvider.SetError(textBoxCreatedBy, "Created By is required.");
+                isValid = false;
+            }
+
+            btnSave.Enabled = isValid;
+        }
+
+
     }
 }

@@ -39,11 +39,11 @@ namespace DSD_WinformsApp.View
             await _presenter.LoadDocuments();
 
             // Define the column width from documentmodel
-            dataGridView1.Columns["Id"].Width = 60;
+            dataGridView1.Columns["Id"].Width = 45;
             dataGridView1.Columns["Filename"].Width = 300;
-            dataGridView1.Columns["Category"].Width = 200;
-            dataGridView1.Columns["Status"].Width = 180;
-            dataGridView1.Columns["CreatedDate"].Width = 180;
+            dataGridView1.Columns["Category"].Width = 180;
+            dataGridView1.Columns["Status"].Width = 160;
+            dataGridView1.Columns["CreatedDate"].Width = 155;
             dataGridView1.Columns["CreatedBy"].Visible = false;
             dataGridView1.Columns["ModifiedBy"].Visible = false;
             dataGridView1.Columns["ModifiedDate"].Visible = false;
@@ -62,16 +62,26 @@ namespace DSD_WinformsApp.View
             DataGridViewButtonColumn detailsColumn = new DataGridViewButtonColumn();
             detailsColumn.Text = "Details";
             detailsColumn.Name = "Details";
-            detailsColumn.Width = 100;
+            detailsColumn.Width = 93;
             detailsColumn.UseColumnTextForButtonValue = true;
             detailsColumn.HeaderText = string.Empty;
             dataGridView1.Columns.Add(detailsColumn);
+
+
+            // add download button here and then when the button was clicked i need to download the file into downloads folder
+            DataGridViewButtonColumn downloadColumn = new DataGridViewButtonColumn();
+            downloadColumn.Text = "Download";
+            downloadColumn.Name = "Download";
+            downloadColumn.Width = 93;
+            downloadColumn.UseColumnTextForButtonValue = true;
+            downloadColumn.HeaderText = string.Empty;
+            dataGridView1.Columns.Add(downloadColumn);
 
             // Add delete button functionality
             DataGridViewButtonColumn deleteColumn = new DataGridViewButtonColumn();
             deleteColumn.Text = "Delete";
             deleteColumn.Name = "Delete";
-            deleteColumn.Width = 100;
+            deleteColumn.Width = 93;
             deleteColumn.UseColumnTextForButtonValue = true;
             deleteColumn.HeaderText = string.Empty;
             dataGridView1.Columns.Add(deleteColumn);
@@ -79,6 +89,7 @@ namespace DSD_WinformsApp.View
             // Wire up the CellClick event handler
             dataGridView1.CellClick += dataGridView1_DetailsButton_CellClick;
             dataGridView1.CellClick += dataGridView1_DeleteButton_CellClick;
+            dataGridView1.CellClick += dataGridView1_DownloadButton_CellClick;
 
             // Set the cursor to hand when hovering over the Details button
             dataGridView1.CellMouseEnter += (sender, e) =>
@@ -88,6 +99,57 @@ namespace DSD_WinformsApp.View
                     dataGridView1.Cursor = Cursors.Hand;
                 }
             };
+        }
+
+        private void dataGridView1_DownloadButton_CellClick(object? sender, DataGridViewCellEventArgs e)
+        {
+            //implement download file functionality here
+            if (e.RowIndex >= 0 && e.ColumnIndex == dataGridView1.Columns["Download"].Index)
+            {
+                DocumentDto selectedDocument = (DocumentDto)dataGridView1.Rows[e.RowIndex].DataBoundItem;
+                // Show the delete confirmation modal directly in the main form.
+                DialogResult result = MessageBox.Show("Are you sure you want to download the selected document?", "Download Confirmation", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+
+                if (result == DialogResult.Yes)
+                {
+                    // User clicked "Yes," proceed with the deletion
+                    ConfirmDownloadDocument(selectedDocument);
+                
+
+                }
+                else
+                {
+                    // User clicked "No" or closed the dialog, cancel the deletion
+                    // Add any additional logic if needed.
+                }
+            }
+        }
+
+        private void ConfirmDownloadDocument(DocumentDto selectedDocument)
+        {
+            try
+            {
+                // Get the file data (byte array) from the selectedDocument
+                byte[] fileData = selectedDocument.FileData;
+
+                // Distination path in the user's "Downloads" folder
+                string downloadsPath = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile);
+                string destinationFilePath = Path.Combine(downloadsPath, "Downloads", selectedDocument.Filename);
+
+                // Create the destination directory if it doesn't exist
+                Directory.CreateDirectory(Path.GetDirectoryName(destinationFilePath));
+
+                // Write the file data to the destination file
+                File.WriteAllBytes(destinationFilePath, fileData);
+
+                // Show a message to indicate the download completion
+                MessageBox.Show("File downloaded successfully!", "Download Complete", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Error downloading the file: {ex.Message}", "Download Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+
         }
 
         //Event method when details button was clicked
@@ -611,13 +673,9 @@ namespace DSD_WinformsApp.View
                     // Set the flag to indicate that a new file has been uploaded
                     isNewFileUploaded = true;
                 }
-
-                // Get the filename from the selected file path
-               // string selectedFileName = Path.GetFileNameWithoutExtension(filePath);
-
-                // Update the TextBox with the selected file name
-                //filenameTextBox.Text = Path.GetFileName(filePath_Filename);
-                // Set the Tag property of filenameTextBox to store the selected file path
+                // Disable editing of the TextBox
+                filenameTextBox.Enabled = false;
+                // Store the file path in the Tag property of the TextBox
                 filenameTextBox.Tag = filePath;
             }
         }
