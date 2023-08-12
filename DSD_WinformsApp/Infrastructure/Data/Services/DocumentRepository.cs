@@ -34,9 +34,7 @@ namespace DSD_WinformsApp.Infrastructure.Data.Services
         public void CreateDocument(DocumentDto document, byte[] fileDataBytes)
         {
             var documentModel = _mapper.Map<DocumentDto, DocumentModel>(document);
-            
-            // Generate a unique file name (e.g., using Guid) to avoid conflicts
-            var fileName = Guid.NewGuid().ToString() + Path.GetExtension(document.Filename);
+            var fileName = document.Filename; // Retain the original file name
             var filePath = Path.Combine(@"C:\Users\ricardo.piquero.jr\source\repos\Document Management Database Solution v.20\DSD_WinformsApp\Resources\UploadedFiles", fileName);
 
             // Save the file to the server
@@ -87,51 +85,49 @@ namespace DSD_WinformsApp.Infrastructure.Data.Services
             existingDocument.ModifiedDate = updatedDocument.ModifiedDate;
             existingDocument.Notes = updatedDocument.Notes;
 
-            // Save the updated file if provided
-            if (updatedDocument.FileData != null)
+            // Remove the existing file from the server
+            if (File.Exists(existingDocument.FilePath))
             {
-                // Generate a unique file name (e.g., using Guid) to avoid conflicts for the updated file
-                var fileName = Guid.NewGuid().ToString() + Path.GetExtension(updatedDocument.Filename);
-                var filePath = Path.Combine(@"C:\Users\ricardo.piquero.jr\source\repos\Document Management Database Solution v.20\DSD_WinformsApp\Resources\UploadedFiles", fileName);
-
-
-                // Remove the existing file from the server
-                if (File.Exists(existingDocument.FilePath))
+                var backupFolderPath = Path.Combine(@"C:\Users\ricardo.piquero.jr\source\repos\Document Management Database Solution v.20\DSD_WinformsApp\Resources\BackupFiles");
+                if (!Directory.Exists(backupFolderPath))
                 {
-                    var backupFolderPath = Path.Combine(@"C:\Users\ricardo.piquero.jr\source\repos\Document Management Database Solution v.20\DSD_WinformsApp\Resources\BackupFiles");
-                    if (!Directory.Exists(backupFolderPath))
-                    {
-                        Directory.CreateDirectory(backupFolderPath);
-                    }
-
-                    var backupFileName = Guid.NewGuid().ToString() + Path.GetExtension(existingDocument.Filename);
-                    var backupFilePath = Path.Combine(backupFolderPath, backupFileName);
-                    File.Move(existingDocument.FilePath, backupFilePath);
-
-                    // Create a new BackupFile record
-                    var backupFile = new BackUpFileModel
-                    {
-                        Filename = existingDocument.Filename,
-                        OriginalFilePath = existingDocument.FilePath,
-                        BackupFilePath = backupFilePath,
-                        BackupDate = DateTime.Now.Date,
-                        Id = existingDocument.Id
-                        
-                    };
-
-                    // Add the new record to the BackupFiles DbSet
-                    _dbContext.BackupFiles.Add(backupFile);
+                    Directory.CreateDirectory(backupFolderPath);
                 }
 
+                var backupFileName = Path.GetFileName(existingDocument.FilePath);
+                var backupFilePath = Path.Combine(backupFolderPath, backupFileName);
+                File.Move(existingDocument.FilePath, backupFilePath);
+
+                // Create a new BackupFile record
+                var backupFile = new BackUpFileModel
+                {
+                    Filename = backupFileName,
+                    OriginalFilePath = existingDocument.FilePath,
+                    BackupFilePath = backupFilePath,
+                    BackupDate = DateTime.Now.Date,
+                    Id = existingDocument.Id
+
+                };
+
+                // Add the new record to the BackupFiles DbSet
+                _dbContext.BackupFiles.Add(backupFile);
+            }
+
+            if (updatedDocument.FileData != null)
+            {
+                var fileName = Path.GetFileName(updatedDocument.Filename);
+                var filePath = Path.Combine(@"C:\Users\ricardo.piquero.jr\source\repos\Document Management Database Solution v.20\DSD_WinformsApp\Resources\UploadedFiles", fileName);
                 // Save the updated file to the server
                 File.WriteAllBytes(filePath, updatedDocument.FileData);
 
                 existingDocument.FilePath = filePath;
             }
 
+
             // Save changes to the database
             _dbContext.SaveChanges();
             return true;
         }
+
     }
 }

@@ -42,13 +42,20 @@ namespace DSD_WinformsApp.View
             dataGridView1.Columns["Id"].Width = 60;
             dataGridView1.Columns["Filename"].Width = 300;
             dataGridView1.Columns["Category"].Width = 200;
-            dataGridView1.Columns["Status"].Width = 160;
-            dataGridView1.Columns["CreatedDate"].Width = 200;
+            dataGridView1.Columns["Status"].Width = 180;
+            dataGridView1.Columns["CreatedDate"].Width = 180;
             dataGridView1.Columns["CreatedBy"].Visible = false;
             dataGridView1.Columns["ModifiedBy"].Visible = false;
             dataGridView1.Columns["ModifiedDate"].Visible = false;
             dataGridView1.Columns["Notes"].Visible = false;
             dataGridView1.Columns["FileData"].Visible = false;
+
+            // Display name for table columns
+            dataGridView1.Columns["Id"].HeaderText = "Id";
+            dataGridView1.Columns["Status"].HeaderText = "File Status";
+            dataGridView1.Columns["Filename"].HeaderText = "Filename";
+            dataGridView1.Columns["Category"].HeaderText = "File Category";
+            dataGridView1.Columns["CreatedDate"].HeaderText = "Created Date";
 
 
             // Add details button functionality
@@ -57,6 +64,7 @@ namespace DSD_WinformsApp.View
             detailsColumn.Name = "Details";
             detailsColumn.Width = 100;
             detailsColumn.UseColumnTextForButtonValue = true;
+            detailsColumn.HeaderText = string.Empty;
             dataGridView1.Columns.Add(detailsColumn);
 
             // Add delete button functionality
@@ -65,13 +73,21 @@ namespace DSD_WinformsApp.View
             deleteColumn.Name = "Delete";
             deleteColumn.Width = 100;
             deleteColumn.UseColumnTextForButtonValue = true;
+            deleteColumn.HeaderText = string.Empty;
             dataGridView1.Columns.Add(deleteColumn);
-
 
             // Wire up the CellClick event handler
             dataGridView1.CellClick += dataGridView1_DetailsButton_CellClick;
             dataGridView1.CellClick += dataGridView1_DeleteButton_CellClick;
 
+            // Set the cursor to hand when hovering over the Details button
+            dataGridView1.CellMouseEnter += (sender, e) =>
+            {
+                if (e.RowIndex >= 0 && e.ColumnIndex >= 0 && dataGridView1.Columns[e.ColumnIndex] is DataGridViewButtonColumn)
+                {
+                    dataGridView1.Cursor = Cursors.Hand;
+                }
+            };
         }
 
         //Event method when details button was clicked
@@ -81,7 +97,6 @@ namespace DSD_WinformsApp.View
             {
                 DocumentDto selectedDocument = (DocumentDto)dataGridView1.Rows[e.RowIndex].DataBoundItem;
                 ShowDocumentDetailsModal(selectedDocument);
-                
             }
         }
 
@@ -111,22 +126,21 @@ namespace DSD_WinformsApp.View
         {
             // Create a new form to display the document details (modal form).
             DetailsFormView detailsForm = new DetailsFormView();
-
             detailsForm.Text = "Document Details";
             detailsForm.FormBorderStyle = FormBorderStyle.FixedDialog;
             detailsForm.StartPosition = FormStartPosition.CenterParent;
 
             // Create the buttons and add them to the detailsForm
-            Button button1 = new Button();
-            button1.Text = "Doc. Details";
+            CustomButton button1 = new CustomButton(ColorTranslator.FromHtml("#A5D7E8"), SystemColors.Control);
+            button1.Text = "File Details";
             button1.Location = new Point(20, 35); // Adjust the coordinates as needed.
             button1.Height = 40;
             button1.Width = 120;
             detailsForm.Controls.Add(button1);
 
-            Button button2 = new Button();
-            button2.Text = "File Details";
-            button2.Location = new Point(button1.Right + 10, 35); // Adjust the coordinates as needed.
+            CustomButton button2 = new CustomButton(ColorTranslator.FromHtml("#A5D7E8"), SystemColors.Control);
+            button2.Text = "File History";
+            button2.Location = new Point(button1.Right + 10, 35); 
             button2.Height = button1.Height;
             button2.Width = button1.Width;
             detailsForm.Controls.Add(button2);
@@ -153,10 +167,10 @@ namespace DSD_WinformsApp.View
             AddRow(groupBox, "Filename:", filenameTextBox, filenameTextBoxWidth);
 
             // Create the "Upload File" button and pass the filenameTextBox as a parameter
-            Button uploadFileButton = new Button();
+            CustomButton uploadFileButton = new CustomButton(ColorTranslator.FromHtml("#A5D7E8"), SystemColors.Control);
             uploadFileButton.Text = "Upload File";
-            uploadFileButton.Location = new Point(filenameTextBox.Right + 10, filenameTextBox.Top); // Right next to the Filename TextBox
-            uploadFileButton.Height = filenameTextBox.Height; // Match the height of the TextBox
+            uploadFileButton.Location = new Point(filenameTextBox.Right + 10, filenameTextBox.Top - 5); // Right next to the Filename TextBox
+            uploadFileButton.Height = filenameTextBox.Height +10; // Match the height of the TextBox
             uploadFileButton.Width = 120; // Adjust the width as needed
             uploadFileButton.Enabled = false; // Disable the button initially
             uploadFileButton.Click += (sender, e) => UploadFileButton_Click(sender, e, filenameTextBox);
@@ -260,6 +274,7 @@ namespace DSD_WinformsApp.View
             dataGridView2.AllowUserToAddRows = false; 
             dataGridView2.RowHeadersVisible = false;
             groupBox2.Controls.Add(dataGridView2);
+
             
             // Adjust the size of the DetailsFormView to fit the contents including groupBox2
             int groupBox2Width = detailsForm.ClientSize.Width - 50; 
@@ -278,7 +293,7 @@ namespace DSD_WinformsApp.View
 
             dataGridView2.Columns["BackupId"].HeaderText = "Id";
             dataGridView2.Columns["Filename"].HeaderText = "Filename";
-            dataGridView2.Columns["BackupDate"].HeaderText = "Modified Date";
+            dataGridView2.Columns["BackupDate"].HeaderText = "Upload Date";
 
             dataGridView2.Columns["OriginalFilePath"].Visible = false;
             dataGridView2.Columns["BackupFilePath"].Visible = false;
@@ -293,6 +308,50 @@ namespace DSD_WinformsApp.View
             downloadColumn.UseColumnTextForButtonValue = true;
             dataGridView2.Columns.Add(downloadColumn);
 
+            // Set the cursor to hand when hovering over the Details button
+            dataGridView2.CellMouseEnter += (sender, e) =>
+            {
+                if (e.RowIndex >= 0 && e.ColumnIndex >= 0 && dataGridView2.Columns[e.ColumnIndex] is DataGridViewButtonColumn)
+                {
+                    dataGridView2.Cursor = Cursors.Hand;
+                }
+            };
+
+            // Subscribe to the CellClick event of the DataGridView for download button.
+            dataGridView2.CellClick += (sender, e) =>
+            {
+                // Check if the clicked cell is in the "Download" button column
+                if (e.ColumnIndex == downloadColumn.Index && e.RowIndex >= 0)
+                {
+                    // Get the BackUpFileDto associated with the clicked row
+                    if (dataGridView2.Rows[e.RowIndex].DataBoundItem is BackUpFileDto selectedBackupFile)
+                    {
+                        try
+                        {
+                            // Source path of the backup file
+                            string sourceFilePath = selectedBackupFile.BackupFilePath;
+
+                            // Destination path in the user's "Downloads" folder
+                            string downloadsPath = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile);
+                            string destinationFilePath = Path.Combine(downloadsPath, "Downloads", selectedBackupFile.Filename);
+
+                            // Create the destination directory if it doesn't exist
+                            Directory.CreateDirectory(Path.GetDirectoryName(destinationFilePath));
+
+                            // Copy the file from source to destination
+                            File.Copy(sourceFilePath, destinationFilePath, true);
+
+                            // Show a message to indicate the download completion
+                            MessageBox.Show("File downloaded successfully!", "Download Complete", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        }
+                        catch (Exception ex)
+                        {
+                            MessageBox.Show($"Error downloading the file: {ex.Message}", "Download Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        }
+                    }
+                }
+            };
+
             // Add delete button functionality
             DataGridViewButtonColumn deleteColumn = new DataGridViewButtonColumn();
             deleteColumn.Text = "Delete";
@@ -301,8 +360,9 @@ namespace DSD_WinformsApp.View
             deleteColumn.UseColumnTextForButtonValue = true;
             dataGridView2.Columns.Add(deleteColumn);
 
+
             // Create the Edit button
-            Button editButton = new Button();
+            CustomButton editButton = new CustomButton(ColorTranslator.FromHtml("#576CBC"), SystemColors.Control);
             editButton.Text = "Edit";
             editButton.Name = "editButton";
             editButton.Location = new Point(groupBox.Right - editButton.Width, groupBox.Bottom + 10);
@@ -312,7 +372,7 @@ namespace DSD_WinformsApp.View
             detailsForm.Controls.Add(editButton);
 
             // Create the Close button
-            Button closeButton = new Button();
+            CustomButton closeButton = new CustomButton(ColorTranslator.FromHtml("#DA0B0B"), SystemColors.Control);
             closeButton.Text = "Close";
             closeButton.Name = "closeButton";
             closeButton.Location = new Point(editButton.Left - 10 - closeButton.Width, groupBox.Bottom + 10);
@@ -321,14 +381,16 @@ namespace DSD_WinformsApp.View
             closeButton.Click += CloseButton_Click;
             detailsForm.Controls.Add(closeButton);
 
-            // Create the Save button
-            Button saveButton = new Button(); // Define the saveButton as a local variable
+
+            // Create the Save button using the custom button class
+            CustomButton saveButton = new CustomButton(ColorTranslator.FromHtml("#05982E"), SystemColors.Control);
             saveButton.Text = "Save";
             saveButton.Name = "saveButton";
             saveButton.Location = new Point(closeButton.Left - 10 - saveButton.Width, closeButton.Top);
             saveButton.Height = closeButton.Height;
             saveButton.Width = closeButton.Width;
             saveButton.Enabled = false; // Disable the Save button initially
+            //saveButton.BackColor = ColorTranslator.FromHtml("#05982E");
 
             // Create a dictionary to store the original values of the TextBoxes
             var originalTextBoxValues = new Dictionary<TextBox, string>();
@@ -358,6 +420,8 @@ namespace DSD_WinformsApp.View
                     // Update the filenameTextBox with the new file name
                     filenameTextBox.Text = Path.GetFileNameWithoutExtension(filePath);
                 }
+                // Append the original file extension to the filename
+                // filename += Path.GetExtension(filePath);
 
                 // Create a new DocumentDto with the modified data
                 DocumentDto modifiedDocument = new DocumentDto
@@ -402,6 +466,8 @@ namespace DSD_WinformsApp.View
                         comboBox.SelectedIndexChanged -= ComboBox_SelectedIndexChanged; // Detach the event handler to stop tracking changes
                     }
                 }
+
+
                 // Reset the flag for the next upload
                 isNewFileUploaded = false;
 
@@ -448,14 +514,20 @@ namespace DSD_WinformsApp.View
             // Handle the Click event of Button 1
             button1.Click += (sender, e) =>
             {
-                groupBox.Visible = true; // Show the GroupBox when Button 1 is clicked.
+                groupBox.Visible = true; 
+                editButton.Visible = true;
+                saveButton.Visible = true;
+                closeButton.Visible = true;
             };
 
             // Handle the Click event of Button 2
             button2.Click += (sender, e) =>
             {
-                groupBox.Visible = false; // hide the GroupBox when Button 1 is clicked.
-                groupBox2.Visible = true; // Show the GroupBox containing DataGridView2 when Button 2 is clicked.
+                groupBox.Visible = false; 
+                groupBox2.Visible = true; 
+                editButton.Visible = false;
+                saveButton.Visible = false;
+                closeButton.Visible = false;
     
             };
 
@@ -527,33 +599,24 @@ namespace DSD_WinformsApp.View
             {
 
                 // Get the selected file path
-                string filePath = openFileDialog.FileName;
+                string filePath = openFileDialog.FileName ;
+                string filePath_Filename = Path.GetFileName(filePath);
 
                 // Check if the selected file is different from the current file
-                if (filePath != filenameTextBox.Tag as string)
+                if (filePath_Filename != filenameTextBox.Tag as string)
                 {
                     // Update the TextBox with the selected file name
-                    filenameTextBox.Text = Path.GetFileName(filePath);
+                    filenameTextBox.Text = filePath_Filename;
 
                     // Set the flag to indicate that a new file has been uploaded
                     isNewFileUploaded = true;
                 }
 
                 // Get the filename from the selected file path
-                string selectedFileName = Path.GetFileNameWithoutExtension(filePath);
-
-                // Check if a file already exists with the same name
-                if (filenameTextBox.Text == selectedFileName)
-                {
-                    DialogResult result = MessageBox.Show("A file with the same name already exists. Do you want to replace it?", "File Replacement", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
-                    if (result == DialogResult.No)
-                    {
-                        return; // User chose not to replace the file, so exit the method.
-                    }
-                }
+               // string selectedFileName = Path.GetFileNameWithoutExtension(filePath);
 
                 // Update the TextBox with the selected file name
-                filenameTextBox.Text = Path.GetFileNameWithoutExtension(filePath);
+                //filenameTextBox.Text = Path.GetFileName(filePath_Filename);
                 // Set the Tag property of filenameTextBox to store the selected file path
                 filenameTextBox.Tag = filePath;
             }

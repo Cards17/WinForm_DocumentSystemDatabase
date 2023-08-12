@@ -72,6 +72,8 @@ namespace DSD_WinformsApp.View
 
             };
 
+
+
             // Use the presenter to save the document with file data
             _presenter.SaveDocument(documentDto, fileDataBytes);
 
@@ -97,10 +99,11 @@ namespace DSD_WinformsApp.View
                 selectedFilePath = openFileDialog.FileName; // Store the selected file path
 
                 // Display only the file name without the extension in the label and the TextBox
-                string fileNameWithoutExtension = Path.GetFileNameWithoutExtension(openFileDialog.FileName);
-                labelFileUpload.Text = fileNameWithoutExtension;
-                textBoxFilename.Text = fileNameWithoutExtension;
+                string fileNameWithExtension = Path.GetFileName(openFileDialog.FileName);
+                //labelFileUpload.Text = fileNameWithoutExtension;
+                textBoxFilename.Text = fileNameWithExtension;
             }
+            textBoxFilename.Enabled = false;
 
 
         }

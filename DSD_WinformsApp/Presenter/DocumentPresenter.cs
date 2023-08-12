@@ -38,6 +38,7 @@ namespace DSD_WinformsApp.Presenter
             document.FileData = fileDataBytes;
             _documentRepository.CreateDocument(document, fileDataBytes); // Pass fileDataBytes to the repository
         }
+
         public void EditDocument(DocumentDto document, byte[] fileDataBytes)
         {
             // Set the file data to the DocumentDto

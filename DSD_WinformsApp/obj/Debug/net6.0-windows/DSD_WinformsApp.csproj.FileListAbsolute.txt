@@ -85,15 +85,6 @@ C:\Users\ricardo.piquero.jr\source\repos\Document Management Database Solution\D
 C:\Users\ricardo.piquero.jr\source\repos\Document Management Database Solution\DSD_WinformsApp\obj\Debug\net6.0-windows\DSD_WinformsApp.pdb
 C:\Users\ricardo.piquero.jr\source\repos\Document Management Database Solution\DSD_WinformsApp\obj\Debug\net6.0-windows\DSD_WinformsApp.genruntimeconfig.cache
 C:\Users\ricardo.piquero.jr\source\repos\Document Management Database Solution\DSD_WinformsApp\obj\Debug\net6.0-windows\ref\DSD_WinformsApp.dll
-C:\Users\ricardo.piquero.jr\source\repos\Document Management Database Solution v.20\DSD_WinformsApp\obj\Debug\net6.0-windows\DSD_WinformsApp.csproj.AssemblyReference.cache
-C:\Users\ricardo.piquero.jr\source\repos\Document Management Database Solution v.20\DSD_WinformsApp\obj\Debug\net6.0-windows\DSD_WinformsApp.Properties.Resources.resources
-C:\Users\ricardo.piquero.jr\source\repos\Document Management Database Solution v.20\DSD_WinformsApp\obj\Debug\net6.0-windows\DSD_WinformsApp.View.AddForm.resources
-C:\Users\ricardo.piquero.jr\source\repos\Document Management Database Solution v.20\DSD_WinformsApp\obj\Debug\net6.0-windows\DSD_WinformsApp.View.Document_MainView.resources
-C:\Users\ricardo.piquero.jr\source\repos\Document Management Database Solution v.20\DSD_WinformsApp\obj\Debug\net6.0-windows\DSD_WinformsApp.csproj.GenerateResource.cache
-C:\Users\ricardo.piquero.jr\source\repos\Document Management Database Solution v.20\DSD_WinformsApp\obj\Debug\net6.0-windows\DSD_WinformsApp.GeneratedMSBuildEditorConfig.editorconfig
-C:\Users\ricardo.piquero.jr\source\repos\Document Management Database Solution v.20\DSD_WinformsApp\obj\Debug\net6.0-windows\DSD_WinformsApp.AssemblyInfoInputs.cache
-C:\Users\ricardo.piquero.jr\source\repos\Document Management Database Solution v.20\DSD_WinformsApp\obj\Debug\net6.0-windows\DSD_WinformsApp.AssemblyInfo.cs
-C:\Users\ricardo.piquero.jr\source\repos\Document Management Database Solution v.20\DSD_WinformsApp\obj\Debug\net6.0-windows\DSD_WinformsApp.csproj.CoreCompileInputs.cache
 C:\Users\ricardo.piquero.jr\source\repos\Document Management Database Solution v.20\DSD_WinformsApp\bin\Debug\net6.0-windows\DSD_WinformsApp.exe
 C:\Users\ricardo.piquero.jr\source\repos\Document Management Database Solution v.20\DSD_WinformsApp\bin\Debug\net6.0-windows\DSD_WinformsApp.dll.config
 C:\Users\ricardo.piquero.jr\source\repos\Document Management Database Solution v.20\DSD_WinformsApp\bin\Debug\net6.0-windows\DSD_WinformsApp.deps.json
@@ -167,10 +158,19 @@ C:\Users\ricardo.piquero.jr\source\repos\Document Management Database Solution v
 C:\Users\ricardo.piquero.jr\source\repos\Document Management Database Solution v.20\DSD_WinformsApp\bin\Debug\net6.0-windows\runtimes\win\lib\net6.0\System.Diagnostics.EventLog.dll
 C:\Users\ricardo.piquero.jr\source\repos\Document Management Database Solution v.20\DSD_WinformsApp\bin\Debug\net6.0-windows\runtimes\win\lib\netstandard2.0\System.Runtime.Caching.dll
 C:\Users\ricardo.piquero.jr\source\repos\Document Management Database Solution v.20\DSD_WinformsApp\bin\Debug\net6.0-windows\runtimes\browser\lib\net6.0\System.Text.Encodings.Web.dll
+C:\Users\ricardo.piquero.jr\source\repos\Document Management Database Solution v.20\DSD_WinformsApp\obj\Debug\net6.0-windows\DSD_WinformsApp.csproj.AssemblyReference.cache
+C:\Users\ricardo.piquero.jr\source\repos\Document Management Database Solution v.20\DSD_WinformsApp\obj\Debug\net6.0-windows\DSD_WinformsApp.Properties.Resources.resources
+C:\Users\ricardo.piquero.jr\source\repos\Document Management Database Solution v.20\DSD_WinformsApp\obj\Debug\net6.0-windows\DSD_WinformsApp.View.AddForm.resources
+C:\Users\ricardo.piquero.jr\source\repos\Document Management Database Solution v.20\DSD_WinformsApp\obj\Debug\net6.0-windows\DSD_WinformsApp.DetailsFormView.resources
+C:\Users\ricardo.piquero.jr\source\repos\Document Management Database Solution v.20\DSD_WinformsApp\obj\Debug\net6.0-windows\DSD_WinformsApp.View.Document_MainView.resources
+C:\Users\ricardo.piquero.jr\source\repos\Document Management Database Solution v.20\DSD_WinformsApp\obj\Debug\net6.0-windows\DSD_WinformsApp.csproj.GenerateResource.cache
+C:\Users\ricardo.piquero.jr\source\repos\Document Management Database Solution v.20\DSD_WinformsApp\obj\Debug\net6.0-windows\DSD_WinformsApp.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\ricardo.piquero.jr\source\repos\Document Management Database Solution v.20\DSD_WinformsApp\obj\Debug\net6.0-windows\DSD_WinformsApp.AssemblyInfoInputs.cache
+C:\Users\ricardo.piquero.jr\source\repos\Document Management Database Solution v.20\DSD_WinformsApp\obj\Debug\net6.0-windows\DSD_WinformsApp.AssemblyInfo.cs
+C:\Users\ricardo.piquero.jr\source\repos\Document Management Database Solution v.20\DSD_WinformsApp\obj\Debug\net6.0-windows\DSD_WinformsApp.csproj.CoreCompileInputs.cache
 C:\Users\ricardo.piquero.jr\source\repos\Document Management Database Solution v.20\DSD_WinformsApp\obj\Debug\net6.0-windows\DSD_WinformsApp.csproj.CopyComplete
 C:\Users\ricardo.piquero.jr\source\repos\Document Management Database Solution v.20\DSD_WinformsApp\obj\Debug\net6.0-windows\DSD_WinformsApp.dll
 C:\Users\ricardo.piquero.jr\source\repos\Document Management Database Solution v.20\DSD_WinformsApp\obj\Debug\net6.0-windows\refint\DSD_WinformsApp.dll
 C:\Users\ricardo.piquero.jr\source\repos\Document Management Database Solution v.20\DSD_WinformsApp\obj\Debug\net6.0-windows\DSD_WinformsApp.pdb
 C:\Users\ricardo.piquero.jr\source\repos\Document Management Database Solution v.20\DSD_WinformsApp\obj\Debug\net6.0-windows\DSD_WinformsApp.genruntimeconfig.cache
 C:\Users\ricardo.piquero.jr\source\repos\Document Management Database Solution v.20\DSD_WinformsApp\obj\Debug\net6.0-windows\ref\DSD_WinformsApp.dll
-C:\Users\ricardo.piquero.jr\source\repos\Document Management Database Solution v.20\DSD_WinformsApp\obj\Debug\net6.0-windows\DSD_WinformsApp.DetailsFormView.resources
