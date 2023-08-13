@@ -37,6 +37,7 @@ namespace DSD_WinformsApp.View
             CategoryComboBox();
         }
 
+
         private void AddForm_Load(object sender, EventArgs e)
         {
             // Set the title of the form
@@ -44,6 +45,7 @@ namespace DSD_WinformsApp.View
 
             // Disable the Save button initially
             btnSave.Enabled = false;
+
 
             // Hide filename label initially
             textBoxFilename.Visible = false;

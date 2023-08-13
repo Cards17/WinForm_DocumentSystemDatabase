@@ -362,14 +362,6 @@ namespace DSD_WinformsApp.View
             dataGridView2.Columns["Id"].Visible = false;
 
 
-            // Add download button functionality
-            DataGridViewButtonColumn downloadColumn = new DataGridViewButtonColumn();
-            downloadColumn.Text = "Download";
-            downloadColumn.Name = "";
-            downloadColumn.Width = 100;
-            downloadColumn.UseColumnTextForButtonValue = true;
-            dataGridView2.Columns.Add(downloadColumn);
-
             // Set the cursor to hand when hovering over the Details button
             dataGridView2.CellMouseEnter += (sender, e) =>
             {
@@ -378,6 +370,14 @@ namespace DSD_WinformsApp.View
                     dataGridView2.Cursor = Cursors.Hand;
                 }
             };
+
+            // Add download button functionality
+            DataGridViewButtonColumn downloadColumn = new DataGridViewButtonColumn();
+            downloadColumn.Text = "Download";
+            downloadColumn.Name = "";
+            downloadColumn.Width = 100;
+            downloadColumn.UseColumnTextForButtonValue = true;
+            dataGridView2.Columns.Add(downloadColumn);
 
             // Subscribe to the CellClick event of the DataGridView for download button.
             dataGridView2.CellClick += (sender, e) =>
@@ -422,6 +422,54 @@ namespace DSD_WinformsApp.View
             deleteColumn.UseColumnTextForButtonValue = true;
             dataGridView2.Columns.Add(deleteColumn);
 
+            //Subscribe to the CellClick event of the DataGridView for delete button.
+            dataGridView2.CellClick += async (sender, e) =>
+            {
+                // Check if the clicked cell is in the "Delete" button column
+                if (e.ColumnIndex == deleteColumn.Index && e.RowIndex >= 0)
+                {
+                    // Get the BackUpFileDto associated with the clicked row
+                    if (dataGridView2.Rows[e.RowIndex].DataBoundItem is BackUpFileDto selectedBackupFile)
+                    {
+                        // Show a confirmation message before deleting the file
+                        DialogResult result = MessageBox.Show("Are you sure you want to delete this file?", "Confirm Delete", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+                        if (result == DialogResult.Yes)
+                        {
+                            try
+                            {
+                                // Delete the file
+                                await _presenter.DeleteBackUpFile(selectedBackupFile);
+
+                                // Refresh the DataGridView
+                                relatedBackupFiles.Remove(selectedBackupFile);
+                                dataGridView2.DataSource = null;
+                                dataGridView2.DataSource = relatedBackupFiles;
+
+                                // Display Columns in datagridview2
+                                dataGridView2.Columns["BackupId"].DisplayIndex = 0;
+                                dataGridView2.Columns["Filename"].DisplayIndex = 1;
+                                dataGridView2.Columns["BackupDate"].DisplayIndex = 2;
+
+                                dataGridView2.Columns["BackupId"].HeaderText = "Id";
+                                dataGridView2.Columns["Filename"].HeaderText = "Filename";
+                                dataGridView2.Columns["BackupDate"].HeaderText = "Upload Date";
+
+                                dataGridView2.Columns["BackupId"].Width = 50;
+                                dataGridView2.Columns["Filename"].Width = 320;
+                                dataGridView2.Columns["BackupDate"].Width = 170;
+
+                                dataGridView2.Columns["OriginalFilePath"].Visible = false;
+                                dataGridView2.Columns["BackupFilePath"].Visible = false;
+                                dataGridView2.Columns["Id"].Visible = false;
+                            }
+                            catch (Exception ex)
+                            {
+                                MessageBox.Show($"Error deleting the file: {ex.Message}", "Delete Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                            }
+                        }
+                    }
+                }
+            };  
 
             // Create the Edit button
             CustomButton editButton = new CustomButton(ColorTranslator.FromHtml("#576CBC"), SystemColors.Control);

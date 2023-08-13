@@ -46,12 +46,12 @@ namespace DSD_WinformsApp.Presenter
             _documentRepository.EditDocument(document.Id, document); // Pass fileDataBytes to the repository
         }
 
-        public async Task<bool> DeleteDocument(DocumentDto document)
+        public async Task<bool> DeleteBackUpFile(BackUpFileDto file)
         {
             try
             {
                 // Delete the document using the repository
-                bool isDeleted = await _documentRepository.DeleteDocument(document.Id);
+                bool isDeleted = await _backUpFileRepository.DeleteBackupFiles(file.Id);
 
                 if (isDeleted)
                 {
@@ -67,6 +67,7 @@ namespace DSD_WinformsApp.Presenter
                 return false;
             }
         }
+
 
         public async Task<List<BackUpFileDto>> GetRelatedBackupFiles(int documentId)
         {

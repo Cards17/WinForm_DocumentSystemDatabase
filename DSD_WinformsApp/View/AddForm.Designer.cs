@@ -35,10 +35,11 @@
             Notes_Label = new Label();
             txtBoxNotes = new TextBox();
             cmbCategories = new ComboBox();
-            btnSave = new Button();
-            btnCancel = new Button();
+            //btnSave = new Button();
+            btnSave = new CustomButton(ColorTranslator.FromHtml("#05982E"), SystemColors.Control);
+            btnCancel = new CustomButton(ColorTranslator.FromHtml("#DA0B0B"), SystemColors.Control);
             label1 = new Label();
-            buttonUploadFile = new Button();
+            buttonUploadFile = new CustomButton(ColorTranslator.FromHtml("#A5D7E8"), SystemColors.Control);
             labelFileUpload = new Label();
             textBoxCreatedBy = new TextBox();
             labelCreatedBy = new Label();
