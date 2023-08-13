@@ -174,7 +174,7 @@ namespace DSD_WinformsApp.View
                 if (result == DialogResult.Yes)
                 {
                     // User clicked "Yes," proceed with the deletion
-                    ConfirmDeleteDocument(selectedDocument);
+                    DeleteDocumentWithBackups(selectedDocument);
                 }
                 else
                 {
@@ -644,9 +644,12 @@ namespace DSD_WinformsApp.View
 
         }
 
-        private async void ConfirmDeleteDocument(DocumentDto selectedDocument)
+        private async void DeleteDocumentWithBackups(DocumentDto selectedDocument)
         {
-             await _presenter.DeleteDocument(selectedDocument);
+            // Delete the document and its backups from the database using the presenter
+            await _presenter.DeleteDocumentWithBackups(selectedDocument);
+            // await _presenter.DeleteDocument(selectedDocument);
+
             // Load the documents again to update the view
             await _presenter.LoadDocuments();
         }

@@ -45,6 +45,9 @@ namespace DSD_WinformsApp.View
             // Disable the Save button initially
             btnSave.Enabled = false;
 
+            // Hide filename label initially
+            textBoxFilename.Visible = false;
+
             // Attach TextChanged event handlers to relevant controls
             textBoxFilename.TextChanged += Control_TextChanged;
             txtBoxNotes.TextChanged += Control_TextChanged;
@@ -129,11 +132,13 @@ namespace DSD_WinformsApp.View
                 textBoxFilename.Text = fileNameWithExtension;
             }
             textBoxFilename.Enabled = false;
+            textBoxFilename.Visible = true;
+            
 
 
         }
 
-    
+
 
         private void Control_TextChanged(object? sender, EventArgs e)
         {
@@ -182,7 +187,6 @@ namespace DSD_WinformsApp.View
 
             btnSave.Enabled = isValid;
         }
-
 
     }
 }

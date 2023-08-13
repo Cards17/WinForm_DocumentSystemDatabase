@@ -33,5 +33,31 @@ namespace DSD_WinformsApp.Infrastructure.Data.Services
             return backUpFiles;
         }
 
+        public async Task<bool> DeleteBackupFiles(int documentId)
+        {
+            try
+            {
+                var backupFilesToDelete = await _dbContext.BackupFiles
+                    .Where(b => b.Id == documentId)
+                    .ToListAsync();
+
+                foreach (var backupFile in backupFilesToDelete)
+                {
+                    // Delete the backup file from the file system
+                    File.Delete(backupFile.BackupFilePath);
+                }
+
+                _dbContext.BackupFiles.RemoveRange(backupFilesToDelete);
+                _dbContext.SaveChanges();
+
+                return true;
+            }
+            catch (Exception)
+            {
+                return false;
+            }
+
+        }
+
     }
 }

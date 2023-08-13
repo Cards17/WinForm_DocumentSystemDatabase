@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "mf+b5fGCRJlIUak1F+TVnHGwDHmW1Wi/btWcK9Y0ebv91XRfdFJfDoth93M9M028MXCNRDMOngXRsl/Jg0R6Qg==",
+  "dgSpecHash": "fl5BssF7j9Byl9kY8+iSML+GNnWZW3pR52GYRSvlNVsYnUQAsMGZink7UQQ6Zqbng4LjBw6EGEkeekvYeFOgFQ==",
   "success": true,
-  "projectFilePath": "C:\\Users\\ricardo.piquero.jr\\source\\repos\\Document Management Database Solution v.20\\DSD_WinformsApp\\DSD_WinformsApp.csproj",
+  "projectFilePath": "C:\\Users\\ricardo.piquero.jr\\source\\repos\\DSD Solution v3.0\\DSD_WinformsApp\\DSD_WinformsApp.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\ricardo.piquero.jr\\.nuget\\packages\\automapper\\12.0.1\\automapper.12.0.1.nupkg.sha512",
     "C:\\Users\\ricardo.piquero.jr\\.nuget\\packages\\automapper.extensions.microsoft.dependencyinjection\\12.0.1\\automapper.extensions.microsoft.dependencyinjection.12.0.1.nupkg.sha512",

@@ -73,6 +73,24 @@ namespace DSD_WinformsApp.Presenter
             return await _backUpFileRepository.GetRelatedBackupFiles(documentId);
         }
 
+        public async Task<bool> DeleteDocumentWithBackups(DocumentDto document)
+        {
+            try
+            {
+                // Delete the backup files associated with the document
+                await _backUpFileRepository.DeleteBackupFiles(document.Id);
+
+                // Delete the document using the repository
+                bool isDeleted = await _documentRepository.DeleteDocument(document.Id);
+
+                return isDeleted;
+            }
+            catch (Exception)
+            {
+                return false;
+            }
+        }
+
 
     }
 }

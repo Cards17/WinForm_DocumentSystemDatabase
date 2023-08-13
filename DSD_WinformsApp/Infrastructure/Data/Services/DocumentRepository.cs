@@ -36,7 +36,7 @@ namespace DSD_WinformsApp.Infrastructure.Data.Services
         {
             var documentModel = _mapper.Map<DocumentDto, DocumentModel>(document);
             var fileName = document.Filename; // Retain the original file name
-            var filePath = Path.Combine(@"C:\Users\ricardo.piquero.jr\source\repos\Document Management Database Solution v.20\DSD_WinformsApp\Resources\UploadedFiles", fileName);
+            var filePath = Path.Combine(@"C:\Users\ricardo.piquero.jr\source\repos\DSD Solution v3.0\DSD_WinformsApp\Resources\UploadedFiles", fileName);
 
             // Save the file to the server
             File.WriteAllBytes(filePath, fileDataBytes);
@@ -89,7 +89,7 @@ namespace DSD_WinformsApp.Infrastructure.Data.Services
             // Remove the existing file from the server
             if (File.Exists(existingDocument.FilePath))
             {
-                var backupFolderPath = Path.Combine(@"C:\Users\ricardo.piquero.jr\source\repos\Document Management Database Solution v.20\DSD_WinformsApp\Resources\BackupFiles");
+                var backupFolderPath = Path.Combine(@"C:\Users\ricardo.piquero.jr\source\repos\DSD Solution v3.0\DSD_WinformsApp\Resources\BackupFiles");
                 if (!Directory.Exists(backupFolderPath))
                 {
                     Directory.CreateDirectory(backupFolderPath);
@@ -119,7 +119,7 @@ namespace DSD_WinformsApp.Infrastructure.Data.Services
                 //filename varible with guid
 
                 var fileName = Path.GetFileName(updatedDocument.Filename);
-                var filePath = Path.Combine(@"C:\Users\ricardo.piquero.jr\source\repos\Document Management Database Solution v.20\DSD_WinformsApp\Resources\UploadedFiles", fileName);
+                var filePath = Path.Combine(@"C:\Users\ricardo.piquero.jr\source\repos\DSD Solution v3.0\DSD_WinformsApp\Resources\UploadedFiles", fileName);
                 // Save the updated file to the server
                 File.WriteAllBytes(filePath, updatedDocument.FileData);
 

@@ -28,7 +28,6 @@
         /// </summary>
         private void InitializeComponent()
         {
-            txtFileName = new Label();
             textBoxFilename = new TextBox();
             txtCategory = new Label();
             Status_Label = new Label();
@@ -45,20 +44,11 @@
             labelCreatedBy = new Label();
             SuspendLayout();
             // 
-            // txtFileName
-            // 
-            txtFileName.AutoSize = true;
-            txtFileName.Location = new Point(378, 81);
-            txtFileName.Name = "txtFileName";
-            txtFileName.Size = new Size(82, 25);
-            txtFileName.TabIndex = 0;
-            txtFileName.Text = "Filename";
-            // 
             // textBoxFilename
             // 
-            textBoxFilename.Location = new Point(464, 77);
+            textBoxFilename.Location = new Point(244, 74);
             textBoxFilename.Name = "textBoxFilename";
-            textBoxFilename.Size = new Size(293, 31);
+            textBoxFilename.Size = new Size(513, 31);
             textBoxFilename.TabIndex = 1;
             // 
             // txtCategory
@@ -99,12 +89,11 @@
             // txtBoxNotes
             // 
             txtBoxNotes.Location = new Point(464, 145);
+            txtBoxNotes.MaxLength = 300;
             txtBoxNotes.Multiline = true;
             txtBoxNotes.Name = "txtBoxNotes";
             txtBoxNotes.Size = new Size(293, 174);
-            txtBoxNotes.MaxLength = 300;
             txtBoxNotes.TabIndex = 7;
-
             // 
             // cmbCategories
             // 
@@ -116,7 +105,6 @@
             // 
             // btnSave
             // 
-            btnSave = new CustomButton(ColorTranslator.FromHtml("#05982E"), SystemColors.Control);
             btnSave.Location = new Point(645, 363);
             btnSave.Name = "btnSave";
             btnSave.Size = new Size(112, 34);
@@ -168,9 +156,9 @@
             // textBoxCreatedBy
             // 
             textBoxCreatedBy.Location = new Point(124, 288);
+            textBoxCreatedBy.MaxLength = 50;
             textBoxCreatedBy.Name = "textBoxCreatedBy";
             textBoxCreatedBy.Size = new Size(230, 31);
-            textBoxCreatedBy.MaxLength = 50;
             textBoxCreatedBy.TabIndex = 13;
             // 
             // labelCreatedBy
@@ -201,7 +189,6 @@
             Controls.Add(Status_Label);
             Controls.Add(txtCategory);
             Controls.Add(textBoxFilename);
-            Controls.Add(txtFileName);
             Name = "AddForm";
             Text = "AddForm";
             Load += AddForm_Load;
@@ -209,11 +196,7 @@
             PerformLayout();
         }
 
-
-
         #endregion
-
-        private Label txtFileName;
         private TextBox Filename_Textbox;
         private Label txtCategory;
         private Label Status_Label;
