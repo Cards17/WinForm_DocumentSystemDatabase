@@ -15,14 +15,14 @@ using System.Windows.Forms;
 
 namespace DSD_WinformsApp.View
 {
-    public partial class Document_MainView : Form, IDocumentView
+    public partial class DocumentMainView : Form, IDocumentView
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly DocumentPresenter _presenter;
         private string selectedFilePath = "";
         private bool isNewFileUploaded = false;
 
-        public Document_MainView(IUnitOfWork unitOfWork)
+        public DocumentMainView(IUnitOfWork unitOfWork)
         {
             InitializeComponent();
             _unitOfWork = unitOfWork;
@@ -135,9 +135,6 @@ namespace DSD_WinformsApp.View
                 // Distination path in the user's "Downloads" folder
                 string downloadsPath = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile);
                 string destinationFilePath = Path.Combine(downloadsPath, "Downloads", selectedDocument.Filename);
-
-                // Create the destination directory if it doesn't exist
-                Directory.CreateDirectory(Path.GetDirectoryName(destinationFilePath));
 
                 // Write the file data to the destination file
                 File.WriteAllBytes(destinationFilePath, fileData);
@@ -397,9 +394,6 @@ namespace DSD_WinformsApp.View
                             string downloadsPath = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile);
                             string destinationFilePath = Path.Combine(downloadsPath, "Downloads", selectedBackupFile.Filename);
 
-                            // Create the destination directory if it doesn't exist
-                            Directory.CreateDirectory(Path.GetDirectoryName(destinationFilePath));
-
                             // Copy the file from source to destination
                             File.Copy(sourceFilePath, destinationFilePath, true);
 
@@ -500,7 +494,6 @@ namespace DSD_WinformsApp.View
             saveButton.Height = closeButton.Height;
             saveButton.Width = closeButton.Width;
             saveButton.Enabled = false; // Disable the Save button initially
-            //saveButton.BackColor = ColorTranslator.FromHtml("#05982E");
 
             // Create a dictionary to store the original values of the TextBoxes
             var originalTextBoxValues = new Dictionary<TextBox, string>();
@@ -696,7 +689,6 @@ namespace DSD_WinformsApp.View
         {
             // Delete the document and its backups from the database using the presenter
             await _presenter.DeleteDocumentWithBackups(selectedDocument);
-            // await _presenter.DeleteDocument(selectedDocument);
 
             // Load the documents again to update the view
             await _presenter.LoadDocuments();
@@ -738,7 +730,7 @@ namespace DSD_WinformsApp.View
 
         private void pictureBox1_Click(object sender, EventArgs e)
         {
-            using (AddForm newForm = new AddForm(_unitOfWork, _presenter))
+            using (AddFormView newForm = new AddFormView(_unitOfWork, _presenter))
             {
                 newForm.StartPosition = FormStartPosition.CenterParent;
                 newForm.ShowDialog();

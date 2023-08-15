@@ -4,7 +4,7 @@ using System.Drawing;
 
 namespace DSD_WinformsApp.View
 {
-    partial class Document_MainView
+    partial class DocumentMainView
     {
         /// <summary>
         /// Required designer variable.
@@ -32,7 +32,7 @@ namespace DSD_WinformsApp.View
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Document_MainView));
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(DocumentMainView));
             dataGridView1 = new DataGridView();
             panel1 = new Panel();
             buttonManageUsers = new Button();

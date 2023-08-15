@@ -13,7 +13,7 @@ using System.Windows.Forms;
 
 namespace DSD_WinformsApp.View
 {
-    public partial class AddForm : Form
+    public partial class AddFormView : Form
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly DocumentPresenter _presenter;
@@ -23,14 +23,16 @@ namespace DSD_WinformsApp.View
         private string selectedFilePath = null!; // Class-level variable to store the selected file path
 
 
-        public AddForm(IUnitOfWork unitOfWork, DocumentPresenter presenter)
+        public AddFormView(IUnitOfWork unitOfWork, DocumentPresenter presenter)
         {
             InitializeComponent();
             _unitOfWork = unitOfWork;
             _presenter = presenter;
 
-            // Initialize the ErrorProvider component
-            errorProvider = new ErrorProvider();
+            MaximizeBox = false; // Remove the maximize box
+            MinimizeBox = false; // Remove the minimize box
+           
+            errorProvider = new ErrorProvider();  // Initialize the ErrorProvider component
 
             // Initialize the ComboBox controls
             StatusComboBox();

@@ -1,6 +1,6 @@
 ﻿namespace DSD_WinformsApp.View
 {
-    partial class AddForm
+    partial class AddFormView
     {
         /// <summary>
         /// Required designer variable.
