@@ -57,6 +57,8 @@ namespace DSD_WinformsApp.View
             txtBoxNotes.TextChanged += Control_TextChanged;
             textBoxCreatedBy.TextChanged += Control_TextChanged;
 
+            errorProvider.BlinkStyle = ErrorBlinkStyle.NeverBlink; // remove the blinking icon when error occurs
+
             // Attach SelectedIndexChanged event handlers to ComboBox controls
             cmbCategories.SelectedIndexChanged += Control_SelectedIndexChanged;
             cmbStatus.SelectedIndexChanged += Control_SelectedIndexChanged;
@@ -161,7 +163,7 @@ namespace DSD_WinformsApp.View
 
             if (string.IsNullOrWhiteSpace(textBoxFilename.Text))
             {
-                errorProvider.SetError(textBoxFilename, "Filename is required.");
+                errorProvider.SetError(buttonUploadFile, "Upload file is required.");
                 isValid = false;
             }
 

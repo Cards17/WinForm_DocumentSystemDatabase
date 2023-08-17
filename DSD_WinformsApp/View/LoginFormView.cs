@@ -19,6 +19,7 @@ namespace DSD_WinformsApp.View
         private readonly IDocumentPresenter _presenter;
         private readonly IDocumentView _documentView;
 
+        private ErrorProvider errorProvider = null!;
 
         public LoginFormView(IDocumentPresenter presenter, IDocumentView documentView)
         {
@@ -26,19 +27,34 @@ namespace DSD_WinformsApp.View
             _documentView = documentView;
             _presenter = presenter;
 
-            MaximizeBox = false; // Remove the maximize box
-            MinimizeBox = false; // Remove the minimize box
+            errorProvider = new ErrorProvider(); // Initialize the ErrorProvider component
 
-            SignInUI();
+            StartPosition = FormStartPosition.CenterScreen; // Set the form's start position to the center of the screen
+
         }
 
 
         private void LoginFormView_Load(object sender, EventArgs e)
         {
-            // Hide the toast message label and signup panel initially
-            labelToastMessage.Visible = false;
+            // Hide the signup panel initially
             panelSignUp.Visible = false;
 
+            MaximizeBox = false; // Remove the maximize box
+            MinimizeBox = false; // Remove the minimize box
+
+            // Sign-up and sign-in button disabled initially
+            buttonSignUp.Enabled = false;
+            button_SignIn.Enabled = false;
+
+            errorProvider.BlinkStyle = ErrorBlinkStyle.NeverBlink; // Icon will not blink when error occurs
+
+            textBoxEmailAddress.Focus(); // Set the focus to the textBoxFirstname control
+
+            //If sign-in panel is visible attach TextChanged event handlers to relevant controls
+            textBoxEmailAddress.TextChanged += Control_TextChanged;
+            textBoxPassword.TextChanged += Control_TextChanged;
+
+            SignInUI(); // Call the SignInUI method
         }
 
         private void SignInUI()
@@ -70,15 +86,29 @@ namespace DSD_WinformsApp.View
 
         private void LinkLabelSignUp_Click(object? sender, EventArgs e)
         {
-            // Show the signup panel
-            panelSignUp.Visible = true;
-
             // clear the textboxes
             textBoxFirstname.Text = "";
             textBoxLastname.Text = "";
             textBoxEmailAdd.Text = "";
             textBoxPasswrd.Text = "";
 
+            panelSignUp.Visible = true; // Show the signup panel
+
+            textBoxFirstname.Focus(); // Set the focus to the textBoxFirstname control
+
+            buttonSignUp.Enabled = false; // Disable the signup button initially
+
+            textBoxFirstname.TextChanged += Control_TextChanged;
+            textBoxLastname.TextChanged += Control_TextChanged;
+            textBoxEmailAdd.TextChanged += Control_TextChanged;
+            textBoxPasswrd.TextChanged += Control_TextChanged;
+
+            // if paneSignup is visible remove the error icon from panelSignIn
+            if (panelSignUp.Visible == true)
+            {
+                errorProvider.SetError(textBoxEmailAddress, "");
+                errorProvider.SetError(textBoxPassword, "");
+            }
         }
 
         private void buttonSignUp_Click(object sender, EventArgs e)
@@ -97,20 +127,9 @@ namespace DSD_WinformsApp.View
                 // Use presenter to call the signup method
                 _presenter.SaveUserRegistration(userCredentials);
 
-                // Start a timer to handle the confirmation message and panel visibility
-                var confirmationTimer = new System.Windows.Forms.Timer();
-                confirmationTimer.Interval = 1000; // 1 second
-                confirmationTimer.Tick += (timerSender, timerArgs) =>
-                {
-                    confirmationTimer.Stop();
-                    buttonSignUp.Enabled = false; // Disable the signup button
-                    panelSignIn.Visible = true;   // Show the signin panel
-                    panelSignUp.Visible = false;  // Hide the signup panel
-                };
-
-                // Start the timer
-                confirmationTimer.Start();
-
+                // Show confirmation modal and show to signin panel
+                MessageBox.Show("Registration successful.");
+                panelSignUp.Visible = false;
 
             }
             catch (Exception ex)
@@ -137,9 +156,10 @@ namespace DSD_WinformsApp.View
 
                 if (isValidCredentials)
                 {
+
+                    button_SignIn.Enabled = false; //Disable the signin button
                     // Close the login form and show the document view
                     this.Hide();
-
                     _documentView.ShowDocumentView();
                 }
                 else
@@ -154,8 +174,71 @@ namespace DSD_WinformsApp.View
                 MessageBox.Show(ex.Message);
             }
         }
+
+        private void Control_TextChanged(object? sender, EventArgs e)
+        {
+            ValidateForm();
+        }
+
+        private void ValidateForm()
+        {
+            bool isValid = true;
+            errorProvider.Clear();
+
+            if (panelSignIn.Visible && !panelSignUp.Visible)
+            {
+                // add the email and password validation
+                if (string.IsNullOrWhiteSpace(textBoxEmailAddress.Text))
+                {
+                    errorProvider.SetError(textBoxEmailAddress, "Email Address is required.");
+                    isValid = false;
+                }
+                if (string.IsNullOrWhiteSpace(textBoxPassword.Text))
+                {
+                    errorProvider.SetError(textBoxPassword, "Password is required.");
+                    isValid = false;
+                }
+            }
+
+            if (panelSignUp.Visible)
+            {
+                // Add the signup form validation
+                if (string.IsNullOrWhiteSpace(textBoxFirstname.Text))
+                {
+                    errorProvider.SetError(textBoxFirstname, "First Name is required.");
+                    isValid = false;
+                }
+                if (string.IsNullOrWhiteSpace(textBoxLastname.Text))
+                {
+                    errorProvider.SetError(textBoxLastname, "Last Name is required.");
+                    isValid = false;
+                }
+                if (string.IsNullOrWhiteSpace(textBoxEmailAdd.Text))
+                {
+                    errorProvider.SetError(textBoxEmailAdd, "Email Address is required.");
+                    isValid = false;
+                }
+                if (string.IsNullOrWhiteSpace(textBoxPasswrd.Text))
+                {
+                    errorProvider.SetError(textBoxPasswrd, "Password is required.");
+                    isValid = false;
+                }
+            }
+
+
+            buttonSignUp.Enabled = isValid;
+            button_SignIn.Enabled = isValid;
+        }
+
+        private void buttonBackToSignIn_Click(object sender, EventArgs e)
+        {
+            // Hide the signup panel
+            panelSignUp.Visible = false;
+            panelSignIn.Visible = true;
+
+        }
     }
 
-       
-    
+
+
 }

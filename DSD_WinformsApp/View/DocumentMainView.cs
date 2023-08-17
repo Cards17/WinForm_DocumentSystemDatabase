@@ -27,17 +27,9 @@ namespace DSD_WinformsApp.View
             InitializeComponent();
             _unitOfWork = unitOfWork;
             _presenter = new DocumentPresenter( this, _unitOfWork.Documents, _unitOfWork.BackUpFiles, _unitOfWork.Users);
-        }
 
-        public void BindDataMainView(List<DocumentDto> documents)
-        {
-            dataGridView1.DataSource = documents;
-        }
-
-        public void ShowDocumentView()
-        {
-            // Show the DocumentView form
-            this.ShowDialog(); 
+            // Attach the FormClosing event handler
+            this.FormClosing += DocumentViewForm_FormClosing;
         }
 
         private async void DocumentView_Load_1(object sender, EventArgs e)
@@ -741,6 +733,28 @@ namespace DSD_WinformsApp.View
             {
                 newForm.StartPosition = FormStartPosition.CenterParent;
                 newForm.ShowDialog();
+            }
+        }
+
+        public void BindDataMainView(List<DocumentDto> documents)
+        {
+            dataGridView1.DataSource = documents;
+        }
+
+        public void ShowDocumentView()
+        {
+            // Show the DocumentView form
+            this.ShowDialog();
+        }
+
+        // Handler for the FormClosing event
+        private void DocumentViewForm_FormClosing(object? sender, FormClosingEventArgs e)
+        {
+            // Make sure the form is closing explicitly (e.g., by clicking the close icon)
+            if (e.CloseReason == CloseReason.UserClosing)
+            {
+                // Close the entire application
+                Application.Exit();
             }
         }
 

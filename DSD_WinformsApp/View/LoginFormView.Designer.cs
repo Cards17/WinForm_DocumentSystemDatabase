@@ -36,13 +36,13 @@
             linkLabelForgetPassword = new LinkLabel();
             panelSignIn = new Panel();
             panelSignUp = new Panel();
-            labelToastMessage = new Label();
+            buttonBackToSignIn = new Button();
             buttonSignUp = new Button();
             textBoxPasswrd = new TextBox();
             textBoxEmailAdd = new TextBox();
             textBoxLastname = new TextBox();
-            textBoxFirstname = new TextBox();
             labelSIgnUp = new Label();
+            textBoxFirstname = new TextBox();
             panelSignIn.SuspendLayout();
             panelSignUp.SuspendLayout();
             SuspendLayout();
@@ -66,6 +66,7 @@
             // button_SignIn
             // 
             button_SignIn.BackColor = Color.FromArgb(165, 215, 232);
+            button_SignIn.Cursor = Cursors.Hand;
             button_SignIn.Location = new Point(104, 258);
             button_SignIn.Name = "button_SignIn";
             button_SignIn.Size = new Size(350, 35);
@@ -113,7 +114,7 @@
             // 
             // panelSignUp
             // 
-            panelSignUp.Controls.Add(labelToastMessage);
+            panelSignUp.Controls.Add(buttonBackToSignIn);
             panelSignUp.Controls.Add(buttonSignUp);
             panelSignUp.Controls.Add(textBoxPasswrd);
             panelSignUp.Controls.Add(textBoxEmailAdd);
@@ -125,17 +126,20 @@
             panelSignUp.Size = new Size(539, 454);
             panelSignUp.TabIndex = 0;
             // 
-            // labelToastMessage
+            // buttonBackToSignIn
             // 
-            labelToastMessage.AutoSize = true;
-            labelToastMessage.Location = new Point(110, 380);
-            labelToastMessage.Name = "labelToastMessage";
-            labelToastMessage.Size = new Size(292, 25);
-            labelToastMessage.TabIndex = 6;
-            labelToastMessage.Text = "Congratulations, sign-up succeded!";
+            buttonBackToSignIn.Cursor = Cursors.Hand;
+            buttonBackToSignIn.Location = new Point(46, 380);
+            buttonBackToSignIn.Name = "buttonBackToSignIn";
+            buttonBackToSignIn.Size = new Size(442, 34);
+            buttonBackToSignIn.TabIndex = 6;
+            buttonBackToSignIn.Text = "Back";
+            buttonBackToSignIn.UseVisualStyleBackColor = true;
+            buttonBackToSignIn.Click += buttonBackToSignIn_Click;
             // 
             // buttonSignUp
             // 
+            buttonSignUp.Cursor = Cursors.Hand;
             buttonSignUp.Location = new Point(46, 334);
             buttonSignUp.Name = "buttonSignUp";
             buttonSignUp.Size = new Size(442, 34);
@@ -168,14 +172,6 @@
             textBoxLastname.Size = new Size(442, 31);
             textBoxLastname.TabIndex = 2;
             // 
-            // textBoxFirstname
-            // 
-            textBoxFirstname.Location = new Point(46, 95);
-            textBoxFirstname.Name = "textBoxFirstname";
-            textBoxFirstname.PlaceholderText = "First Name";
-            textBoxFirstname.Size = new Size(442, 31);
-            textBoxFirstname.TabIndex = 1;
-            // 
             // labelSIgnUp
             // 
             labelSIgnUp.AutoSize = true;
@@ -184,6 +180,14 @@
             labelSIgnUp.Size = new Size(70, 25);
             labelSIgnUp.TabIndex = 0;
             labelSIgnUp.Text = "SignUp";
+            // 
+            // textBoxFirstname
+            // 
+            textBoxFirstname.Location = new Point(46, 95);
+            textBoxFirstname.Name = "textBoxFirstname";
+            textBoxFirstname.PlaceholderText = "First Name";
+            textBoxFirstname.Size = new Size(442, 31);
+            textBoxFirstname.TabIndex = 1;
             // 
             // LoginFormView
             // 
@@ -224,5 +228,6 @@
         private TextBox textBoxLastname;
         private Button buttonSignUp;
         private Label labelToastMessage;
+        private Button buttonBackToSignIn;
     }
 }
