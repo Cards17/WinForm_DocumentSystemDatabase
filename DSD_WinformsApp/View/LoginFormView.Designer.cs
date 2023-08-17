@@ -36,12 +36,13 @@
             linkLabelForgetPassword = new LinkLabel();
             panelSignIn = new Panel();
             panelSignUp = new Panel();
-            labelSIgnUp = new Label();
-            textBoxFirstname = new TextBox();
-            textBoxLastname = new TextBox();
-            textBoxEmailAdd = new TextBox();
-            textBoxPasswrd = new TextBox();
+            labelToastMessage = new Label();
             buttonSignUp = new Button();
+            textBoxPasswrd = new TextBox();
+            textBoxEmailAdd = new TextBox();
+            textBoxLastname = new TextBox();
+            textBoxFirstname = new TextBox();
+            labelSIgnUp = new Label();
             panelSignIn.SuspendLayout();
             panelSignUp.SuspendLayout();
             SuspendLayout();
@@ -71,6 +72,7 @@
             button_SignIn.TabIndex = 4;
             button_SignIn.Text = "Sign In";
             button_SignIn.UseVisualStyleBackColor = false;
+            button_SignIn.Click += button_SignIn_Click;
             // 
             // labelSignIn
             // 
@@ -86,7 +88,7 @@
             linkLabelSignUp.AutoSize = true;
             linkLabelSignUp.Location = new Point(104, 392);
             linkLabelSignUp.Name = "linkLabelSignUp";
-            linkLabelSignUp.Size = new Size(139, 25);
+            linkLabelSignUp.Size = new Size(138, 25);
             linkLabelSignUp.TabIndex = 6;
             linkLabelSignUp.TabStop = true;
             linkLabelSignUp.Text = "Click to Sign Up";
@@ -111,57 +113,26 @@
             // 
             // panelSignUp
             // 
+            panelSignUp.Controls.Add(labelToastMessage);
             panelSignUp.Controls.Add(buttonSignUp);
             panelSignUp.Controls.Add(textBoxPasswrd);
             panelSignUp.Controls.Add(textBoxEmailAdd);
             panelSignUp.Controls.Add(textBoxLastname);
-            panelSignUp.Controls.Add(textBoxFirstname);
             panelSignUp.Controls.Add(labelSIgnUp);
+            panelSignUp.Controls.Add(textBoxFirstname);
             panelSignUp.Location = new Point(0, 0);
             panelSignUp.Name = "panelSignUp";
             panelSignUp.Size = new Size(539, 454);
             panelSignUp.TabIndex = 0;
             // 
-            // labelSIgnUp
+            // labelToastMessage
             // 
-            labelSIgnUp.AutoSize = true;
-            labelSIgnUp.Location = new Point(46, 42);
-            labelSIgnUp.Name = "labelSIgnUp";
-            labelSIgnUp.Size = new Size(70, 25);
-            labelSIgnUp.TabIndex = 0;
-            labelSIgnUp.Text = "SignUp";
-            // 
-            // textBoxFirstname
-            // 
-            textBoxFirstname.Location = new Point(46, 95);
-            textBoxFirstname.Name = "textBoxFirstname";
-            textBoxFirstname.PlaceholderText = "First Name";
-            textBoxFirstname.Size = new Size(442, 31);
-            textBoxFirstname.TabIndex = 1;
-            // 
-            // textBoxLastname
-            // 
-            textBoxLastname.Location = new Point(46, 151);
-            textBoxLastname.Name = "textBoxLastname";
-            textBoxLastname.PlaceholderText = "Last Name";
-            textBoxLastname.Size = new Size(442, 31);
-            textBoxLastname.TabIndex = 2;
-            // 
-            // textBoxEmailAdd
-            // 
-            textBoxEmailAdd.Location = new Point(48, 212);
-            textBoxEmailAdd.Name = "textBoxEmailAdd";
-            textBoxEmailAdd.PlaceholderText = "Email Address";
-            textBoxEmailAdd.Size = new Size(442, 31);
-            textBoxEmailAdd.TabIndex = 3;
-            // 
-            // textBoxPasswrd
-            // 
-            textBoxPasswrd.Location = new Point(48, 271);
-            textBoxPasswrd.Name = "textBoxPasswrd";
-            textBoxPasswrd.PlaceholderText = "Password";
-            textBoxPasswrd.Size = new Size(442, 31);
-            textBoxPasswrd.TabIndex = 4;
+            labelToastMessage.AutoSize = true;
+            labelToastMessage.Location = new Point(110, 380);
+            labelToastMessage.Name = "labelToastMessage";
+            labelToastMessage.Size = new Size(292, 25);
+            labelToastMessage.TabIndex = 6;
+            labelToastMessage.Text = "Congratulations, sign-up succeded!";
             // 
             // buttonSignUp
             // 
@@ -171,6 +142,48 @@
             buttonSignUp.TabIndex = 5;
             buttonSignUp.Text = "Sign Up";
             buttonSignUp.UseVisualStyleBackColor = true;
+            buttonSignUp.Click += buttonSignUp_Click;
+            // 
+            // textBoxPasswrd
+            // 
+            textBoxPasswrd.Location = new Point(48, 271);
+            textBoxPasswrd.Name = "textBoxPasswrd";
+            textBoxPasswrd.PlaceholderText = "Password";
+            textBoxPasswrd.Size = new Size(442, 31);
+            textBoxPasswrd.TabIndex = 4;
+            // 
+            // textBoxEmailAdd
+            // 
+            textBoxEmailAdd.Location = new Point(48, 212);
+            textBoxEmailAdd.Name = "textBoxEmailAdd";
+            textBoxEmailAdd.PlaceholderText = "Email Address";
+            textBoxEmailAdd.Size = new Size(442, 31);
+            textBoxEmailAdd.TabIndex = 3;
+            // 
+            // textBoxLastname
+            // 
+            textBoxLastname.Location = new Point(46, 151);
+            textBoxLastname.Name = "textBoxLastname";
+            textBoxLastname.PlaceholderText = "Last Name";
+            textBoxLastname.Size = new Size(442, 31);
+            textBoxLastname.TabIndex = 2;
+            // 
+            // textBoxFirstname
+            // 
+            textBoxFirstname.Location = new Point(46, 95);
+            textBoxFirstname.Name = "textBoxFirstname";
+            textBoxFirstname.PlaceholderText = "First Name";
+            textBoxFirstname.Size = new Size(442, 31);
+            textBoxFirstname.TabIndex = 1;
+            // 
+            // labelSIgnUp
+            // 
+            labelSIgnUp.AutoSize = true;
+            labelSIgnUp.Location = new Point(46, 42);
+            labelSIgnUp.Name = "labelSIgnUp";
+            labelSIgnUp.Size = new Size(70, 25);
+            labelSIgnUp.TabIndex = 0;
+            labelSIgnUp.Text = "SignUp";
             // 
             // LoginFormView
             // 
@@ -210,5 +223,6 @@
         private TextBox textBoxEmailAdd;
         private TextBox textBoxLastname;
         private Button buttonSignUp;
+        private Label labelToastMessage;
     }
 }

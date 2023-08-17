@@ -6,6 +6,7 @@ namespace DSD_WinformsApp.Infrastructure.Data
     {
         IDocumentRepository Documents { get; }
         IBackUpFileRepository BackUpFiles { get; }
+        IUserRepository Users { get; }
 
         int Complete();
         void Dispose();

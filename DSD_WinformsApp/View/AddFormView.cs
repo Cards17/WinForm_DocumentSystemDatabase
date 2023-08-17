@@ -16,14 +16,14 @@ namespace DSD_WinformsApp.View
     public partial class AddFormView : Form
     {
         private readonly IUnitOfWork _unitOfWork;
-        private readonly DocumentPresenter _presenter;
+        private readonly IDocumentPresenter _presenter;
 
         private ErrorProvider errorProvider = null!; // Class-level variable to store the ErrorProvider component
 
         private string selectedFilePath = null!; // Class-level variable to store the selected file path
 
 
-        public AddFormView(IUnitOfWork unitOfWork, DocumentPresenter presenter)
+        public AddFormView(IUnitOfWork unitOfWork, IDocumentPresenter presenter)
         {
             InitializeComponent();
             _unitOfWork = unitOfWork;

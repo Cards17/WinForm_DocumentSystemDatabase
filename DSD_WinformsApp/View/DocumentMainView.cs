@@ -18,7 +18,7 @@ namespace DSD_WinformsApp.View
     public partial class DocumentMainView : Form, IDocumentView
     {
         private readonly IUnitOfWork _unitOfWork;
-        private readonly DocumentPresenter _presenter;
+        private readonly IDocumentPresenter _presenter;
         private string selectedFilePath = "";
         private bool isNewFileUploaded = false;
 
@@ -26,13 +26,20 @@ namespace DSD_WinformsApp.View
         {
             InitializeComponent();
             _unitOfWork = unitOfWork;
-            _presenter = new DocumentPresenter( this, _unitOfWork.Documents, _unitOfWork.BackUpFiles);
+            _presenter = new DocumentPresenter( this, _unitOfWork.Documents, _unitOfWork.BackUpFiles, _unitOfWork.Users);
         }
 
         public void BindDataMainView(List<DocumentDto> documents)
         {
             dataGridView1.DataSource = documents;
         }
+
+        public void ShowDocumentView()
+        {
+            // Show the DocumentView form
+            this.ShowDialog(); 
+        }
+
         private async void DocumentView_Load_1(object sender, EventArgs e)
         {
             // Loads all documents list from data source.

@@ -7,13 +7,11 @@ using Microsoft.EntityFrameworkCore;
 namespace DSD_WinformsApp.Infrastructure.Data;
 
 public partial class DocumentDbContext : DbContext, IDocumentDbContext
-{
-    
+{ 
     public DocumentDbContext()
     {
     }
     
-
     public DocumentDbContext(DbContextOptions<DocumentDbContext> options)
         : base(options)
     {
@@ -21,6 +19,7 @@ public partial class DocumentDbContext : DbContext, IDocumentDbContext
     }
     public DbSet<DocumentModel> Documents { get; set; }
     public DbSet<BackUpFileModel> BackupFiles { get; set; }
+    public DbSet<UserCredentialsModel> UserCredentials { get; set; }
 
     public void SetModified(object entity)
     {

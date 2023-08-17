@@ -7,6 +7,7 @@ namespace DSD_WinformsApp.Infrastructure.Data
     {
         DbSet<DocumentModel> Documents { get; set; }
         DbSet<BackUpFileModel> BackupFiles { get; set; }
+        DbSet<UserCredentialsModel> UserCredentials { get; set; }
 
         void SetModified(object entity);
         void Dispose();

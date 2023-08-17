@@ -33,8 +33,13 @@ namespace DSD_WinformsApp
                     services.AddTransient<IDocumentRepository, DocumentRepository>();
                     services.AddTransient<IBackUpFileRepository, BackUpFileRepository>();
                     services.AddTransient<IDocumentDbContext, DocumentDbContext>();
+                    services.AddTransient<IDocumentPresenter, DocumentPresenter>(); 
+
+                    services.AddTransient<IUserRepository, UserRepository>();
                     services.AddAutoMapper(typeof(DocumentMappingProfiles));
+                    services.AddTransient<IDocumentView, DocumentMainView>();
                     services.AddTransient<LoginFormView>();
+                  
                 });
         }
     }

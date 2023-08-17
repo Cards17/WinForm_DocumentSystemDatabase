@@ -12,12 +12,14 @@ namespace DSD_WinformsApp.Infrastructure.Data
         private readonly IDocumentDbContext _documentsDbContext;
         public IDocumentRepository Documents { get; }
         public IBackUpFileRepository BackUpFiles { get; }
+        public IUserRepository Users { get; }
 
-        public UnitOfWork(IDocumentDbContext documentDbContext, IDocumentRepository documentRepository, IBackUpFileRepository backUpFileRepository)
+        public UnitOfWork(IDocumentDbContext documentDbContext, IDocumentRepository documentRepository, IBackUpFileRepository backUpFileRepository, IUserRepository userRepository)
         {
             _documentsDbContext = documentDbContext;
             Documents = documentRepository;
             BackUpFiles = backUpFileRepository;
+            Users = userRepository;
         }
 
         public int Complete()
