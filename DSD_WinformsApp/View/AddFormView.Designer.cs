@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(AddFormView));
             textBoxFilename = new TextBox();
             txtCategory = new Label();
             Status_Label = new Label();
@@ -113,6 +114,8 @@
             btnSave.Text = "Save";
             btnSave.UseVisualStyleBackColor = true;
             btnSave.Click += btnSave_Click;
+            // btnSave.Click += new EventHandler((sender, e) => btnSave_Click(sender, e, _loggedInUser));
+
             // 
             // btnCancel
             // 
@@ -171,7 +174,7 @@
             labelCreatedBy.TabIndex = 12;
             labelCreatedBy.Text = "Created By";
             // 
-            // AddForm
+            // AddFormView
             // 
             AutoScaleDimensions = new SizeF(10F, 25F);
             AutoScaleMode = AutoScaleMode.Font;
@@ -190,8 +193,9 @@
             Controls.Add(Status_Label);
             Controls.Add(txtCategory);
             Controls.Add(textBoxFilename);
-            Name = "AddForm";
-            Text = "AddForm";
+            Icon = (Icon)resources.GetObject("$this.Icon");
+            Name = "AddFormView";
+            Text = "Add Document";
             Load += AddForm_Load;
             ResumeLayout(false);
             PerformLayout();
@@ -205,14 +209,14 @@
         private Label Notes_Label;
         private TextBox txtNotes;
         private ComboBox cmbCategories;
-        private Button btnSave;
-        private Button btnCancel;
         private TextBox textBoxFilename;
         private TextBox txtBoxNotes;
         private Label label1;
-        private Button buttonUploadFile;
         private Label labelFileUpload;
         private TextBox textBoxCreatedBy;
         private Label labelCreatedBy;
+        private CustomButton btnSave;
+        private CustomButton btnCancel;
+        private CustomButton buttonUploadFile;
     }
 }

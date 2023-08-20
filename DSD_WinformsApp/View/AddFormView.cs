@@ -17,21 +17,24 @@ namespace DSD_WinformsApp.View
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly IDocumentPresenter _presenter;
+        private readonly UserCredentialsDto _loggedInUser;
 
         private ErrorProvider errorProvider = null!; // Class-level variable to store the ErrorProvider component
 
         private string selectedFilePath = null!; // Class-level variable to store the selected file path
 
 
-        public AddFormView(IUnitOfWork unitOfWork, IDocumentPresenter presenter)
+        public AddFormView(IUnitOfWork unitOfWork, IDocumentPresenter presenter, UserCredentialsDto userCredentials)
         {
             InitializeComponent();
             _unitOfWork = unitOfWork;
             _presenter = presenter;
+            _loggedInUser = userCredentials;
+
 
             MaximizeBox = false; // Remove the maximize box
             MinimizeBox = false; // Remove the minimize box
-           
+
             errorProvider = new ErrorProvider();  // Initialize the ErrorProvider component
 
             // Initialize the ComboBox controls
@@ -42,12 +45,12 @@ namespace DSD_WinformsApp.View
 
         private void AddForm_Load(object sender, EventArgs e)
         {
+
             // Set the title of the form
             MaximizeBox = false;
 
             // Disable the Save button initially
             btnSave.Enabled = false;
-
 
             // Hide filename label initially
             textBoxFilename.Visible = false;
@@ -94,6 +97,11 @@ namespace DSD_WinformsApp.View
             // Read the file data from the selected file
             byte[] fileDataBytes = File.ReadAllBytes(selectedFilePath);
 
+
+            // Access user credentials from parameter  passed to the form
+            // var userName = userCredentials.Firstname + " " + userCredentials.Lastname;
+
+
             // Create an instance of DocumentDto to hold the data
             var documentDto = new DocumentDto
             {
@@ -139,7 +147,7 @@ namespace DSD_WinformsApp.View
             }
             textBoxFilename.Enabled = false;
             textBoxFilename.Visible = true;
-            
+
 
 
         }

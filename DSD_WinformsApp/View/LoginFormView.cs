@@ -144,6 +144,9 @@ namespace DSD_WinformsApp.View
         {
             try
             {
+                // Disable signin panel page
+                panelSignIn.Enabled = false;
+
                 // Create an instance of the UserCredentialsDto
                 var userCredentials = new UserCredentialsDto
                 {

@@ -19,14 +19,16 @@ namespace DSD_WinformsApp.View
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly IDocumentPresenter _presenter;
+        private readonly UserCredentialsDto _loggedInUser;
         private string selectedFilePath = "";
         private bool isNewFileUploaded = false;
 
-        public DocumentMainView(IUnitOfWork unitOfWork)
+        public DocumentMainView(IUnitOfWork unitOfWork, UserCredentialsDto userCredentials)
         {
             InitializeComponent();
             _unitOfWork = unitOfWork;
-            _presenter = new DocumentPresenter( this, _unitOfWork.Documents, _unitOfWork.BackUpFiles, _unitOfWork.Users);
+            _presenter = new DocumentPresenter(this, _unitOfWork.Documents, _unitOfWork.BackUpFiles, _unitOfWork.Users);
+            _loggedInUser = userCredentials;
 
             // Attach the FormClosing event handler
             this.FormClosing += DocumentViewForm_FormClosing;
@@ -113,7 +115,7 @@ namespace DSD_WinformsApp.View
                 {
                     // User clicked "Yes," proceed with the deletion
                     ConfirmDownloadDocument(selectedDocument);
-                
+
 
                 }
                 else
@@ -198,7 +200,7 @@ namespace DSD_WinformsApp.View
 
             CustomButton button2 = new CustomButton(ColorTranslator.FromHtml("#A5D7E8"), SystemColors.Control);
             button2.Text = "File History";
-            button2.Location = new Point(button1.Right + 10, 35); 
+            button2.Location = new Point(button1.Right + 10, 35);
             button2.Height = button1.Height;
             button2.Width = button1.Width;
             detailsForm.Controls.Add(button2);
@@ -228,7 +230,7 @@ namespace DSD_WinformsApp.View
             CustomButton uploadFileButton = new CustomButton(ColorTranslator.FromHtml("#A5D7E8"), SystemColors.Control);
             uploadFileButton.Text = "Upload File";
             uploadFileButton.Location = new Point(filenameTextBox.Right + 10, filenameTextBox.Top - 5); // Right next to the Filename TextBox
-            uploadFileButton.Height = filenameTextBox.Height +10; // Match the height of the TextBox
+            uploadFileButton.Height = filenameTextBox.Height + 10; // Match the height of the TextBox
             uploadFileButton.Width = 120; // Adjust the width as needed
             uploadFileButton.Enabled = false; // Disable the button initially
             uploadFileButton.Click += (sender, e) => UploadFileButton_Click(sender, e, filenameTextBox);
@@ -292,7 +294,7 @@ namespace DSD_WinformsApp.View
             notesTextBox.MaxLength = 200; // Set the maximum length to 150 characters
             notesTextBox.Height = 150; // Set the fixed height to 100 pixels (adjust the value as needed)
 
-            int notesTextBoxWidth = textBoxWidth ; // Adjust the width as needed
+            int notesTextBoxWidth = textBoxWidth; // Adjust the width as needed
             AddRow(groupBox, "Notes:", notesTextBox, notesTextBoxWidth);
 
             // Function to add a row (label + control) to the GroupBox
@@ -329,21 +331,21 @@ namespace DSD_WinformsApp.View
 
             DataGridView dataGridView2 = new DataGridView();
             dataGridView2.Dock = DockStyle.Fill;
-            dataGridView2.AllowUserToAddRows = false; 
+            dataGridView2.AllowUserToAddRows = false;
             dataGridView2.RowHeadersVisible = false;
             groupBox2.Controls.Add(dataGridView2);
 
-            
+
             // Adjust the size of the DetailsFormView to fit the contents including groupBox2
-            int groupBox2Width = detailsForm.ClientSize.Width - 50; 
-            int groupBox2Height = detailsForm.ClientSize.Height - groupBox2.Top - 40; 
+            int groupBox2Width = detailsForm.ClientSize.Width - 50;
+            int groupBox2Height = detailsForm.ClientSize.Height - groupBox2.Top - 40;
             groupBox2.Size = new Size(groupBox2Width, groupBox2Height);
 
             // Binding related backup file data to dataGridView2 based on the selected document's ID
             var relatedBackupFiles = await _presenter.GetRelatedBackupFiles(selectedDocument.Id);
             dataGridView2.DataSource = relatedBackupFiles;
 
-            
+
             // Display Columns in datagridview2
             dataGridView2.Columns["BackupId"].Width = 50;
             dataGridView2.Columns["Filename"].Width = 320;
@@ -462,7 +464,7 @@ namespace DSD_WinformsApp.View
                         }
                     }
                 }
-            };  
+            };
 
             // Create the Edit button
             CustomButton editButton = new CustomButton(ColorTranslator.FromHtml("#576CBC"), SystemColors.Control);
@@ -616,7 +618,7 @@ namespace DSD_WinformsApp.View
             // Handle the Click event of Button 1
             button1.Click += (sender, e) =>
             {
-                groupBox.Visible = true; 
+                groupBox.Visible = true;
                 editButton.Visible = true;
                 saveButton.Visible = true;
                 closeButton.Visible = true;
@@ -625,12 +627,12 @@ namespace DSD_WinformsApp.View
             // Handle the Click event of Button 2
             button2.Click += (sender, e) =>
             {
-                groupBox.Visible = false; 
-                groupBox2.Visible = true; 
+                groupBox.Visible = false;
+                groupBox2.Visible = true;
                 editButton.Visible = false;
                 saveButton.Visible = false;
                 closeButton.Visible = false;
-    
+
             };
 
             // Handle the Edit button click event
@@ -703,7 +705,7 @@ namespace DSD_WinformsApp.View
             {
 
                 // Get the selected file path
-                string filePath = openFileDialog.FileName ;
+                string filePath = openFileDialog.FileName;
                 string filePath_Filename = Path.GetFileName(filePath);
 
                 // Check if the selected file is different from the current file
@@ -729,7 +731,7 @@ namespace DSD_WinformsApp.View
 
         private void pictureBox1_Click(object sender, EventArgs e)
         {
-            using (AddFormView newForm = new AddFormView(_unitOfWork, _presenter))
+            using (AddFormView newForm = new AddFormView(_unitOfWork, _presenter, _loggedInUser))
             {
                 newForm.StartPosition = FormStartPosition.CenterParent;
                 newForm.ShowDialog();

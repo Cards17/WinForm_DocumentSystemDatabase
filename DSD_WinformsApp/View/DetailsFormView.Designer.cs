@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(DetailsFormView));
             SuspendLayout();
             // 
             // DetailsFormView
@@ -35,8 +36,9 @@
             AutoScaleDimensions = new SizeF(10F, 25F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(800, 450);
+            Icon = (Icon)resources.GetObject("$this.Icon");
             Name = "DetailsFormView";
-            Text = "Form1";
+            Text = "Document Details";
             ResumeLayout(false);
         }
 

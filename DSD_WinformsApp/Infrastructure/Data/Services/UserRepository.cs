@@ -46,6 +46,23 @@ namespace DSD_WinformsApp.Infrastructure.Data.Services
                     .FirstOrDefault();
             });
         }
+
+        public async Task<UserCredentialsDto?> GetUserByFullName(string firstName, string lastName)
+        {
+            return await Task.Run(() =>
+            {
+                return _dbContext.UserCredentials
+                    .Where(user => user.Firstname == firstName && user.Lastname == lastName)
+                    .Select(user => new UserCredentialsDto
+                    {
+                        Firstname = user.Firstname,
+                        Lastname = user.Lastname,
+                        EmailAddress = user.EmailAddress,
+                        Password = user.Password
+                    })
+                    .FirstOrDefault();
+            });
+        }
     }
 
    

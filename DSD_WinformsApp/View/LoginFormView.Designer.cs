@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(LoginFormView));
             textBoxEmailAddress = new TextBox();
             textBoxPassword = new TextBox();
             button_SignIn = new Button();
@@ -201,8 +202,9 @@
             Controls.Add(button_SignIn);
             Controls.Add(textBoxPassword);
             Controls.Add(textBoxEmailAddress);
+            Icon = (Icon)resources.GetObject("$this.Icon");
             Name = "LoginFormView";
-            Text = "LoginForm";
+            Text = "Login Page";
             Load += LoginFormView_Load;
             panelSignIn.ResumeLayout(false);
             panelSignUp.ResumeLayout(false);

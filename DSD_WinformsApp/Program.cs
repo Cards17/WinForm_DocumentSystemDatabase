@@ -1,4 +1,5 @@
 using AutoMapper;
+using DSD_WinformsApp.Core.DTOs;
 using DSD_WinformsApp.Core.Mapping_Profiles;
 using DSD_WinformsApp.Infrastructure.Data;
 using DSD_WinformsApp.Infrastructure.Data.Services;
@@ -39,6 +40,7 @@ namespace DSD_WinformsApp
                     services.AddAutoMapper(typeof(DocumentMappingProfiles));
                     services.AddTransient<IDocumentView, DocumentMainView>();
                     services.AddTransient<LoginFormView>();
+                    services.AddTransient<UserCredentialsDto>();
                   
                 });
         }

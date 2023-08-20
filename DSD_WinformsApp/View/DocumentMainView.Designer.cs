@@ -126,7 +126,7 @@ namespace DSD_WinformsApp.View
             pictureBox1.TabStop = false;
             pictureBox1.Click += pictureBox1_Click;
             // 
-            // Document_MainView
+            // DocumentMainView
             // 
             AutoScaleDimensions = new SizeF(10F, 25F);
             AutoScaleMode = AutoScaleMode.Font;
@@ -134,8 +134,9 @@ namespace DSD_WinformsApp.View
             Controls.Add(dataGridView1);
             Controls.Add(panel1);
             Controls.Add(panel2);
-            Name = "Document_MainView";
-            Text = "MainForm";
+            Icon = (Icon)resources.GetObject("$this.Icon");
+            Name = "DocumentMainView";
+            Text = "Main Page";
             Load += DocumentView_Load_1;
             ((System.ComponentModel.ISupportInitialize)dataGridView1).EndInit();
             panel1.ResumeLayout(false);

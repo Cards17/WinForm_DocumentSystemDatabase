@@ -12,5 +12,7 @@ namespace DSD_WinformsApp.Presenter
         void SaveDocument(DocumentDto document, byte[] fileDataBytes);
         void SaveUserRegistration(UserCredentialsDto userCredentials);
         Task<bool> ValidateUserCredentials(UserCredentialsDto userCredentials);
+        Task<UserCredentialsDto?> GetUserByFullName(string firstName, string lastName);
     }
+
 }
