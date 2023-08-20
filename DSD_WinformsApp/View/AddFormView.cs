@@ -45,6 +45,10 @@ namespace DSD_WinformsApp.View
 
         private void AddForm_Load(object sender, EventArgs e)
         {
+            // Set CustomButton properties
+            //btnSave = new CustomButton(ColorTranslator.FromHtml("#05982E"), SystemColors.Control);
+            //btnCancel = new CustomButton(ColorTranslator.FromHtml("#DA0B0B"), SystemColors.Control);
+            //buttonUploadFile = new CustomButton(ColorTranslator.FromHtml("#A5D7E8"), SystemColors.Control);
 
             // Set the title of the form
             MaximizeBox = false;
@@ -53,10 +57,10 @@ namespace DSD_WinformsApp.View
             btnSave.Enabled = false;
 
             // Hide filename label initially
-            textBoxFilename.Visible = false;
+            labelFilename.Visible = false;
 
             // Attach TextChanged event handlers to relevant controls
-            textBoxFilename.TextChanged += Control_TextChanged;
+            labelFilename.TextChanged += Control_TextChanged;
             txtBoxNotes.TextChanged += Control_TextChanged;
             textBoxCreatedBy.TextChanged += Control_TextChanged;
 
@@ -105,7 +109,7 @@ namespace DSD_WinformsApp.View
             // Create an instance of DocumentDto to hold the data
             var documentDto = new DocumentDto
             {
-                Filename = textBoxFilename.Text,
+                Filename = labelFilename.Text,
                 Category = cmbCategories.SelectedItem?.ToString() ?? "Select Category",
                 Status = cmbStatus.SelectedItem?.ToString() ?? "Select Status",
                 Notes = txtBoxNotes.Text,
@@ -137,16 +141,25 @@ namespace DSD_WinformsApp.View
         {
             OpenFileDialog openFileDialog = new OpenFileDialog();
             openFileDialog.Filter = "All Files|*.*";
+
             if (openFileDialog.ShowDialog() == DialogResult.OK)
             {
+                string selectedExtension = Path.GetExtension(openFileDialog.FileName); // Get the selected file extension
+                List<string> allowedExtensions = new List<string> { ".docx", ".doc", ".xlsx", ".xls", ".pdf" }; // Allowed file extensions
+                if (!allowedExtensions.Contains(selectedExtension))
+                {
+                    MessageBox.Show("Please select a valid file type.");
+                    return;
+                }
+
                 selectedFilePath = openFileDialog.FileName; // Store the selected file path
 
                 // Display only the file name without the extension in the label and the TextBox
                 string fileNameWithExtension = Path.GetFileName(openFileDialog.FileName);
-                textBoxFilename.Text = fileNameWithExtension;
+                labelFilename.Text = fileNameWithExtension;
             }
-            textBoxFilename.Enabled = false;
-            textBoxFilename.Visible = true;
+            // labelFilename.Enabled = false;
+            labelFilename.Visible = true;
 
 
 
@@ -169,7 +182,7 @@ namespace DSD_WinformsApp.View
             bool isValid = true;
             errorProvider.Clear();
 
-            if (string.IsNullOrWhiteSpace(textBoxFilename.Text))
+            if (string.IsNullOrWhiteSpace(labelFilename.Text))
             {
                 errorProvider.SetError(buttonUploadFile, "Upload file is required.");
                 isValid = false;

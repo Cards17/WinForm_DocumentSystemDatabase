@@ -16,6 +16,7 @@ namespace DSD_WinformsApp.Model
         public string OriginalFilePath { get; set; } = string.Empty;
         public string BackupFilePath { get; set; } = string.Empty;
         public DateTime BackupDate { get; set; }
+        public double Version { get; set; }
 
         [ForeignKey(nameof(Id))]
         public int Id { get; set; }

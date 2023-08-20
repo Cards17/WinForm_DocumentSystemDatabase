@@ -144,8 +144,8 @@ namespace DSD_WinformsApp.View
         {
             try
             {
-                // Disable signin panel page
-                panelSignIn.Enabled = false;
+                // Disable the signin button
+                button_SignIn.Enabled = false;
 
                 // Create an instance of the UserCredentialsDto
                 var userCredentials = new UserCredentialsDto
@@ -159,8 +159,6 @@ namespace DSD_WinformsApp.View
 
                 if (isValidCredentials)
                 {
-
-                    button_SignIn.Enabled = false; //Disable the signin button
                     // Close the login form and show the document view
                     this.Hide();
                     _documentView.ShowDocumentView();

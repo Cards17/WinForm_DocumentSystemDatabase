@@ -45,6 +45,7 @@ namespace DSD_WinformsApp.Infrastructure.Data.Services
                 {
                     // Delete the backup file from the file system
                     File.Delete(backupFile.BackupFilePath);
+                    
                 }
 
                 _dbContext.BackupFiles.RemoveRange(backupFilesToDelete);

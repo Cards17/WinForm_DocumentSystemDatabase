@@ -15,6 +15,7 @@ namespace DSD_WinformsApp.Core.DTOs
         public string OriginalFilePath { get; set; } = string.Empty;
         public string BackupFilePath { get; set; } = string.Empty;
         public DateTime BackupDate { get; set; }
+        public double Version { get; set; }
         public int Id { get; set; }
     }
 }

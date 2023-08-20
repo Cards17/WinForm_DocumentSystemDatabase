@@ -20,7 +20,6 @@ namespace DSD_WinformsApp.View
         private readonly IUnitOfWork _unitOfWork;
         private readonly IDocumentPresenter _presenter;
         private readonly UserCredentialsDto _loggedInUser;
-        private string selectedFilePath = "";
         private bool isNewFileUploaded = false;
 
         public DocumentMainView(IUnitOfWork unitOfWork, UserCredentialsDto userCredentials)
@@ -40,9 +39,9 @@ namespace DSD_WinformsApp.View
             await _presenter.LoadDocuments();
 
             // Define the column width from documentmodel
-            dataGridView1.Columns["Id"].Width = 45;
+            dataGridView1.Columns["Id"].Width = 55;
             dataGridView1.Columns["Filename"].Width = 300;
-            dataGridView1.Columns["Category"].Width = 180;
+            dataGridView1.Columns["Category"].Width = 170;
             dataGridView1.Columns["Status"].Width = 160;
             dataGridView1.Columns["CreatedDate"].Width = 155;
             dataGridView1.Columns["CreatedBy"].Visible = false;
@@ -445,8 +444,8 @@ namespace DSD_WinformsApp.View
                                 dataGridView2.Columns["Filename"].DisplayIndex = 1;
                                 dataGridView2.Columns["BackupDate"].DisplayIndex = 2;
 
-                                dataGridView2.Columns["BackupId"].HeaderText = "Id";
-                                dataGridView2.Columns["Filename"].HeaderText = "Filename";
+                                dataGridView2.Columns["BackupId"].HeaderText = "Doc. ID";
+                                dataGridView2.Columns["Filename"].HeaderText = "File Name";
                                 dataGridView2.Columns["BackupDate"].HeaderText = "Upload Date";
 
                                 dataGridView2.Columns["BackupId"].Width = 50;
@@ -524,8 +523,6 @@ namespace DSD_WinformsApp.View
                     // Update the filenameTextBox with the new file name
                     filenameTextBox.Text = Path.GetFileNameWithoutExtension(filePath);
                 }
-                // Append the original file extension to the filename
-                // filename += Path.GetExtension(filePath);
 
                 // Create a new DocumentDto with the modified data
                 DocumentDto modifiedDocument = new DocumentDto

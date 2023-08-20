@@ -48,6 +48,9 @@ namespace DSD_WinformsApp.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<double>("Version")
+                        .HasColumnType("float");
+
                     b.HasKey("BackupId");
 
                     b.ToTable("BackupFiles");
