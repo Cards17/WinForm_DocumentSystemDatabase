@@ -75,17 +75,20 @@ namespace DSD_WinformsApp.View
         // Status selection
         private void StatusComboBox()
         {
-            cmbStatus.Items.Add("Open");
-            cmbStatus.Items.Add("In Progress");
-            cmbStatus.Items.Add("Closed");
+            cmbStatus.Items.Add("New");
+            cmbStatus.Items.Add("Revised");
+            cmbStatus.Items.Add("Obsolete");
         }
 
         // Category selection
         private void CategoryComboBox()
         {
-            cmbCategories.Items.Add("Category 1");
-            cmbCategories.Items.Add("Category 2");
-            cmbCategories.Items.Add("Category 3");
+            cmbCategories.Items.Add("Board Resolutions");
+            cmbCategories.Items.Add("Canteen Policies");
+            cmbCategories.Items.Add("COOP Policies");
+            cmbCategories.Items.Add("COOP Article & By Laws");
+            cmbCategories.Items.Add("Minutes of the Meeting");
+            cmbCategories.Items.Add("Regulatory Requirements");
         }
 
         private async void btnSave_Click(object sender, EventArgs e)

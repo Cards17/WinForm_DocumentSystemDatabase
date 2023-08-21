@@ -38,6 +38,23 @@ namespace DSD_WinformsApp.View
             // Loads all documents list from data source.
             await _presenter.LoadDocuments();
 
+            // Add controls for panel2
+            panelDocumentButton.Controls.Add(pictureBox1);
+            panelDocumentButton.Controls.Add(dataGridView1);
+
+            // Create instance for comboBoxCategoryDropdown items
+            comboBoxCategoryDropdown.Items.Add("Board Resolutions");
+            comboBoxCategoryDropdown.Items.Add("Canteen Policies");
+            comboBoxCategoryDropdown.Items.Add("COOP Policies");
+            comboBoxCategoryDropdown.Items.Add("COOP Article & By Laws");
+            comboBoxCategoryDropdown.Items.Add("Minutes of the Meeting");
+            comboBoxCategoryDropdown.Items.Add("Regulatory Requirements");
+            comboBoxCategoryDropdown.Text = "Select Category";
+
+            textBoxSearchBar.Height = 100;
+            textBoxSearchBar.Padding = new Padding(5);
+
+
             // Define the column width from documentmodel
             dataGridView1.Columns["Id"].Width = 55;
             dataGridView1.Columns["Filename"].Width = 300;
@@ -86,6 +103,8 @@ namespace DSD_WinformsApp.View
             deleteColumn.HeaderText = string.Empty;
             dataGridView1.Columns.Add(deleteColumn);
 
+
+
             // Wire up the CellClick event handler
             dataGridView1.CellClick += dataGridView1_DetailsButton_CellClick;
             dataGridView1.CellClick += dataGridView1_DeleteButton_CellClick;
@@ -100,6 +119,10 @@ namespace DSD_WinformsApp.View
                 }
             };
         }
+
+
+       
+
 
         private void dataGridView1_DownloadButton_CellClick(object? sender, DataGridViewCellEventArgs e)
         {
@@ -346,13 +369,14 @@ namespace DSD_WinformsApp.View
 
 
             // Display Columns in datagridview2
-            dataGridView2.Columns["BackupId"].Width = 50;
-            dataGridView2.Columns["Filename"].Width = 320;
-            dataGridView2.Columns["BackupDate"].Width = 170;
+            dataGridView2.Columns["BackupId"].Width = 55;
+            dataGridView2.Columns["Filename"].Width = 300;
+            dataGridView2.Columns["BackupDate"].Width = 100;
+            dataGridView2.Columns["Version"].Width = 85;
 
             dataGridView2.Columns["BackupId"].HeaderText = "Id";
             dataGridView2.Columns["Filename"].HeaderText = "Filename";
-            dataGridView2.Columns["BackupDate"].HeaderText = "Upload Date";
+            dataGridView2.Columns["BackupDate"].HeaderText = "Date";
 
             dataGridView2.Columns["OriginalFilePath"].Visible = false;
             dataGridView2.Columns["BackupFilePath"].Visible = false;
@@ -757,5 +781,16 @@ namespace DSD_WinformsApp.View
             }
         }
 
+        private void buttonDocument_Click(object sender, EventArgs e)
+        {
+            panelDocumentButton.Visible = true;
+            textBoxSearchBar.Text = ""; // Reset the search bar
+            comboBoxCategoryDropdown.Text = ""; // Reset the ComboBox
+        }
+
+        private void buttonManageUsers_Click(object sender, EventArgs e)
+        {
+            panelDocumentButton.Visible = false;
+        }
     }
 }

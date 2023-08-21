@@ -38,18 +38,22 @@ namespace DSD_WinformsApp.View
             buttonManageUsers = new Button();
             buttonDocument = new Button();
             buttonHome = new Button();
-            panel2 = new Panel();
+            panelDocumentButton = new Panel();
+            comboBoxCategoryDropdown = new ComboBox();
+            comboBoxCategory = new ComboBox();
+            textBoxSearchBar = new TextBox();
             pictureBox1 = new PictureBox();
+            buttonSignOut = new Button();
             ((System.ComponentModel.ISupportInitialize)dataGridView1).BeginInit();
             panel1.SuspendLayout();
-            panel2.SuspendLayout();
+            panelDocumentButton.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
             SuspendLayout();
             // 
             // dataGridView1
             // 
             dataGridView1.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridView1.Location = new Point(270, 275);
+            dataGridView1.Location = new Point(20, 225);
             dataGridView1.Name = "dataGridView1";
             dataGridView1.RowHeadersVisible = false;
             dataGridView1.RowHeadersWidth = 62;
@@ -79,6 +83,7 @@ namespace DSD_WinformsApp.View
             buttonManageUsers.TabIndex = 2;
             buttonManageUsers.Text = "Manage Users";
             buttonManageUsers.UseVisualStyleBackColor = false;
+            buttonManageUsers.Click += buttonManageUsers_Click;
             // 
             // buttonDocument
             // 
@@ -91,6 +96,7 @@ namespace DSD_WinformsApp.View
             buttonDocument.TabIndex = 1;
             buttonDocument.Text = "Document";
             buttonDocument.UseVisualStyleBackColor = false;
+            buttonDocument.Click += buttonDocument_Click;
             // 
             // buttonHome
             // 
@@ -105,42 +111,80 @@ namespace DSD_WinformsApp.View
             buttonHome.UseVisualStyleBackColor = false;
             buttonHome.Click += button1_Click;
             // 
-            // panel2
+            // panelDocumentButton
             // 
-            panel2.BackColor = Color.FromArgb(165, 215, 232);
-            panel2.Controls.Add(pictureBox1);
-            panel2.Location = new Point(250, 80);
-            panel2.Name = "panel2";
-            panel2.Size = new Size(1195, 890);
-            panel2.TabIndex = 2;
+            panelDocumentButton.BackColor = Color.FromArgb(165, 215, 232);
+            panelDocumentButton.Controls.Add(comboBoxCategoryDropdown);
+            panelDocumentButton.Controls.Add(comboBoxCategory);
+            panelDocumentButton.Controls.Add(textBoxSearchBar);
+            panelDocumentButton.Location = new Point(250, 80);
+            panelDocumentButton.Name = "panelDocumentButton";
+            panelDocumentButton.Size = new Size(1195, 890);
+            panelDocumentButton.TabIndex = 2;
+            // 
+            // comboBoxCategoryDropdown
+            // 
+            comboBoxCategoryDropdown.FormattingEnabled = true;
+            comboBoxCategoryDropdown.Location = new Point(890, 130);
+            comboBoxCategoryDropdown.Name = "comboBoxCategoryDropdown";
+            comboBoxCategoryDropdown.Size = new Size(250, 33);
+            comboBoxCategoryDropdown.TabIndex = 5;
+            // 
+            // comboBoxCategory
+            // 
+            comboBoxCategory.FormattingEnabled = true;
+            comboBoxCategory.Location = new Point(1200, 180);
+            comboBoxCategory.Name = "comboBoxCategory";
+            comboBoxCategory.Size = new Size(182, 33);
+            comboBoxCategory.TabIndex = 4;
+            // 
+            // textBoxSearchBar
+            // 
+            textBoxSearchBar.Location = new Point(600, 130);
+            textBoxSearchBar.Name = "textBoxSearchBar";
+            textBoxSearchBar.PlaceholderText = "Search by Filename";
+            textBoxSearchBar.Size = new Size(250, 31);
+            textBoxSearchBar.TabIndex = 3;
             // 
             // pictureBox1
             // 
             pictureBox1.Cursor = Cursors.Hand;
             pictureBox1.Image = (Image)resources.GetObject("pictureBox1.Image");
-            pictureBox1.Location = new Point(20, 127);
+            pictureBox1.Location = new Point(20, 130);
             pictureBox1.Name = "pictureBox1";
-            pictureBox1.Size = new Size(41, 43);
+            pictureBox1.Size = new Size(40, 40);
             pictureBox1.SizeMode = PictureBoxSizeMode.Zoom;
             pictureBox1.TabIndex = 0;
             pictureBox1.TabStop = false;
             pictureBox1.Click += pictureBox1_Click;
+            // 
+            // buttonSignOut
+            // 
+            buttonSignOut.BackColor = Color.FromArgb(218, 11, 11);
+            buttonSignOut.Location = new Point(1293, 25);
+            buttonSignOut.Name = "buttonSignOut";
+            buttonSignOut.Size = new Size(100, 40);
+            buttonSignOut.TabIndex = 3;
+            buttonSignOut.Text = "Sign Out";
+            buttonSignOut.UseVisualStyleBackColor = false;
             // 
             // DocumentMainView
             // 
             AutoScaleDimensions = new SizeF(10F, 25F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(1418, 968);
-            Controls.Add(dataGridView1);
+            Controls.Add(buttonSignOut);
             Controls.Add(panel1);
-            Controls.Add(panel2);
+            Controls.Add(panelDocumentButton);
+            Controls.Add(dataGridView1);
             Icon = (Icon)resources.GetObject("$this.Icon");
             Name = "DocumentMainView";
             Text = "Main Page";
             Load += DocumentView_Load_1;
             ((System.ComponentModel.ISupportInitialize)dataGridView1).EndInit();
             panel1.ResumeLayout(false);
-            panel2.ResumeLayout(false);
+            panelDocumentButton.ResumeLayout(false);
+            panelDocumentButton.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).EndInit();
             ResumeLayout(false);
         }
@@ -154,5 +198,10 @@ namespace DSD_WinformsApp.View
         private Button buttonHome;
         private Button buttonManageUsers;
         private PictureBox pictureBox1;
+        private ComboBox comboBoxCategory;
+        private TextBox textBoxSearchBar;
+        private ComboBox comboBoxCategoryDropdown;
+        private Panel panelDocumentButton;
+        private Button buttonSignOut;
     }
 }
