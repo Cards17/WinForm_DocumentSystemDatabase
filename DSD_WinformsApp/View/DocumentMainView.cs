@@ -43,13 +43,16 @@ namespace DSD_WinformsApp.View
             panelDocumentButton.Controls.Add(dataGridView1);
 
             // Create instance for comboBoxCategoryDropdown items
+           
+            comboBoxCategoryDropdown.Items.Add("All Categories");
             comboBoxCategoryDropdown.Items.Add("Board Resolutions");
             comboBoxCategoryDropdown.Items.Add("Canteen Policies");
             comboBoxCategoryDropdown.Items.Add("COOP Policies");
             comboBoxCategoryDropdown.Items.Add("COOP Article & By Laws");
             comboBoxCategoryDropdown.Items.Add("Minutes of the Meeting");
             comboBoxCategoryDropdown.Items.Add("Regulatory Requirements");
-            comboBoxCategoryDropdown.Text = "Select Category";
+            comboBoxCategoryDropdown.SelectedIndex = 0; // Set the default value to "Select Category"
+
 
             textBoxSearchBar.Height = 100;
             textBoxSearchBar.Padding = new Padding(5);
@@ -103,8 +106,6 @@ namespace DSD_WinformsApp.View
             deleteColumn.HeaderText = string.Empty;
             dataGridView1.Columns.Add(deleteColumn);
 
-
-
             // Wire up the CellClick event handler
             dataGridView1.CellClick += dataGridView1_DetailsButton_CellClick;
             dataGridView1.CellClick += dataGridView1_DeleteButton_CellClick;
@@ -118,10 +119,13 @@ namespace DSD_WinformsApp.View
                     dataGridView1.Cursor = Cursors.Hand;
                 }
             };
+
+            // Attach TextChanged event handler to the search TextBox
+            textBoxSearchBar.TextChanged += textBoxSearchBar_TextChanged;
         }
 
 
-       
+
 
 
         private void dataGridView1_DownloadButton_CellClick(object? sender, DataGridViewCellEventArgs e)
@@ -785,12 +789,35 @@ namespace DSD_WinformsApp.View
         {
             panelDocumentButton.Visible = true;
             textBoxSearchBar.Text = ""; // Reset the search bar
-            comboBoxCategoryDropdown.Text = ""; // Reset the ComboBox
+            comboBoxCategoryDropdown.SelectedIndex = -1; // Reset the category dropdown
+            comboBoxCategoryDropdown.Text = "All Categories"; // Reset the category dropdown
         }
 
         private void buttonManageUsers_Click(object sender, EventArgs e)
         {
             panelDocumentButton.Visible = false;
+        }
+
+        private void textBoxSearchBar_TextChanged(object sender, EventArgs e)
+        {
+            ApplyFilters();
+        }
+
+        private void comboBoxCategoryDropdown_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            ApplyFilters();
+        }
+
+        private void ApplyFilters()
+        {
+            string searchQuery = textBoxSearchBar.Text.Trim();
+            string? filterCategory = comboBoxCategoryDropdown.SelectedItem?.ToString();
+
+            if (!string.IsNullOrEmpty(filterCategory))
+            {
+                _presenter.SearchDocuments(searchQuery, filterCategory);
+            }
+
         }
     }
 }

@@ -8,5 +8,6 @@ namespace DSD_WinformsApp.Infrastructure.Data.Services
         Task<List<DocumentDto>> GetAllDocuments();
         Task<bool> DeleteDocument(int documentId);
         Task<bool> EditDocument(int documentId, DocumentDto updatedDocument);
+        Task<List<DocumentDto>> GetFilteredDocuments(string filterCriteria, string searchQuery);
     }
 }

@@ -157,5 +157,42 @@ namespace DSD_WinformsApp.Infrastructure.Data.Services
             return true;
         }
 
+        public async Task<List<DocumentDto>> GetFilteredDocuments(string filterCriteria, string searchQuery)
+        {
+            var allDocuments = await _dbContext.Documents.ToListAsync();
+            var filteredDocuments = allDocuments
+                .Where(document =>
+                    GetFilterCategories(filterCriteria)(document.Category) &&
+                    document.Filename.Contains(searchQuery, StringComparison.OrdinalIgnoreCase))
+                .ToList();
+
+            var documents = _mapper.Map<List<DocumentModel>, List<DocumentDto>>(filteredDocuments);
+            return documents;
+        }
+
+        private Func<string, bool> GetFilterCategories(string filterCriteria)
+        {
+            switch (filterCriteria)
+            {
+                case "Board Resolutions":
+                    return category => category == "Board Resolutions";
+                case "Canteen Policies":
+                    return category => category == "Canteen Policies";
+                case "COOP Policies":
+                    return category => category == "COOP Policies";
+                case "COOP Article & By Laws":
+                    return category => category == "COOP Article & By Laws";
+                case "Minutes of the Meeting":
+                    return category => category == "Minutes of the Meeting";
+                case "Regulatory Requirements":
+                    return category => category == "Regulatory Requirements";
+                // Add more cases for other filter criteria
+                case "All Categories":
+                default:
+                    return category => true; // Show all documents for "Select Category" and other cases
+            }
+        }
+
+
     }
 }

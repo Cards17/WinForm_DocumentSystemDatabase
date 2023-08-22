@@ -33,8 +33,6 @@ namespace DSD_WinformsApp.Presenter
         {
             List<DocumentDto> documents = await _documentRepository.GetAllDocuments();
             _mainDocumentView.BindDataMainView(documents);
-
-
         }
 
         public void SaveDocument(DocumentDto document, byte[] fileDataBytes)
@@ -71,6 +69,12 @@ namespace DSD_WinformsApp.Presenter
             {
                 return false;
             }
+        }
+
+        public async Task SearchDocuments(string filterCriteria, string searchQuery)
+        {
+            List<DocumentDto> filteredDocuments = await _documentRepository.GetFilteredDocuments(searchQuery, filterCriteria);
+            _mainDocumentView.BindDataMainView(filteredDocuments);
         }
 
 
