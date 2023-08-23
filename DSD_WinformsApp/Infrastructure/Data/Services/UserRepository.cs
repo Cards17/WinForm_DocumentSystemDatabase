@@ -22,20 +22,12 @@ namespace DSD_WinformsApp.Infrastructure.Data.Services
             
         }
 
-
-        public void RegisterUser(UserCredentialsDto userCredentials)
-        {
-            var user = _mapper.Map<UserCredentialsDto, UserCredentialsModel>(userCredentials);
-            _dbContext.UserCredentials.Add(user);
-            _dbContext.SaveChanges();
-        }
-
-        public async Task<UserCredentialsDto?> GetUserByEmail(string emailAddress)
+        // Add method to gett all items from the database
+        public async Task<List<UserCredentialsDto>> GetAllUsers()
         {
             return await Task.Run(() =>
             {
                 return _dbContext.UserCredentials
-                    .Where(user => user.EmailAddress == emailAddress)
                     .Select(user => new UserCredentialsDto
                     {
                         Firstname = user.Firstname,
@@ -43,16 +35,24 @@ namespace DSD_WinformsApp.Infrastructure.Data.Services
                         EmailAddress = user.EmailAddress,
                         Password = user.Password
                     })
-                    .FirstOrDefault();
+                    .ToList();
             });
         }
 
-        public async Task<UserCredentialsDto?> GetUserByFullName(string firstName, string lastName)
+        public void RegisterUser(UserCredentialsDto userCredentials)
+        {
+            var user = _mapper.Map<UserCredentialsDto, UserCredentialsModel>(userCredentials);
+            _dbContext.UserCredentials.Add(user);
+            _dbContext.SaveChanges();
+        }
+       
+
+        public async Task<UserCredentialsDto?> GetUserByEmail(string emailAddress)
         {
             return await Task.Run(() =>
             {
                 return _dbContext.UserCredentials
-                    .Where(user => user.Firstname == firstName && user.Lastname == lastName)
+                    .Where(user => user.EmailAddress == emailAddress)
                     .Select(user => new UserCredentialsDto
                     {
                         Firstname = user.Firstname,

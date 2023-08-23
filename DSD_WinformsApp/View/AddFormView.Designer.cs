@@ -37,12 +37,13 @@
             cmbCategories = new ComboBox();
             label1 = new Label();
             labelFileUpload = new Label();
-            textBoxCreatedBy = new TextBox();
             labelCreatedBy = new Label();
             labelFilename = new Label();
+            comboBoxCreatedBy = new ComboBox();
             btnSave = new CustomButton(ColorTranslator.FromHtml("#05982E"), SystemColors.Control);
             btnCancel = new CustomButton(ColorTranslator.FromHtml("#DA0B0B"), SystemColors.Control);
             buttonUploadFile = new CustomButton(ColorTranslator.FromHtml("#A5D7E8"), SystemColors.Control);
+
             SuspendLayout();
             // 
             // txtCategory
@@ -113,14 +114,6 @@
             labelFileUpload.Size = new Size(100, 23);
             labelFileUpload.TabIndex = 0;
             // 
-            // textBoxCreatedBy
-            // 
-            textBoxCreatedBy.Location = new Point(124, 288);
-            textBoxCreatedBy.MaxLength = 50;
-            textBoxCreatedBy.Name = "textBoxCreatedBy";
-            textBoxCreatedBy.Size = new Size(230, 31);
-            textBoxCreatedBy.TabIndex = 13;
-            // 
             // labelCreatedBy
             // 
             labelCreatedBy.AutoSize = true;
@@ -137,6 +130,14 @@
             labelFilename.Name = "labelFilename";
             labelFilename.Size = new Size(0, 25);
             labelFilename.TabIndex = 14;
+            // 
+            // comboBoxCreatedBy
+            // 
+            comboBoxCreatedBy.FormattingEnabled = true;
+            comboBoxCreatedBy.Location = new Point(128, 284);
+            comboBoxCreatedBy.Name = "comboBoxCreatedBy";
+            comboBoxCreatedBy.Size = new Size(226, 33);
+            comboBoxCreatedBy.TabIndex = 15;
             // 
             // btnSave
             // 
@@ -178,20 +179,20 @@
             AutoScaleDimensions = new SizeF(10F, 25F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(800, 450);
+            Controls.Add(comboBoxCreatedBy);
             Controls.Add(labelFilename);
-            Controls.Add(textBoxCreatedBy);
             Controls.Add(labelCreatedBy);
             Controls.Add(labelFileUpload);
-            Controls.Add(buttonUploadFile);
             Controls.Add(label1);
-            Controls.Add(btnCancel);
-            Controls.Add(btnSave);
             Controls.Add(cmbCategories);
             Controls.Add(txtBoxNotes);
             Controls.Add(Notes_Label);
             Controls.Add(cmbStatus);
             Controls.Add(Status_Label);
             Controls.Add(txtCategory);
+            Controls.Add(buttonUploadFile);
+            Controls.Add(btnCancel);
+            Controls.Add(btnSave);
             Icon = (Icon)resources.GetObject("$this.Icon");
             Name = "AddFormView";
             Text = "Add Document";
@@ -211,11 +212,12 @@
         private TextBox txtBoxNotes;
         private Label label1;
         private Label labelFileUpload;
-        private TextBox textBoxCreatedBy;
         private Label labelCreatedBy;
         private CustomButton btnSave;
         private CustomButton btnCancel;
         private CustomButton buttonUploadFile;
         private Label labelFilename;
+        private ComboBox comboBoxCreatedBy;
+        private TextBox textBoxCreatedBy;
     }
 }

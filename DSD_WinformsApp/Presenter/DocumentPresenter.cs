@@ -133,11 +133,5 @@ namespace DSD_WinformsApp.Presenter
             }
         }
 
-
-        public async Task<UserCredentialsDto?> GetUserByFullName(string firstName, string lastName)
-        {
-            return await _userRepository.GetUserByFullName(firstName, lastName);
-        }
-
     }
 }

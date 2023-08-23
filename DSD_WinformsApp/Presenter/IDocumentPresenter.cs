@@ -13,7 +13,6 @@ namespace DSD_WinformsApp.Presenter
         Task SearchDocuments(string filterCriteria, string searchQuery);
         void SaveUserRegistration(UserCredentialsDto userCredentials);
         Task<bool> ValidateUserCredentials(UserCredentialsDto userCredentials);
-        Task<UserCredentialsDto?> GetUserByFullName(string firstName, string lastName);
     }
 
 }

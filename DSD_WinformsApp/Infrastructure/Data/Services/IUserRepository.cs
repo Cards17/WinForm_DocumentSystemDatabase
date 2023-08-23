@@ -4,8 +4,9 @@ namespace DSD_WinformsApp.Infrastructure.Data.Services
 {
     public interface IUserRepository
     {
+        Task<List<UserCredentialsDto>> GetAllUsers();
         void RegisterUser(UserCredentialsDto userCredentials);
         Task<UserCredentialsDto?> GetUserByEmail(string emailAddress);
-        Task<UserCredentialsDto?> GetUserByFullName(string firstName, string lastName);
+       
     }
 }

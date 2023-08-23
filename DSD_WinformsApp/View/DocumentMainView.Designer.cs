@@ -128,8 +128,8 @@ namespace DSD_WinformsApp.View
             comboBoxCategoryDropdown.Location = new Point(890, 130);
             comboBoxCategoryDropdown.Name = "comboBoxCategoryDropdown";
             comboBoxCategoryDropdown.Size = new Size(250, 33);
-            comboBoxCategoryDropdown.Text = "All Categories";
             comboBoxCategoryDropdown.TabIndex = 5;
+            comboBoxCategoryDropdown.Text = "All Categories";
             comboBoxCategoryDropdown.SelectedIndexChanged += comboBoxCategoryDropdown_SelectedIndexChanged;
             // 
             // comboBoxCategory

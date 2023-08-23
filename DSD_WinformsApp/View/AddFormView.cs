@@ -17,20 +17,17 @@ namespace DSD_WinformsApp.View
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly IDocumentPresenter _presenter;
-        private readonly UserCredentialsDto _loggedInUser;
 
         private ErrorProvider errorProvider = null!; // Class-level variable to store the ErrorProvider component
 
         private string selectedFilePath = null!; // Class-level variable to store the selected file path
 
 
-        public AddFormView(IUnitOfWork unitOfWork, IDocumentPresenter presenter, UserCredentialsDto userCredentials)
+        public AddFormView(IUnitOfWork unitOfWork, IDocumentPresenter presenter)
         {
             InitializeComponent();
             _unitOfWork = unitOfWork;
             _presenter = presenter;
-            _loggedInUser = userCredentials;
-
 
             MaximizeBox = false; // Remove the maximize box
             MinimizeBox = false; // Remove the minimize box
@@ -40,11 +37,13 @@ namespace DSD_WinformsApp.View
             // Initialize the ComboBox controls
             StatusComboBox();
             CategoryComboBox();
+            CreatedByComboBox();
         }
 
 
         private void AddForm_Load(object sender, EventArgs e)
         {
+
             // Set CustomButton properties
             //btnSave = new CustomButton(ColorTranslator.FromHtml("#05982E"), SystemColors.Control);
             //btnCancel = new CustomButton(ColorTranslator.FromHtml("#DA0B0B"), SystemColors.Control);
@@ -62,12 +61,13 @@ namespace DSD_WinformsApp.View
             // Attach TextChanged event handlers to relevant controls
             labelFilename.TextChanged += Control_TextChanged;
             txtBoxNotes.TextChanged += Control_TextChanged;
-            textBoxCreatedBy.TextChanged += Control_TextChanged;
+            comboBoxCreatedBy.TextChanged += Control_TextChanged;
 
             errorProvider.BlinkStyle = ErrorBlinkStyle.NeverBlink; // remove the blinking icon when error occurs
 
             // Attach SelectedIndexChanged event handlers to ComboBox controls
             cmbCategories.SelectedIndexChanged += Control_SelectedIndexChanged;
+            comboBoxCreatedBy.SelectedIndexChanged += Control_SelectedIndexChanged;
             cmbStatus.SelectedIndexChanged += Control_SelectedIndexChanged;
 
         }
@@ -91,7 +91,18 @@ namespace DSD_WinformsApp.View
             cmbCategories.Items.Add("Regulatory Requirements");
         }
 
-        private async void btnSave_Click(object sender, EventArgs e)
+        // Add method for combo box items from the database
+        private async void CreatedByComboBox()
+        {
+            var users = await _unitOfWork.Users.GetAllUsers();
+            foreach (var user in users)
+            {
+                string fullName = user.Firstname + " " + user.Lastname;
+                comboBoxCreatedBy.Items.Add(fullName);
+            }
+        }
+
+        private async void btnSave_Click(object? sender, EventArgs e)
         {
             // Check if a file is selected
             if (string.IsNullOrEmpty(selectedFilePath))
@@ -100,14 +111,8 @@ namespace DSD_WinformsApp.View
                 return;
             }
 
-
             // Read the file data from the selected file
             byte[] fileDataBytes = File.ReadAllBytes(selectedFilePath);
-
-
-            // Access user credentials from parameter  passed to the form
-            // var userName = userCredentials.Firstname + " " + userCredentials.Lastname;
-
 
             // Create an instance of DocumentDto to hold the data
             var documentDto = new DocumentDto
@@ -116,13 +121,10 @@ namespace DSD_WinformsApp.View
                 Category = cmbCategories.SelectedItem?.ToString() ?? "Select Category",
                 Status = cmbStatus.SelectedItem?.ToString() ?? "Select Status",
                 Notes = txtBoxNotes.Text,
-                CreatedBy = textBoxCreatedBy.Text,
+                CreatedBy = comboBoxCreatedBy.SelectedItem?.ToString() ?? "Select Creator",
                 CreatedDate = DateTime.Now.Date,
                 ModifiedDate = DateTime.Now.Date,
-
             };
-
-
 
             // Use the presenter to save the document with file data
             _presenter.SaveDocument(documentDto, fileDataBytes);
@@ -134,13 +136,13 @@ namespace DSD_WinformsApp.View
             DialogResult = DialogResult.OK;
         }
 
-        private void btnCancel_Click(object sender, EventArgs e)
+        private void btnCancel_Click(object? sender, EventArgs e)
         {
             // Close the form and return DialogResult.Cancel
             DialogResult = DialogResult.Cancel;
         }
 
-        private void buttonUploadFile_Click(object sender, EventArgs e)
+        private void buttonUploadFile_Click(object? sender, EventArgs e)
         {
             OpenFileDialog openFileDialog = new OpenFileDialog();
             openFileDialog.Filter = "All Files|*.*";
@@ -163,8 +165,6 @@ namespace DSD_WinformsApp.View
             }
             // labelFilename.Enabled = false;
             labelFilename.Visible = true;
-
-
 
         }
 
@@ -203,17 +203,19 @@ namespace DSD_WinformsApp.View
                 isValid = false;
             }
 
+            if (comboBoxCreatedBy.SelectedItem == null)
+            {
+                errorProvider.SetError(comboBoxCreatedBy, "Created by is required.");
+                isValid = false;
+            }
+
             if (string.IsNullOrWhiteSpace(txtBoxNotes.Text))
             {
                 errorProvider.SetError(txtBoxNotes, "Notes are required.");
                 isValid = false;
             }
 
-            if (string.IsNullOrWhiteSpace(textBoxCreatedBy.Text))
-            {
-                errorProvider.SetError(textBoxCreatedBy, "Created By is required.");
-                isValid = false;
-            }
+           
 
             btnSave.Enabled = isValid;
         }

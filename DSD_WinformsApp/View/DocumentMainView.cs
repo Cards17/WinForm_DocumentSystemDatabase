@@ -19,15 +19,13 @@ namespace DSD_WinformsApp.View
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly IDocumentPresenter _presenter;
-        private readonly UserCredentialsDto _loggedInUser;
         private bool isNewFileUploaded = false;
 
-        public DocumentMainView(IUnitOfWork unitOfWork, UserCredentialsDto userCredentials)
+        public DocumentMainView(IUnitOfWork unitOfWork)
         {
             InitializeComponent();
             _unitOfWork = unitOfWork;
             _presenter = new DocumentPresenter(this, _unitOfWork.Documents, _unitOfWork.BackUpFiles, _unitOfWork.Users);
-            _loggedInUser = userCredentials;
 
             // Attach the FormClosing event handler
             this.FormClosing += DocumentViewForm_FormClosing;
@@ -43,7 +41,7 @@ namespace DSD_WinformsApp.View
             panelDocumentButton.Controls.Add(dataGridView1);
 
             // Create instance for comboBoxCategoryDropdown items
-           
+
             comboBoxCategoryDropdown.Items.Add("All Categories");
             comboBoxCategoryDropdown.Items.Add("Board Resolutions");
             comboBoxCategoryDropdown.Items.Add("Canteen Policies");
@@ -756,7 +754,7 @@ namespace DSD_WinformsApp.View
 
         private void pictureBox1_Click(object sender, EventArgs e)
         {
-            using (AddFormView newForm = new AddFormView(_unitOfWork, _presenter, _loggedInUser))
+            using (AddFormView newForm = new AddFormView(_unitOfWork, _presenter))
             {
                 newForm.StartPosition = FormStartPosition.CenterParent;
                 newForm.ShowDialog();
