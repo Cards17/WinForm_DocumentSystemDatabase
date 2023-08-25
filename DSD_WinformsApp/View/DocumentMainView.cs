@@ -36,7 +36,7 @@ namespace DSD_WinformsApp.View
             #region Document Page Properties
             // Loads all documents list from data source.
             await _presenter.LoadDocuments();
-       
+
 
             panelManageUsers.Visible = false; // Hide the panelManageUsers initially
 
@@ -126,11 +126,24 @@ namespace DSD_WinformsApp.View
             textBoxSearchBar.TextChanged += textBoxSearchBar_TextChanged;
             #endregion
 
-            #region Manage Users Page Properties
+            // Datagridviewbutton details column
+            DataGridViewButtonColumn detailsButtonUserColumn = new DataGridViewButtonColumn();
+            detailsButtonUserColumn.Name = "Details";
+            detailsButtonUserColumn.Text = "Details";
+            detailsButtonUserColumn.Width = 91;
+            detailsButtonUserColumn.HeaderText = string.Empty;
+            detailsButtonUserColumn.UseColumnTextForButtonValue = true;
+            dataGridViewManageUsers.Columns.Add(detailsButtonUserColumn);
 
-         
+            // Datagridviewbutton delete column
+            DataGridViewButtonColumn deleteButtonUserColumn = new DataGridViewButtonColumn();
+            deleteButtonUserColumn.Name = "Delete";
+            deleteButtonUserColumn.Text = "Delete";
+            deleteButtonUserColumn.Width = 91;
+            deleteButtonUserColumn.HeaderText = string.Empty;
+            deleteButtonUserColumn.UseColumnTextForButtonValue = true;
+            dataGridViewManageUsers.Columns.Add(deleteButtonUserColumn);
 
-            #endregion
         }
 
         public void BindDataMainView(List<DocumentDto> documents)
@@ -779,7 +792,7 @@ namespace DSD_WinformsApp.View
             }
         }
 
- 
+
 
         public void ShowDocumentView()
         {
@@ -807,8 +820,9 @@ namespace DSD_WinformsApp.View
             comboBoxCategoryDropdown.Text = "All Categories"; // Reset the category dropdown
         }
 
-        private async void  buttonManageUsers_Click(object sender, EventArgs e)
+        private async void buttonManageUsers_Click(object sender, EventArgs e)
         {
+            await _presenter.LoadUsers();
 
             panelDocumentButton.Visible = false;
             panelManageUsers.Visible = true;
@@ -821,20 +835,40 @@ namespace DSD_WinformsApp.View
             dataGridViewManageUsers.DataSource = users;
 
             // Set the datagridviewManageUsers column properties
-            dataGridViewManageUsers.Columns["UserId"].Width = 40;
-            dataGridViewManageUsers.Columns["Firstname"].Width = 80;
-            dataGridViewManageUsers.Columns["Lastname"].Width = 80;
-            dataGridViewManageUsers.Columns["EmailAddress"].Width = 80;
-            dataGridViewManageUsers.Columns["JobTitle"].Width = 80;
-            dataGridViewManageUsers.Columns["CreatedDate"].Width = 80;
+            dataGridViewManageUsers.Columns["UserId"].DisplayIndex = 0;
+            dataGridViewManageUsers.Columns["Firstname"].DisplayIndex = 1;
+            dataGridViewManageUsers.Columns["Lastname"].DisplayIndex = 2;
+            dataGridViewManageUsers.Columns["EmailAddress"].DisplayIndex = 3;
+            dataGridViewManageUsers.Columns["JobTitle"].DisplayIndex = 4;
+            dataGridViewManageUsers.Columns["CreatedDate"].DisplayIndex = 5;
+
+            // Set the column widths
+            dataGridViewManageUsers.Columns["UserId"].Width = 60;
+            dataGridViewManageUsers.Columns["Firstname"].Width = 155;
+            dataGridViewManageUsers.Columns["Lastname"].Width = 155;
+            dataGridViewManageUsers.Columns["EmailAddress"].Width = 300;
+            dataGridViewManageUsers.Columns["JobTitle"].Width = 270;
 
             dataGridViewManageUsers.Columns["UserId"].Visible = true;
             dataGridViewManageUsers.Columns["Firstname"].Visible = true;
             dataGridViewManageUsers.Columns["Lastname"].Visible = true;
             dataGridViewManageUsers.Columns["EmailAddress"].Visible = true;
             dataGridViewManageUsers.Columns["JobTitle"].Visible = true;
-            dataGridViewManageUsers.Columns["CreatedDate"].Visible = true;
+            dataGridViewManageUsers.Columns["CreatedDate"].Visible = false;
             dataGridViewManageUsers.Columns["Password"].Visible = false;
+            dataGridViewManageUsers.Columns["ImageData"].Visible = false;
+
+            // Display name for headertext
+            dataGridViewManageUsers.Columns["UserId"].HeaderText = "ID";
+            dataGridViewManageUsers.Columns["Firstname"].HeaderText = "First Name";
+            dataGridViewManageUsers.Columns["Lastname"].HeaderText = "Last Name";
+            dataGridViewManageUsers.Columns["EmailAddress"].HeaderText = "Email Address";
+            dataGridViewManageUsers.Columns["JobTitle"].HeaderText = "Job Title";
+            dataGridViewManageUsers.Columns["CreatedDate"].HeaderText = "Created Date";
+
+
+
+
 
         }
 

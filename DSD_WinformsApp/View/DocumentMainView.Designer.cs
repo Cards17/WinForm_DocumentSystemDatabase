@@ -62,7 +62,7 @@ namespace DSD_WinformsApp.View
             dataGridView1.RowHeadersVisible = false;
             dataGridView1.RowHeadersWidth = 62;
             dataGridView1.RowTemplate.Height = 33;
-            dataGridView1.Size = new Size(1125, 539);
+            dataGridView1.Size = new Size(1125, 366);
             dataGridView1.TabIndex = 0;
             // 
             // panel1
@@ -192,7 +192,7 @@ namespace DSD_WinformsApp.View
             dataGridViewManageUsers.RowHeadersVisible = false;
             dataGridViewManageUsers.RowHeadersWidth = 62;
             dataGridViewManageUsers.RowTemplate.Height = 33;
-            dataGridViewManageUsers.Size = new Size(1125, 539);
+            dataGridViewManageUsers.Size = new Size(1125, 366);
             dataGridViewManageUsers.TabIndex = 0;
             // 
             // DocumentMainView
@@ -201,11 +201,11 @@ namespace DSD_WinformsApp.View
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.White;
             ClientSize = new Size(1418, 968);
-            Controls.Add(panelManageUsers);
             Controls.Add(buttonSignOut);
             Controls.Add(panel1);
             Controls.Add(panelDocumentButton);
             Controls.Add(dataGridView1);
+            Controls.Add(panelManageUsers);
             Icon = (Icon)resources.GetObject("$this.Icon");
             Name = "DocumentMainView";
             Text = "Main Page";

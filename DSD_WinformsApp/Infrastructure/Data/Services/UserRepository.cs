@@ -30,10 +30,11 @@ namespace DSD_WinformsApp.Infrastructure.Data.Services
                 return _dbContext.UserCredentials
                     .Select(user => new UserCredentialsDto
                     {
+                        UserId = user.UserId,
                         Firstname = user.Firstname,
                         Lastname = user.Lastname,
                         EmailAddress = user.EmailAddress,
-                        Password = user.Password
+                        CreatedDate = user.CreatedDate,
                     })
                     .ToList();
             });

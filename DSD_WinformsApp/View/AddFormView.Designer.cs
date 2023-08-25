@@ -43,7 +43,6 @@
             btnSave = new CustomButton(ColorTranslator.FromHtml("#05982E"), SystemColors.Control);
             btnCancel = new CustomButton(ColorTranslator.FromHtml("#DA0B0B"), SystemColors.Control);
             buttonUploadFile = new CustomButton(ColorTranslator.FromHtml("#A5D7E8"), SystemColors.Control);
-
             SuspendLayout();
             // 
             // txtCategory
@@ -75,7 +74,7 @@
             // Notes_Label
             // 
             Notes_Label.AutoSize = true;
-            Notes_Label.Location = new Point(364, 148);
+            Notes_Label.Location = new Point(426, 117);
             Notes_Label.Name = "Notes_Label";
             Notes_Label.Size = new Size(59, 25);
             Notes_Label.TabIndex = 6;
