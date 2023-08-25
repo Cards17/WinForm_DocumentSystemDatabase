@@ -121,7 +121,7 @@ namespace DSD_WinformsApp.View
                     Firstname = textBoxFirstname.Text,
                     Lastname = textBoxLastname.Text,
                     EmailAddress = textBoxEmailAdd.Text,
-                    Password = textBoxPasswrd.Text
+                    Password = textBoxPasswrd.Text,
                 };
 
                 // Use presenter to call the signup method

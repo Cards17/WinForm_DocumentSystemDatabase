@@ -10,6 +10,7 @@ using System.Linq;
 using System.Reflection.Metadata;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml.Linq;
 
 namespace DSD_WinformsApp.Presenter
 {
@@ -102,13 +103,26 @@ namespace DSD_WinformsApp.Presenter
             }
         }
 
+
         // User Repository methods
+
+        public async Task<List<UserCredentialsDto>> GetAllRegisteredUsers()
+        {
+            var users = await _userRepository.GetAllUsers();
+            return users;
+        }
+
+        public async Task<List<UserCredentialsDto>> LoadUsers()
+        {
+            List<UserCredentialsDto> users = await _userRepository.GetAllUsers();
+            return users;
+        }
+
         public void SaveUserRegistration(UserCredentialsDto userCredentials)
         {
             // Set the user credentials to the UserCredentialsDto
             _userRepository.RegisterUser(userCredentials);
         }
-
 
         public async Task<bool> ValidateUserCredentials(UserCredentialsDto userCredentials)
         {

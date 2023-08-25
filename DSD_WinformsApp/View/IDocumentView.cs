@@ -7,6 +7,7 @@ namespace DSD_WinformsApp.View
     public interface IDocumentView
     {
         void BindDataMainView(List<DocumentDto> documents);
+        void BindDataManageUsers(List<UserCredentialsDto> users);
         void ShowDocumentView();
     }
 }

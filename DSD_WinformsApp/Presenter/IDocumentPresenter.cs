@@ -11,6 +11,10 @@ namespace DSD_WinformsApp.Presenter
         Task LoadDocuments();
         void SaveDocument(DocumentDto document, byte[] fileDataBytes);
         Task SearchDocuments(string filterCriteria, string searchQuery);
+
+        // User Repository methods
+        Task<List<UserCredentialsDto>> LoadUsers();
+        Task<List<UserCredentialsDto>> GetAllRegisteredUsers();
         void SaveUserRegistration(UserCredentialsDto userCredentials);
         Task<bool> ValidateUserCredentials(UserCredentialsDto userCredentials);
     }

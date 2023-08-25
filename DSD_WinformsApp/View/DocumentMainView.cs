@@ -33,8 +33,12 @@ namespace DSD_WinformsApp.View
 
         private async void DocumentView_Load_1(object sender, EventArgs e)
         {
+            #region Document Page Properties
             // Loads all documents list from data source.
             await _presenter.LoadDocuments();
+       
+
+            panelManageUsers.Visible = false; // Hide the panelManageUsers initially
 
             // Add controls for panel2
             panelDocumentButton.Controls.Add(pictureBox1);
@@ -120,10 +124,24 @@ namespace DSD_WinformsApp.View
 
             // Attach TextChanged event handler to the search TextBox
             textBoxSearchBar.TextChanged += textBoxSearchBar_TextChanged;
+            #endregion
+
+            #region Manage Users Page Properties
+
+         
+
+            #endregion
         }
 
+        public void BindDataMainView(List<DocumentDto> documents)
+        {
+            dataGridView1.DataSource = documents;
+        }
 
-
+        public void BindDataManageUsers(List<UserCredentialsDto> users)
+        {
+            dataGridViewManageUsers.DataSource = users;
+        }
 
 
         private void dataGridView1_DownloadButton_CellClick(object? sender, DataGridViewCellEventArgs e)
@@ -761,10 +779,7 @@ namespace DSD_WinformsApp.View
             }
         }
 
-        public void BindDataMainView(List<DocumentDto> documents)
-        {
-            dataGridView1.DataSource = documents;
-        }
+ 
 
         public void ShowDocumentView()
         {
@@ -785,18 +800,45 @@ namespace DSD_WinformsApp.View
 
         private void buttonDocument_Click(object sender, EventArgs e)
         {
+            panelManageUsers.Visible = false; // Hide the Manage Users panel
             panelDocumentButton.Visible = true;
             textBoxSearchBar.Text = ""; // Reset the search bar
             comboBoxCategoryDropdown.SelectedIndex = -1; // Reset the category dropdown
             comboBoxCategoryDropdown.Text = "All Categories"; // Reset the category dropdown
         }
 
-        private void buttonManageUsers_Click(object sender, EventArgs e)
+        private async void  buttonManageUsers_Click(object sender, EventArgs e)
         {
+
             panelDocumentButton.Visible = false;
+            panelManageUsers.Visible = true;
+            panelManageUsers.Controls.Add(dataGridViewManageUsers);
+
+            // Load users using the presenter
+            List<UserCredentialsDto> users = await _presenter.LoadUsers();
+
+            // Set the loaded users as the data source for the DataGridView
+            dataGridViewManageUsers.DataSource = users;
+
+            // Set the datagridviewManageUsers column properties
+            dataGridViewManageUsers.Columns["UserId"].Width = 40;
+            dataGridViewManageUsers.Columns["Firstname"].Width = 80;
+            dataGridViewManageUsers.Columns["Lastname"].Width = 80;
+            dataGridViewManageUsers.Columns["EmailAddress"].Width = 80;
+            dataGridViewManageUsers.Columns["JobTitle"].Width = 80;
+            dataGridViewManageUsers.Columns["CreatedDate"].Width = 80;
+
+            dataGridViewManageUsers.Columns["UserId"].Visible = true;
+            dataGridViewManageUsers.Columns["Firstname"].Visible = true;
+            dataGridViewManageUsers.Columns["Lastname"].Visible = true;
+            dataGridViewManageUsers.Columns["EmailAddress"].Visible = true;
+            dataGridViewManageUsers.Columns["JobTitle"].Visible = true;
+            dataGridViewManageUsers.Columns["CreatedDate"].Visible = true;
+            dataGridViewManageUsers.Columns["Password"].Visible = false;
+
         }
 
-        private void textBoxSearchBar_TextChanged(object sender, EventArgs e)
+        private void textBoxSearchBar_TextChanged(object? sender, EventArgs e)
         {
             ApplyFilters();
         }

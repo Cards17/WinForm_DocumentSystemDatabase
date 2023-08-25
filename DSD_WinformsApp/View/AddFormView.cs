@@ -92,9 +92,9 @@ namespace DSD_WinformsApp.View
         }
 
         // Add method for combo box items from the database
-        private async void CreatedByComboBox()
+        private async Task CreatedByComboBox()
         {
-            var users = await _unitOfWork.Users.GetAllUsers();
+            var users = await _presenter.GetAllRegisteredUsers();
             foreach (var user in users)
             {
                 string fullName = user.Firstname + " " + user.Lastname;

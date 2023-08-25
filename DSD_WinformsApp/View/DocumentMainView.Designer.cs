@@ -44,10 +44,14 @@ namespace DSD_WinformsApp.View
             textBoxSearchBar = new TextBox();
             pictureBox1 = new PictureBox();
             buttonSignOut = new Button();
+            panelManageUsers = new Panel();
+            dataGridViewManageUsers = new DataGridView();
             ((System.ComponentModel.ISupportInitialize)dataGridView1).BeginInit();
             panel1.SuspendLayout();
             panelDocumentButton.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
+            panelManageUsers.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)dataGridViewManageUsers).BeginInit();
             SuspendLayout();
             // 
             // dataGridView1
@@ -171,11 +175,33 @@ namespace DSD_WinformsApp.View
             buttonSignOut.Text = "Sign Out";
             buttonSignOut.UseVisualStyleBackColor = false;
             // 
+            // panelManageUsers
+            // 
+            panelManageUsers.BackColor = Color.FromArgb(165, 215, 232);
+            panelManageUsers.Controls.Add(dataGridViewManageUsers);
+            panelManageUsers.Location = new Point(250, 80);
+            panelManageUsers.Name = "panelManageUsers";
+            panelManageUsers.Size = new Size(1195, 890);
+            panelManageUsers.TabIndex = 4;
+            // 
+            // dataGridViewManageUsers
+            // 
+            dataGridViewManageUsers.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            dataGridViewManageUsers.Location = new Point(20, 225);
+            dataGridViewManageUsers.Name = "dataGridViewManageUsers";
+            dataGridViewManageUsers.RowHeadersVisible = false;
+            dataGridViewManageUsers.RowHeadersWidth = 62;
+            dataGridViewManageUsers.RowTemplate.Height = 33;
+            dataGridViewManageUsers.Size = new Size(1125, 539);
+            dataGridViewManageUsers.TabIndex = 0;
+            // 
             // DocumentMainView
             // 
             AutoScaleDimensions = new SizeF(10F, 25F);
             AutoScaleMode = AutoScaleMode.Font;
+            BackColor = Color.White;
             ClientSize = new Size(1418, 968);
+            Controls.Add(panelManageUsers);
             Controls.Add(buttonSignOut);
             Controls.Add(panel1);
             Controls.Add(panelDocumentButton);
@@ -189,6 +215,8 @@ namespace DSD_WinformsApp.View
             panelDocumentButton.ResumeLayout(false);
             panelDocumentButton.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).EndInit();
+            panelManageUsers.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)dataGridViewManageUsers).EndInit();
             ResumeLayout(false);
         }
 
@@ -196,7 +224,6 @@ namespace DSD_WinformsApp.View
 
         public DataGridView dataGridView1;
         private Panel panel1;
-        private Panel panel2;
         private Button buttonDocument;
         private Button buttonHome;
         private Button buttonManageUsers;
@@ -206,5 +233,7 @@ namespace DSD_WinformsApp.View
         private ComboBox comboBoxCategoryDropdown;
         private Panel panelDocumentButton;
         private Button buttonSignOut;
+        private Panel panelManageUsers;
+        private DataGridView dataGridViewManageUsers;
     }
 }
