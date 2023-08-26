@@ -893,5 +893,10 @@ namespace DSD_WinformsApp.View
             }
 
         }
+
+        private void pictureBox3_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }

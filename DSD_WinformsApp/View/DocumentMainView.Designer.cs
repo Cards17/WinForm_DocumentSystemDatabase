@@ -39,6 +39,8 @@ namespace DSD_WinformsApp.View
             buttonDocument = new Button();
             buttonHome = new Button();
             panelDocumentButton = new Panel();
+            iconNext = new PictureBox();
+            iconBack = new PictureBox();
             comboBoxCategoryDropdown = new ComboBox();
             comboBoxCategory = new ComboBox();
             textBoxSearchBar = new TextBox();
@@ -49,6 +51,8 @@ namespace DSD_WinformsApp.View
             ((System.ComponentModel.ISupportInitialize)dataGridView1).BeginInit();
             panel1.SuspendLayout();
             panelDocumentButton.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)iconNext).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)iconBack).BeginInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
             panelManageUsers.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)dataGridViewManageUsers).BeginInit();
@@ -118,6 +122,8 @@ namespace DSD_WinformsApp.View
             // panelDocumentButton
             // 
             panelDocumentButton.BackColor = Color.FromArgb(165, 215, 232);
+            panelDocumentButton.Controls.Add(iconNext);
+            panelDocumentButton.Controls.Add(iconBack);
             panelDocumentButton.Controls.Add(comboBoxCategoryDropdown);
             panelDocumentButton.Controls.Add(comboBoxCategory);
             panelDocumentButton.Controls.Add(textBoxSearchBar);
@@ -125,6 +131,27 @@ namespace DSD_WinformsApp.View
             panelDocumentButton.Name = "panelDocumentButton";
             panelDocumentButton.Size = new Size(1195, 890);
             panelDocumentButton.TabIndex = 2;
+            // 
+            // iconNext
+            // 
+            iconNext.Image = Properties.Resources.next;
+            iconNext.Location = new Point(1108, 649);
+            iconNext.Name = "iconNext";
+            iconNext.Size = new Size(36, 36);
+            iconNext.SizeMode = PictureBoxSizeMode.Zoom;
+            iconNext.TabIndex = 7;
+            iconNext.TabStop = false;
+            iconNext.Click += pictureBox3_Click;
+            // 
+            // iconBack
+            // 
+            iconBack.Image = Properties.Resources.back;
+            iconBack.Location = new Point(1043, 649);
+            iconBack.Name = "iconBack";
+            iconBack.Size = new Size(36, 36);
+            iconBack.SizeMode = PictureBoxSizeMode.Zoom;
+            iconBack.TabIndex = 6;
+            iconBack.TabStop = false;
             // 
             // comboBoxCategoryDropdown
             // 
@@ -156,7 +183,7 @@ namespace DSD_WinformsApp.View
             // pictureBox1
             // 
             pictureBox1.Cursor = Cursors.Hand;
-            pictureBox1.Image = (Image)resources.GetObject("pictureBox1.Image");
+            pictureBox1.Image = Properties.Resources.plus;
             pictureBox1.Location = new Point(20, 130);
             pictureBox1.Name = "pictureBox1";
             pictureBox1.Size = new Size(40, 40);
@@ -214,6 +241,8 @@ namespace DSD_WinformsApp.View
             panel1.ResumeLayout(false);
             panelDocumentButton.ResumeLayout(false);
             panelDocumentButton.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)iconNext).EndInit();
+            ((System.ComponentModel.ISupportInitialize)iconBack).EndInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).EndInit();
             panelManageUsers.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)dataGridViewManageUsers).EndInit();
@@ -235,5 +264,7 @@ namespace DSD_WinformsApp.View
         private Button buttonSignOut;
         private Panel panelManageUsers;
         private DataGridView dataGridViewManageUsers;
+        private PictureBox iconNext;
+        private PictureBox iconBack;
     }
 }
