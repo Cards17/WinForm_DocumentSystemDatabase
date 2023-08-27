@@ -21,6 +21,14 @@ namespace DSD_WinformsApp.View
         private readonly IDocumentPresenter _presenter;
         private bool isNewFileUploaded = false;
 
+
+        private int currentPage = 1;
+        private int itemsPerPage =10;
+
+        // Initial values for search query and category filter
+        private string currentSearchQuery = "";
+        private string currentFilterCategory = "";
+
         public DocumentMainView(IUnitOfWork unitOfWork)
         {
             InitializeComponent();
@@ -29,14 +37,18 @@ namespace DSD_WinformsApp.View
 
             // Attach the FormClosing event handler
             this.FormClosing += DocumentViewForm_FormClosing;
+
+            textBoxSearchBar.TextChanged += textBoxSearchBar_TextChanged;
+            comboBoxCategory.TextChanged += comboBoxCategoryDropdown_SelectedIndexChanged;
         }
 
         private async void DocumentView_Load_1(object sender, EventArgs e)
         {
-            #region Document Page Properties
-            // Loads all documents list from data source.
-            await _presenter.LoadDocuments();
+            await _presenter.LoadDocumentsByFilter(currentSearchQuery, currentFilterCategory);
 
+            iconNext.Click += pictureBox3_Click;
+            iconBack.Click += iconBack_Click;
+            #region Document Page Properties
 
             panelManageUsers.Visible = false; // Hide the panelManageUsers initially
 
@@ -44,8 +56,12 @@ namespace DSD_WinformsApp.View
             panelDocumentButton.Controls.Add(pictureBox1);
             panelDocumentButton.Controls.Add(dataGridView1);
 
-            // Create instance for comboBoxCategoryDropdown items
+            textBoxSearchBar.Height = 100;
+            textBoxSearchBar.Padding = new Padding(5);
+            //set default text value for search bar when calling database
+            textBoxSearchBar.Text = "";
 
+            // Create instance for comboBoxCategoryDropdown items
             comboBoxCategoryDropdown.Items.Add("All Categories");
             comboBoxCategoryDropdown.Items.Add("Board Resolutions");
             comboBoxCategoryDropdown.Items.Add("Canteen Policies");
@@ -56,8 +72,8 @@ namespace DSD_WinformsApp.View
             comboBoxCategoryDropdown.SelectedIndex = 0; // Set the default value to "Select Category"
 
 
-            textBoxSearchBar.Height = 100;
-            textBoxSearchBar.Padding = new Padding(5);
+           
+            
 
 
             // Define the column width from documentmodel
@@ -816,8 +832,8 @@ namespace DSD_WinformsApp.View
             panelManageUsers.Visible = false; // Hide the Manage Users panel
             panelDocumentButton.Visible = true;
             textBoxSearchBar.Text = ""; // Reset the search bar
-            comboBoxCategoryDropdown.SelectedIndex = -1; // Reset the category dropdown
-            comboBoxCategoryDropdown.Text = "All Categories"; // Reset the category dropdown
+            comboBoxCategoryDropdown.SelectedIndex = 0; // Reset the category dropdown
+            //comboBoxCategoryDropdown.Text = "All Categories"; // Reset the category dropdown
         }
 
         private async void buttonManageUsers_Click(object sender, EventArgs e)
@@ -866,10 +882,6 @@ namespace DSD_WinformsApp.View
             dataGridViewManageUsers.Columns["JobTitle"].HeaderText = "Job Title";
             dataGridViewManageUsers.Columns["CreatedDate"].HeaderText = "Created Date";
 
-
-
-
-
         }
 
         private void textBoxSearchBar_TextChanged(object? sender, EventArgs e)
@@ -877,26 +889,42 @@ namespace DSD_WinformsApp.View
             ApplyFilters();
         }
 
-        private void comboBoxCategoryDropdown_SelectedIndexChanged(object sender, EventArgs e)
+        private void comboBoxCategoryDropdown_SelectedIndexChanged(object? sender, EventArgs e)
         {
             ApplyFilters();
         }
 
         private void ApplyFilters()
         {
-            string searchQuery = textBoxSearchBar.Text.Trim();
-            string? filterCategory = comboBoxCategoryDropdown.SelectedItem?.ToString();
-
-            if (!string.IsNullOrEmpty(filterCategory))
-            {
-                _presenter.SearchDocuments(searchQuery, filterCategory);
-            }
+            _presenter.ApplyFilters();
 
         }
 
-        private void pictureBox3_Click(object sender, EventArgs e)
+        private void pictureBox3_Click(object? sender, EventArgs e)
         {
-
+  
+            _presenter.NextPage();
         }
+
+        private void iconBack_Click(object? sender, EventArgs e)
+        {
+            _presenter.PreviousPage();
+        }
+
+        // Implement the IMainDocumentView interface methods
+        public string GetSearchQuery()
+        {
+            return textBoxSearchBar.Text.Trim()?? string.Empty;
+        }
+
+        public string GetFilterCategory()
+        {
+            return comboBoxCategoryDropdown.SelectedItem?.ToString()?? string.Empty;
+        }
+
+
+
+
+
     }
 }

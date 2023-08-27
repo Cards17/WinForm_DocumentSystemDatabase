@@ -20,6 +20,17 @@ namespace DSD_WinformsApp.Presenter
         private readonly IDocumentRepository _documentRepository;
         private readonly IBackUpFileRepository _backUpFileRepository;
         private readonly IUserRepository _userRepository;
+
+        private List<DocumentDto> allDocuments = null!;
+        private int currentPage = 1;
+        private int itemsPerPage = 10;
+
+        // Filters
+        // Initial values for search query and category filter
+        private string currentSearchQuery = "";
+        private string currentFilterCategory = "";
+        private List<DocumentDto> filteredDocuments = new List<DocumentDto>();
+
         public DocumentPresenter(IDocumentView mainDocumentView, IDocumentRepository documentRepository, IBackUpFileRepository backUpFileRepository, IUserRepository userRepository)
         {
             _mainDocumentView = mainDocumentView;
@@ -36,6 +47,56 @@ namespace DSD_WinformsApp.Presenter
             _mainDocumentView.BindDataMainView(documents);
         }
 
+        public async Task LoadDocumentsByFilter(string currentSearchQuery, string currentFilterCategory)
+        {
+            allDocuments = await _documentRepository.GetFilteredDocuments(currentSearchQuery, currentFilterCategory);
+            _mainDocumentView.BindDataMainView(allDocuments);
+        }
+
+        private void SetCurrentPageData()
+        {
+
+            int startIndex = (currentPage - 1) * itemsPerPage;
+            int endIndex = Math.Min(startIndex + itemsPerPage, filteredDocuments.Count);
+
+            var currentPageDocuments = filteredDocuments.Skip(startIndex).Take(endIndex - startIndex).ToList();
+            _mainDocumentView.BindDataMainView(currentPageDocuments);
+        }
+
+        public void NextPage()
+        {
+
+            if (currentPage * itemsPerPage < allDocuments.Count)
+            {
+                currentPage++;
+                SetCurrentPageData();
+            }
+        }
+
+        public void PreviousPage()
+        {
+            if (currentPage > 1)
+            {
+                currentPage--;
+                SetCurrentPageData();
+            }
+        }
+
+        public async void ApplyFilters()
+        {
+            currentSearchQuery = _mainDocumentView.GetSearchQuery().Trim()?? string.Empty;
+            currentFilterCategory = _mainDocumentView.GetFilterCategory() ?? string.Empty;
+
+            currentPage = 1; // Reset the page when applying filters
+
+            // Get the filtered documents
+            filteredDocuments = await _documentRepository.GetFilteredDocuments(currentSearchQuery, currentFilterCategory);
+            SetCurrentPageData();
+
+        }
+
+
+
         public void SaveDocument(DocumentDto document, byte[] fileDataBytes)
         {
             // Set the file data to the DocumentDto
@@ -50,33 +111,14 @@ namespace DSD_WinformsApp.Presenter
             _documentRepository.EditDocument(document.Id, document); // Pass fileDataBytes to the repository
         }
 
-        public async Task<bool> DeleteBackUpFile(BackUpFileDto file)
-        {
-            try
-            {
-                // Delete the document using the repository
-                bool isDeleted = await _backUpFileRepository.DeleteBackupFiles(file.Id);
-
-                if (isDeleted)
-                {
-                    return true;
-                }
-                else
-                {
-                    return false;
-                }
-            }
-            catch (Exception)
-            {
-                return false;
-            }
-        }
+      
 
         public async Task SearchDocuments(string filterCriteria, string searchQuery)
         {
             List<DocumentDto> filteredDocuments = await _documentRepository.GetFilteredDocuments(searchQuery, filterCriteria);
             _mainDocumentView.BindDataMainView(filteredDocuments);
         }
+
 
 
         //BackUpFileRepository methods
@@ -96,6 +138,28 @@ namespace DSD_WinformsApp.Presenter
                 bool isDeleted = await _documentRepository.DeleteDocument(document.Id);
 
                 return isDeleted;
+            }
+            catch (Exception)
+            {
+                return false;
+            }
+        }
+
+        public async Task<bool> DeleteBackUpFile(BackUpFileDto file)
+        {
+            try
+            {
+                // Delete the document using the repository
+                bool isDeleted = await _backUpFileRepository.DeleteBackupFiles(file.Id);
+
+                if (isDeleted)
+                {
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
             }
             catch (Exception)
             {

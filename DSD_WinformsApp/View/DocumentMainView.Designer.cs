@@ -152,6 +152,7 @@ namespace DSD_WinformsApp.View
             iconBack.SizeMode = PictureBoxSizeMode.Zoom;
             iconBack.TabIndex = 6;
             iconBack.TabStop = false;
+            iconBack.Click += iconBack_Click;
             // 
             // comboBoxCategoryDropdown
             // 

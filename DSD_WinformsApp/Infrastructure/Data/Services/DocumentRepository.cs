@@ -37,7 +37,7 @@ namespace DSD_WinformsApp.Infrastructure.Data.Services
         {
             var documentModel = _mapper.Map<DocumentDto, DocumentModel>(document);
             var fileName = document.Filename; // Retain the original file name
-            var filePath = Path.Combine(@"C:\Users\ricardo.piquero.jr\source\repos\DSD Solution v3.0\DSD_WinformsApp\Resources\UploadedFiles", fileName);
+            var filePath = Path.Combine(@"C:\Users\ricardo.piquero.jr\source\repos\DSD Solution v6.1\DSD_WinformsApp\Resources\UploadedFiles", fileName);
 
             // Save the file to the server
             File.WriteAllBytes(filePath, fileDataBytes);
@@ -105,7 +105,7 @@ namespace DSD_WinformsApp.Infrastructure.Data.Services
                 // versioning
                 //var currentVersion = _dbContext.BackupFiles.Where(x => x.Id == existingDocument.Id).Max(x => x.Version);
 
-                var backupFolderPath = Path.Combine(@"C:\Users\ricardo.piquero.jr\source\repos\DSD Solution v3.0\DSD_WinformsApp\Resources\BackupFiles");
+                var backupFolderPath = Path.Combine(@"C:\Users\ricardo.piquero.jr\source\repos\DSD Solution v6.1\DSD_WinformsApp\Resources\BackupFiles");
                 if (!Directory.Exists(backupFolderPath))
                 {
                     Directory.CreateDirectory(backupFolderPath);
@@ -144,7 +144,7 @@ namespace DSD_WinformsApp.Infrastructure.Data.Services
             if (updatedDocument.FileData != null)
             {
                 var fileName = Path.GetFileName(updatedDocument.Filename);
-                var filePath = Path.Combine(@"C:\Users\ricardo.piquero.jr\source\repos\DSD Solution v3.0\DSD_WinformsApp\Resources\UploadedFiles", fileName);
+                var filePath = Path.Combine(@"C:\Users\ricardo.piquero.jr\source\repos\DSD Solution v6.1\DSD_WinformsApp\Resources\UploadedFiles", fileName);
                 // Save the updated file to the server
                 File.WriteAllBytes(filePath, updatedDocument.FileData);
 
@@ -157,17 +157,26 @@ namespace DSD_WinformsApp.Infrastructure.Data.Services
             return true;
         }
 
-        public async Task<List<DocumentDto>> GetFilteredDocuments(string filterCriteria, string searchQuery)
+        public async Task<List<DocumentDto>> GetFilteredDocuments(string searchQuery, string filterCriteria)
         {
+            // add condition for search and filter was empty or null
+
+
             var allDocuments = await _dbContext.Documents.ToListAsync();
+            var categoryFilter = GetFilterCategories(filterCriteria);
+            var searchFilter = searchQuery ?? "";
+
             var filteredDocuments = allDocuments
                 .Where(document =>
-                    GetFilterCategories(filterCriteria)(document.Category) &&
-                    document.Filename.Contains(searchQuery, StringComparison.OrdinalIgnoreCase))
+                    (string.IsNullOrEmpty(searchFilter) || document.Filename.Contains(searchFilter, StringComparison.OrdinalIgnoreCase)) &&
+                    (string.IsNullOrEmpty(filterCriteria) || categoryFilter(document.Category)))
                 .ToList();
 
             var documents = _mapper.Map<List<DocumentModel>, List<DocumentDto>>(filteredDocuments);
             return documents;
+
+
+
         }
 
         private Func<string, bool> GetFilterCategories(string filterCriteria)
@@ -192,6 +201,7 @@ namespace DSD_WinformsApp.Infrastructure.Data.Services
                     return category => true; // Show all documents for "Select Category" and other cases
             }
         }
+
 
 
     }

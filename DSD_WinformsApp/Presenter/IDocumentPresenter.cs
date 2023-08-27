@@ -9,6 +9,11 @@ namespace DSD_WinformsApp.Presenter
         void EditDocument(DocumentDto document, byte[] fileDataBytes);
         Task<List<BackUpFileDto>> GetRelatedBackupFiles(int documentId);
         Task LoadDocuments();
+        Task LoadDocumentsByFilter(string currentSearchQuery, string currentFilterCategory);
+        void NextPage();
+        void PreviousPage();
+        void ApplyFilters();
+
         void SaveDocument(DocumentDto document, byte[] fileDataBytes);
         Task SearchDocuments(string filterCriteria, string searchQuery);
 
