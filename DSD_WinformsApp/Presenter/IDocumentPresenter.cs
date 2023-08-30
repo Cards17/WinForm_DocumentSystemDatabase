@@ -12,8 +12,7 @@ namespace DSD_WinformsApp.Presenter
         Task LoadDocumentsByFilter(string currentSearchQuery, string currentFilterCategory);
         void NextPage();
         void PreviousPage();
-        void ApplyFilters();
-
+        Task ApplyFilters();
         void SaveDocument(DocumentDto document, byte[] fileDataBytes);
         Task SearchDocuments(string filterCriteria, string searchQuery);
 

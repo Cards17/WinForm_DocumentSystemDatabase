@@ -82,7 +82,7 @@ namespace DSD_WinformsApp.Presenter
             }
         }
 
-        public async void ApplyFilters()
+        public async Task ApplyFilters()
         {
             currentSearchQuery = _mainDocumentView.GetSearchQuery().Trim()?? string.Empty;
             currentFilterCategory = _mainDocumentView.GetFilterCategory() ?? string.Empty;

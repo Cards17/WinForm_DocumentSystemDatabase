@@ -894,9 +894,9 @@ namespace DSD_WinformsApp.View
             ApplyFilters();
         }
 
-        private void ApplyFilters()
+        private  void ApplyFilters()
         {
-            _presenter.ApplyFilters();
+           _presenter.ApplyFilters();
 
         }
 
