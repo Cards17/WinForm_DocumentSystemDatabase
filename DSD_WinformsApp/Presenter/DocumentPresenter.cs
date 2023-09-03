@@ -25,7 +25,6 @@ namespace DSD_WinformsApp.Presenter
         private int currentPage = 1;
         private int itemsPerPage = 10;
 
-        // Filters
         // Initial values for search query and category filter
         private string currentSearchQuery = "";
         private string currentFilterCategory = "";
@@ -40,6 +39,7 @@ namespace DSD_WinformsApp.Presenter
 
         }
 
+
         // DocumentRepository methods
         public async Task LoadDocuments()
         {
@@ -53,8 +53,27 @@ namespace DSD_WinformsApp.Presenter
             _mainDocumentView.BindDataMainView(allDocuments);
         }
 
+        #region Pagination Methods
+        public void AddNewDocument(DocumentDto newDocument)
+        {
+            filteredDocuments.Add(newDocument);
+            SetCurrentPageData();
+        }
+
+        //private void SetCurrentPageData()
+        //{
+
+        //    int startIndex = (currentPage - 1) * itemsPerPage;
+        //    int endIndex = Math.Min(startIndex + itemsPerPage, filteredDocuments.Count);
+
+        //    var currentPageDocuments = filteredDocuments.Skip(startIndex).Take(endIndex - startIndex).ToList();
+        //    _mainDocumentView.BindDataMainView(currentPageDocuments);
+        //}
+
         private void SetCurrentPageData()
         {
+            // Ensure currentPage is within valid bounds
+            currentPage = Math.Max(1, Math.Min(currentPage, TotalPages()));
 
             int startIndex = (currentPage - 1) * itemsPerPage;
             int endIndex = Math.Min(startIndex + itemsPerPage, filteredDocuments.Count);
@@ -63,13 +82,20 @@ namespace DSD_WinformsApp.Presenter
             _mainDocumentView.BindDataMainView(currentPageDocuments);
         }
 
+        private int TotalPages()
+        {
+            return (int)Math.Ceiling((double)filteredDocuments.Count / itemsPerPage);
+        }
+
+
         public void NextPage()
         {
 
-            if (currentPage * itemsPerPage < allDocuments.Count)
+            if (currentPage * itemsPerPage < filteredDocuments.Count)
             {
                 currentPage++;
                 SetCurrentPageData();
+
             }
         }
 
@@ -96,6 +122,8 @@ namespace DSD_WinformsApp.Presenter
         }
 
 
+
+        #endregion
 
         public void SaveDocument(DocumentDto document, byte[] fileDataBytes)
         {

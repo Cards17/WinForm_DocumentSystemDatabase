@@ -22,12 +22,18 @@ namespace DSD_WinformsApp.View
 
         private string selectedFilePath = null!; // Class-level variable to store the selected file path
 
+        private string currentSearchQuery = "";
+        private string currentFilterCategory = "";
+
+
+
 
         public AddFormView(IUnitOfWork unitOfWork, IDocumentPresenter presenter)
         {
             InitializeComponent();
             _unitOfWork = unitOfWork;
             _presenter = presenter;
+
 
             MaximizeBox = false; // Remove the maximize box
             MinimizeBox = false; // Remove the minimize box
@@ -38,6 +44,7 @@ namespace DSD_WinformsApp.View
             StatusComboBox();
             CategoryComboBox();
             CreatedByComboBox();
+           
         }
 
 
@@ -69,6 +76,8 @@ namespace DSD_WinformsApp.View
             cmbCategories.SelectedIndexChanged += Control_SelectedIndexChanged;
             comboBoxCreatedBy.SelectedIndexChanged += Control_SelectedIndexChanged;
             cmbStatus.SelectedIndexChanged += Control_SelectedIndexChanged;
+
+
 
         }
 
@@ -102,6 +111,7 @@ namespace DSD_WinformsApp.View
             }
         }
 
+
         private async void btnSave_Click(object? sender, EventArgs e)
         {
             // Check if a file is selected
@@ -118,19 +128,21 @@ namespace DSD_WinformsApp.View
             var documentDto = new DocumentDto
             {
                 Filename = labelFilename.Text,
-                Category = cmbCategories.SelectedItem?.ToString() ?? "Select Category",
-                Status = cmbStatus.SelectedItem?.ToString() ?? "Select Status",
+                Category = cmbCategories.SelectedItem?.ToString() ?? "",
+                Status = cmbStatus.SelectedItem?.ToString() ?? "",
                 Notes = txtBoxNotes.Text,
-                CreatedBy = comboBoxCreatedBy.SelectedItem?.ToString() ?? "Select Creator",
+                CreatedBy = comboBoxCreatedBy.SelectedItem?.ToString() ?? "",
                 CreatedDate = DateTime.Now.Date,
                 ModifiedDate = DateTime.Now.Date,
             };
-
             // Use the presenter to save the document with file data
             _presenter.SaveDocument(documentDto, fileDataBytes);
 
+            // Inform the presenter about the new document
+            _presenter.AddNewDocument(documentDto);
+
             // Load the documents again to update the view
-            await _presenter.LoadDocuments();
+            await _presenter.LoadDocumentsByFilter(currentSearchQuery, currentFilterCategory);
 
             // Close the form and return DialogResult.OK
             DialogResult = DialogResult.OK;
@@ -167,7 +179,6 @@ namespace DSD_WinformsApp.View
             labelFilename.Visible = true;
 
         }
-
 
 
         private void Control_TextChanged(object? sender, EventArgs e)

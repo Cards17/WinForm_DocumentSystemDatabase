@@ -8,6 +8,7 @@ namespace DSD_WinformsApp.View
     {
         void BindDataMainView(List<DocumentDto> documents);
         void BindDataManageUsers(List<UserCredentialsDto> users);
+       // void UpdatePaginationControls(int currentPage, int totalPageCount);
         void ShowDocumentView();
         string GetSearchQuery();
         string GetFilterCategory();

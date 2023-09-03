@@ -19,11 +19,12 @@ namespace DSD_WinformsApp.View
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly IDocumentPresenter _presenter;
+
         private bool isNewFileUploaded = false;
 
 
         private int currentPage = 1;
-        private int itemsPerPage =10;
+        private int itemsPerPage = 10;
 
         // Initial values for search query and category filter
         private string currentSearchQuery = "";
@@ -34,6 +35,7 @@ namespace DSD_WinformsApp.View
             InitializeComponent();
             _unitOfWork = unitOfWork;
             _presenter = new DocumentPresenter(this, _unitOfWork.Documents, _unitOfWork.BackUpFiles, _unitOfWork.Users);
+
 
             // Attach the FormClosing event handler
             this.FormClosing += DocumentViewForm_FormClosing;
@@ -72,8 +74,8 @@ namespace DSD_WinformsApp.View
             comboBoxCategoryDropdown.SelectedIndex = 0; // Set the default value to "Select Category"
 
 
-           
-            
+
+
 
 
             // Define the column width from documentmodel
@@ -794,17 +796,27 @@ namespace DSD_WinformsApp.View
             }
         }
 
-        private void button1_Click(object sender, EventArgs e)
-        {
 
-        }
 
         private void pictureBox1_Click(object sender, EventArgs e)
         {
+            // if set combo box to index 0 but when its already at index 0, it will go to index -1
+            if (comboBoxCategoryDropdown.SelectedIndex == 0)
+            {
+                comboBoxCategoryDropdown.SelectedIndex = -1;
+            }
+            else
+            {
+                comboBoxCategoryDropdown.SelectedIndex = 0;
+            }
+
+            textBoxSearchBar.Text = ""; // Clear the search bar
+
             using (AddFormView newForm = new AddFormView(_unitOfWork, _presenter))
             {
                 newForm.StartPosition = FormStartPosition.CenterParent;
                 newForm.ShowDialog();
+                comboBoxCategoryDropdown.SelectedIndex = 0;
             }
         }
 
@@ -827,13 +839,19 @@ namespace DSD_WinformsApp.View
             }
         }
 
+        private void buttonHome_Click(object sender, EventArgs e)
+        {
+            panelHome.Visible = true;
+            panelDocumentButton.Visible = false;
+            panelManageUsers.Visible = false;
+
+        }
+
         private void buttonDocument_Click(object sender, EventArgs e)
         {
             panelManageUsers.Visible = false; // Hide the Manage Users panel
+            panelHome.Visible = false; // Hide the Home panel
             panelDocumentButton.Visible = true;
-            textBoxSearchBar.Text = ""; // Reset the search bar
-            comboBoxCategoryDropdown.SelectedIndex = 0; // Reset the category dropdown
-            //comboBoxCategoryDropdown.Text = "All Categories"; // Reset the category dropdown
         }
 
         private async void buttonManageUsers_Click(object sender, EventArgs e)
@@ -841,6 +859,7 @@ namespace DSD_WinformsApp.View
             await _presenter.LoadUsers();
 
             panelDocumentButton.Visible = false;
+            panelHome.Visible = false;
             panelManageUsers.Visible = true;
             panelManageUsers.Controls.Add(dataGridViewManageUsers);
 
@@ -894,15 +913,15 @@ namespace DSD_WinformsApp.View
             ApplyFilters();
         }
 
-        private  void ApplyFilters()
+        private void ApplyFilters()
         {
-           _presenter.ApplyFilters();
+            _presenter.ApplyFilters();
 
         }
 
         private void pictureBox3_Click(object? sender, EventArgs e)
         {
-  
+
             _presenter.NextPage();
         }
 
@@ -911,15 +930,16 @@ namespace DSD_WinformsApp.View
             _presenter.PreviousPage();
         }
 
+
         // Implement the IMainDocumentView interface methods
         public string GetSearchQuery()
         {
-            return textBoxSearchBar.Text.Trim()?? string.Empty;
+            return textBoxSearchBar.Text.Trim() ?? string.Empty;
         }
 
         public string GetFilterCategory()
         {
-            return comboBoxCategoryDropdown.SelectedItem?.ToString()?? string.Empty;
+            return comboBoxCategoryDropdown.SelectedItem?.ToString() ?? string.Empty;
         }
 
 

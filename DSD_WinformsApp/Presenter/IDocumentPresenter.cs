@@ -8,11 +8,15 @@ namespace DSD_WinformsApp.Presenter
         Task<bool> DeleteDocumentWithBackups(DocumentDto document);
         void EditDocument(DocumentDto document, byte[] fileDataBytes);
         Task<List<BackUpFileDto>> GetRelatedBackupFiles(int documentId);
+
+        // Document Repository methods
+        void AddNewDocument(DocumentDto newDocument);
         Task LoadDocuments();
         Task LoadDocumentsByFilter(string currentSearchQuery, string currentFilterCategory);
         void NextPage();
         void PreviousPage();
         Task ApplyFilters();
+
         void SaveDocument(DocumentDto document, byte[] fileDataBytes);
         Task SearchDocuments(string filterCriteria, string searchQuery);
 

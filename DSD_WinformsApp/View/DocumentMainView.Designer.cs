@@ -44,6 +44,7 @@ namespace DSD_WinformsApp.View
             comboBoxCategoryDropdown = new ComboBox();
             comboBoxCategory = new ComboBox();
             textBoxSearchBar = new TextBox();
+            panelHome = new Panel();
             pictureBox1 = new PictureBox();
             buttonSignOut = new Button();
             panelManageUsers = new Panel();
@@ -66,6 +67,8 @@ namespace DSD_WinformsApp.View
             dataGridView1.RowHeadersVisible = false;
             dataGridView1.RowHeadersWidth = 62;
             dataGridView1.RowTemplate.Height = 33;
+            dataGridView1.RowTemplate.Resizable = DataGridViewTriState.False; // Disable row resizing
+            dataGridView1.ScrollBars = ScrollBars.None; // Disable scroll bars
             dataGridView1.Size = new Size(1125, 366);
             dataGridView1.TabIndex = 0;
             // 
@@ -117,7 +120,7 @@ namespace DSD_WinformsApp.View
             buttonHome.TabIndex = 0;
             buttonHome.Text = "Home";
             buttonHome.UseVisualStyleBackColor = false;
-            buttonHome.Click += button1_Click;
+            buttonHome.Click += buttonHome_Click;
             // 
             // panelDocumentButton
             // 
@@ -161,7 +164,7 @@ namespace DSD_WinformsApp.View
             comboBoxCategoryDropdown.Name = "comboBoxCategoryDropdown";
             comboBoxCategoryDropdown.Size = new Size(250, 33);
             comboBoxCategoryDropdown.TabIndex = 5;
-            comboBoxCategoryDropdown.Text = "All Categories";
+            comboBoxCategoryDropdown.Text = "All Category Options";
             comboBoxCategoryDropdown.SelectedIndexChanged += comboBoxCategoryDropdown_SelectedIndexChanged;
             // 
             // comboBoxCategory
@@ -180,6 +183,14 @@ namespace DSD_WinformsApp.View
             textBoxSearchBar.Size = new Size(250, 31);
             textBoxSearchBar.TabIndex = 3;
             textBoxSearchBar.TextChanged += textBoxSearchBar_TextChanged;
+            // 
+            // panelHome
+            // 
+            panelHome.BackColor = Color.FromArgb(165, 215, 232);
+            panelHome.Location = new Point(250, 80);
+            panelHome.Name = "panelHome";
+            panelHome.Size = new Size(1195, 890);
+            panelHome.TabIndex = 8;
             // 
             // pictureBox1
             // 
@@ -231,9 +242,10 @@ namespace DSD_WinformsApp.View
             ClientSize = new Size(1418, 968);
             Controls.Add(buttonSignOut);
             Controls.Add(panel1);
+            Controls.Add(panelHome);
             Controls.Add(panelDocumentButton);
-            Controls.Add(dataGridView1);
             Controls.Add(panelManageUsers);
+            Controls.Add(dataGridView1);
             Icon = (Icon)resources.GetObject("$this.Icon");
             Name = "DocumentMainView";
             Text = "Main Page";
@@ -267,5 +279,6 @@ namespace DSD_WinformsApp.View
         private DataGridView dataGridViewManageUsers;
         private PictureBox iconNext;
         private PictureBox iconBack;
+        private Panel panelHome;
     }
 }
