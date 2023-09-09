@@ -7,6 +7,8 @@ namespace DSD_WinformsApp.Infrastructure.Data.Services
         Task<List<UserCredentialsDto>> GetAllUsers();
         void RegisterUser(UserCredentialsDto userCredentials);
         Task<UserCredentialsDto?> GetUserByEmail(string emailAddress);
-       
+        Task<bool> DeleteUser(int userId);
+
+
     }
 }

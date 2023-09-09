@@ -44,11 +44,32 @@ namespace DSD_WinformsApp.View
             comboBoxCategoryDropdown = new ComboBox();
             comboBoxCategory = new ComboBox();
             textBoxSearchBar = new TextBox();
-            panelHome = new Panel();
             pictureBox1 = new PictureBox();
             buttonSignOut = new Button();
             panelManageUsers = new Panel();
+            textBoxUsersSearchBox = new TextBox();
+            pictureBoxUsersNextIcon = new PictureBox();
+            pictureBoxUsersBackIcon = new PictureBox();
             dataGridViewManageUsers = new DataGridView();
+            panelUserDetails = new Panel();
+            panelUserDetails2 = new Panel();
+            textBoxUserEmailAdd = new TextBox();
+            textBoxUserJobTitle = new TextBox();
+            textBoxUserLastName = new TextBox();
+            textBoxUserFirstName = new TextBox();
+            textBoxID = new TextBox();
+            pictureBoxUserProfile = new PictureBox();
+            labelUserId = new Label();
+            labelFirstName = new Label();
+            labelLastName = new Label();
+            labelJobTitle = new Label();
+            labelEmailAddress = new Label();
+            panelHome = new Panel();
+
+            buttonUserDetailsSave = new CustomButton(ColorTranslator.FromHtml("#05982E"), SystemColors.Control);
+            buttonCloseUser = new CustomButton(ColorTranslator.FromHtml("#DA0B0B"), SystemColors.Control);
+            buttonEditUser = new CustomButton(ColorTranslator.FromHtml("#A5D7E8"), SystemColors.Control);
+
             ((System.ComponentModel.ISupportInitialize)dataGridView1).BeginInit();
             panel1.SuspendLayout();
             panelDocumentButton.SuspendLayout();
@@ -56,7 +77,12 @@ namespace DSD_WinformsApp.View
             ((System.ComponentModel.ISupportInitialize)iconBack).BeginInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
             panelManageUsers.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)pictureBoxUsersNextIcon).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)pictureBoxUsersBackIcon).BeginInit();
             ((System.ComponentModel.ISupportInitialize)dataGridViewManageUsers).BeginInit();
+            panelUserDetails.SuspendLayout();
+            panelUserDetails2.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)pictureBoxUserProfile).BeginInit();
             SuspendLayout();
             // 
             // dataGridView1
@@ -67,8 +93,8 @@ namespace DSD_WinformsApp.View
             dataGridView1.RowHeadersVisible = false;
             dataGridView1.RowHeadersWidth = 62;
             dataGridView1.RowTemplate.Height = 33;
-            dataGridView1.RowTemplate.Resizable = DataGridViewTriState.False; // Disable row resizing
-            dataGridView1.ScrollBars = ScrollBars.None; // Disable scroll bars
+            dataGridView1.RowTemplate.Resizable = DataGridViewTriState.False;
+            dataGridView1.ScrollBars = ScrollBars.None;
             dataGridView1.Size = new Size(1125, 366);
             dataGridView1.TabIndex = 0;
             // 
@@ -137,8 +163,9 @@ namespace DSD_WinformsApp.View
             // 
             // iconNext
             // 
+            iconNext.Cursor = Cursors.Hand;
             iconNext.Image = Properties.Resources.next;
-            iconNext.Location = new Point(1108, 649);
+            iconNext.Location = new Point(1110, 650);
             iconNext.Name = "iconNext";
             iconNext.Size = new Size(36, 36);
             iconNext.SizeMode = PictureBoxSizeMode.Zoom;
@@ -148,8 +175,9 @@ namespace DSD_WinformsApp.View
             // 
             // iconBack
             // 
+            iconBack.Cursor = Cursors.Hand;
             iconBack.Image = Properties.Resources.back;
-            iconBack.Location = new Point(1043, 649);
+            iconBack.Location = new Point(1040, 650);
             iconBack.Name = "iconBack";
             iconBack.Size = new Size(36, 36);
             iconBack.SizeMode = PictureBoxSizeMode.Zoom;
@@ -184,14 +212,6 @@ namespace DSD_WinformsApp.View
             textBoxSearchBar.TabIndex = 3;
             textBoxSearchBar.TextChanged += textBoxSearchBar_TextChanged;
             // 
-            // panelHome
-            // 
-            panelHome.BackColor = Color.FromArgb(165, 215, 232);
-            panelHome.Location = new Point(250, 80);
-            panelHome.Name = "panelHome";
-            panelHome.Size = new Size(1195, 890);
-            panelHome.TabIndex = 8;
-            // 
             // pictureBox1
             // 
             pictureBox1.Cursor = Cursors.Hand;
@@ -217,11 +237,42 @@ namespace DSD_WinformsApp.View
             // panelManageUsers
             // 
             panelManageUsers.BackColor = Color.FromArgb(165, 215, 232);
+            panelManageUsers.Controls.Add(textBoxUsersSearchBox);
+            panelManageUsers.Controls.Add(pictureBoxUsersNextIcon);
+            panelManageUsers.Controls.Add(pictureBoxUsersBackIcon);
             panelManageUsers.Controls.Add(dataGridViewManageUsers);
             panelManageUsers.Location = new Point(250, 80);
             panelManageUsers.Name = "panelManageUsers";
             panelManageUsers.Size = new Size(1195, 890);
             panelManageUsers.TabIndex = 4;
+            // 
+            // textBoxUsersSearchBox
+            // 
+            textBoxUsersSearchBox.Location = new Point(890, 130);
+            textBoxUsersSearchBox.Name = "textBoxUsersSearchBox";
+            textBoxUsersSearchBox.PlaceholderText = "Search User Name";
+            textBoxUsersSearchBox.Size = new Size(250, 31);
+            textBoxUsersSearchBox.TabIndex = 3;
+            // 
+            // pictureBoxUsersNextIcon
+            // 
+            pictureBoxUsersNextIcon.Image = Properties.Resources.next;
+            pictureBoxUsersNextIcon.Location = new Point(1110, 650);
+            pictureBoxUsersNextIcon.Name = "pictureBoxUsersNextIcon";
+            pictureBoxUsersNextIcon.Size = new Size(36, 36);
+            pictureBoxUsersNextIcon.SizeMode = PictureBoxSizeMode.CenterImage;
+            pictureBoxUsersNextIcon.TabIndex = 2;
+            pictureBoxUsersNextIcon.TabStop = false;
+            // 
+            // pictureBoxUsersBackIcon
+            // 
+            pictureBoxUsersBackIcon.Image = Properties.Resources.back;
+            pictureBoxUsersBackIcon.Location = new Point(1040, 650);
+            pictureBoxUsersBackIcon.Name = "pictureBoxUsersBackIcon";
+            pictureBoxUsersBackIcon.Size = new Size(32, 32);
+            pictureBoxUsersBackIcon.SizeMode = PictureBoxSizeMode.AutoSize;
+            pictureBoxUsersBackIcon.TabIndex = 1;
+            pictureBoxUsersBackIcon.TabStop = false;
             // 
             // dataGridViewManageUsers
             // 
@@ -232,7 +283,166 @@ namespace DSD_WinformsApp.View
             dataGridViewManageUsers.RowHeadersWidth = 62;
             dataGridViewManageUsers.RowTemplate.Height = 33;
             dataGridViewManageUsers.Size = new Size(1125, 366);
+            dataGridViewManageUsers.Cursor = Cursors.Hand;
             dataGridViewManageUsers.TabIndex = 0;
+            // 
+            // panelUserDetails
+            // 
+            panelUserDetails.BackColor = Color.FromArgb(165, 215, 232);
+            panelUserDetails.Controls.Add(panelUserDetails2);
+            panelUserDetails.Location = new Point(250, 80);
+            panelUserDetails.Name = "panelUserDetails";
+            panelUserDetails.Size = new Size(1195, 890);
+            panelUserDetails.TabIndex = 0;
+            // 
+            // panelUserDetails2
+            // 
+            panelUserDetails2.BackColor = Color.White;
+            panelUserDetails2.Controls.Add(buttonUserDetailsSave);
+            panelUserDetails2.Controls.Add(buttonCloseUser);
+            panelUserDetails2.Controls.Add(buttonEditUser);
+            panelUserDetails2.Controls.Add(textBoxUserEmailAdd);
+            panelUserDetails2.Controls.Add(textBoxUserJobTitle);
+            panelUserDetails2.Controls.Add(textBoxUserLastName);
+            panelUserDetails2.Controls.Add(textBoxUserFirstName);
+            panelUserDetails2.Controls.Add(textBoxID);
+            panelUserDetails2.Controls.Add(pictureBoxUserProfile);
+            panelUserDetails2.Controls.Add(labelUserId);
+            panelUserDetails2.Controls.Add(labelFirstName);
+            panelUserDetails2.Controls.Add(labelLastName);
+            panelUserDetails2.Controls.Add(labelJobTitle);
+            panelUserDetails2.Controls.Add(labelEmailAddress);
+            panelUserDetails2.Location = new Point(80, 50);
+            panelUserDetails2.Name = "panelUserDetails2";
+            panelUserDetails2.Size = new Size(1010, 750);
+            panelUserDetails2.TabIndex = 6;
+            // 
+            // buttonUserDetailsSave
+            // 
+            buttonUserDetailsSave.Location = new Point(477, 675);
+            buttonUserDetailsSave.Name = "buttonUserDetailsSave";
+            buttonUserDetailsSave.Size = new Size(112, 34);
+            buttonUserDetailsSave.TabIndex = 13;
+            buttonUserDetailsSave.Text = "Save";
+            buttonUserDetailsSave.UseVisualStyleBackColor = true;
+            // 
+            // buttonCloseUser
+            // 
+            buttonCloseUser.Location = new Point(768, 675);
+            buttonCloseUser.Name = "buttonCloseUser";
+            buttonCloseUser.Size = new Size(112, 34);
+            buttonCloseUser.TabIndex = 12;
+            buttonCloseUser.Text = "Close";
+            buttonCloseUser.UseVisualStyleBackColor = true;
+            buttonCloseUser.Click += buttonCloseUser_Click;
+            // 
+            // buttonEditUser
+            // 
+            buttonEditUser.Location = new Point(621, 675);
+            buttonEditUser.Name = "buttonEditUser";
+            buttonEditUser.Size = new Size(112, 34);
+            buttonEditUser.TabIndex = 11;
+            buttonEditUser.Text = "Edit";
+            buttonEditUser.UseVisualStyleBackColor = true;
+            buttonEditUser.Click += buttonEditUser_Click;
+            // 
+            // textBoxUserEmailAdd
+            // 
+            textBoxUserEmailAdd.Location = new Point(280, 500);
+            textBoxUserEmailAdd.Name = "textBoxUserEmailAdd";
+            textBoxUserEmailAdd.Size = new Size(600, 31);
+            textBoxUserEmailAdd.TabIndex = 10;
+            // 
+            // textBoxUserJobTitle
+            // 
+            textBoxUserJobTitle.Location = new Point(280, 450);
+            textBoxUserJobTitle.Name = "textBoxUserJobTitle";
+            textBoxUserJobTitle.Size = new Size(600, 31);
+            textBoxUserJobTitle.TabIndex = 9;
+            // 
+            // textBoxUserLastName
+            // 
+            textBoxUserLastName.Location = new Point(280, 400);
+            textBoxUserLastName.Name = "textBoxUserLastName";
+            textBoxUserLastName.Size = new Size(600, 31);
+            textBoxUserLastName.TabIndex = 8;
+            // 
+            // textBoxUserFirstName
+            // 
+            textBoxUserFirstName.Location = new Point(280, 350);
+            textBoxUserFirstName.Name = "textBoxUserFirstName";
+            textBoxUserFirstName.Size = new Size(600, 31);
+            textBoxUserFirstName.TabIndex = 7;
+            // 
+            // textBoxID
+            // 
+            textBoxID.Location = new Point(280, 300);
+            textBoxID.Name = "textBoxID";
+            textBoxID.Size = new Size(600, 31);
+            textBoxID.TabIndex = 6;
+            // 
+            // pictureBoxUserProfile
+            // 
+            pictureBoxUserProfile.Image = Properties.Resources.user;
+            pictureBoxUserProfile.Location = new Point(80, 40);
+            pictureBoxUserProfile.Name = "pictureBoxUserProfile";
+            pictureBoxUserProfile.Size = new Size(200, 200);
+            pictureBoxUserProfile.SizeMode = PictureBoxSizeMode.StretchImage;
+            pictureBoxUserProfile.TabIndex = 0;
+            pictureBoxUserProfile.TabStop = false;
+            // 
+            // labelUserId
+            // 
+            labelUserId.AutoSize = true;
+            labelUserId.Location = new Point(80, 300);
+            labelUserId.Name = "labelUserId";
+            labelUserId.Size = new Size(34, 25);
+            labelUserId.TabIndex = 1;
+            labelUserId.Text = "ID:";
+            // 
+            // labelFirstName
+            // 
+            labelFirstName.AutoSize = true;
+            labelFirstName.Location = new Point(80, 350);
+            labelFirstName.Name = "labelFirstName";
+            labelFirstName.Size = new Size(93, 25);
+            labelFirstName.TabIndex = 2;
+            labelFirstName.Text = "Firstname:";
+            // 
+            // labelLastName
+            // 
+            labelLastName.AutoSize = true;
+            labelLastName.Location = new Point(80, 400);
+            labelLastName.Name = "labelLastName";
+            labelLastName.Size = new Size(91, 25);
+            labelLastName.TabIndex = 3;
+            labelLastName.Text = "Lastname:";
+            // 
+            // labelJobTitle
+            // 
+            labelJobTitle.AutoSize = true;
+            labelJobTitle.Location = new Point(80, 450);
+            labelJobTitle.Name = "labelJobTitle";
+            labelJobTitle.Size = new Size(81, 25);
+            labelJobTitle.TabIndex = 4;
+            labelJobTitle.Text = "Job Title:";
+            // 
+            // labelEmailAddress
+            // 
+            labelEmailAddress.AutoSize = true;
+            labelEmailAddress.Location = new Point(80, 500);
+            labelEmailAddress.Name = "labelEmailAddress";
+            labelEmailAddress.Size = new Size(128, 25);
+            labelEmailAddress.TabIndex = 5;
+            labelEmailAddress.Text = "Email Address:";
+            // 
+            // panelHome
+            // 
+            panelHome.BackColor = Color.FromArgb(165, 215, 232);
+            panelHome.Location = new Point(250, 80);
+            panelHome.Name = "panelHome";
+            panelHome.Size = new Size(1195, 890);
+            panelHome.TabIndex = 8;
             // 
             // DocumentMainView
             // 
@@ -243,6 +453,7 @@ namespace DSD_WinformsApp.View
             Controls.Add(buttonSignOut);
             Controls.Add(panel1);
             Controls.Add(panelHome);
+            Controls.Add(panelUserDetails);
             Controls.Add(panelDocumentButton);
             Controls.Add(panelManageUsers);
             Controls.Add(dataGridView1);
@@ -258,7 +469,14 @@ namespace DSD_WinformsApp.View
             ((System.ComponentModel.ISupportInitialize)iconBack).EndInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).EndInit();
             panelManageUsers.ResumeLayout(false);
+            panelManageUsers.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)pictureBoxUsersNextIcon).EndInit();
+            ((System.ComponentModel.ISupportInitialize)pictureBoxUsersBackIcon).EndInit();
             ((System.ComponentModel.ISupportInitialize)dataGridViewManageUsers).EndInit();
+            panelUserDetails.ResumeLayout(false);
+            panelUserDetails2.ResumeLayout(false);
+            panelUserDetails2.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)pictureBoxUserProfile).EndInit();
             ResumeLayout(false);
         }
 
@@ -279,6 +497,27 @@ namespace DSD_WinformsApp.View
         private DataGridView dataGridViewManageUsers;
         private PictureBox iconNext;
         private PictureBox iconBack;
+        private PictureBox pictureBoxUsersNextIcon;
+        private PictureBox pictureBoxUsersBackIcon;
+        private TextBox textBoxUsersSearchBox;
+        private Label labelRole;
+        private Panel panelUserDetails;
+        private Panel panelUserDetails2;
+       
+        private TextBox textBoxUserEmailAdd;
+        private TextBox textBoxUserJobTitle;
+        private TextBox textBoxUserLastName;
+        private TextBox textBoxUserFirstName;
+        private TextBox textBoxID;
+        private PictureBox pictureBoxUserProfile;
+        private Label labelUserId;
+        private Label labelFirstName;
+        private Label labelLastName;
+        private Label labelJobTitle;
+        private Label labelEmailAddress;
         private Panel panelHome;
+        private CustomButton buttonUserDetailsSave;
+        private CustomButton buttonCloseUser;
+        private CustomButton buttonEditUser;
     }
 }

@@ -60,16 +60,6 @@ namespace DSD_WinformsApp.Presenter
             SetCurrentPageData();
         }
 
-        //private void SetCurrentPageData()
-        //{
-
-        //    int startIndex = (currentPage - 1) * itemsPerPage;
-        //    int endIndex = Math.Min(startIndex + itemsPerPage, filteredDocuments.Count);
-
-        //    var currentPageDocuments = filteredDocuments.Skip(startIndex).Take(endIndex - startIndex).ToList();
-        //    _mainDocumentView.BindDataMainView(currentPageDocuments);
-        //}
-
         private void SetCurrentPageData()
         {
             // Ensure currentPage is within valid bounds
@@ -120,9 +110,6 @@ namespace DSD_WinformsApp.Presenter
             SetCurrentPageData();
 
         }
-
-
-
         #endregion
 
         public void SaveDocument(DocumentDto document, byte[] fileDataBytes)
@@ -139,14 +126,11 @@ namespace DSD_WinformsApp.Presenter
             _documentRepository.EditDocument(document.Id, document); // Pass fileDataBytes to the repository
         }
 
-      
-
         public async Task SearchDocuments(string filterCriteria, string searchQuery)
         {
             List<DocumentDto> filteredDocuments = await _documentRepository.GetFilteredDocuments(searchQuery, filterCriteria);
             _mainDocumentView.BindDataMainView(filteredDocuments);
         }
-
 
 
         //BackUpFileRepository methods
@@ -197,17 +181,16 @@ namespace DSD_WinformsApp.Presenter
 
 
         // User Repository methods
-
         public async Task<List<UserCredentialsDto>> GetAllRegisteredUsers()
         {
             var users = await _userRepository.GetAllUsers();
             return users;
         }
 
-        public async Task<List<UserCredentialsDto>> LoadUsers()
+        public async Task LoadUsers()
         {
             List<UserCredentialsDto> users = await _userRepository.GetAllUsers();
-            return users;
+            _mainDocumentView.BindDataManageUsers(users);
         }
 
         public void SaveUserRegistration(UserCredentialsDto userCredentials)
@@ -239,5 +222,26 @@ namespace DSD_WinformsApp.Presenter
             }
         }
 
+        public async Task<bool> DeleteUser(UserCredentialsDto user)
+        {
+            try
+            {
+                // Delete the user using the repository
+                bool isDeleted = await _userRepository.DeleteUser(user.UserId);
+
+                if (isDeleted)
+                {
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+            }
+            catch (Exception)
+            {
+                return false; // User not found, cannot delete.
+            }
+        }
     }
 }

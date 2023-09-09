@@ -21,10 +21,11 @@ namespace DSD_WinformsApp.Presenter
         Task SearchDocuments(string filterCriteria, string searchQuery);
 
         // User Repository methods
-        Task<List<UserCredentialsDto>> LoadUsers();
+        Task LoadUsers();
         Task<List<UserCredentialsDto>> GetAllRegisteredUsers();
         void SaveUserRegistration(UserCredentialsDto userCredentials);
         Task<bool> ValidateUserCredentials(UserCredentialsDto userCredentials);
+        Task<bool> DeleteUser(UserCredentialsDto user);
     }
 
 }

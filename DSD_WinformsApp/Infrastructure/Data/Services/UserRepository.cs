@@ -47,7 +47,7 @@ namespace DSD_WinformsApp.Infrastructure.Data.Services
             _dbContext.SaveChanges();
         }
        
-
+        // Add method to Get a user by email address
         public async Task<UserCredentialsDto?> GetUserByEmail(string emailAddress)
         {
             return await Task.Run(() =>
@@ -64,6 +64,22 @@ namespace DSD_WinformsApp.Infrastructure.Data.Services
                     .FirstOrDefault();
             });
         }
+
+        // Add method to delete selected user
+        public async Task<bool> DeleteUser(int userId)
+        {
+            var user = await _dbContext.UserCredentials.FindAsync(userId);
+            if (user == null)
+            {
+                return false; // User not found, cannot delete.
+            }
+
+            _dbContext.UserCredentials.Remove(user);
+            _dbContext.SaveChanges();
+            return true;
+        }
+
+
     }
 
    

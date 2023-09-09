@@ -22,10 +22,6 @@ namespace DSD_WinformsApp.View
 
         private bool isNewFileUploaded = false;
 
-
-        private int currentPage = 1;
-        private int itemsPerPage = 10;
-
         // Initial values for search query and category filter
         private string currentSearchQuery = "";
         private string currentFilterCategory = "";
@@ -48,8 +44,13 @@ namespace DSD_WinformsApp.View
         {
             await _presenter.LoadDocumentsByFilter(currentSearchQuery, currentFilterCategory);
 
+            //buttonUserDetailsSave = new CustomButton(ColorTranslator.FromHtml("#05982E"), SystemColors.Control);
+            //buttonCloseUser = new CustomButton(ColorTranslator.FromHtml("#DA0B0B"), SystemColors.Control);
+            //buttonEditUser = new CustomButton(ColorTranslator.FromHtml("#A5D7E8"), SystemColors.Control);
+
             iconNext.Click += pictureBox3_Click;
             iconBack.Click += iconBack_Click;
+
             #region Document Page Properties
 
             panelManageUsers.Visible = false; // Hide the panelManageUsers initially
@@ -72,11 +73,6 @@ namespace DSD_WinformsApp.View
             comboBoxCategoryDropdown.Items.Add("Minutes of the Meeting");
             comboBoxCategoryDropdown.Items.Add("Regulatory Requirements");
             comboBoxCategoryDropdown.SelectedIndex = 0; // Set the default value to "Select Category"
-
-
-
-
-
 
             // Define the column width from documentmodel
             dataGridView1.Columns["Id"].Width = 55;
@@ -140,9 +136,9 @@ namespace DSD_WinformsApp.View
                 }
             };
 
-            // Attach TextChanged event handler to the search TextBox
-            textBoxSearchBar.TextChanged += textBoxSearchBar_TextChanged;
             #endregion
+
+            #region Manage Users Properties
 
             // Datagridviewbutton details column
             DataGridViewButtonColumn detailsButtonUserColumn = new DataGridViewButtonColumn();
@@ -151,6 +147,7 @@ namespace DSD_WinformsApp.View
             detailsButtonUserColumn.Width = 91;
             detailsButtonUserColumn.HeaderText = string.Empty;
             detailsButtonUserColumn.UseColumnTextForButtonValue = true;
+
             dataGridViewManageUsers.Columns.Add(detailsButtonUserColumn);
 
             // Datagridviewbutton delete column
@@ -161,6 +158,12 @@ namespace DSD_WinformsApp.View
             deleteButtonUserColumn.HeaderText = string.Empty;
             deleteButtonUserColumn.UseColumnTextForButtonValue = true;
             dataGridViewManageUsers.Columns.Add(deleteButtonUserColumn);
+
+            // Wire up the CellClick event handler
+            dataGridViewManageUsers.CellClick += dataGridViewManageUsers_DetailsButton_CellClick;
+            dataGridViewManageUsers.CellClick += dataGridViewManageUsers_DeleteButton_CellClick;
+
+            #endregion
 
         }
 
@@ -255,29 +258,26 @@ namespace DSD_WinformsApp.View
             }
         }
 
+        private async void DeleteDocumentWithBackups(DocumentDto selectedDocument)
+        {
+            // Delete the document and its backups from the database using the presenter
+            await _presenter.DeleteDocumentWithBackups(selectedDocument);
+
+            // Load the documents again to update the view
+            await _presenter.LoadDocuments();
+        }
+
         private async void ShowDocumentDetailsModal(DocumentDto selectedDocument)
         {
+
+
             // Create a new form to display the document details (modal form).
             DetailsFormView detailsForm = new DetailsFormView();
             detailsForm.Text = "Document Details";
             detailsForm.FormBorderStyle = FormBorderStyle.FixedDialog;
             detailsForm.StartPosition = FormStartPosition.CenterParent;
 
-            // Create the buttons and add them to the detailsForm
-            CustomButton button1 = new CustomButton(ColorTranslator.FromHtml("#A5D7E8"), SystemColors.Control);
-            button1.Text = "File Details";
-            button1.Location = new Point(20, 35); // Adjust the coordinates as needed.
-            button1.Height = 40;
-            button1.Width = 120;
-            detailsForm.Controls.Add(button1);
-
-            CustomButton button2 = new CustomButton(ColorTranslator.FromHtml("#A5D7E8"), SystemColors.Control);
-            button2.Text = "File History";
-            button2.Location = new Point(button1.Right + 10, 35);
-            button2.Height = button1.Height;
-            button2.Width = button1.Width;
-            detailsForm.Controls.Add(button2);
-
+            #region Document Details
             // Create the GroupBox
             GroupBox groupBox = new GroupBox();
             groupBox.Text = "Document Details";
@@ -312,21 +312,24 @@ namespace DSD_WinformsApp.View
             // Create the Category ComboBox
             ComboBox categoryComboBox = new ComboBox();
             categoryComboBox.DropDownStyle = ComboBoxStyle.DropDownList; // Make it a drop-down list
-            categoryComboBox.Items.Add("Category 1"); // Add your category options here
-            categoryComboBox.Items.Add("Category 2");
-            categoryComboBox.Items.Add("Category 3");
-            categoryComboBox.Text = selectedDocument.Category; // Set the initial selected item
+            categoryComboBox.Items.Add("Board Resolutions");
+            categoryComboBox.Items.Add("Canteen Policies");
+            categoryComboBox.Items.Add("COOP Policies");
+            categoryComboBox.Items.Add("COOP Article & By Laws");
+            categoryComboBox.Items.Add("Minutes of the Meeting");
+            categoryComboBox.Items.Add("Regulatory Requirements");
+            categoryComboBox.Text = selectedDocument.Category.ToString(); // Set the initial selected item
             categoryComboBox.Enabled = false; // Disable the ComboBox initially, enable it when editing
             int categoryComboBoxWidth = textBoxWidth; // Adjust the width as needed
             AddRow(groupBox, "Category:", categoryComboBox, categoryComboBoxWidth);
 
             // Create the Status ComboBox
             ComboBox statusComboBox = new ComboBox();
-            statusComboBox.DropDownStyle = ComboBoxStyle.DropDownList; // Make it a drop-down list
-            statusComboBox.Items.Add("Open"); // Add your status options here
-            statusComboBox.Items.Add("In Progress");
-            statusComboBox.Items.Add("Closed");
-            statusComboBox.Text = selectedDocument.Status; // Set the initial selected item
+            statusComboBox.DropDownStyle = ComboBoxStyle.DropDownList; // Make it a drop-down list;
+            statusComboBox.Items.Add("New");
+            statusComboBox.Items.Add("Revised");
+            statusComboBox.Items.Add("Obsolete");
+            statusComboBox.SelectedItem = selectedDocument.Status.ToString(); // Set the initial selected item
             statusComboBox.Enabled = false; // Disable the ComboBox initially, enable it when editing
             int statusComboBoxWidth = textBoxWidth; // Adjust the width as needed
             AddRow(groupBox, "Status:", statusComboBox, statusComboBoxWidth);
@@ -393,6 +396,25 @@ namespace DSD_WinformsApp.View
             int groupBoxHeight = groupBox.Controls.Count * 30 + 30; // Add some buffer (e.g., 40 pixels) to avoid cutting off any controls.
             groupBox.Width = groupBoxWidth;
             groupBox.Height = groupBoxHeight;
+
+            #endregion
+
+            #region File Details
+
+            // Create the buttons and add them to the detailsForm
+            CustomButton button1 = new CustomButton(ColorTranslator.FromHtml("#A5D7E8"), SystemColors.Control);
+            button1.Text = "File Details";
+            button1.Location = new Point(20, 35); // Adjust the coordinates as needed.
+            button1.Height = 40;
+            button1.Width = 120;
+            detailsForm.Controls.Add(button1);
+
+            CustomButton button2 = new CustomButton(ColorTranslator.FromHtml("#A5D7E8"), SystemColors.Control);
+            button2.Text = "File History";
+            button2.Location = new Point(button1.Right + 10, 35);
+            button2.Height = button1.Height;
+            button2.Width = button1.Width;
+            detailsForm.Controls.Add(button2);
 
             // Create the GroupBox containing the second DataGridView (DataGridView2)
             GroupBox groupBox2 = new GroupBox();
@@ -540,6 +562,9 @@ namespace DSD_WinformsApp.View
                 }
             };
 
+            #endregion
+
+            #region Details Form Buttons
             // Create the Edit button
             CustomButton editButton = new CustomButton(ColorTranslator.FromHtml("#576CBC"), SystemColors.Control);
             editButton.Text = "Edit";
@@ -598,6 +623,7 @@ namespace DSD_WinformsApp.View
                     // Update the filenameTextBox with the new file name
                     filenameTextBox.Text = Path.GetFileNameWithoutExtension(filePath);
                 }
+
 
                 // Create a new DocumentDto with the modified data
                 DocumentDto modifiedDocument = new DocumentDto
@@ -756,16 +782,11 @@ namespace DSD_WinformsApp.View
             // Show the detailsForm
             detailsForm.ShowDialog();
 
+            #endregion
+
         }
 
-        private async void DeleteDocumentWithBackups(DocumentDto selectedDocument)
-        {
-            // Delete the document and its backups from the database using the presenter
-            await _presenter.DeleteDocumentWithBackups(selectedDocument);
 
-            // Load the documents again to update the view
-            await _presenter.LoadDocuments();
-        }
 
         private void UploadFileButton_Click(object? sender, EventArgs e, TextBox filenameTextBox)
         {
@@ -810,7 +831,8 @@ namespace DSD_WinformsApp.View
                 comboBoxCategoryDropdown.SelectedIndex = 0;
             }
 
-            textBoxSearchBar.Text = ""; // Clear the search bar
+            // Clear search bar
+            textBoxSearchBar.Text = "";
 
             using (AddFormView newForm = new AddFormView(_unitOfWork, _presenter))
             {
@@ -847,10 +869,12 @@ namespace DSD_WinformsApp.View
 
         }
 
+        #region Manage Users Page Functionalities
         private void buttonDocument_Click(object sender, EventArgs e)
         {
             panelManageUsers.Visible = false; // Hide the Manage Users panel
             panelHome.Visible = false; // Hide the Home panel
+            panelUserDetails.Visible = false; // Hide the User Details panel
             panelDocumentButton.Visible = true;
         }
 
@@ -860,14 +884,9 @@ namespace DSD_WinformsApp.View
 
             panelDocumentButton.Visible = false;
             panelHome.Visible = false;
+            panelUserDetails.Visible = false;
             panelManageUsers.Visible = true;
             panelManageUsers.Controls.Add(dataGridViewManageUsers);
-
-            // Load users using the presenter
-            List<UserCredentialsDto> users = await _presenter.LoadUsers();
-
-            // Set the loaded users as the data source for the DataGridView
-            dataGridViewManageUsers.DataSource = users;
 
             // Set the datagridviewManageUsers column properties
             dataGridViewManageUsers.Columns["UserId"].DisplayIndex = 0;
@@ -900,11 +919,120 @@ namespace DSD_WinformsApp.View
             dataGridViewManageUsers.Columns["EmailAddress"].HeaderText = "Email Address";
             dataGridViewManageUsers.Columns["JobTitle"].HeaderText = "Job Title";
             dataGridViewManageUsers.Columns["CreatedDate"].HeaderText = "Created Date";
+        }
+
+        // event when details button was clicked
+        private void dataGridViewManageUsers_DetailsButton_CellClick(object? sender, DataGridViewCellEventArgs e)
+        {
+            if (e.RowIndex >= 0 && e.ColumnIndex == dataGridViewManageUsers.Columns["Details"].Index)
+            {
+                UserCredentialsDto selectedUser = (UserCredentialsDto)dataGridViewManageUsers.Rows[e.RowIndex].DataBoundItem;
+
+                // show panelUserDetails only
+                panelUserDetails.Visible = true;
+                panelManageUsers.Visible = false;
+                panelHome.Visible = false;
+                panelDocumentButton.Visible = false;
+
+                // Default button colors
+                buttonUserDetailsSave.BackColor = ColorTranslator.FromHtml("#05982E");
+                buttonCloseUser.BackColor = ColorTranslator.FromHtml("#DA0B0B");
+                buttonEditUser.BackColor = ColorTranslator.FromHtml("#A5D7E8");
+
+                // button states
+                buttonUserDetailsSave.Enabled = false;
+                buttonEditUser.Enabled = true;
+                buttonCloseUser.Enabled = true;
+
+                // Show the selected user's details in the textboxes
+                ShowUserDetails(selectedUser);
+            }
+        }
+
+        private void ShowUserDetails(UserCredentialsDto selectedUser)
+        {
+            // Display the selected user's details in the textboxes
+            textBoxID.Text = selectedUser.UserId.ToString();
+            textBoxID.Enabled = false;
+
+            textBoxUserFirstName.Text = selectedUser.Firstname;
+            textBoxUserFirstName.Enabled = false;
+
+            textBoxUserLastName.Text = selectedUser.Lastname;
+            textBoxUserLastName.Enabled = false;
+
+            textBoxUserEmailAdd.Text = selectedUser.EmailAddress;
+            textBoxUserEmailAdd.Enabled = false;
+
+            textBoxUserJobTitle.Text = selectedUser.JobTitle;
+            textBoxUserJobTitle.Enabled = false;
+        }
+
+
+
+        private void buttonEditUser_Click(object sender, EventArgs e)
+        {
+            buttonEditUser.Enabled = false; // Disable the Edit button
+            buttonUserDetailsSave.Enabled = true; // Enable the Save button
+            buttonCloseUser.Enabled = true; // Disable the Close button
+
+            // Enable editing of the textboxes
+            textBoxID.Enabled = true;
+            textBoxUserFirstName.Enabled = true;
+            textBoxUserLastName.Enabled = true;
+            textBoxUserEmailAdd.Enabled = true;
+            textBoxUserJobTitle.Enabled = true;
 
         }
 
+
+
+        // event when delete button was clicked
+        private void dataGridViewManageUsers_DeleteButton_CellClick(object? sender, DataGridViewCellEventArgs e)
+        {
+
+            if (e.RowIndex >= 0 && e.ColumnIndex == dataGridViewManageUsers.Columns["Delete"].Index)
+            {
+                UserCredentialsDto selectedUser = (UserCredentialsDto)dataGridViewManageUsers.Rows[e.RowIndex].DataBoundItem;
+                // Show the delete confirmation modal directly in the main form.
+                DialogResult result = MessageBox.Show("Are you sure you want to delete the selected document?", "Delete Confirmation", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+
+                if (result == DialogResult.Yes)
+                {
+                    // User clicked "Yes," proceed with the deletion
+                    DeleteUser(selectedUser);
+                }
+                else
+                {
+                    // User clicked "No" or closed the dialog, cancel the deletion
+                    // Add any additional logic if needed.
+                }
+            }
+        }
+
+        private async void DeleteUser(UserCredentialsDto selectedUser)
+        {
+            // Delete the document and its backups from the database using the presenter
+            await _presenter.DeleteUser(selectedUser);
+
+            // Load the documents again to update the view
+            await _presenter.LoadUsers();
+        }
+
+        private void buttonCloseUser_Click(object sender, EventArgs e)
+        {
+            // close panelUserDetails
+            panelUserDetails.Visible = false;
+            panelManageUsers.Visible = true;
+        }
+
+        #endregion
+
+        #region Filter and Pagination Functionalities
+
         private void textBoxSearchBar_TextChanged(object? sender, EventArgs e)
         {
+
             ApplyFilters();
         }
 
@@ -941,8 +1069,7 @@ namespace DSD_WinformsApp.View
         {
             return comboBoxCategoryDropdown.SelectedItem?.ToString() ?? string.Empty;
         }
-
-
+        #endregion
 
 
 

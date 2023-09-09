@@ -23,7 +23,7 @@ namespace DSD_WinformsApp
             ServiceProvider = host.Services;
 
 
-            Application.Run(ServiceProvider.GetRequiredService<DocumentMainView>());
+            Application.Run(ServiceProvider.GetRequiredService<LoginFormView>());
         }
         public static IServiceProvider? ServiceProvider { get; private set; }
         static IHostBuilder CreateHostBuilder()
@@ -39,7 +39,7 @@ namespace DSD_WinformsApp
                     services.AddTransient<IUserRepository, UserRepository>();
                     services.AddAutoMapper(typeof(DocumentMappingProfiles));
                     services.AddTransient<IDocumentView, DocumentMainView>();
-                    services.AddTransient<DocumentMainView>();
+                    services.AddTransient<LoginFormView>();
                   
                 });
         }

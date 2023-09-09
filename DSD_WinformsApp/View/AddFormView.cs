@@ -47,7 +47,6 @@ namespace DSD_WinformsApp.View
            
         }
 
-
         private void AddForm_Load(object sender, EventArgs e)
         {
 
@@ -55,6 +54,7 @@ namespace DSD_WinformsApp.View
             //btnSave = new CustomButton(ColorTranslator.FromHtml("#05982E"), SystemColors.Control);
             //btnCancel = new CustomButton(ColorTranslator.FromHtml("#DA0B0B"), SystemColors.Control);
             //buttonUploadFile = new CustomButton(ColorTranslator.FromHtml("#A5D7E8"), SystemColors.Control);
+
 
             // Set the title of the form
             MaximizeBox = false;
