@@ -46,7 +46,6 @@ namespace DSD_WinformsApp.Presenter
             List<DocumentDto> documents = await _documentRepository.GetAllDocuments();
             _mainDocumentView.BindDataMainView(documents);
         }
-
         public async Task LoadDocumentsByFilter(string currentSearchQuery, string currentFilterCategory)
         {
             allDocuments = await _documentRepository.GetFilteredDocuments(currentSearchQuery, currentFilterCategory);
@@ -77,7 +76,6 @@ namespace DSD_WinformsApp.Presenter
             return (int)Math.Ceiling((double)filteredDocuments.Count / itemsPerPage);
         }
 
-
         public void NextPage()
         {
 
@@ -85,7 +83,6 @@ namespace DSD_WinformsApp.Presenter
             {
                 currentPage++;
                 SetCurrentPageData();
-
             }
         }
 
@@ -118,20 +115,17 @@ namespace DSD_WinformsApp.Presenter
             document.FileData = fileDataBytes;
             _documentRepository.CreateDocument(document, fileDataBytes); // Pass fileDataBytes to the repository
         }
-
         public void EditDocument(DocumentDto document, byte[] fileDataBytes)
         {
             // Set the file data to the DocumentDto
             document.FileData = fileDataBytes;
             _documentRepository.EditDocument(document.Id, document); // Pass fileDataBytes to the repository
         }
-
         public async Task SearchDocuments(string filterCriteria, string searchQuery)
         {
             List<DocumentDto> filteredDocuments = await _documentRepository.GetFilteredDocuments(searchQuery, filterCriteria);
             _mainDocumentView.BindDataMainView(filteredDocuments);
         }
-
 
         //BackUpFileRepository methods
         public async Task<List<BackUpFileDto>> GetRelatedBackupFiles(int documentId)
@@ -197,6 +191,11 @@ namespace DSD_WinformsApp.Presenter
         {
             // Set the user credentials to the UserCredentialsDto
             _userRepository.RegisterUser(userCredentials);
+        }
+        
+        public void EditUser(UserCredentialsDto user)
+        {
+            _userRepository.EditUser(user.UserId, user);
         }
 
         public async Task<bool> ValidateUserCredentials(UserCredentialsDto userCredentials)

@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using DSD_WinformsApp.Core.DTOs;
 using DSD_WinformsApp.Model;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.VisualBasic.ApplicationServices;
 using System;
 using System.Collections.Generic;
@@ -25,19 +26,23 @@ namespace DSD_WinformsApp.Infrastructure.Data.Services
         // Add method to gett all items from the database
         public async Task<List<UserCredentialsDto>> GetAllUsers()
         {
-            return await Task.Run(() =>
-            {
-                return _dbContext.UserCredentials
-                    .Select(user => new UserCredentialsDto
-                    {
-                        UserId = user.UserId,
-                        Firstname = user.Firstname,
-                        Lastname = user.Lastname,
-                        EmailAddress = user.EmailAddress,
-                        CreatedDate = user.CreatedDate,
-                    })
-                    .ToList();
-            });
+            //return await Task.Run(() =>
+            //{
+            //    return _dbContext.UserCredentials
+            //        .Select(user => new UserCredentialsDto
+            //        {
+            //            UserId = user.UserId,
+            //            Firstname = user.Firstname,
+            //            Lastname = user.Lastname,
+            //            EmailAddress = user.EmailAddress,
+            //            CreatedDate = user.CreatedDate,
+            //        })
+            //        .ToList();
+            //});
+
+            var allUsers = await _dbContext.UserCredentials.ToListAsync();
+            var users = _mapper.Map<List<UserCredentialsModel>, List<UserCredentialsDto>>(allUsers);
+            return users;
         }
 
         public void RegisterUser(UserCredentialsDto userCredentials)
@@ -64,6 +69,28 @@ namespace DSD_WinformsApp.Infrastructure.Data.Services
                     .FirstOrDefault();
             });
         }
+
+        // Add method to Edit selected user
+        public async Task<bool> EditUser(int userId, UserCredentialsDto userCredentials)
+        {
+            var user = await _dbContext.UserCredentials.FindAsync(userId);
+            if (user == null)
+            {
+                return false; // User not found, cannot edit.
+            }
+
+            // Update the user
+            user.Firstname = userCredentials.Firstname;
+            user.Lastname = userCredentials.Lastname;
+            user.EmailAddress = userCredentials.EmailAddress;
+            user.Password = userCredentials.Password;
+            user.JobTitle = userCredentials.JobTitle;
+
+            _dbContext.SaveChanges();
+            return true;
+
+        }
+
 
         // Add method to delete selected user
         public async Task<bool> DeleteUser(int userId)

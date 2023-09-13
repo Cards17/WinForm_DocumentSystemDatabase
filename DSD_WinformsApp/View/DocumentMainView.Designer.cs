@@ -65,11 +65,9 @@ namespace DSD_WinformsApp.View
             labelJobTitle = new Label();
             labelEmailAddress = new Label();
             panelHome = new Panel();
-
             buttonUserDetailsSave = new CustomButton(ColorTranslator.FromHtml("#05982E"), SystemColors.Control);
             buttonCloseUser = new CustomButton(ColorTranslator.FromHtml("#DA0B0B"), SystemColors.Control);
             buttonEditUser = new CustomButton(ColorTranslator.FromHtml("#A5D7E8"), SystemColors.Control);
-
             ((System.ComponentModel.ISupportInitialize)dataGridView1).BeginInit();
             panel1.SuspendLayout();
             panelDocumentButton.SuspendLayout();
@@ -277,13 +275,13 @@ namespace DSD_WinformsApp.View
             // dataGridViewManageUsers
             // 
             dataGridViewManageUsers.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            dataGridViewManageUsers.Cursor = Cursors.Hand;
             dataGridViewManageUsers.Location = new Point(20, 225);
             dataGridViewManageUsers.Name = "dataGridViewManageUsers";
             dataGridViewManageUsers.RowHeadersVisible = false;
             dataGridViewManageUsers.RowHeadersWidth = 62;
             dataGridViewManageUsers.RowTemplate.Height = 33;
             dataGridViewManageUsers.Size = new Size(1125, 366);
-            dataGridViewManageUsers.Cursor = Cursors.Hand;
             dataGridViewManageUsers.TabIndex = 0;
             // 
             // panelUserDetails
@@ -319,15 +317,18 @@ namespace DSD_WinformsApp.View
             // 
             // buttonUserDetailsSave
             // 
+            buttonUserDetailsSave.BackColor = Color.FromArgb(5, 152, 46);
             buttonUserDetailsSave.Location = new Point(477, 675);
             buttonUserDetailsSave.Name = "buttonUserDetailsSave";
             buttonUserDetailsSave.Size = new Size(112, 34);
             buttonUserDetailsSave.TabIndex = 13;
             buttonUserDetailsSave.Text = "Save";
             buttonUserDetailsSave.UseVisualStyleBackColor = true;
+            buttonUserDetailsSave.Click += buttonUserDetailsSave_Click;
             // 
             // buttonCloseUser
             // 
+            buttonCloseUser.BackColor = Color.FromArgb(218, 11, 11);
             buttonCloseUser.Location = new Point(768, 675);
             buttonCloseUser.Name = "buttonCloseUser";
             buttonCloseUser.Size = new Size(112, 34);
@@ -338,6 +339,7 @@ namespace DSD_WinformsApp.View
             // 
             // buttonEditUser
             // 
+            buttonEditUser.BackColor = Color.FromArgb(165, 215, 232);
             buttonEditUser.Location = new Point(621, 675);
             buttonEditUser.Name = "buttonEditUser";
             buttonEditUser.Size = new Size(112, 34);
@@ -503,7 +505,7 @@ namespace DSD_WinformsApp.View
         private Label labelRole;
         private Panel panelUserDetails;
         private Panel panelUserDetails2;
-       
+
         private TextBox textBoxUserEmailAdd;
         private TextBox textBoxUserJobTitle;
         private TextBox textBoxUserLastName;

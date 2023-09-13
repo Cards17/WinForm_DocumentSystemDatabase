@@ -16,7 +16,6 @@ namespace DSD_WinformsApp.Presenter
         void NextPage();
         void PreviousPage();
         Task ApplyFilters();
-
         void SaveDocument(DocumentDto document, byte[] fileDataBytes);
         Task SearchDocuments(string filterCriteria, string searchQuery);
 
@@ -24,6 +23,7 @@ namespace DSD_WinformsApp.Presenter
         Task LoadUsers();
         Task<List<UserCredentialsDto>> GetAllRegisteredUsers();
         void SaveUserRegistration(UserCredentialsDto userCredentials);
+        void EditUser(UserCredentialsDto user);
         Task<bool> ValidateUserCredentials(UserCredentialsDto userCredentials);
         Task<bool> DeleteUser(UserCredentialsDto user);
     }

@@ -786,8 +786,6 @@ namespace DSD_WinformsApp.View
 
         }
 
-
-
         private void UploadFileButton_Click(object? sender, EventArgs e, TextBox filenameTextBox)
         {
             OpenFileDialog openFileDialog = new OpenFileDialog();
@@ -817,8 +815,6 @@ namespace DSD_WinformsApp.View
             }
         }
 
-
-
         private void pictureBox1_Click(object sender, EventArgs e)
         {
             // if set combo box to index 0 but when its already at index 0, it will go to index -1
@@ -841,8 +837,6 @@ namespace DSD_WinformsApp.View
                 comboBoxCategoryDropdown.SelectedIndex = 0;
             }
         }
-
-
 
         public void ShowDocumentView()
         {
@@ -968,8 +962,6 @@ namespace DSD_WinformsApp.View
             textBoxUserJobTitle.Enabled = false;
         }
 
-
-
         private void buttonEditUser_Click(object sender, EventArgs e)
         {
             buttonEditUser.Enabled = false; // Disable the Edit button
@@ -977,11 +969,44 @@ namespace DSD_WinformsApp.View
             buttonCloseUser.Enabled = true; // Disable the Close button
 
             // Enable editing of the textboxes
-            textBoxID.Enabled = true;
+            textBoxID.Enabled = false;
             textBoxUserFirstName.Enabled = true;
             textBoxUserLastName.Enabled = true;
             textBoxUserEmailAdd.Enabled = true;
             textBoxUserJobTitle.Enabled = true;
+
+        }
+
+        private async  void buttonUserDetailsSave_Click(object sender, EventArgs e)
+        {
+            // Get modified data from the textboxes
+            int userId = int.Parse(textBoxID.Text);
+            string firstname = textBoxUserFirstName.Text;
+            string lastname = textBoxUserLastName.Text;
+            string emailAddress = textBoxUserEmailAdd.Text;
+            string jobTitle = textBoxUserJobTitle.Text;
+
+            // create new user object from the modified data
+            UserCredentialsDto modifiedUser = new UserCredentialsDto
+            {
+                UserId = userId,
+                Firstname = firstname,
+                Lastname = lastname,
+                EmailAddress = emailAddress,
+                JobTitle = jobTitle
+            };
+
+            // Save the modified user to the database using the presenter
+             _presenter.EditUser(modifiedUser);
+
+            // Return to Manage Users page
+            panelUserDetails.Visible = false;
+            panelManageUsers.Visible = true;
+            panelHome.Visible = false;
+            panelDocumentButton.Visible = false;
+
+            // Load the user
+            await _presenter.LoadUsers();
 
         }
 
@@ -1070,6 +1095,7 @@ namespace DSD_WinformsApp.View
             return comboBoxCategoryDropdown.SelectedItem?.ToString() ?? string.Empty;
         }
         #endregion
+
 
 
 
