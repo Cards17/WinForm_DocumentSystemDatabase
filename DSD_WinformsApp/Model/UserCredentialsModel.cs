@@ -1,4 +1,5 @@
-﻿using System;
+﻿using DSD_WinformsApp.Core.DTOs;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -20,6 +21,8 @@ namespace DSD_WinformsApp.Model
         public string JobTitle { get; set; } = string.Empty;
         public string CreatedDate { get; set; } = string.Empty;
         public string ImagePath { get; set; } = string.Empty;
+
+        public UserRole UserRole { get; set; } = UserRole.User;
 
     }
 }

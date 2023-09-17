@@ -19,6 +19,7 @@ namespace DSD_WinformsApp.Core.DTOs
         public string JobTitle { get; set; } = string.Empty;
         public string CreatedDate { get; set; } = string.Empty;
         public byte[] ImageData { get; set; } = null!;
+        public UserRole UserRole { get; set; } = UserRole.User;
 
     }
 }

@@ -25,6 +25,7 @@ namespace DSD_WinformsApp.View
         // Initial values for search query and category filter
         private string currentSearchQuery = "";
         private string currentFilterCategory = "";
+        private bool isVisible;
 
         public DocumentMainView(IUnitOfWork unitOfWork)
         {
@@ -36,17 +37,22 @@ namespace DSD_WinformsApp.View
             // Attach the FormClosing event handler
             this.FormClosing += DocumentViewForm_FormClosing;
 
+            ToggleManageUsersButtonVisibility(isVisible);
+
             textBoxSearchBar.TextChanged += textBoxSearchBar_TextChanged;
             comboBoxCategory.TextChanged += comboBoxCategoryDropdown_SelectedIndexChanged;
         }
 
         private async void DocumentView_Load_1(object sender, EventArgs e)
         {
+            // Load the documents from the database using the presenter
             await _presenter.LoadDocumentsByFilter(currentSearchQuery, currentFilterCategory);
 
             //buttonUserDetailsSave = new CustomButton(ColorTranslator.FromHtml("#05982E"), SystemColors.Control);
             //buttonCloseUser = new CustomButton(ColorTranslator.FromHtml("#DA0B0B"), SystemColors.Control);
             //buttonEditUser = new CustomButton(ColorTranslator.FromHtml("#A5D7E8"), SystemColors.Control);
+
+       
 
             iconNext.Click += pictureBox3_Click;
             iconBack.Click += iconBack_Click;
@@ -54,7 +60,7 @@ namespace DSD_WinformsApp.View
             #region Document Page Properties
 
             panelManageUsers.Visible = false; // Hide the panelManageUsers initially
-
+           
             // Add controls for panel2
             panelDocumentButton.Controls.Add(pictureBox1);
             panelDocumentButton.Controls.Add(dataGridView1);
@@ -164,6 +170,13 @@ namespace DSD_WinformsApp.View
             dataGridViewManageUsers.CellClick += dataGridViewManageUsers_DeleteButton_CellClick;
 
             #endregion
+
+        }
+
+        // Event method when details button was clicked
+        public void ToggleManageUsersButtonVisibility(bool isVisible)
+        {
+            buttonManageUsers.Visible = isVisible;
 
         }
 
@@ -842,6 +855,7 @@ namespace DSD_WinformsApp.View
         {
             // Show the DocumentView form
             this.ShowDialog();
+
         }
 
         // Handler for the FormClosing event
@@ -874,6 +888,7 @@ namespace DSD_WinformsApp.View
 
         private async void buttonManageUsers_Click(object sender, EventArgs e)
         {
+
             await _presenter.LoadUsers();
 
             panelDocumentButton.Visible = false;
@@ -905,6 +920,7 @@ namespace DSD_WinformsApp.View
             dataGridViewManageUsers.Columns["CreatedDate"].Visible = false;
             dataGridViewManageUsers.Columns["Password"].Visible = false;
             dataGridViewManageUsers.Columns["ImageData"].Visible = false;
+            dataGridViewManageUsers.Columns["UserRole"].Visible = false;
 
             // Display name for headertext
             dataGridViewManageUsers.Columns["UserId"].HeaderText = "ID";
@@ -1095,6 +1111,8 @@ namespace DSD_WinformsApp.View
             return comboBoxCategoryDropdown.SelectedItem?.ToString() ?? string.Empty;
         }
         #endregion
+
+       
 
 
 

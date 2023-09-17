@@ -139,6 +139,9 @@ namespace DSD_WinformsApp.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int>("UserRole")
+                        .HasColumnType("int");
+
                     b.HasKey("UserId");
 
                     b.ToTable("UserCredentials");

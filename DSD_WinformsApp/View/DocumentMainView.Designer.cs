@@ -117,6 +117,7 @@ namespace DSD_WinformsApp.View
             buttonManageUsers.Size = new Size(235, 35);
             buttonManageUsers.TabIndex = 2;
             buttonManageUsers.Text = "Manage Users";
+            buttonManageUsers.Visible = true;
             buttonManageUsers.UseVisualStyleBackColor = false;
             buttonManageUsers.Click += buttonManageUsers_Click;
             // 

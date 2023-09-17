@@ -159,9 +159,8 @@ namespace DSD_WinformsApp.View
 
                 if (isValidCredentials)
                 {
-                    // Close the login form and show the document view
-                    this.Hide();
-                    _documentView.ShowDocumentView();
+                    this.Close(); // Close the login form
+
                 }
                 else
                 {
@@ -238,6 +237,8 @@ namespace DSD_WinformsApp.View
             panelSignIn.Visible = true;
 
         }
+
+
     }
 
 

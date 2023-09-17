@@ -12,5 +12,6 @@ namespace DSD_WinformsApp.View
         void ShowDocumentView();
         string GetSearchQuery();
         string GetFilterCategory();
+        void ToggleManageUsersButtonVisibility(bool isAdminUser);
     }
 }

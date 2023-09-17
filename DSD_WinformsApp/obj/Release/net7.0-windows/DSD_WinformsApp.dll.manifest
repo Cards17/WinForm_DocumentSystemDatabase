@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <asmv1:assembly xsi:schemaLocation="urn:schemas-microsoft-com:asm.v1 assembly.adaptive.xsd" manifestVersion="1.0" xmlns:asmv1="urn:schemas-microsoft-com:asm.v1" xmlns="urn:schemas-microsoft-com:asm.v2" xmlns:asmv2="urn:schemas-microsoft-com:asm.v2" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:co.v1="urn:schemas-microsoft-com:clickonce.v1" xmlns:asmv3="urn:schemas-microsoft-com:asm.v3" xmlns:dsig="http://www.w3.org/2000/09/xmldsig#" xmlns:co.v2="urn:schemas-microsoft-com:clickonce.v2">
-  <asmv1:assemblyIdentity name="DSD_WinformsApp.exe" version="1.0.0.1" publicKeyToken="0000000000000000" language="neutral" processorArchitecture="msil" type="win32" />
+  <asmv1:assemblyIdentity name="DSD_WinformsApp.exe" version="1.0.0.2" publicKeyToken="0000000000000000" language="neutral" processorArchitecture="msil" type="win32" />
   <application />
   <entryPoint>
     <assemblyIdentity name="Launcher" version="8.0.0.0" language="neutral" processorArchitecture="msil" />
@@ -98,13 +98,13 @@
       <dsig:DigestValue>Hm36qga9wWTf1WMgHejOqMD6mGZhnVmrCXECVOi6Udg=</dsig:DigestValue>
     </hash>
   </file>
-  <file name="DSD_WinformsApp.dll" size="421376">
+  <file name="DSD_WinformsApp.dll" size="452608">
     <hash>
       <dsig:Transforms>
         <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
       </dsig:Transforms>
       <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-      <dsig:DigestValue>YHdosWcNKiatERx1c1OeOh/aoMKTjwz21MRQHMg9yPU=</dsig:DigestValue>
+      <dsig:DigestValue>B5NKYAHmQioqMDZnothNcbTGqXDmcdNbUlNH3FfVDyA=</dsig:DigestValue>
     </hash>
   </file>
   <file name="DSD_WinformsApp.dll.config" size="353">
@@ -116,13 +116,13 @@
       <dsig:DigestValue>zFS52K6Um7MI3ATBKaoSdO5VjRLLNQeNzVRECbKRqA0=</dsig:DigestValue>
     </hash>
   </file>
-  <file name="DSD_WinformsApp.exe" size="154112">
+  <file name="DSD_WinformsApp.exe" size="154624">
     <hash>
       <dsig:Transforms>
         <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
       </dsig:Transforms>
       <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-      <dsig:DigestValue>NobMtkz1RWI3Wja7jMzttFy32waAkj5c3ny0ytd2Y6I=</dsig:DigestValue>
+      <dsig:DigestValue>PrTBiOr3KYH+QLVAsEGwgoL0e9H5k63lifh3QPYQCxg=</dsig:DigestValue>
     </hash>
   </file>
   <file name="DSD_WinformsApp.runtimeconfig.json" size="441">

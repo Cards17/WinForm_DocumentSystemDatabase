@@ -21,6 +21,7 @@ namespace DSD_WinformsApp.Presenter
         private readonly IBackUpFileRepository _backUpFileRepository;
         private readonly IUserRepository _userRepository;
 
+
         private List<DocumentDto> allDocuments = null!;
         private int currentPage = 1;
         private int itemsPerPage = 10;
@@ -38,7 +39,7 @@ namespace DSD_WinformsApp.Presenter
             _userRepository = userRepository;
 
         }
-
+        
 
         // DocumentRepository methods
         public async Task LoadDocuments()
@@ -206,6 +207,21 @@ namespace DSD_WinformsApp.Presenter
 
                 if (user != null && user.Password == userCredentials.Password)
                 {
+                    // Valid credentials, store the user's role
+                    string userRole = _userRepository.GetUserRole(user.EmailAddress);
+
+                    if (userRole == "Admin")
+                    {
+                        _mainDocumentView.ToggleManageUsersButtonVisibility(true);
+                    }
+                    else
+                    {
+                        _mainDocumentView.ToggleManageUsersButtonVisibility(false);
+                    }
+
+                   _mainDocumentView.ShowDocumentView();
+
+
                     return true; // Valid credentials
                 }
                 else
@@ -213,13 +229,15 @@ namespace DSD_WinformsApp.Presenter
                     return false; // Invalid credentials
                 }
             }
-            catch (Exception ex)
+            catch (Exception )
             {
                 // Handle exceptions and return false for invalid credentials
                 // Log the exception or display an error message as needed
                 return false;
             }
         }
+
+        
 
         public async Task<bool> DeleteUser(UserCredentialsDto user)
         {

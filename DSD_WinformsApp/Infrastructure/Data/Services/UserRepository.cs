@@ -23,27 +23,27 @@ namespace DSD_WinformsApp.Infrastructure.Data.Services
             
         }
 
-        // Add method to gett all items from the database
+        //Add method to gett all items from the database
         public async Task<List<UserCredentialsDto>> GetAllUsers()
         {
-            //return await Task.Run(() =>
-            //{
-            //    return _dbContext.UserCredentials
-            //        .Select(user => new UserCredentialsDto
-            //        {
-            //            UserId = user.UserId,
-            //            Firstname = user.Firstname,
-            //            Lastname = user.Lastname,
-            //            EmailAddress = user.EmailAddress,
-            //            CreatedDate = user.CreatedDate,
-            //        })
-            //        .ToList();
-            //});
-
-            var allUsers = await _dbContext.UserCredentials.ToListAsync();
-            var users = _mapper.Map<List<UserCredentialsModel>, List<UserCredentialsDto>>(allUsers);
-            return users;
+            return await GetAllUsers(UserRole.All);
         }
+
+        public async Task<List<UserCredentialsDto>> GetAllUsers(UserRole role)
+        {
+            if (role == UserRole.All)
+            {
+                var allUsers = await _dbContext.UserCredentials.ToListAsync();
+                return _mapper.Map<List<UserCredentialsModel>, List<UserCredentialsDto>>(allUsers);
+            }
+            else
+            {
+                var filteredUsers = await _dbContext.UserCredentials.Where(u => u.UserRole == role).ToListAsync();
+                return _mapper.Map<List<UserCredentialsModel>, List<UserCredentialsDto>>(filteredUsers);
+            }
+        }
+
+
 
         public void RegisterUser(UserCredentialsDto userCredentials)
         {
@@ -69,6 +69,28 @@ namespace DSD_WinformsApp.Infrastructure.Data.Services
                     .FirstOrDefault();
             });
         }
+
+        public string GetUserRole(string emailAddress)
+        {
+            try
+            {
+                var user = _dbContext.UserCredentials
+                    .FirstOrDefault(u => u.EmailAddress == emailAddress);
+
+                if (user != null)
+                {
+                    return user.UserRole.ToString();
+                }
+            }
+            catch (Exception)
+            {
+                // Handle exceptions, log, or return a default role as needed
+            }
+
+            // Return a default role if user not found or an exception occurred
+            return "User"; // Replace with your default role
+        }
+
 
         // Add method to Edit selected user
         public async Task<bool> EditUser(int userId, UserCredentialsDto userCredentials)
