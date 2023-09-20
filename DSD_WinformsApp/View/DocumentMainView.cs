@@ -27,6 +27,9 @@ namespace DSD_WinformsApp.View
         private string currentFilterCategory = "";
         private bool isVisible;
 
+        // Initial value for user search query
+        private string currentSearchUserQuery = "";
+
         public DocumentMainView(IUnitOfWork unitOfWork)
         {
             InitializeComponent();
@@ -37,10 +40,14 @@ namespace DSD_WinformsApp.View
             // Attach the FormClosing event handler
             this.FormClosing += DocumentViewForm_FormClosing;
 
-            ToggleManageUsersButtonVisibility(isVisible);
+            ToggleManageUsersButtonVisibility(isVisible); // Manage Users button visibility
 
+            // Documents filter events 
             textBoxSearchBar.TextChanged += textBoxSearchBar_TextChanged;
             comboBoxCategory.TextChanged += comboBoxCategoryDropdown_SelectedIndexChanged;
+
+            // Users filter events
+            textBoxUsersSearchBox.TextChanged += textBoxUsersSearchBox_TextChanged;
         }
 
         private async void DocumentView_Load_1(object sender, EventArgs e)
@@ -48,19 +55,25 @@ namespace DSD_WinformsApp.View
             // Load the documents from the database using the presenter
             await _presenter.LoadDocumentsByFilter(currentSearchQuery, currentFilterCategory);
 
+            // Load the users from the database using the presenter
+            await _presenter.LoadUsersByFilter(currentSearchUserQuery);
+
+
+
             //buttonUserDetailsSave = new CustomButton(ColorTranslator.FromHtml("#05982E"), SystemColors.Control);
             //buttonCloseUser = new CustomButton(ColorTranslator.FromHtml("#DA0B0B"), SystemColors.Control);
             //buttonEditUser = new CustomButton(ColorTranslator.FromHtml("#A5D7E8"), SystemColors.Control);
 
-       
 
-            iconNext.Click += pictureBox3_Click;
-            iconBack.Click += iconBack_Click;
 
             #region Document Page Properties
 
+            // Set Onclick event for the pagination buttons
+            iconNext.Click += pictureBox3_Click;
+            iconBack.Click += iconBack_Click;
+
             panelManageUsers.Visible = false; // Hide the panelManageUsers initially
-           
+
             // Add controls for panel2
             panelDocumentButton.Controls.Add(pictureBox1);
             panelDocumentButton.Controls.Add(dataGridView1);
@@ -168,6 +181,10 @@ namespace DSD_WinformsApp.View
             // Wire up the CellClick event handler
             dataGridViewManageUsers.CellClick += dataGridViewManageUsers_DetailsButton_CellClick;
             dataGridViewManageUsers.CellClick += dataGridViewManageUsers_DeleteButton_CellClick;
+
+            // Set Onclick event for users pagination buttons
+            pictureBoxUsersNextIcon.Click += pictureBoxUsersNextIcon_Click;
+            pictureBoxUsersBackIcon.Click += pictureBoxUsersBackIcon_Click;
 
             #endregion
 
@@ -993,7 +1010,7 @@ namespace DSD_WinformsApp.View
 
         }
 
-        private async  void buttonUserDetailsSave_Click(object sender, EventArgs e)
+        private async void buttonUserDetailsSave_Click(object sender, EventArgs e)
         {
             // Get modified data from the textboxes
             int userId = int.Parse(textBoxID.Text);
@@ -1013,7 +1030,7 @@ namespace DSD_WinformsApp.View
             };
 
             // Save the modified user to the database using the presenter
-             _presenter.EditUser(modifiedUser);
+            _presenter.EditUser(modifiedUser);
 
             // Return to Manage Users page
             panelUserDetails.Visible = false;
@@ -1025,8 +1042,6 @@ namespace DSD_WinformsApp.View
             await _presenter.LoadUsers();
 
         }
-
-
 
         // event when delete button was clicked
         private void dataGridViewManageUsers_DeleteButton_CellClick(object? sender, DataGridViewCellEventArgs e)
@@ -1067,13 +1082,14 @@ namespace DSD_WinformsApp.View
             panelManageUsers.Visible = true;
         }
 
+       
+
         #endregion
 
-        #region Filter and Pagination Functionalities
+        #region Document Filter and Pagination Functionalities
 
         private void textBoxSearchBar_TextChanged(object? sender, EventArgs e)
         {
-
             ApplyFilters();
         }
 
@@ -1085,12 +1101,10 @@ namespace DSD_WinformsApp.View
         private void ApplyFilters()
         {
             _presenter.ApplyFilters();
-
         }
 
         private void pictureBox3_Click(object? sender, EventArgs e)
         {
-
             _presenter.NextPage();
         }
 
@@ -1112,10 +1126,50 @@ namespace DSD_WinformsApp.View
         }
         #endregion
 
+        #region Users Filter and Pagination Functionalities
+        private void textBoxUsersSearchBox_TextChanged(object? sender, EventArgs e)
+        {
+            ApplyUsersPageFilters();
+        }
+
+        private void ApplyUsersPageFilters()
+        {
+            _presenter.ApplyUsersPageFilters();
+        }
+
+        private void pictureBoxUsersNextIcon_Click(object? sender, EventArgs e)
+        {
+            _presenter.NextUsersPage();
+        }
+
+        private void pictureBoxUsersBackIcon_Click(object? sender, EventArgs e)
+        {
+            _presenter.BackUsersPage();
+        }
+
+        public string GetSearchUserQuery()
+        {
+            return textBoxUsersSearchBox.Text.Trim() ?? string.Empty;
+        }
+
+
+
+
+
+
+
+
+
+
+
+
+        #endregion
+
+        private void buttonSignOut_Click(object sender, EventArgs e)
+        {
+            Application.Exit();
+        }
+
        
-
-
-
-
     }
 }

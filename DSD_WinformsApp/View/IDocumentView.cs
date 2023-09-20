@@ -13,5 +13,6 @@ namespace DSD_WinformsApp.View
         string GetSearchQuery();
         string GetFilterCategory();
         void ToggleManageUsersButtonVisibility(bool isAdminUser);
+        string GetSearchUserQuery();
     }
 }

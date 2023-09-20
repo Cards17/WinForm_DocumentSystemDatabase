@@ -21,7 +21,7 @@ namespace DSD_WinformsApp.Presenter
         private readonly IBackUpFileRepository _backUpFileRepository;
         private readonly IUserRepository _userRepository;
 
-
+        #region Document Page Pagination Fields
         private List<DocumentDto> allDocuments = null!;
         private int currentPage = 1;
         private int itemsPerPage = 10;
@@ -30,6 +30,17 @@ namespace DSD_WinformsApp.Presenter
         private string currentSearchQuery = "";
         private string currentFilterCategory = "";
         private List<DocumentDto> filteredDocuments = new List<DocumentDto>();
+        #endregion
+
+        #region Manage Users Page Pagination Fields
+        private List<UserCredentialsDto> allUsers = null!;
+        private int currentUsersPage = 1;
+        private int itemsUsersPerPage = 10;
+
+        private string currentUsersSearchQuery = ""; // Initial value for search query
+        private List<UserCredentialsDto> filteredUsers = new List<UserCredentialsDto>();
+
+        #endregion
 
         public DocumentPresenter(IDocumentView mainDocumentView, IDocumentRepository documentRepository, IBackUpFileRepository backUpFileRepository, IUserRepository userRepository)
         {
@@ -53,7 +64,7 @@ namespace DSD_WinformsApp.Presenter
             _mainDocumentView.BindDataMainView(allDocuments);
         }
 
-        #region Pagination Methods
+        #region Document Page Pagination Methods
         public void AddNewDocument(DocumentDto newDocument)
         {
             filteredDocuments.Add(newDocument);
@@ -109,6 +120,54 @@ namespace DSD_WinformsApp.Presenter
 
         }
         #endregion
+
+        #region Manage Users Page Pagination Methods
+        public async Task ApplyUsersPageFilters()
+        {
+            currentUsersSearchQuery = _mainDocumentView.GetSearchUserQuery().Trim() ?? string.Empty;
+
+            currentPage = 1; // Reset the page when applying filters
+
+            // Get filtered users
+            filteredUsers = await _userRepository.GetFilteredUsers(currentUsersSearchQuery);
+            SetCurrentUsersPageData();
+
+        }
+                                            
+        public void NextUsersPage()
+        {
+
+            if (currentUsersPage * itemsUsersPerPage < filteredUsers.Count)
+            {
+                currentUsersPage++;
+                SetCurrentUsersPageData();
+            }
+        }
+
+        public void BackUsersPage()
+        {
+            if (currentUsersPage > 1)
+            {
+                currentUsersPage--;
+                SetCurrentUsersPageData();
+            }
+        }
+
+        private void SetCurrentUsersPageData()
+        {
+            // Ensure currentPage is within valid bounds
+            currentUsersPage = Math.Max(1, Math.Min(currentUsersPage, TotalPages()));
+
+            int startIndex = (currentUsersPage - 1) * itemsUsersPerPage;
+            int endIndex = Math.Min(startIndex + itemsUsersPerPage, filteredUsers.Count);
+
+            var currentPageUsers = filteredUsers.Skip(startIndex).Take(endIndex - startIndex).ToList();
+            _mainDocumentView.BindDataManageUsers(currentPageUsers);
+        }
+
+
+        #endregion
+
 
         public void SaveDocument(DocumentDto document, byte[] fileDataBytes)
         {
@@ -237,7 +296,13 @@ namespace DSD_WinformsApp.Presenter
             }
         }
 
-        
+        public async Task LoadUsersByFilter(string currentSearchQuery)
+        {
+            allUsers = await _userRepository.GetFilteredUsers(currentSearchQuery);
+            _mainDocumentView.BindDataManageUsers(allUsers);
+        }
+
+
 
         public async Task<bool> DeleteUser(UserCredentialsDto user)
         {

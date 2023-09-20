@@ -65,9 +65,6 @@ namespace DSD_WinformsApp.View
             labelJobTitle = new Label();
             labelEmailAddress = new Label();
             panelHome = new Panel();
-            buttonUserDetailsSave = new CustomButton(ColorTranslator.FromHtml("#05982E"), SystemColors.Control);
-            buttonCloseUser = new CustomButton(ColorTranslator.FromHtml("#DA0B0B"), SystemColors.Control);
-            buttonEditUser = new CustomButton(ColorTranslator.FromHtml("#A5D7E8"), SystemColors.Control);
             ((System.ComponentModel.ISupportInitialize)dataGridView1).BeginInit();
             panel1.SuspendLayout();
             panelDocumentButton.SuspendLayout();
@@ -117,7 +114,6 @@ namespace DSD_WinformsApp.View
             buttonManageUsers.Size = new Size(235, 35);
             buttonManageUsers.TabIndex = 2;
             buttonManageUsers.Text = "Manage Users";
-            buttonManageUsers.Visible = true;
             buttonManageUsers.UseVisualStyleBackColor = false;
             buttonManageUsers.Click += buttonManageUsers_Click;
             // 
@@ -226,12 +222,14 @@ namespace DSD_WinformsApp.View
             // buttonSignOut
             // 
             buttonSignOut.BackColor = Color.FromArgb(218, 11, 11);
+            buttonSignOut.Cursor = Cursors.Hand;
             buttonSignOut.Location = new Point(1293, 25);
             buttonSignOut.Name = "buttonSignOut";
             buttonSignOut.Size = new Size(100, 40);
             buttonSignOut.TabIndex = 3;
             buttonSignOut.Text = "Sign Out";
             buttonSignOut.UseVisualStyleBackColor = false;
+            buttonSignOut.Click += buttonSignOut_Click;
             // 
             // panelManageUsers
             // 
@@ -252,16 +250,18 @@ namespace DSD_WinformsApp.View
             textBoxUsersSearchBox.PlaceholderText = "Search User Name";
             textBoxUsersSearchBox.Size = new Size(250, 31);
             textBoxUsersSearchBox.TabIndex = 3;
+            textBoxUsersSearchBox.TextChanged += textBoxUsersSearchBox_TextChanged;
             // 
             // pictureBoxUsersNextIcon
             // 
             pictureBoxUsersNextIcon.Image = Properties.Resources.next;
-            pictureBoxUsersNextIcon.Location = new Point(1110, 650);
+            pictureBoxUsersNextIcon.Location = new Point(1109, 650);
             pictureBoxUsersNextIcon.Name = "pictureBoxUsersNextIcon";
             pictureBoxUsersNextIcon.Size = new Size(36, 36);
             pictureBoxUsersNextIcon.SizeMode = PictureBoxSizeMode.CenterImage;
             pictureBoxUsersNextIcon.TabIndex = 2;
             pictureBoxUsersNextIcon.TabStop = false;
+            pictureBoxUsersNextIcon.Click += pictureBoxUsersNextIcon_Click;
             // 
             // pictureBoxUsersBackIcon
             // 
@@ -272,6 +272,7 @@ namespace DSD_WinformsApp.View
             pictureBoxUsersBackIcon.SizeMode = PictureBoxSizeMode.AutoSize;
             pictureBoxUsersBackIcon.TabIndex = 1;
             pictureBoxUsersBackIcon.TabStop = false;
+            pictureBoxUsersBackIcon.Click += pictureBoxUsersBackIcon_Click;
             // 
             // dataGridViewManageUsers
             // 
@@ -297,9 +298,6 @@ namespace DSD_WinformsApp.View
             // panelUserDetails2
             // 
             panelUserDetails2.BackColor = Color.White;
-            panelUserDetails2.Controls.Add(buttonUserDetailsSave);
-            panelUserDetails2.Controls.Add(buttonCloseUser);
-            panelUserDetails2.Controls.Add(buttonEditUser);
             panelUserDetails2.Controls.Add(textBoxUserEmailAdd);
             panelUserDetails2.Controls.Add(textBoxUserJobTitle);
             panelUserDetails2.Controls.Add(textBoxUserLastName);
@@ -315,39 +313,6 @@ namespace DSD_WinformsApp.View
             panelUserDetails2.Name = "panelUserDetails2";
             panelUserDetails2.Size = new Size(1010, 750);
             panelUserDetails2.TabIndex = 6;
-            // 
-            // buttonUserDetailsSave
-            // 
-            buttonUserDetailsSave.BackColor = Color.FromArgb(5, 152, 46);
-            buttonUserDetailsSave.Location = new Point(477, 675);
-            buttonUserDetailsSave.Name = "buttonUserDetailsSave";
-            buttonUserDetailsSave.Size = new Size(112, 34);
-            buttonUserDetailsSave.TabIndex = 13;
-            buttonUserDetailsSave.Text = "Save";
-            buttonUserDetailsSave.UseVisualStyleBackColor = true;
-            buttonUserDetailsSave.Click += buttonUserDetailsSave_Click;
-            // 
-            // buttonCloseUser
-            // 
-            buttonCloseUser.BackColor = Color.FromArgb(218, 11, 11);
-            buttonCloseUser.Location = new Point(768, 675);
-            buttonCloseUser.Name = "buttonCloseUser";
-            buttonCloseUser.Size = new Size(112, 34);
-            buttonCloseUser.TabIndex = 12;
-            buttonCloseUser.Text = "Close";
-            buttonCloseUser.UseVisualStyleBackColor = true;
-            buttonCloseUser.Click += buttonCloseUser_Click;
-            // 
-            // buttonEditUser
-            // 
-            buttonEditUser.BackColor = Color.FromArgb(165, 215, 232);
-            buttonEditUser.Location = new Point(621, 675);
-            buttonEditUser.Name = "buttonEditUser";
-            buttonEditUser.Size = new Size(112, 34);
-            buttonEditUser.TabIndex = 11;
-            buttonEditUser.Text = "Edit";
-            buttonEditUser.UseVisualStyleBackColor = true;
-            buttonEditUser.Click += buttonEditUser_Click;
             // 
             // textBoxUserEmailAdd
             // 
@@ -455,11 +420,11 @@ namespace DSD_WinformsApp.View
             ClientSize = new Size(1418, 968);
             Controls.Add(buttonSignOut);
             Controls.Add(panel1);
+            Controls.Add(panelManageUsers);
             Controls.Add(panelHome);
+            Controls.Add(dataGridView1);
             Controls.Add(panelUserDetails);
             Controls.Add(panelDocumentButton);
-            Controls.Add(panelManageUsers);
-            Controls.Add(dataGridView1);
             Icon = (Icon)resources.GetObject("$this.Icon");
             Name = "DocumentMainView";
             Text = "Main Page";

@@ -92,6 +92,27 @@ namespace DSD_WinformsApp.Infrastructure.Data.Services
         }
 
 
+        public async Task<List<UserCredentialsDto>> GetFilteredUsers(string searchQuery)
+        {
+            // add condition for search and filter was empty or null
+
+
+            var allUsers = await _dbContext.UserCredentials.ToListAsync();
+            var searchFilter = searchQuery ?? "";
+
+            var filteredUsers = allUsers
+                .Where(user =>
+                    (string.IsNullOrEmpty(searchFilter) || user.Firstname.Contains(searchFilter, StringComparison.OrdinalIgnoreCase))
+                    && user.Lastname.Contains(searchFilter, StringComparison.OrdinalIgnoreCase))
+                .ToList();
+
+            var users = _mapper.Map<List<UserCredentialsModel>, List<UserCredentialsDto>>(filteredUsers);
+            return users;
+        }
+
+
+
+
         // Add method to Edit selected user
         public async Task<bool> EditUser(int userId, UserCredentialsDto userCredentials)
         {
