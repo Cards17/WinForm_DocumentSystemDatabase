@@ -38,6 +38,7 @@ namespace DSD_WinformsApp.Presenter
         private int itemsUsersPerPage = 10;
 
         private string currentUsersSearchQuery = ""; // Initial value for search query
+        private string currentUsersJobFilter = "";
         private List<UserCredentialsDto> filteredUsers = new List<UserCredentialsDto>();
 
         #endregion
@@ -125,11 +126,12 @@ namespace DSD_WinformsApp.Presenter
         public async Task ApplyUsersPageFilters()
         {
             currentUsersSearchQuery = _mainDocumentView.GetSearchUserQuery().Trim() ?? string.Empty;
+            currentUsersJobFilter = _mainDocumentView.GetFilterUsersCategory() ?? string.Empty;
 
             currentPage = 1; // Reset the page when applying filters
 
             // Get filtered users
-            filteredUsers = await _userRepository.GetFilteredUsers(currentUsersSearchQuery);
+            filteredUsers = await _userRepository.GetFilteredUsers(currentUsersSearchQuery, currentUsersJobFilter);
             SetCurrentUsersPageData();
 
         }
@@ -156,13 +158,18 @@ namespace DSD_WinformsApp.Presenter
         private void SetCurrentUsersPageData()
         {
             // Ensure currentPage is within valid bounds
-            currentUsersPage = Math.Max(1, Math.Min(currentUsersPage, TotalPages()));
+            currentUsersPage = Math.Max(1, Math.Min(currentUsersPage, UsersTotalPages()));
 
             int startIndex = (currentUsersPage - 1) * itemsUsersPerPage;
             int endIndex = Math.Min(startIndex + itemsUsersPerPage, filteredUsers.Count);
 
             var currentPageUsers = filteredUsers.Skip(startIndex).Take(endIndex - startIndex).ToList();
             _mainDocumentView.BindDataManageUsers(currentPageUsers);
+        }
+
+        private int UsersTotalPages()
+        {
+            return (int)Math.Ceiling((double)filteredUsers.Count / itemsUsersPerPage);
         }
 
 
@@ -296,9 +303,9 @@ namespace DSD_WinformsApp.Presenter
             }
         }
 
-        public async Task LoadUsersByFilter(string currentSearchQuery)
+        public async Task LoadUsersByFilter(string currentUsersSearchQuery, string currentUsersJobFilter)
         {
-            allUsers = await _userRepository.GetFilteredUsers(currentSearchQuery);
+            allUsers = await _userRepository.GetFilteredUsers(currentUsersSearchQuery, currentUsersJobFilter);
             _mainDocumentView.BindDataManageUsers(allUsers);
         }
 

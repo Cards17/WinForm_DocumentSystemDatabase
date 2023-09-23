@@ -29,6 +29,7 @@ namespace DSD_WinformsApp.View
 
         // Initial value for user search query
         private string currentSearchUserQuery = "";
+        private string currentJobFilter = "";
 
         public DocumentMainView(IUnitOfWork unitOfWork)
         {
@@ -48,6 +49,7 @@ namespace DSD_WinformsApp.View
 
             // Users filter events
             textBoxUsersSearchBox.TextChanged += textBoxUsersSearchBox_TextChanged;
+            comboBox_JobCategory.TextChanged += comboBox_JobCategory_SelectedIndexChanged;
         }
 
         private async void DocumentView_Load_1(object sender, EventArgs e)
@@ -56,15 +58,48 @@ namespace DSD_WinformsApp.View
             await _presenter.LoadDocumentsByFilter(currentSearchQuery, currentFilterCategory);
 
             // Load the users from the database using the presenter
-            await _presenter.LoadUsersByFilter(currentSearchUserQuery);
-
-
+            await _presenter.LoadUsersByFilter(currentSearchUserQuery, currentJobFilter);
 
             //buttonUserDetailsSave = new CustomButton(ColorTranslator.FromHtml("#05982E"), SystemColors.Control);
             //buttonCloseUser = new CustomButton(ColorTranslator.FromHtml("#DA0B0B"), SystemColors.Control);
             //buttonEditUser = new CustomButton(ColorTranslator.FromHtml("#A5D7E8"), SystemColors.Control);
 
+            #region Manage Users Properties
 
+            // Create instance for comboBox_JobCategory items
+            comboBox_JobCategory.Items.Add("All Job Titles");
+            comboBox_JobCategory.Items.Add("Manager");
+            comboBox_JobCategory.Items.Add("Staff");
+            comboBox_JobCategory.SelectedIndex = 0; // Set the default value to "Select Category"
+
+            // Datagridviewbutton details column
+            DataGridViewButtonColumn detailsButtonUserColumn = new DataGridViewButtonColumn();
+            detailsButtonUserColumn.Name = "Details";
+            detailsButtonUserColumn.Text = "Details";
+            detailsButtonUserColumn.Width = 91;
+            detailsButtonUserColumn.HeaderText = string.Empty;
+            detailsButtonUserColumn.UseColumnTextForButtonValue = true;
+
+            dataGridViewManageUsers.Columns.Add(detailsButtonUserColumn);
+
+            // Datagridviewbutton delete column
+            DataGridViewButtonColumn deleteButtonUserColumn = new DataGridViewButtonColumn();
+            deleteButtonUserColumn.Name = "Delete";
+            deleteButtonUserColumn.Text = "Delete";
+            deleteButtonUserColumn.Width = 91;
+            deleteButtonUserColumn.HeaderText = string.Empty;
+            deleteButtonUserColumn.UseColumnTextForButtonValue = true;
+            dataGridViewManageUsers.Columns.Add(deleteButtonUserColumn);
+
+            // Wire up the CellClick event handler
+            dataGridViewManageUsers.CellClick += dataGridViewManageUsers_DetailsButton_CellClick;
+            dataGridViewManageUsers.CellClick += dataGridViewManageUsers_DeleteButton_CellClick;
+
+            // Set Onclick event for users pagination buttons
+            pictureBoxUsersNextIcon.Click += pictureBoxUsersNextIcon_Click;
+            pictureBoxUsersBackIcon.Click += pictureBoxUsersBackIcon_Click;
+
+            #endregion
 
             #region Document Page Properties
 
@@ -157,36 +192,7 @@ namespace DSD_WinformsApp.View
 
             #endregion
 
-            #region Manage Users Properties
 
-            // Datagridviewbutton details column
-            DataGridViewButtonColumn detailsButtonUserColumn = new DataGridViewButtonColumn();
-            detailsButtonUserColumn.Name = "Details";
-            detailsButtonUserColumn.Text = "Details";
-            detailsButtonUserColumn.Width = 91;
-            detailsButtonUserColumn.HeaderText = string.Empty;
-            detailsButtonUserColumn.UseColumnTextForButtonValue = true;
-
-            dataGridViewManageUsers.Columns.Add(detailsButtonUserColumn);
-
-            // Datagridviewbutton delete column
-            DataGridViewButtonColumn deleteButtonUserColumn = new DataGridViewButtonColumn();
-            deleteButtonUserColumn.Name = "Delete";
-            deleteButtonUserColumn.Text = "Delete";
-            deleteButtonUserColumn.Width = 91;
-            deleteButtonUserColumn.HeaderText = string.Empty;
-            deleteButtonUserColumn.UseColumnTextForButtonValue = true;
-            dataGridViewManageUsers.Columns.Add(deleteButtonUserColumn);
-
-            // Wire up the CellClick event handler
-            dataGridViewManageUsers.CellClick += dataGridViewManageUsers_DetailsButton_CellClick;
-            dataGridViewManageUsers.CellClick += dataGridViewManageUsers_DeleteButton_CellClick;
-
-            // Set Onclick event for users pagination buttons
-            pictureBoxUsersNextIcon.Click += pictureBoxUsersNextIcon_Click;
-            pictureBoxUsersBackIcon.Click += pictureBoxUsersBackIcon_Click;
-
-            #endregion
 
         }
 
@@ -1082,7 +1088,7 @@ namespace DSD_WinformsApp.View
             panelManageUsers.Visible = true;
         }
 
-       
+
 
         #endregion
 
@@ -1132,6 +1138,11 @@ namespace DSD_WinformsApp.View
             ApplyUsersPageFilters();
         }
 
+        private void comboBox_JobCategory_SelectedIndexChanged(object? sender, EventArgs e)
+        {
+            ApplyUsersPageFilters();
+        }
+
         private void ApplyUsersPageFilters()
         {
             _presenter.ApplyUsersPageFilters();
@@ -1152,6 +1163,11 @@ namespace DSD_WinformsApp.View
             return textBoxUsersSearchBox.Text.Trim() ?? string.Empty;
         }
 
+        public string GetFilterUsersCategory()
+        {
+            return comboBox_JobCategory.SelectedItem?.ToString() ?? string.Empty;
+        }
+
 
 
 
@@ -1170,6 +1186,6 @@ namespace DSD_WinformsApp.View
             Application.Exit();
         }
 
-       
+
     }
 }

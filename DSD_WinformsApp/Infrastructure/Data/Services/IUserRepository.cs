@@ -9,7 +9,7 @@ namespace DSD_WinformsApp.Infrastructure.Data.Services
         void RegisterUser(UserCredentialsDto userCredentials);
         Task<UserCredentialsDto?> GetUserByEmail(string emailAddress);
         string GetUserRole(string emailAddress);
-        Task<List<UserCredentialsDto>> GetFilteredUsers(string searchQuery);
+        Task<List<UserCredentialsDto>> GetFilteredUsers(string searchUserQuery, string jobFilterCategory);
         Task<bool> EditUser(int userId, UserCredentialsDto userCredentials);
         Task<bool> DeleteUser(int userId);
 

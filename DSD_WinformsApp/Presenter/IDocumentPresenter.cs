@@ -26,7 +26,7 @@ namespace DSD_WinformsApp.Presenter
         void EditUser(UserCredentialsDto user);
         Task<bool> ValidateUserCredentials(UserCredentialsDto userCredentials);
         Task<bool> DeleteUser(UserCredentialsDto user);
-        Task LoadUsersByFilter(string currentSearchQuery);
+        Task LoadUsersByFilter(string currentUsersSearchQuery, string currentUsersJobFilter);
         Task ApplyUsersPageFilters();
         void NextUsersPage();
         void BackUsersPage();

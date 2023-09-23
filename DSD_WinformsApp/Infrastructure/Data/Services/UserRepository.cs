@@ -2,6 +2,7 @@
 using DSD_WinformsApp.Core.DTOs;
 using DSD_WinformsApp.Model;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
 using Microsoft.VisualBasic.ApplicationServices;
 using System;
 using System.Collections.Generic;
@@ -91,23 +92,41 @@ namespace DSD_WinformsApp.Infrastructure.Data.Services
             return "User"; // Replace with your default role
         }
 
-
-        public async Task<List<UserCredentialsDto>> GetFilteredUsers(string searchQuery)
+        public async Task<List<UserCredentialsDto>> GetFilteredUsers(string searchUserQuery, string jobFilterCategory)
         {
             // add condition for search and filter was empty or null
 
 
             var allUsers = await _dbContext.UserCredentials.ToListAsync();
-            var searchFilter = searchQuery ?? "";
+            var jobFilter = GetFilterJobTitleCategories(jobFilterCategory);
+            var searchFilter = searchUserQuery ?? "";
 
             var filteredUsers = allUsers
                 .Where(user =>
-                    (string.IsNullOrEmpty(searchFilter) || user.Firstname.Contains(searchFilter, StringComparison.OrdinalIgnoreCase))
-                    && user.Lastname.Contains(searchFilter, StringComparison.OrdinalIgnoreCase))
+                    (string.IsNullOrEmpty(searchFilter) || user.Firstname.Contains(searchFilter, StringComparison.OrdinalIgnoreCase)) &&
+                    (string.IsNullOrEmpty(jobFilterCategory) || jobFilter(user.JobTitle)))
                 .ToList();
 
             var users = _mapper.Map<List<UserCredentialsModel>, List<UserCredentialsDto>>(filteredUsers);
             return users;
+
+
+
+        }
+
+        private Func<string, bool> GetFilterJobTitleCategories(string jobFilterCategory)
+        {
+            // implement switch case for job title filter
+            switch (jobFilterCategory)
+            {
+                case "Manager":
+                    return jobTitle => jobTitle == "Manager";
+                case "Staff":
+                    return jobTitle => jobTitle == "Staff";
+                case "All Job Titles":
+                default:
+                    return jobTitle => true;
+            }
         }
 
 

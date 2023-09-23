@@ -47,6 +47,7 @@ namespace DSD_WinformsApp.View
             pictureBox1 = new PictureBox();
             buttonSignOut = new Button();
             panelManageUsers = new Panel();
+            comboBox_JobCategory = new ComboBox();
             textBoxUsersSearchBox = new TextBox();
             pictureBoxUsersNextIcon = new PictureBox();
             pictureBoxUsersBackIcon = new PictureBox();
@@ -234,6 +235,7 @@ namespace DSD_WinformsApp.View
             // panelManageUsers
             // 
             panelManageUsers.BackColor = Color.FromArgb(165, 215, 232);
+            panelManageUsers.Controls.Add(comboBox_JobCategory);
             panelManageUsers.Controls.Add(textBoxUsersSearchBox);
             panelManageUsers.Controls.Add(pictureBoxUsersNextIcon);
             panelManageUsers.Controls.Add(pictureBoxUsersBackIcon);
@@ -243,9 +245,18 @@ namespace DSD_WinformsApp.View
             panelManageUsers.Size = new Size(1195, 890);
             panelManageUsers.TabIndex = 4;
             // 
+            // comboBox_JobCategory
+            // 
+            comboBox_JobCategory.FormattingEnabled = true;
+            comboBox_JobCategory.Location = new Point(892, 130);
+            comboBox_JobCategory.Name = "comboBox_JobCategory";
+            comboBox_JobCategory.Size = new Size(250, 33);
+            comboBox_JobCategory.TabIndex = 4;
+            comboBox_JobCategory.SelectedIndexChanged += comboBox_JobCategory_SelectedIndexChanged;
+            // 
             // textBoxUsersSearchBox
             // 
-            textBoxUsersSearchBox.Location = new Point(890, 130);
+            textBoxUsersSearchBox.Location = new Point(594, 130);
             textBoxUsersSearchBox.Name = "textBoxUsersSearchBox";
             textBoxUsersSearchBox.PlaceholderText = "Search User Name";
             textBoxUsersSearchBox.Size = new Size(250, 31);
@@ -254,8 +265,9 @@ namespace DSD_WinformsApp.View
             // 
             // pictureBoxUsersNextIcon
             // 
+            pictureBoxUsersNextIcon.Cursor = Cursors.Hand;
             pictureBoxUsersNextIcon.Image = Properties.Resources.next;
-            pictureBoxUsersNextIcon.Location = new Point(1109, 650);
+            pictureBoxUsersNextIcon.Location = new Point(1110, 650);
             pictureBoxUsersNextIcon.Name = "pictureBoxUsersNextIcon";
             pictureBoxUsersNextIcon.Size = new Size(36, 36);
             pictureBoxUsersNextIcon.SizeMode = PictureBoxSizeMode.CenterImage;
@@ -265,10 +277,11 @@ namespace DSD_WinformsApp.View
             // 
             // pictureBoxUsersBackIcon
             // 
+            pictureBoxUsersBackIcon.Cursor = Cursors.Hand;
             pictureBoxUsersBackIcon.Image = Properties.Resources.back;
             pictureBoxUsersBackIcon.Location = new Point(1040, 650);
             pictureBoxUsersBackIcon.Name = "pictureBoxUsersBackIcon";
-            pictureBoxUsersBackIcon.Size = new Size(32, 32);
+            pictureBoxUsersBackIcon.Size = new Size(36, 36);
             pictureBoxUsersBackIcon.SizeMode = PictureBoxSizeMode.AutoSize;
             pictureBoxUsersBackIcon.TabIndex = 1;
             pictureBoxUsersBackIcon.TabStop = false;
@@ -283,6 +296,7 @@ namespace DSD_WinformsApp.View
             dataGridViewManageUsers.RowHeadersVisible = false;
             dataGridViewManageUsers.RowHeadersWidth = 62;
             dataGridViewManageUsers.RowTemplate.Height = 33;
+            dataGridViewManageUsers.ScrollBars = ScrollBars.None;
             dataGridViewManageUsers.Size = new Size(1125, 366);
             dataGridViewManageUsers.TabIndex = 0;
             // 
@@ -487,5 +501,6 @@ namespace DSD_WinformsApp.View
         private CustomButton buttonUserDetailsSave;
         private CustomButton buttonCloseUser;
         private CustomButton buttonEditUser;
+        private ComboBox comboBox_JobCategory;
     }
 }
