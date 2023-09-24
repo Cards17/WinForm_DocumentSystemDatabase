@@ -60,9 +60,10 @@ namespace DSD_WinformsApp.View
             // Load the users from the database using the presenter
             await _presenter.LoadUsersByFilter(currentSearchUserQuery, currentJobFilter);
 
-            //buttonUserDetailsSave = new CustomButton(ColorTranslator.FromHtml("#05982E"), SystemColors.Control);
+            //buttonUsersDetailSave = new CustomButton(ColorTranslator.FromHtml("#05982E"), SystemColors.Control);
             //buttonCloseUser = new CustomButton(ColorTranslator.FromHtml("#DA0B0B"), SystemColors.Control);
             //buttonEditUser = new CustomButton(ColorTranslator.FromHtml("#A5D7E8"), SystemColors.Control);
+
 
             #region Manage Users Properties
 
@@ -79,7 +80,6 @@ namespace DSD_WinformsApp.View
             detailsButtonUserColumn.Width = 91;
             detailsButtonUserColumn.HeaderText = string.Empty;
             detailsButtonUserColumn.UseColumnTextForButtonValue = true;
-
             dataGridViewManageUsers.Columns.Add(detailsButtonUserColumn);
 
             // Datagridviewbutton delete column
@@ -192,16 +192,9 @@ namespace DSD_WinformsApp.View
 
             #endregion
 
-
-
         }
 
-        // Event method when details button was clicked
-        public void ToggleManageUsersButtonVisibility(bool isVisible)
-        {
-            buttonManageUsers.Visible = isVisible;
 
-        }
 
         public void BindDataMainView(List<DocumentDto> documents)
         {
@@ -213,6 +206,15 @@ namespace DSD_WinformsApp.View
             dataGridViewManageUsers.DataSource = users;
         }
 
+        #region Document Page Methods
+
+        private void buttonDocument_Click(object sender, EventArgs e)
+        {
+            panelManageUsers.Visible = false; // Hide the Manage Users panel
+            panelHome.Visible = false; // Hide the Home panel
+            panelUserDetails.Visible = false; // Hide the User Details panel
+            panelDocumentButton.Visible = true;
+        }
 
         private void dataGridView1_DownloadButton_CellClick(object? sender, DataGridViewCellEventArgs e)
         {
@@ -273,7 +275,7 @@ namespace DSD_WinformsApp.View
         }
 
         //Event method when details button was clicked
-        private void dataGridView1_DeleteButton_CellClick(object? sender, DataGridViewCellEventArgs e)
+        private async void dataGridView1_DeleteButton_CellClick(object? sender, DataGridViewCellEventArgs e)
         {
             if (e.RowIndex >= 0 && e.ColumnIndex == dataGridView1.Columns["Delete"].Index)
             {
@@ -283,8 +285,12 @@ namespace DSD_WinformsApp.View
 
                 if (result == DialogResult.Yes)
                 {
-                    // User clicked "Yes," proceed with the deletion
-                    DeleteDocumentWithBackups(selectedDocument);
+
+                    // Delete the document and its backups from the database using the presenter
+                    await _presenter.DeleteDocumentWithBackups(selectedDocument);
+
+                    // Load the documents again to update the view
+                    await _presenter.LoadDocuments();
                 }
                 else
                 {
@@ -292,15 +298,6 @@ namespace DSD_WinformsApp.View
                     // Add any additional logic if needed.
                 }
             }
-        }
-
-        private async void DeleteDocumentWithBackups(DocumentDto selectedDocument)
-        {
-            // Delete the document and its backups from the database using the presenter
-            await _presenter.DeleteDocumentWithBackups(selectedDocument);
-
-            // Load the documents again to update the view
-            await _presenter.LoadDocuments();
         }
 
         private async void ShowDocumentDetailsModal(DocumentDto selectedDocument)
@@ -892,6 +889,8 @@ namespace DSD_WinformsApp.View
             }
         }
 
+        #endregion
+
         private void buttonHome_Click(object sender, EventArgs e)
         {
             panelHome.Visible = true;
@@ -900,15 +899,15 @@ namespace DSD_WinformsApp.View
 
         }
 
-        #region Manage Users Page Functionalities
-        private void buttonDocument_Click(object sender, EventArgs e)
-        {
-            panelManageUsers.Visible = false; // Hide the Manage Users panel
-            panelHome.Visible = false; // Hide the Home panel
-            panelUserDetails.Visible = false; // Hide the User Details panel
-            panelDocumentButton.Visible = true;
-        }
 
+
+        #region Manage Users Methods
+
+        // Event method when details button was clicked
+        public void ToggleManageUsersButtonVisibility(bool isVisible)
+        {
+            buttonManageUsers.Visible = isVisible;
+        }
         private async void buttonManageUsers_Click(object sender, EventArgs e)
         {
 
@@ -968,12 +967,12 @@ namespace DSD_WinformsApp.View
                 panelDocumentButton.Visible = false;
 
                 // Default button colors
-                buttonUserDetailsSave.BackColor = ColorTranslator.FromHtml("#05982E");
+                buttonUsersDetailSave.BackColor = ColorTranslator.FromHtml("#05982E");
                 buttonCloseUser.BackColor = ColorTranslator.FromHtml("#DA0B0B");
                 buttonEditUser.BackColor = ColorTranslator.FromHtml("#A5D7E8");
 
                 // button states
-                buttonUserDetailsSave.Enabled = false;
+                buttonUsersDetailSave.Enabled = false;
                 buttonEditUser.Enabled = true;
                 buttonCloseUser.Enabled = true;
 
@@ -1004,7 +1003,7 @@ namespace DSD_WinformsApp.View
         private void buttonEditUser_Click(object sender, EventArgs e)
         {
             buttonEditUser.Enabled = false; // Disable the Edit button
-            buttonUserDetailsSave.Enabled = true; // Enable the Save button
+            buttonUsersDetailSave.Enabled = true; // Enable the Save button
             buttonCloseUser.Enabled = true; // Disable the Close button
 
             // Enable editing of the textboxes
@@ -1016,7 +1015,7 @@ namespace DSD_WinformsApp.View
 
         }
 
-        private async void buttonUserDetailsSave_Click(object sender, EventArgs e)
+        private async void buttonUsersDetailSave_Click(object sender, EventArgs e)
         {
             // Get modified data from the textboxes
             int userId = int.Parse(textBoxID.Text);
@@ -1050,7 +1049,7 @@ namespace DSD_WinformsApp.View
         }
 
         // event when delete button was clicked
-        private void dataGridViewManageUsers_DeleteButton_CellClick(object? sender, DataGridViewCellEventArgs e)
+        private async void dataGridViewManageUsers_DeleteButton_CellClick(object? sender, DataGridViewCellEventArgs e)
         {
 
             if (e.RowIndex >= 0 && e.ColumnIndex == dataGridViewManageUsers.Columns["Delete"].Index)
@@ -1062,7 +1061,8 @@ namespace DSD_WinformsApp.View
                 if (result == DialogResult.Yes)
                 {
                     // User clicked "Yes," proceed with the deletion
-                    DeleteUser(selectedUser);
+                    await _presenter.DeleteUser(selectedUser);
+                    await _presenter.LoadUsers();
                 }
                 else
                 {
@@ -1070,15 +1070,6 @@ namespace DSD_WinformsApp.View
                     // Add any additional logic if needed.
                 }
             }
-        }
-
-        private async void DeleteUser(UserCredentialsDto selectedUser)
-        {
-            // Delete the document and its backups from the database using the presenter
-            await _presenter.DeleteUser(selectedUser);
-
-            // Load the documents again to update the view
-            await _presenter.LoadUsers();
         }
 
         private void buttonCloseUser_Click(object sender, EventArgs e)
@@ -1185,7 +1176,5 @@ namespace DSD_WinformsApp.View
         {
             Application.Exit();
         }
-
-
     }
 }

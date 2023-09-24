@@ -66,6 +66,11 @@ namespace DSD_WinformsApp.View
             labelJobTitle = new Label();
             labelEmailAddress = new Label();
             panelHome = new Panel();
+
+            buttonUsersDetailSave = new CustomButton(ColorTranslator.FromHtml("#05982E"), SystemColors.Control);
+            buttonCloseUser = new CustomButton(ColorTranslator.FromHtml("#DA0B0B"), SystemColors.Control);
+            buttonEditUser = new CustomButton(ColorTranslator.FromHtml("#A5D7E8"), SystemColors.Control);
+
             ((System.ComponentModel.ISupportInitialize)dataGridView1).BeginInit();
             panel1.SuspendLayout();
             panelDocumentButton.SuspendLayout();
@@ -248,15 +253,16 @@ namespace DSD_WinformsApp.View
             // comboBox_JobCategory
             // 
             comboBox_JobCategory.FormattingEnabled = true;
-            comboBox_JobCategory.Location = new Point(892, 130);
+            comboBox_JobCategory.Location = new Point(890, 169);
             comboBox_JobCategory.Name = "comboBox_JobCategory";
             comboBox_JobCategory.Size = new Size(250, 33);
             comboBox_JobCategory.TabIndex = 4;
+            comboBox_JobCategory.Visible = false;
             comboBox_JobCategory.SelectedIndexChanged += comboBox_JobCategory_SelectedIndexChanged;
             // 
             // textBoxUsersSearchBox
             // 
-            textBoxUsersSearchBox.Location = new Point(594, 130);
+            textBoxUsersSearchBox.Location = new Point(891, 130);
             textBoxUsersSearchBox.Name = "textBoxUsersSearchBox";
             textBoxUsersSearchBox.PlaceholderText = "Search User Name";
             textBoxUsersSearchBox.Size = new Size(250, 31);
@@ -270,7 +276,7 @@ namespace DSD_WinformsApp.View
             pictureBoxUsersNextIcon.Location = new Point(1110, 650);
             pictureBoxUsersNextIcon.Name = "pictureBoxUsersNextIcon";
             pictureBoxUsersNextIcon.Size = new Size(36, 36);
-            pictureBoxUsersNextIcon.SizeMode = PictureBoxSizeMode.CenterImage;
+            pictureBoxUsersNextIcon.SizeMode = PictureBoxSizeMode.Zoom;
             pictureBoxUsersNextIcon.TabIndex = 2;
             pictureBoxUsersNextIcon.TabStop = false;
             pictureBoxUsersNextIcon.Click += pictureBoxUsersNextIcon_Click;
@@ -282,7 +288,7 @@ namespace DSD_WinformsApp.View
             pictureBoxUsersBackIcon.Location = new Point(1040, 650);
             pictureBoxUsersBackIcon.Name = "pictureBoxUsersBackIcon";
             pictureBoxUsersBackIcon.Size = new Size(36, 36);
-            pictureBoxUsersBackIcon.SizeMode = PictureBoxSizeMode.AutoSize;
+            pictureBoxUsersBackIcon.SizeMode = PictureBoxSizeMode.Zoom;
             pictureBoxUsersBackIcon.TabIndex = 1;
             pictureBoxUsersBackIcon.TabStop = false;
             pictureBoxUsersBackIcon.Click += pictureBoxUsersBackIcon_Click;
@@ -312,6 +318,9 @@ namespace DSD_WinformsApp.View
             // panelUserDetails2
             // 
             panelUserDetails2.BackColor = Color.White;
+            panelUserDetails2.Controls.Add(buttonEditUser);
+            panelUserDetails2.Controls.Add(buttonCloseUser);
+            panelUserDetails2.Controls.Add(buttonUsersDetailSave);
             panelUserDetails2.Controls.Add(textBoxUserEmailAdd);
             panelUserDetails2.Controls.Add(textBoxUserJobTitle);
             panelUserDetails2.Controls.Add(textBoxUserLastName);
@@ -327,6 +336,39 @@ namespace DSD_WinformsApp.View
             panelUserDetails2.Name = "panelUserDetails2";
             panelUserDetails2.Size = new Size(1010, 750);
             panelUserDetails2.TabIndex = 6;
+            // 
+            // buttonEditUser
+            // 
+            buttonEditUser.BackColor = Color.FromArgb(165, 215, 232);
+            buttonEditUser.Location = new Point(768, 675);
+            buttonEditUser.Name = "buttonEditUser";
+            buttonEditUser.Size = new Size(112, 34);
+            buttonEditUser.TabIndex = 13;
+            buttonEditUser.Text = "Edit";
+            buttonEditUser.UseVisualStyleBackColor = true;
+            buttonEditUser.Click += buttonEditUser_Click;
+            // 
+            // buttonCloseUser
+            // 
+            buttonCloseUser.BackColor = Color.FromArgb(218, 11, 11);
+            buttonCloseUser.Location = new Point(629, 675);
+            buttonCloseUser.Name = "buttonCloseUser";
+            buttonCloseUser.Size = new Size(112, 34);
+            buttonCloseUser.TabIndex = 12;
+            buttonCloseUser.Text = "Close";
+            buttonCloseUser.UseVisualStyleBackColor = true;
+            buttonCloseUser.Click += buttonCloseUser_Click;
+            // 
+            // buttonUsersDetailSave
+            // 
+            buttonUsersDetailSave.BackColor = Color.FromArgb(5, 152, 46);
+            buttonUsersDetailSave.Location = new Point(491, 675);
+            buttonUsersDetailSave.Name = "buttonUsersDetailSave";
+            buttonUsersDetailSave.Size = new Size(112, 34);
+            buttonUsersDetailSave.TabIndex = 11;
+            buttonUsersDetailSave.Text = "Save";
+            buttonUsersDetailSave.UseVisualStyleBackColor = true;
+            buttonUsersDetailSave.Click += buttonUsersDetailSave_Click;
             // 
             // textBoxUserEmailAdd
             // 
@@ -434,11 +476,11 @@ namespace DSD_WinformsApp.View
             ClientSize = new Size(1418, 968);
             Controls.Add(buttonSignOut);
             Controls.Add(panel1);
-            Controls.Add(panelManageUsers);
             Controls.Add(panelHome);
             Controls.Add(dataGridView1);
             Controls.Add(panelUserDetails);
             Controls.Add(panelDocumentButton);
+            Controls.Add(panelManageUsers);
             Icon = (Icon)resources.GetObject("$this.Icon");
             Name = "DocumentMainView";
             Text = "Main Page";
@@ -498,9 +540,13 @@ namespace DSD_WinformsApp.View
         private Label labelJobTitle;
         private Label labelEmailAddress;
         private Panel panelHome;
-        private CustomButton buttonUserDetailsSave;
+        private ComboBox comboBox_JobCategory;
+
+        //private Button buttonEditUser;
+        //private Button buttonCloseUser;
+        //private Button buttonUsersDetailSave;
+        private CustomButton buttonUsersDetailSave;
         private CustomButton buttonCloseUser;
         private CustomButton buttonEditUser;
-        private ComboBox comboBox_JobCategory;
     }
 }
