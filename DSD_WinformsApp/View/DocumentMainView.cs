@@ -60,9 +60,10 @@ namespace DSD_WinformsApp.View
             // Load the users from the database using the presenter
             await _presenter.LoadUsersByFilter(currentSearchUserQuery, currentJobFilter);
 
-            //buttonUsersDetailSave = new CustomButton(ColorTranslator.FromHtml("#05982E"), SystemColors.Control);
-            //buttonCloseUser = new CustomButton(ColorTranslator.FromHtml("#DA0B0B"), SystemColors.Control);
-            //buttonEditUser = new CustomButton(ColorTranslator.FromHtml("#A5D7E8"), SystemColors.Control);
+            // DONT TRY TO REMOVE THIS COMMENTED CODE
+            //buttonUsersDetailSaveFinal = new CustomButton(ColorTranslator.FromHtml("#05982E"), SystemColors.Control);
+            //buttonCloseUserFinal = new CustomButton(ColorTranslator.FromHtml("#DA0B0B"), SystemColors.Control);
+            //buttonEditUserFinal = new CustomButton(ColorTranslator.FromHtml("#A5D7E8"), SystemColors.Control);
 
 
             #region Manage Users Properties
@@ -967,14 +968,14 @@ namespace DSD_WinformsApp.View
                 panelDocumentButton.Visible = false;
 
                 // Default button colors
-                buttonUsersDetailSave.BackColor = ColorTranslator.FromHtml("#05982E");
-                buttonCloseUser.BackColor = ColorTranslator.FromHtml("#DA0B0B");
-                buttonEditUser.BackColor = ColorTranslator.FromHtml("#A5D7E8");
+                buttonUsersDetailSaveFinal.BackColor = ColorTranslator.FromHtml("#05982E");
+                buttonCloseUserFinal.BackColor = ColorTranslator.FromHtml("#DA0B0B");
+                buttonEditUserFinal.BackColor = ColorTranslator.FromHtml("#A5D7E8");
 
                 // button states
-                buttonUsersDetailSave.Enabled = false;
-                buttonEditUser.Enabled = true;
-                buttonCloseUser.Enabled = true;
+                buttonUsersDetailSaveFinal.Enabled = false;
+                buttonEditUserFinal.Enabled = true;
+                buttonCloseUserFinal.Enabled = true;
 
                 // Show the selected user's details in the textboxes
                 ShowUserDetails(selectedUser);
@@ -998,27 +999,31 @@ namespace DSD_WinformsApp.View
 
             textBoxUserJobTitle.Text = selectedUser.JobTitle;
             textBoxUserJobTitle.Enabled = false;
+
+            checkBoxEnableAdmin.Checked = selectedUser.UserRole == UserRole.Admin;
+            checkBoxEnableAdmin.Enabled = false;
         }
 
-        private void buttonEditUser_Click(object sender, EventArgs e)
+        private void buttonEditUserFinal_Click(object sender, EventArgs e)
         {
-            buttonEditUser.Enabled = false; // Disable the Edit button
-            buttonUsersDetailSave.Enabled = true; // Enable the Save button
-            buttonCloseUser.Enabled = true; // Disable the Close button
+            buttonEditUserFinal.Enabled = false; // Disable the Edit button
+            buttonUsersDetailSaveFinal.Enabled = true; // Enable the Save button
+            buttonCloseUserFinal.Enabled = true; // Disable the Close button
 
             // Enable editing of the textboxes
             textBoxID.Enabled = false;
+            checkBoxEnableAdmin.Enabled = true;
             textBoxUserFirstName.Enabled = true;
             textBoxUserLastName.Enabled = true;
             textBoxUserEmailAdd.Enabled = true;
             textBoxUserJobTitle.Enabled = true;
-
         }
 
-        private async void buttonUsersDetailSave_Click(object sender, EventArgs e)
+        private async void buttonUsersDetailSaveFinal_Click(object sender, EventArgs e)
         {
             // Get modified data from the textboxes
             int userId = int.Parse(textBoxID.Text);
+            UserRole userRole = checkBoxEnableAdmin.Checked ? UserRole.Admin : UserRole.User;
             string firstname = textBoxUserFirstName.Text;
             string lastname = textBoxUserLastName.Text;
             string emailAddress = textBoxUserEmailAdd.Text;
@@ -1028,6 +1033,7 @@ namespace DSD_WinformsApp.View
             UserCredentialsDto modifiedUser = new UserCredentialsDto
             {
                 UserId = userId,
+                UserRole = userRole,
                 Firstname = firstname,
                 Lastname = lastname,
                 EmailAddress = emailAddress,
@@ -1045,6 +1051,18 @@ namespace DSD_WinformsApp.View
 
             // Load the user
             await _presenter.LoadUsers();
+
+        }
+
+        private void buttonCloseUserFinal_Click(object sender, EventArgs e)
+        {
+            // close panelUserDetails
+            panelUserDetails.Visible = false;
+            panelManageUsers.Visible = true;
+        }
+
+        private void checkBoxEnableAdmin_CheckedChanged(object sender, EventArgs e)
+        {
 
         }
 
@@ -1072,12 +1090,7 @@ namespace DSD_WinformsApp.View
             }
         }
 
-        private void buttonCloseUser_Click(object sender, EventArgs e)
-        {
-            // close panelUserDetails
-            panelUserDetails.Visible = false;
-            panelManageUsers.Visible = true;
-        }
+       
 
 
 
@@ -1176,5 +1189,7 @@ namespace DSD_WinformsApp.View
         {
             Application.Exit();
         }
+
+        
     }
 }

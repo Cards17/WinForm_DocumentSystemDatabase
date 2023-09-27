@@ -54,6 +54,7 @@ namespace DSD_WinformsApp.View
             dataGridViewManageUsers = new DataGridView();
             panelUserDetails = new Panel();
             panelUserDetails2 = new Panel();
+            checkBoxEnableAdmin = new CheckBox();
             textBoxUserEmailAdd = new TextBox();
             textBoxUserJobTitle = new TextBox();
             textBoxUserLastName = new TextBox();
@@ -67,9 +68,10 @@ namespace DSD_WinformsApp.View
             labelEmailAddress = new Label();
             panelHome = new Panel();
 
-            buttonUsersDetailSave = new CustomButton(ColorTranslator.FromHtml("#05982E"), SystemColors.Control);
-            buttonCloseUser = new CustomButton(ColorTranslator.FromHtml("#DA0B0B"), SystemColors.Control);
-            buttonEditUser = new CustomButton(ColorTranslator.FromHtml("#A5D7E8"), SystemColors.Control);
+
+            buttonUsersDetailSaveFinal = new CustomButton(ColorTranslator.FromHtml("#05982E"), SystemColors.Control);
+            buttonCloseUserFinal = new CustomButton(ColorTranslator.FromHtml("#DA0B0B"), SystemColors.Control);
+            buttonEditUserFinal = new CustomButton(ColorTranslator.FromHtml("#A5D7E8"), SystemColors.Control);
 
             ((System.ComponentModel.ISupportInitialize)dataGridView1).BeginInit();
             panel1.SuspendLayout();
@@ -318,9 +320,10 @@ namespace DSD_WinformsApp.View
             // panelUserDetails2
             // 
             panelUserDetails2.BackColor = Color.White;
-            panelUserDetails2.Controls.Add(buttonEditUser);
-            panelUserDetails2.Controls.Add(buttonCloseUser);
-            panelUserDetails2.Controls.Add(buttonUsersDetailSave);
+            panelUserDetails2.Controls.Add(checkBoxEnableAdmin);
+            panelUserDetails2.Controls.Add(buttonEditUserFinal);
+            panelUserDetails2.Controls.Add(buttonCloseUserFinal);
+            panelUserDetails2.Controls.Add(buttonUsersDetailSaveFinal);
             panelUserDetails2.Controls.Add(textBoxUserEmailAdd);
             panelUserDetails2.Controls.Add(textBoxUserJobTitle);
             panelUserDetails2.Controls.Add(textBoxUserLastName);
@@ -337,38 +340,49 @@ namespace DSD_WinformsApp.View
             panelUserDetails2.Size = new Size(1010, 750);
             panelUserDetails2.TabIndex = 6;
             // 
-            // buttonEditUser
+            // checkBoxEnableAdmin
             // 
-            buttonEditUser.BackColor = Color.FromArgb(165, 215, 232);
-            buttonEditUser.Location = new Point(768, 675);
-            buttonEditUser.Name = "buttonEditUser";
-            buttonEditUser.Size = new Size(112, 34);
-            buttonEditUser.TabIndex = 13;
-            buttonEditUser.Text = "Edit";
-            buttonEditUser.UseVisualStyleBackColor = true;
-            buttonEditUser.Click += buttonEditUser_Click;
+            checkBoxEnableAdmin.AutoSize = true;
+            checkBoxEnableAdmin.Location = new Point(499, 302);
+            checkBoxEnableAdmin.Name = "checkBoxEnableAdmin";
+            checkBoxEnableAdmin.Size = new Size(148, 29);
+            checkBoxEnableAdmin.TabIndex = 18;
+            checkBoxEnableAdmin.Text = "Enable Admin";
+            checkBoxEnableAdmin.UseVisualStyleBackColor = true;
+            checkBoxEnableAdmin.CheckedChanged += checkBoxEnableAdmin_CheckedChanged;
             // 
-            // buttonCloseUser
+            // buttonEditUserFinal
             // 
-            buttonCloseUser.BackColor = Color.FromArgb(218, 11, 11);
-            buttonCloseUser.Location = new Point(629, 675);
-            buttonCloseUser.Name = "buttonCloseUser";
-            buttonCloseUser.Size = new Size(112, 34);
-            buttonCloseUser.TabIndex = 12;
-            buttonCloseUser.Text = "Close";
-            buttonCloseUser.UseVisualStyleBackColor = true;
-            buttonCloseUser.Click += buttonCloseUser_Click;
+            buttonEditUserFinal.BackColor = Color.FromArgb(165, 215, 232);
+            buttonEditUserFinal.Location = new Point(768, 618);
+            buttonEditUserFinal.Name = "buttonEditUserFinal";
+            buttonEditUserFinal.Size = new Size(112, 34);
+            buttonEditUserFinal.TabIndex = 17;
+            buttonEditUserFinal.Text = "Edit";
+            buttonEditUserFinal.UseVisualStyleBackColor = true;
+            buttonEditUserFinal.Click += buttonEditUserFinal_Click;
             // 
-            // buttonUsersDetailSave
+            // buttonCloseUserFinal
             // 
-            buttonUsersDetailSave.BackColor = Color.FromArgb(5, 152, 46);
-            buttonUsersDetailSave.Location = new Point(491, 675);
-            buttonUsersDetailSave.Name = "buttonUsersDetailSave";
-            buttonUsersDetailSave.Size = new Size(112, 34);
-            buttonUsersDetailSave.TabIndex = 11;
-            buttonUsersDetailSave.Text = "Save";
-            buttonUsersDetailSave.UseVisualStyleBackColor = true;
-            buttonUsersDetailSave.Click += buttonUsersDetailSave_Click;
+            buttonCloseUserFinal.BackColor = Color.FromArgb(218, 11, 11);
+            buttonCloseUserFinal.Location = new Point(646, 618);
+            buttonCloseUserFinal.Name = "buttonCloseUserFinal";
+            buttonCloseUserFinal.Size = new Size(112, 34);
+            buttonCloseUserFinal.TabIndex = 16;
+            buttonCloseUserFinal.Text = "Close";
+            buttonCloseUserFinal.UseVisualStyleBackColor = true;
+            buttonCloseUserFinal.Click += buttonCloseUserFinal_Click;
+            // 
+            // buttonUsersDetailSaveFinal
+            // 
+            buttonUsersDetailSaveFinal.BackColor = Color.FromArgb(5, 152, 46);
+            buttonUsersDetailSaveFinal.Location = new Point(520, 618);
+            buttonUsersDetailSaveFinal.Name = "buttonUsersDetailSaveFinal";
+            buttonUsersDetailSaveFinal.Size = new Size(112, 34);
+            buttonUsersDetailSaveFinal.TabIndex = 15;
+            buttonUsersDetailSaveFinal.Text = "Save";
+            buttonUsersDetailSaveFinal.UseVisualStyleBackColor = true;
+            buttonUsersDetailSaveFinal.Click += buttonUsersDetailSaveFinal_Click;
             // 
             // textBoxUserEmailAdd
             // 
@@ -402,7 +416,7 @@ namespace DSD_WinformsApp.View
             // 
             textBoxID.Location = new Point(280, 300);
             textBoxID.Name = "textBoxID";
-            textBoxID.Size = new Size(600, 31);
+            textBoxID.Size = new Size(181, 31);
             textBoxID.TabIndex = 6;
             // 
             // pictureBoxUserProfile
@@ -476,11 +490,11 @@ namespace DSD_WinformsApp.View
             ClientSize = new Size(1418, 968);
             Controls.Add(buttonSignOut);
             Controls.Add(panel1);
-            Controls.Add(panelHome);
-            Controls.Add(dataGridView1);
             Controls.Add(panelUserDetails);
             Controls.Add(panelDocumentButton);
             Controls.Add(panelManageUsers);
+            Controls.Add(panelHome);
+            Controls.Add(dataGridView1);
             Icon = (Icon)resources.GetObject("$this.Icon");
             Name = "DocumentMainView";
             Text = "Main Page";
@@ -541,12 +555,13 @@ namespace DSD_WinformsApp.View
         private Label labelEmailAddress;
         private Panel panelHome;
         private ComboBox comboBox_JobCategory;
+        //private Button buttonUsersDetailSaveFinal;
+        //private Button buttonCloseUserFinal;
+        //private Button buttonEditUserFinal;
 
-        //private Button buttonEditUser;
-        //private Button buttonCloseUser;
-        //private Button buttonUsersDetailSave;
-        private CustomButton buttonUsersDetailSave;
-        private CustomButton buttonCloseUser;
-        private CustomButton buttonEditUser;
+        private CustomButton buttonUsersDetailSaveFinal;
+        private CustomButton buttonCloseUserFinal;
+        private CustomButton buttonEditUserFinal;
+        private CheckBox checkBoxEnableAdmin;
     }
 }

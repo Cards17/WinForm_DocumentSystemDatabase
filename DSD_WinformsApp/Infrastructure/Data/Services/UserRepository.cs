@@ -95,23 +95,19 @@ namespace DSD_WinformsApp.Infrastructure.Data.Services
         public async Task<List<UserCredentialsDto>> GetFilteredUsers(string searchUserQuery, string jobFilterCategory)
         {
             // add condition for search and filter was empty or null
-
-
             var allUsers = await _dbContext.UserCredentials.ToListAsync();
             var jobFilter = GetFilterJobTitleCategories(jobFilterCategory);
             var searchFilter = searchUserQuery ?? "";
 
             var filteredUsers = allUsers
                 .Where(user =>
-                    (string.IsNullOrEmpty(searchFilter) || user.Firstname.Contains(searchFilter, StringComparison.OrdinalIgnoreCase)) &&
+                    (string.IsNullOrEmpty(searchFilter) || user.Firstname.Contains(searchFilter, StringComparison.OrdinalIgnoreCase) ||
+                    (string.IsNullOrEmpty(searchFilter) || user.Lastname.Contains(searchFilter, StringComparison.OrdinalIgnoreCase))) &&
                     (string.IsNullOrEmpty(jobFilterCategory) || jobFilter(user.JobTitle)))
                 .ToList();
 
             var users = _mapper.Map<List<UserCredentialsModel>, List<UserCredentialsDto>>(filteredUsers);
             return users;
-
-
-
         }
 
         private Func<string, bool> GetFilterJobTitleCategories(string jobFilterCategory)
@@ -145,8 +141,9 @@ namespace DSD_WinformsApp.Infrastructure.Data.Services
             user.Firstname = userCredentials.Firstname;
             user.Lastname = userCredentials.Lastname;
             user.EmailAddress = userCredentials.EmailAddress;
-            user.Password = userCredentials.Password;
+            //user.Password = userCredentials.Password;
             user.JobTitle = userCredentials.JobTitle;
+            user.UserRole = userCredentials.UserRole;
 
             _dbContext.SaveChanges();
             return true;
