@@ -1002,9 +1002,8 @@ namespace DSD_WinformsApp.View
             checkBoxEnableAdmin.Enabled = false;
         }
 
-        private void buttonEditUser_Click_1(object sender, EventArgs e)
+        private void buttonEditUser_Click(object sender, EventArgs e)
         {
-
             buttonEditUser.Enabled = false; // Disable the Edit button
             buttonUsersDetailSave.Enabled = true; // Enable the Save button
             buttonCloseUser.Enabled = true; // Disable the Close button
@@ -1018,7 +1017,7 @@ namespace DSD_WinformsApp.View
             textBoxUserJobTitle.Enabled = true;
         }
 
-        private async void buttonUsersDetailSave_Click_1(object sender, EventArgs e)
+        private async void buttonUsersDetailSave_Click(object sender, EventArgs e)
         {
             // Get modified data from the textboxes
             int userId = int.Parse(textBoxID.Text);
@@ -1053,7 +1052,7 @@ namespace DSD_WinformsApp.View
 
         }
 
-        private void buttonCloseUser_Click_1(object sender, EventArgs e)
+        private void buttonCloseUser_Click(object sender, EventArgs e)
         {
             // close panelUserDetails
             panelUserDetails.Visible = false;
@@ -1133,6 +1132,21 @@ namespace DSD_WinformsApp.View
         {
             return comboBoxCategoryDropdown.SelectedItem?.ToString() ?? string.Empty;
         }
+
+        // Method to update the page label for users pagination
+        public void UpdatePageLabel(int currentPage, int totalPages)
+        {
+            // Add condition if totalPages is 0
+            if (totalPages == 0)
+            {
+                labelDocumentPagination.Text = $"Page {currentPage} of {totalPages + 1}";
+            }
+            else
+            {
+                labelDocumentPagination.Text = $"Page {currentPage} of {totalPages}";
+            }
+        }
+
         #endregion
 
         #region Users Filter and Pagination Functionalities
@@ -1171,16 +1185,19 @@ namespace DSD_WinformsApp.View
             return comboBox_JobCategory.SelectedItem?.ToString() ?? string.Empty;
         }
 
+        public void UpdateUsersPageLabel(int currentPageUsers, int UsersTotalPages)
+        {
+            // add condition where if UsersTotalPages is 0
+            if (UsersTotalPages == 0)
+            {
+                labelUsersPagination.Text = $"Page {currentPageUsers} of {UsersTotalPages + 1}";
+            }
+            else
+            {
+                labelUsersPagination.Text = $"Page {currentPageUsers} of {UsersTotalPages}";
+            }
 
-
-
-
-
-
-
-
-
-
+        }
 
         #endregion
 
@@ -1191,10 +1208,16 @@ namespace DSD_WinformsApp.View
             labelHomePageUserLogin.Text = "Hello, " + username;
         }
 
+
+
         private void buttonSignOut_Click(object sender, EventArgs e)
         {
             Application.Exit();
         }
+
+
+
+
 
 
     }

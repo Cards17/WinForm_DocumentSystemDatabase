@@ -16,5 +16,7 @@ namespace DSD_WinformsApp.View
         string GetSearchUserQuery();
         string GetFilterUsersCategory();
         void SetUsernameLabel(string username);
+        void UpdatePageLabel(int currentPage, int totalPages);
+        void UpdateUsersPageLabel(int currentPageUsers, int UsersTotalPages);
     }
 }

@@ -39,6 +39,7 @@ namespace DSD_WinformsApp.View
             buttonDocument = new Button();
             buttonHome = new Button();
             panelDocumentButton = new Panel();
+            labelDocumentPagination = new Label();
             iconNext = new PictureBox();
             iconBack = new PictureBox();
             comboBoxCategoryDropdown = new ComboBox();
@@ -46,10 +47,8 @@ namespace DSD_WinformsApp.View
             textBoxSearchBar = new TextBox();
             pictureBox1 = new PictureBox();
             buttonSignOut = new Button();
-            buttonUsersDetailSave = new CustomButton(ColorTranslator.FromHtml("#05982E"), SystemColors.Control);
-            buttonCloseUser = new CustomButton(ColorTranslator.FromHtml("#DA0B0B"), SystemColors.Control);
-            buttonEditUser = new CustomButton(ColorTranslator.FromHtml("#A5D7E8"), SystemColors.Control);
             panelManageUsers = new Panel();
+            labelUsersPagination = new Label();
             comboBox_JobCategory = new ComboBox();
             textBoxUsersSearchBox = new TextBox();
             pictureBoxUsersNextIcon = new PictureBox();
@@ -72,6 +71,11 @@ namespace DSD_WinformsApp.View
             panelHome = new Panel();
             labelHomePage = new Label();
             labelHomePageUserLogin = new Label();
+
+            buttonUsersDetailSave = new CustomButton(ColorTranslator.FromHtml("#05982E"), SystemColors.Control);
+            buttonCloseUser = new CustomButton(ColorTranslator.FromHtml("#DA0B0B"), SystemColors.Control);
+            buttonEditUser = new CustomButton(ColorTranslator.FromHtml("#A5D7E8"), SystemColors.Control);
+
             ((System.ComponentModel.ISupportInitialize)dataGridView1).BeginInit();
             panel1.SuspendLayout();
             panelDocumentButton.SuspendLayout();
@@ -154,6 +158,7 @@ namespace DSD_WinformsApp.View
             // panelDocumentButton
             // 
             panelDocumentButton.BackColor = Color.FromArgb(165, 215, 232);
+            panelDocumentButton.Controls.Add(labelDocumentPagination);
             panelDocumentButton.Controls.Add(iconNext);
             panelDocumentButton.Controls.Add(iconBack);
             panelDocumentButton.Controls.Add(comboBoxCategoryDropdown);
@@ -163,6 +168,16 @@ namespace DSD_WinformsApp.View
             panelDocumentButton.Name = "panelDocumentButton";
             panelDocumentButton.Size = new Size(1195, 890);
             panelDocumentButton.TabIndex = 2;
+            // 
+            // labelDocumentPagination
+            // 
+            labelDocumentPagination.AutoSize = true;
+            labelDocumentPagination.Font = new Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point);
+            labelDocumentPagination.Location = new Point(995, 657);
+            labelDocumentPagination.Name = "labelDocumentPagination";
+            labelDocumentPagination.Size = new Size(59, 25);
+            labelDocumentPagination.TabIndex = 8;
+            labelDocumentPagination.Text = "label1";
             // 
             // iconNext
             // 
@@ -180,7 +195,7 @@ namespace DSD_WinformsApp.View
             // 
             iconBack.Cursor = Cursors.Hand;
             iconBack.Image = Properties.Resources.back;
-            iconBack.Location = new Point(1040, 650);
+            iconBack.Location = new Point(955, 650);
             iconBack.Name = "iconBack";
             iconBack.Size = new Size(36, 36);
             iconBack.SizeMode = PictureBoxSizeMode.Zoom;
@@ -242,6 +257,7 @@ namespace DSD_WinformsApp.View
             // panelManageUsers
             // 
             panelManageUsers.BackColor = Color.FromArgb(165, 215, 232);
+            panelManageUsers.Controls.Add(labelUsersPagination);
             panelManageUsers.Controls.Add(comboBox_JobCategory);
             panelManageUsers.Controls.Add(textBoxUsersSearchBox);
             panelManageUsers.Controls.Add(pictureBoxUsersNextIcon);
@@ -251,6 +267,16 @@ namespace DSD_WinformsApp.View
             panelManageUsers.Name = "panelManageUsers";
             panelManageUsers.Size = new Size(1195, 890);
             panelManageUsers.TabIndex = 4;
+            // 
+            // labelUsersPagination
+            // 
+            labelUsersPagination.AutoSize = true;
+            labelUsersPagination.Font = new Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point);
+            labelUsersPagination.Location = new Point(996, 657);
+            labelUsersPagination.Name = "labelUsersPagination";
+            labelUsersPagination.Size = new Size(59, 25);
+            labelUsersPagination.TabIndex = 5;
+            labelUsersPagination.Text = "label1";
             // 
             // comboBox_JobCategory
             // 
@@ -287,7 +313,7 @@ namespace DSD_WinformsApp.View
             // 
             pictureBoxUsersBackIcon.Cursor = Cursors.Hand;
             pictureBoxUsersBackIcon.Image = Properties.Resources.back;
-            pictureBoxUsersBackIcon.Location = new Point(1040, 650);
+            pictureBoxUsersBackIcon.Location = new Point(955, 650);
             pictureBoxUsersBackIcon.Name = "pictureBoxUsersBackIcon";
             pictureBoxUsersBackIcon.Size = new Size(36, 36);
             pictureBoxUsersBackIcon.SizeMode = PictureBoxSizeMode.Zoom;
@@ -320,9 +346,9 @@ namespace DSD_WinformsApp.View
             // panelUserDetails2
             // 
             panelUserDetails2.BackColor = Color.White;
-            panelUserDetails2.Controls.Add(buttonEditUser);
-            panelUserDetails2.Controls.Add(buttonCloseUser);
             panelUserDetails2.Controls.Add(buttonUsersDetailSave);
+            panelUserDetails2.Controls.Add(buttonCloseUser);
+            panelUserDetails2.Controls.Add(buttonEditUser);
             panelUserDetails2.Controls.Add(checkBoxEnableAdmin);
             panelUserDetails2.Controls.Add(textBoxUserEmailAdd);
             panelUserDetails2.Controls.Add(textBoxUserJobTitle);
@@ -340,38 +366,38 @@ namespace DSD_WinformsApp.View
             panelUserDetails2.Size = new Size(1010, 750);
             panelUserDetails2.TabIndex = 6;
             // 
-            // buttonEditUser
+            // buttonUsersDetailSave
             // 
-            buttonEditUser.BackColor = Color.FromArgb(165, 215, 232);
-            buttonEditUser.Location = new Point(766, 626);
-            buttonEditUser.Name = "buttonEditUser";
-            buttonEditUser.Size = new Size(112, 34);
-            buttonEditUser.TabIndex = 21;
-            buttonEditUser.Text = "Edit";
-            buttonEditUser.UseVisualStyleBackColor = true;
-            buttonEditUser.Click += buttonEditUser_Click_1;
+            buttonUsersDetailSave.BackColor = Color.FromArgb(5, 152, 46);
+            buttonUsersDetailSave.Location = new Point(499, 625);
+            buttonUsersDetailSave.Name = "buttonUsersDetailSave";
+            buttonUsersDetailSave.Size = new Size(112, 34);
+            buttonUsersDetailSave.TabIndex = 21;
+            buttonUsersDetailSave.Text = "Save";
+            buttonUsersDetailSave.UseVisualStyleBackColor = true;
+            buttonUsersDetailSave.Click += buttonUsersDetailSave_Click;
             // 
             // buttonCloseUser
             // 
             buttonCloseUser.BackColor = Color.FromArgb(218, 11, 11);
-            buttonCloseUser.Location = new Point(633, 626);
+            buttonCloseUser.Location = new Point(633, 625);
             buttonCloseUser.Name = "buttonCloseUser";
             buttonCloseUser.Size = new Size(112, 34);
             buttonCloseUser.TabIndex = 20;
             buttonCloseUser.Text = "Close";
             buttonCloseUser.UseVisualStyleBackColor = true;
-            buttonCloseUser.Click += buttonCloseUser_Click_1;
+            buttonCloseUser.Click += buttonCloseUser_Click;
             // 
-            // buttonUsersDetailSave
+            // buttonEditUser
             // 
-            buttonUsersDetailSave.BackColor = Color.FromArgb(5, 152, 46);
-            buttonUsersDetailSave.Location = new Point(499, 626);
-            buttonUsersDetailSave.Name = "buttonUsersDetailSave";
-            buttonUsersDetailSave.Size = new Size(112, 34);
-            buttonUsersDetailSave.TabIndex = 19;
-            buttonUsersDetailSave.Text = "Save";
-            buttonUsersDetailSave.UseVisualStyleBackColor = true;
-            buttonUsersDetailSave.Click += buttonUsersDetailSave_Click_1;
+            buttonEditUser.BackColor = Color.FromArgb(165, 215, 232);
+            buttonEditUser.Location = new Point(768, 625);
+            buttonEditUser.Name = "buttonEditUser";
+            buttonEditUser.Size = new Size(112, 34);
+            buttonEditUser.TabIndex = 19;
+            buttonEditUser.Text = "Edit";
+            buttonEditUser.UseVisualStyleBackColor = true;
+            buttonEditUser.Click += buttonEditUser_Click;
             // 
             // checkBoxEnableAdmin
             // 
@@ -487,7 +513,7 @@ namespace DSD_WinformsApp.View
             // 
             labelHomePage.AutoSize = true;
             labelHomePage.Font = new Font("Segoe UI", 32F, FontStyle.Regular, GraphicsUnit.Point);
-            labelHomePage.Location = new Point(188, 314);
+            labelHomePage.Location = new Point(170, 314);
             labelHomePage.Name = "labelHomePage";
             labelHomePage.Size = new Size(832, 86);
             labelHomePage.TabIndex = 0;
@@ -513,10 +539,10 @@ namespace DSD_WinformsApp.View
             Controls.Add(buttonSignOut);
             Controls.Add(panel1);
             Controls.Add(panelHome);
-            Controls.Add(dataGridView1);
             Controls.Add(panelUserDetails);
             Controls.Add(panelDocumentButton);
             Controls.Add(panelManageUsers);
+            Controls.Add(dataGridView1);
             Icon = (Icon)resources.GetObject("$this.Icon");
             Name = "DocumentMainView";
             Text = "Main Page";
@@ -585,12 +611,11 @@ namespace DSD_WinformsApp.View
         private CheckBox checkBoxEnableAdmin;
         private Label labelHomePage;
         private Label labelHomePageUserLogin;
-        //private Button buttonEditUser;
-        //private Button buttonCloseUser;
-        //private Button buttonUsersDetailSave;
 
-        private CustomButton buttonUsersDetailSave;
-        private CustomButton buttonCloseUser;
+        private Label labelDocumentPagination;
+        private Label labelUsersPagination;
         private CustomButton buttonEditUser;
+        private CustomButton buttonCloseUser;
+        private CustomButton buttonUsersDetailSave;
     }
 }

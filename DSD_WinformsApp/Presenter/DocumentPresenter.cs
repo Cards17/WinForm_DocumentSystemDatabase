@@ -82,6 +82,9 @@ namespace DSD_WinformsApp.Presenter
 
             var currentPageDocuments = filteredDocuments.Skip(startIndex).Take(endIndex - startIndex).ToList();
             _mainDocumentView.BindDataMainView(currentPageDocuments);
+
+            // Update the label after changing the current page
+            _mainDocumentView.UpdatePageLabel(currentPage, TotalPages());
         }
 
         private int TotalPages()
@@ -134,6 +137,7 @@ namespace DSD_WinformsApp.Presenter
             filteredUsers = await _userRepository.GetFilteredUsers(currentUsersSearchQuery, currentUsersJobFilter);
             SetCurrentUsersPageData();
 
+
         }
                                             
         public void NextUsersPage()
@@ -165,6 +169,10 @@ namespace DSD_WinformsApp.Presenter
 
             var currentPageUsers = filteredUsers.Skip(startIndex).Take(endIndex - startIndex).ToList();
             _mainDocumentView.BindDataManageUsers(currentPageUsers);
+
+            // Update the label after changing the current page
+            _mainDocumentView.UpdateUsersPageLabel(currentUsersPage, UsersTotalPages());
+
         }
 
         private int UsersTotalPages()
