@@ -154,13 +154,14 @@ namespace DSD_WinformsApp.View
                     Password = textBoxPassword.Text
                 };
 
-                // Use presenter to call the signin method asynchronously
+                // Use presenter to call the signin method asynchronously and get the result tuple
                 bool isValidCredentials = await _presenter.ValidateUserCredentials(userCredentials);
 
-                if (isValidCredentials)
-                {
-                    this.Close(); // Close the login form
 
+                if (isValidCredentials)
+                {                  
+                    // Close the login form
+                    this.Close();
                 }
                 else
                 {

@@ -61,9 +61,9 @@ namespace DSD_WinformsApp.View
             await _presenter.LoadUsersByFilter(currentSearchUserQuery, currentJobFilter);
 
             // DONT TRY TO REMOVE THIS COMMENTED CODE
-            //buttonUsersDetailSaveFinal = new CustomButton(ColorTranslator.FromHtml("#05982E"), SystemColors.Control);
-            //buttonCloseUserFinal = new CustomButton(ColorTranslator.FromHtml("#DA0B0B"), SystemColors.Control);
-            //buttonEditUserFinal = new CustomButton(ColorTranslator.FromHtml("#A5D7E8"), SystemColors.Control);
+            //buttonUsersDetailSave = new CustomButton(ColorTranslator.FromHtml("#05982E"), SystemColors.Control);
+            //buttonCloseUser = new CustomButton(ColorTranslator.FromHtml("#DA0B0B"), SystemColors.Control);
+            //buttonEditUser = new CustomButton(ColorTranslator.FromHtml("#A5D7E8"), SystemColors.Control);
 
 
             #region Manage Users Properties
@@ -900,8 +900,6 @@ namespace DSD_WinformsApp.View
 
         }
 
-
-
         #region Manage Users Methods
 
         // Event method when details button was clicked
@@ -968,14 +966,14 @@ namespace DSD_WinformsApp.View
                 panelDocumentButton.Visible = false;
 
                 // Default button colors
-                buttonUsersDetailSaveFinal.BackColor = ColorTranslator.FromHtml("#05982E");
-                buttonCloseUserFinal.BackColor = ColorTranslator.FromHtml("#DA0B0B");
-                buttonEditUserFinal.BackColor = ColorTranslator.FromHtml("#A5D7E8");
+                buttonUsersDetailSave.BackColor = ColorTranslator.FromHtml("#05982E");
+                buttonCloseUser.BackColor = ColorTranslator.FromHtml("#DA0B0B");
+                buttonEditUser.BackColor = ColorTranslator.FromHtml("#A5D7E8");
 
                 // button states
-                buttonUsersDetailSaveFinal.Enabled = false;
-                buttonEditUserFinal.Enabled = true;
-                buttonCloseUserFinal.Enabled = true;
+                buttonUsersDetailSave.Enabled = false;
+                buttonEditUser.Enabled = true;
+                buttonCloseUser.Enabled = true;
 
                 // Show the selected user's details in the textboxes
                 ShowUserDetails(selectedUser);
@@ -1004,11 +1002,12 @@ namespace DSD_WinformsApp.View
             checkBoxEnableAdmin.Enabled = false;
         }
 
-        private void buttonEditUserFinal_Click(object sender, EventArgs e)
+        private void buttonEditUser_Click_1(object sender, EventArgs e)
         {
-            buttonEditUserFinal.Enabled = false; // Disable the Edit button
-            buttonUsersDetailSaveFinal.Enabled = true; // Enable the Save button
-            buttonCloseUserFinal.Enabled = true; // Disable the Close button
+
+            buttonEditUser.Enabled = false; // Disable the Edit button
+            buttonUsersDetailSave.Enabled = true; // Enable the Save button
+            buttonCloseUser.Enabled = true; // Disable the Close button
 
             // Enable editing of the textboxes
             textBoxID.Enabled = false;
@@ -1019,7 +1018,7 @@ namespace DSD_WinformsApp.View
             textBoxUserJobTitle.Enabled = true;
         }
 
-        private async void buttonUsersDetailSaveFinal_Click(object sender, EventArgs e)
+        private async void buttonUsersDetailSave_Click_1(object sender, EventArgs e)
         {
             // Get modified data from the textboxes
             int userId = int.Parse(textBoxID.Text);
@@ -1054,7 +1053,7 @@ namespace DSD_WinformsApp.View
 
         }
 
-        private void buttonCloseUserFinal_Click(object sender, EventArgs e)
+        private void buttonCloseUser_Click_1(object sender, EventArgs e)
         {
             // close panelUserDetails
             panelUserDetails.Visible = false;
@@ -1090,7 +1089,7 @@ namespace DSD_WinformsApp.View
             }
         }
 
-       
+
 
 
 
@@ -1185,11 +1184,18 @@ namespace DSD_WinformsApp.View
 
         #endregion
 
+        // Implement the SetUsernameLabel method from the iDocument interface
+        public void SetUsernameLabel(string username)
+        {
+            // Assuming labelUsername is the name of your label control
+            labelHomePageUserLogin.Text = "Hello, " + username;
+        }
+
         private void buttonSignOut_Click(object sender, EventArgs e)
         {
             Application.Exit();
         }
 
-        
+
     }
 }

@@ -279,26 +279,28 @@ namespace DSD_WinformsApp.Presenter
                     if (userRole == "Admin")
                     {
                         _mainDocumentView.ToggleManageUsersButtonVisibility(true);
+                        _mainDocumentView.SetUsernameLabel($"{user.Firstname} {user.Lastname}");
                     }
                     else
                     {
                         _mainDocumentView.ToggleManageUsersButtonVisibility(false);
+                        _mainDocumentView.SetUsernameLabel($"{user.Firstname} {user.Lastname}");
                     }
 
-                   _mainDocumentView.ShowDocumentView();
+                    _mainDocumentView.ShowDocumentView();
 
 
-                    return true; // Valid credentials
+                    // Return both the result and the username
+                    return true;
                 }
                 else
                 {
-                    return false; // Invalid credentials
+                    // Return both the result and an empty username
+                    return false;
                 }
             }
             catch (Exception )
             {
-                // Handle exceptions and return false for invalid credentials
-                // Log the exception or display an error message as needed
                 return false;
             }
         }
