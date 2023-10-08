@@ -230,8 +230,6 @@ namespace DSD_WinformsApp.View
                 {
                     // User clicked "Yes," proceed with the deletion
                     ConfirmDownloadDocument(selectedDocument);
-
-
                 }
                 else
                 {
@@ -292,6 +290,7 @@ namespace DSD_WinformsApp.View
 
                     // Load the documents again to update the view
                     await _presenter.LoadDocuments();
+
                 }
                 else
                 {
@@ -303,8 +302,6 @@ namespace DSD_WinformsApp.View
 
         private async void ShowDocumentDetailsModal(DocumentDto selectedDocument)
         {
-
-
             // Create a new form to display the document details (modal form).
             DetailsFormView detailsForm = new DetailsFormView();
             detailsForm.Text = "Document Details";
@@ -1002,6 +999,8 @@ namespace DSD_WinformsApp.View
             checkBoxEnableAdmin.Enabled = false;
         }
 
+        private Dictionary<Control, string> originalValues = new Dictionary<Control, string>();
+
         private void buttonEditUser_Click(object sender, EventArgs e)
         {
             buttonEditUser.Enabled = false; // Disable the Edit button
@@ -1015,40 +1014,76 @@ namespace DSD_WinformsApp.View
             textBoxUserLastName.Enabled = true;
             textBoxUserEmailAdd.Enabled = true;
             textBoxUserJobTitle.Enabled = true;
+
+            // Store the original values of the text fields in the Dictionary
+            originalValues.Clear(); // Clear any previous values
+            originalValues.Add(checkBoxEnableAdmin, checkBoxEnableAdmin.Checked.ToString());
+            originalValues.Add(textBoxUserFirstName, textBoxUserFirstName.Text);
+            originalValues.Add(textBoxUserLastName, textBoxUserLastName.Text);
+            originalValues.Add(textBoxUserEmailAdd, textBoxUserEmailAdd.Text);
+            originalValues.Add(textBoxUserJobTitle, textBoxUserJobTitle.Text);
         }
+
 
         private async void buttonUsersDetailSave_Click(object sender, EventArgs e)
         {
-            // Get modified data from the textboxes
-            int userId = int.Parse(textBoxID.Text);
-            UserRole userRole = checkBoxEnableAdmin.Checked ? UserRole.Admin : UserRole.User;
-            string firstname = textBoxUserFirstName.Text;
-            string lastname = textBoxUserLastName.Text;
-            string emailAddress = textBoxUserEmailAdd.Text;
-            string jobTitle = textBoxUserJobTitle.Text;
+            // Compare the current values with the original values to check for changes
+            bool hasChanges = false;
 
-            // create new user object from the modified data
-            UserCredentialsDto modifiedUser = new UserCredentialsDto
+            foreach (var kvp in originalValues)
             {
-                UserId = userId,
-                UserRole = userRole,
-                Firstname = firstname,
-                Lastname = lastname,
-                EmailAddress = emailAddress,
-                JobTitle = jobTitle
-            };
+                Control control = kvp.Key;
+                string originalValue = kvp.Value;
+                string currentValue = control.Text;
 
-            // Save the modified user to the database using the presenter
-            _presenter.EditUser(modifiedUser);
+                if (originalValue != currentValue)
+                {
+                    // There is a change in this field
+                    hasChanges = true;
+                    // You can process or save the changes here
+                }
+            }
 
-            // Return to Manage Users page
-            panelUserDetails.Visible = false;
-            panelManageUsers.Visible = true;
-            panelHome.Visible = false;
-            panelDocumentButton.Visible = false;
+            if (hasChanges)
+            {
+                // Get modified data from the textboxes
+                int userId = int.Parse(textBoxID.Text);
+                UserRole userRole = checkBoxEnableAdmin.Checked ? UserRole.Admin : UserRole.User;
+                string firstname = textBoxUserFirstName.Text;
+                string lastname = textBoxUserLastName.Text;
+                string emailAddress = textBoxUserEmailAdd.Text;
+                string jobTitle = textBoxUserJobTitle.Text;
 
-            // Load the user
-            await _presenter.LoadUsers();
+                // create new user object from the modified data
+                UserCredentialsDto modifiedUser = new UserCredentialsDto
+                {
+                    UserId = userId,
+                    UserRole = userRole,
+                    Firstname = firstname,
+                    Lastname = lastname,
+                    EmailAddress = emailAddress,
+                    JobTitle = jobTitle
+                };
+
+                // Save the modified user to the database using the presenter
+                _presenter.EditUser(modifiedUser);
+
+                // Return to Manage Users page
+                panelUserDetails.Visible = false;
+                panelManageUsers.Visible = true;
+                panelHome.Visible = false;
+                panelDocumentButton.Visible = false;
+
+                // Load the user
+                await _presenter.LoadUsers();
+
+            }
+            else
+            {
+                // No changes detected, provide a message or take appropriate action
+            }
+
+            
 
         }
 
@@ -1214,11 +1249,6 @@ namespace DSD_WinformsApp.View
         {
             Application.Exit();
         }
-
-
-
-
-
 
     }
 }
