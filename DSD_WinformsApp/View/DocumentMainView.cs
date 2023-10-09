@@ -50,6 +50,21 @@ namespace DSD_WinformsApp.View
             // Users filter events
             textBoxUsersSearchBox.TextChanged += textBoxUsersSearchBox_TextChanged;
             comboBox_JobCategory.TextChanged += comboBox_JobCategory_SelectedIndexChanged;
+
+            #region Manage Users Events
+            // Attach TextChanged event handlers to the relevant text fields
+            textBoxUserFirstName.TextChanged += TextBox_TextChanged;
+            textBoxUserLastName.TextChanged += TextBox_TextChanged;
+            textBoxUserEmailAdd.TextChanged += TextBox_TextChanged;
+            textBoxUserJobTitle.TextChanged += TextBox_TextChanged;
+
+            // Attach CheckedChanged event handler to the checkbox
+            checkBoxEnableAdmin.CheckedChanged += CheckBox_CheckedChanged;
+
+            // Store the original state of the checkbox
+            originalCheckBoxState = checkBoxEnableAdmin.Checked;
+
+            #endregion
         }
 
         private async void DocumentView_Load_1(object sender, EventArgs e)
@@ -67,6 +82,8 @@ namespace DSD_WinformsApp.View
 
 
             #region Manage Users Properties
+
+           
 
             // Create instance for comboBox_JobCategory items
             comboBox_JobCategory.Items.Add("All Job Titles");
@@ -909,6 +926,8 @@ namespace DSD_WinformsApp.View
 
             await _presenter.LoadUsers();
 
+            
+
             panelDocumentButton.Visible = false;
             panelHome.Visible = false;
             panelUserDetails.Visible = false;
@@ -962,16 +981,6 @@ namespace DSD_WinformsApp.View
                 panelHome.Visible = false;
                 panelDocumentButton.Visible = false;
 
-                // Default button colors
-                buttonUsersDetailSave.BackColor = ColorTranslator.FromHtml("#05982E");
-                buttonCloseUser.BackColor = ColorTranslator.FromHtml("#DA0B0B");
-                buttonEditUser.BackColor = ColorTranslator.FromHtml("#A5D7E8");
-
-                // button states
-                buttonUsersDetailSave.Enabled = false;
-                buttonEditUser.Enabled = true;
-                buttonCloseUser.Enabled = true;
-
                 // Show the selected user's details in the textboxes
                 ShowUserDetails(selectedUser);
             }
@@ -997,6 +1006,16 @@ namespace DSD_WinformsApp.View
 
             checkBoxEnableAdmin.Checked = selectedUser.UserRole == UserRole.Admin;
             checkBoxEnableAdmin.Enabled = false;
+
+            // Manage Users button state initially
+            buttonUsersDetailSave.Enabled = false;
+            buttonUsersDetailSave.BackColor = SystemColors.Control;
+
+            buttonEditUser.Enabled = true;
+            buttonEditUser.BackColor = ColorTranslator.FromHtml("#A5D7E8");
+
+            buttonCloseUser.Enabled = true;
+            buttonCloseUser.BackColor = ColorTranslator.FromHtml("#DA0B0B");
         }
 
         private Dictionary<Control, string> originalValues = new Dictionary<Control, string>();
@@ -1004,7 +1023,6 @@ namespace DSD_WinformsApp.View
         private void buttonEditUser_Click(object sender, EventArgs e)
         {
             buttonEditUser.Enabled = false; // Disable the Edit button
-            buttonUsersDetailSave.Enabled = true; // Enable the Save button
             buttonCloseUser.Enabled = true; // Disable the Close button
 
             // Enable editing of the textboxes
@@ -1017,74 +1035,59 @@ namespace DSD_WinformsApp.View
 
             // Store the original values of the text fields in the Dictionary
             originalValues.Clear(); // Clear any previous values
-            originalValues.Add(checkBoxEnableAdmin, checkBoxEnableAdmin.Checked.ToString());
             originalValues.Add(textBoxUserFirstName, textBoxUserFirstName.Text);
             originalValues.Add(textBoxUserLastName, textBoxUserLastName.Text);
             originalValues.Add(textBoxUserEmailAdd, textBoxUserEmailAdd.Text);
             originalValues.Add(textBoxUserJobTitle, textBoxUserJobTitle.Text);
+
+
+            // Store the original state of the checkbox
+            originalCheckBoxState = checkBoxEnableAdmin.Checked;
         }
 
 
         private async void buttonUsersDetailSave_Click(object sender, EventArgs e)
         {
-            // Compare the current values with the original values to check for changes
-            bool hasChanges = false;
 
-            foreach (var kvp in originalValues)
+            // Get modified data from the textboxes
+            int userId = int.Parse(textBoxID.Text);
+            UserRole userRole = checkBoxEnableAdmin.Checked ? UserRole.Admin : UserRole.User;
+            string firstname = textBoxUserFirstName.Text;
+            string lastname = textBoxUserLastName.Text;
+            string emailAddress = textBoxUserEmailAdd.Text;
+            string jobTitle = textBoxUserJobTitle.Text;
+
+            // create new user object from the modified data
+            UserCredentialsDto modifiedUser = new UserCredentialsDto
             {
-                Control control = kvp.Key;
-                string originalValue = kvp.Value;
-                string currentValue = control.Text;
+                UserId = userId,
+                UserRole = userRole,
+                Firstname = firstname,
+                Lastname = lastname,
+                EmailAddress = emailAddress,
+                JobTitle = jobTitle
+            };
 
-                if (originalValue != currentValue)
-                {
-                    // There is a change in this field
-                    hasChanges = true;
-                    // You can process or save the changes here
-                }
-            }
+            // Save the modified user to the database using the presenter
+            _presenter.EditUser(modifiedUser);
 
-            if (hasChanges)
-            {
-                // Get modified data from the textboxes
-                int userId = int.Parse(textBoxID.Text);
-                UserRole userRole = checkBoxEnableAdmin.Checked ? UserRole.Admin : UserRole.User;
-                string firstname = textBoxUserFirstName.Text;
-                string lastname = textBoxUserLastName.Text;
-                string emailAddress = textBoxUserEmailAdd.Text;
-                string jobTitle = textBoxUserJobTitle.Text;
+            // Return to Manage Users page
+            panelUserDetails.Visible = false;
+            panelManageUsers.Visible = true;
+            panelHome.Visible = false;
+            panelDocumentButton.Visible = false;
 
-                // create new user object from the modified data
-                UserCredentialsDto modifiedUser = new UserCredentialsDto
-                {
-                    UserId = userId,
-                    UserRole = userRole,
-                    Firstname = firstname,
-                    Lastname = lastname,
-                    EmailAddress = emailAddress,
-                    JobTitle = jobTitle
-                };
+            // Load the user
+            await _presenter.LoadUsers();
 
-                // Save the modified user to the database using the presenter
-                _presenter.EditUser(modifiedUser);
+            // Clear the original values dictionary
+            originalValues.Clear();
 
-                // Return to Manage Users page
-                panelUserDetails.Visible = false;
-                panelManageUsers.Visible = true;
-                panelHome.Visible = false;
-                panelDocumentButton.Visible = false;
+            // Reset the original checkbox state
+            originalCheckBoxState = checkBoxEnableAdmin.Checked;
 
-                // Load the user
-                await _presenter.LoadUsers();
-
-            }
-            else
-            {
-                // No changes detected, provide a message or take appropriate action
-            }
-
-            
-
+            // Disable the Save button after saving
+            buttonUsersDetailSave.Enabled = false;
         }
 
         private void buttonCloseUser_Click(object sender, EventArgs e)
@@ -1092,6 +1095,45 @@ namespace DSD_WinformsApp.View
             // close panelUserDetails
             panelUserDetails.Visible = false;
             panelManageUsers.Visible = true;
+        }
+
+        private void TextBox_TextChanged(object? sender, EventArgs e)
+        {
+            Control textBox = (Control)sender;
+            string? originalValue;
+
+            if (originalValues.TryGetValue(textBox, out originalValue))
+            {
+                string currentValue = textBox.Text;
+
+                // Check if the text has changed
+                if (originalValue != currentValue)
+                {
+                    // Enable the Save button when changes are detected
+                    buttonUsersDetailSave.Enabled = true;
+                }
+                else
+                {
+                    // Disable the Save button when there are no changes
+                    buttonUsersDetailSave.Enabled = false;
+                }
+            }
+        }
+
+        private bool originalCheckBoxState;
+
+        private void CheckBox_CheckedChanged(object? sender, EventArgs e)
+        {
+            // Enable the Save button when the checkbox state changes
+            if (originalCheckBoxState != checkBoxEnableAdmin.Checked)
+            {
+                buttonUsersDetailSave.Enabled = true;
+            }
+            else
+            {
+                // Disable the Save button when the checkbox state is the same as the original
+                buttonUsersDetailSave.Enabled = false;
+            }
         }
 
         private void checkBoxEnableAdmin_CheckedChanged(object sender, EventArgs e)

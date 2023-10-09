@@ -73,9 +73,11 @@ namespace DSD_WinformsApp.View
             labelHomePage = new Label();
             labelHomePageUserLogin = new Label();
             labelFooter = new Label();
+
             buttonUsersDetailSave = new CustomButton(ColorTranslator.FromHtml("#05982E"), SystemColors.Control);
             buttonCloseUser = new CustomButton(ColorTranslator.FromHtml("#DA0B0B"), SystemColors.Control);
             buttonEditUser = new CustomButton(ColorTranslator.FromHtml("#A5D7E8"), SystemColors.Control);
+
             ((System.ComponentModel.ISupportInitialize)dataGridView1).BeginInit();
             panel1.SuspendLayout();
             panelDocumentButton.SuspendLayout();
@@ -385,6 +387,40 @@ namespace DSD_WinformsApp.View
             panelUserDetails2.Size = new Size(1010, 750);
             panelUserDetails2.TabIndex = 6;
             // 
+            // buttonEditUser
+            // 
+            buttonEditUser.BackColor = Color.FromArgb(165, 215, 232);
+            buttonEditUser.Location = new Point(768, 607);
+            buttonEditUser.Name = "buttonEditUser";
+            buttonEditUser.Size = new Size(112, 34);
+            buttonEditUser.TabIndex = 21;
+            buttonEditUser.Text = "Edit";
+            buttonEditUser.UseVisualStyleBackColor = true;
+            buttonEditUser.Click += buttonEditUser_Click;
+            // 
+            // buttonCloseUser
+            // 
+            buttonCloseUser.BackColor = Color.FromArgb(218, 11, 11);
+            buttonCloseUser.Location = new Point(633, 607);
+            buttonCloseUser.Name = "buttonCloseUser";
+            buttonCloseUser.Size = new Size(112, 34);
+            buttonCloseUser.TabIndex = 20;
+            buttonCloseUser.Text = "Close";
+            buttonCloseUser.UseVisualStyleBackColor = true;
+            buttonCloseUser.Click += buttonCloseUser_Click;
+            // 
+            // buttonUsersDetailSave
+            // 
+            buttonUsersDetailSave.BackColor = Color.FromArgb(5, 152, 46);
+            buttonUsersDetailSave.Enabled = false;
+            buttonUsersDetailSave.Location = new Point(499, 607);
+            buttonUsersDetailSave.Name = "buttonUsersDetailSave";
+            buttonUsersDetailSave.Size = new Size(112, 34);
+            buttonUsersDetailSave.TabIndex = 19;
+            buttonUsersDetailSave.Text = "Save";
+            buttonUsersDetailSave.UseVisualStyleBackColor = true;
+            buttonUsersDetailSave.Click += buttonUsersDetailSave_Click;
+            // 
             // checkBoxEnableAdmin
             // 
             checkBoxEnableAdmin.AutoSize = true;
@@ -525,36 +561,6 @@ namespace DSD_WinformsApp.View
             labelFooter.TabIndex = 10;
             labelFooter.Text = "© 2023 TEAM COOP. All Rights Reserved";
             // 
-            // buttonUsersDetailSave
-            // 
-            buttonUsersDetailSave.Location = new Point(499, 607);
-            buttonUsersDetailSave.Name = "buttonUsersDetailSave";
-            buttonUsersDetailSave.Size = new Size(112, 34);
-            buttonUsersDetailSave.TabIndex = 19;
-            buttonUsersDetailSave.Text = "Save";
-            buttonUsersDetailSave.UseVisualStyleBackColor = true;
-            buttonUsersDetailSave.Click += buttonUsersDetailSave_Click;
-            // 
-            // buttonCloseUser
-            // 
-            buttonCloseUser.Location = new Point(633, 607);
-            buttonCloseUser.Name = "buttonCloseUser";
-            buttonCloseUser.Size = new Size(112, 34);
-            buttonCloseUser.TabIndex = 20;
-            buttonCloseUser.Text = "Close";
-            buttonCloseUser.UseVisualStyleBackColor = true;
-            buttonCloseUser.Click += buttonCloseUser_Click;
-            // 
-            // buttonEditUser
-            // 
-            buttonEditUser.Location = new Point(768, 607);
-            buttonEditUser.Name = "buttonEditUser";
-            buttonEditUser.Size = new Size(112, 34);
-            buttonEditUser.TabIndex = 21;
-            buttonEditUser.Text = "Edit";
-            buttonEditUser.UseVisualStyleBackColor = true;
-            buttonEditUser.Click += buttonEditUser_Click;
-            // 
             // DocumentMainView
             // 
             AutoScaleDimensions = new SizeF(10F, 25F);
@@ -565,11 +571,11 @@ namespace DSD_WinformsApp.View
             Controls.Add(labelHomePageUserLogin);
             Controls.Add(buttonSignOut);
             Controls.Add(panel1);
+            Controls.Add(panelHome);
             Controls.Add(panelUserDetails);
             Controls.Add(panelDocumentButton);
             Controls.Add(panelManageUsers);
             Controls.Add(dataGridView1);
-            Controls.Add(panelHome);
             Icon = (Icon)resources.GetObject("$this.Icon");
             Name = "DocumentMainView";
             Text = "Main Page";
