@@ -18,5 +18,6 @@ namespace DSD_WinformsApp.View
         void SetUsernameLabel(string username);
         void UpdatePageLabel(int currentPage, int totalPages);
         void UpdateUsersPageLabel(int currentPageUsers, int UsersTotalPages);
+       
     }
 }

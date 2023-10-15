@@ -22,6 +22,8 @@ namespace DSD_WinformsApp.View
 
         private bool isNewFileUploaded = false;
 
+        private bool isEnabled = true;
+
         // Initial values for search query and category filter
         private string currentSearchQuery = "";
         private string currentFilterCategory = "";
@@ -45,11 +47,12 @@ namespace DSD_WinformsApp.View
 
             // Documents filter events 
             textBoxSearchBar.TextChanged += textBoxSearchBar_TextChanged;
-            comboBoxCategory.TextChanged += comboBoxCategoryDropdown_SelectedIndexChanged;
+            comboBoxCategoryDropdown.SelectedIndexChanged += comboBoxCategoryDropdown_SelectedIndexChanged;
+
 
             // Users filter events
             textBoxUsersSearchBox.TextChanged += textBoxUsersSearchBox_TextChanged;
-            comboBox_JobCategory.TextChanged += comboBox_JobCategory_SelectedIndexChanged;
+            comboBox_JobCategory.SelectedIndexChanged += comboBox_JobCategory_SelectedIndexChanged;
 
             #region Manage Users Events
             // Attach TextChanged event handlers to the relevant text fields
@@ -83,7 +86,7 @@ namespace DSD_WinformsApp.View
 
             #region Manage Users Properties
 
-           
+
 
             // Create instance for comboBox_JobCategory items
             comboBox_JobCategory.Items.Add("All Job Titles");
@@ -212,8 +215,6 @@ namespace DSD_WinformsApp.View
 
         }
 
-
-
         public void BindDataMainView(List<DocumentDto> documents)
         {
             dataGridView1.DataSource = documents;
@@ -290,6 +291,7 @@ namespace DSD_WinformsApp.View
             }
         }
 
+
         //Event method when details button was clicked
         private async void dataGridView1_DeleteButton_CellClick(object? sender, DataGridViewCellEventArgs e)
         {
@@ -305,8 +307,11 @@ namespace DSD_WinformsApp.View
                     // Delete the document and its backups from the database using the presenter
                     await _presenter.DeleteDocumentWithBackups(selectedDocument);
 
-                    // Load the documents again to update the view
-                    await _presenter.LoadDocuments();
+                    var currentSearchQueryWhenItemDeleted = GetSearchQuery();
+                    var currentFilterCategoryWhenItemDeleted = GetFilterCategory();
+
+                    // Load the filtered documents again to update the view
+                    await _presenter.LoadDocumentsByFilter(currentSearchQueryWhenItemDeleted, currentFilterCategoryWhenItemDeleted);
 
                 }
                 else
@@ -490,14 +495,15 @@ namespace DSD_WinformsApp.View
 
 
             // Display Columns in datagridview2
-            dataGridView2.Columns["BackupId"].Width = 55;
+            dataGridView2.Columns["BackupId"].Width = 75;
             dataGridView2.Columns["Filename"].Width = 300;
-            dataGridView2.Columns["BackupDate"].Width = 100;
+            dataGridView2.Columns["BackupDate"].Width = 80;
             dataGridView2.Columns["Version"].Width = 85;
 
-            dataGridView2.Columns["BackupId"].HeaderText = "Id";
+            dataGridView2.Columns["BackupId"].HeaderText = "File Id";
             dataGridView2.Columns["Filename"].HeaderText = "Filename";
             dataGridView2.Columns["BackupDate"].HeaderText = "Date";
+            dataGridView2.Columns["Version"].HeaderText = "Version";
 
             dataGridView2.Columns["OriginalFilePath"].Visible = false;
             dataGridView2.Columns["BackupFilePath"].Visible = false;
@@ -588,14 +594,17 @@ namespace DSD_WinformsApp.View
                                 dataGridView2.Columns["BackupId"].DisplayIndex = 0;
                                 dataGridView2.Columns["Filename"].DisplayIndex = 1;
                                 dataGridView2.Columns["BackupDate"].DisplayIndex = 2;
+                                dataGridView2.Columns["Version"].DisplayIndex = 3;
 
-                                dataGridView2.Columns["BackupId"].HeaderText = "Doc. ID";
-                                dataGridView2.Columns["Filename"].HeaderText = "File Name";
-                                dataGridView2.Columns["BackupDate"].HeaderText = "Upload Date";
+                                dataGridView2.Columns["BackupId"].Width = 75;
+                                dataGridView2.Columns["Filename"].Width = 300;
+                                dataGridView2.Columns["BackupDate"].Width = 80;
+                                dataGridView2.Columns["Version"].Width = 85;
 
-                                dataGridView2.Columns["BackupId"].Width = 50;
-                                dataGridView2.Columns["Filename"].Width = 320;
-                                dataGridView2.Columns["BackupDate"].Width = 170;
+                                dataGridView2.Columns["BackupId"].HeaderText = "File Id";
+                                dataGridView2.Columns["Filename"].HeaderText = "Filename";
+                                dataGridView2.Columns["BackupDate"].HeaderText = "Date";
+                                dataGridView2.Columns["Version"].HeaderText = "Version";
 
                                 dataGridView2.Columns["OriginalFilePath"].Visible = false;
                                 dataGridView2.Columns["BackupFilePath"].Visible = false;
@@ -926,7 +935,7 @@ namespace DSD_WinformsApp.View
 
             await _presenter.LoadUsers();
 
-            
+
 
             panelDocumentButton.Visible = false;
             panelHome.Visible = false;
@@ -1040,7 +1049,6 @@ namespace DSD_WinformsApp.View
             originalValues.Add(textBoxUserEmailAdd, textBoxUserEmailAdd.Text);
             originalValues.Add(textBoxUserJobTitle, textBoxUserJobTitle.Text);
 
-
             // Store the original state of the checkbox
             originalCheckBoxState = checkBoxEnableAdmin.Checked;
         }
@@ -1048,7 +1056,6 @@ namespace DSD_WinformsApp.View
 
         private async void buttonUsersDetailSave_Click(object sender, EventArgs e)
         {
-
             // Get modified data from the textboxes
             int userId = int.Parse(textBoxID.Text);
             UserRole userRole = checkBoxEnableAdmin.Checked ? UserRole.Admin : UserRole.User;
@@ -1149,25 +1156,22 @@ namespace DSD_WinformsApp.View
             {
                 UserCredentialsDto selectedUser = (UserCredentialsDto)dataGridViewManageUsers.Rows[e.RowIndex].DataBoundItem;
                 // Show the delete confirmation modal directly in the main form.
-                DialogResult result = MessageBox.Show("Are you sure you want to delete the selected document?", "Delete Confirmation", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+                DialogResult result = MessageBox.Show("Are you sure you want to delete the selected user?", "Delete Confirmation", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
 
                 if (result == DialogResult.Yes)
                 {
-                    // User clicked "Yes," proceed with the deletion
+                    var currentUsersSearchQueryWhenItemDeleted = GetSearchUserQuery();
+                    var currentUsersFilterCategoryWhenItemDeleted = GetFilterUsersCategory();
+
                     await _presenter.DeleteUser(selectedUser);
-                    await _presenter.LoadUsers();
+                    await _presenter.LoadUsersByFilter(currentUsersSearchQueryWhenItemDeleted, currentUsersFilterCategoryWhenItemDeleted);
                 }
                 else
                 {
                     // User clicked "No" or closed the dialog, cancel the deletion
-                    // Add any additional logic if needed.
                 }
             }
         }
-
-
-
-
 
         #endregion
 
@@ -1210,7 +1214,7 @@ namespace DSD_WinformsApp.View
             return comboBoxCategoryDropdown.SelectedItem?.ToString() ?? string.Empty;
         }
 
-        // Method to update the page label for users pagination
+        // Method to update the page label for document pagination
         public void UpdatePageLabel(int currentPage, int totalPages)
         {
             // Add condition if totalPages is 0
@@ -1222,6 +1226,21 @@ namespace DSD_WinformsApp.View
             {
                 labelDocumentPagination.Text = $"Page {currentPage} of {totalPages}";
             }
+
+            // Disable back icon if page == 1
+            iconBack.Enabled = currentPage == 1 ? false : true;
+
+            // Disable next ixon if page == totalpages
+            iconNext.Enabled = currentPage == totalPages ? false : true;
+        }
+
+        public void DisableNextButton()
+        {
+            iconNext.Enabled = false;
+        }
+        public void DisablePreviousButton()
+        {
+            iconBack.Enabled = false;
         }
 
         #endregion
@@ -1274,6 +1293,14 @@ namespace DSD_WinformsApp.View
                 labelUsersPagination.Text = $"Page {currentPageUsers} of {UsersTotalPages}";
             }
 
+            
+            // Disable back icon if page == 1
+            pictureBoxUsersBackIcon.Enabled = currentPageUsers == 1 ? false : true;
+
+            // Disable next ixon if page == totalpages
+            pictureBoxUsersNextIcon.Enabled = currentPageUsers == UsersTotalPages ? false : true;
+           
+
         }
 
         #endregion
@@ -1285,12 +1312,11 @@ namespace DSD_WinformsApp.View
             labelHomePageUserLogin.Text = "Hello, " + username;
         }
 
-
-
         private void buttonSignOut_Click(object sender, EventArgs e)
         {
             Application.Exit();
         }
 
+        
     }
 }

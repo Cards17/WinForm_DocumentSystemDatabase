@@ -174,9 +174,6 @@ namespace DSD_WinformsApp.Infrastructure.Data.Services
 
             var documents = _mapper.Map<List<DocumentModel>, List<DocumentDto>>(filteredDocuments);
             return documents;
-
-
-
         }
 
         private Func<string, bool> GetFilterCategories(string filterCriteria)

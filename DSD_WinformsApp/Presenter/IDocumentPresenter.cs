@@ -13,6 +13,7 @@ namespace DSD_WinformsApp.Presenter
         void AddNewDocument(DocumentDto newDocument);
         Task LoadDocuments();
         Task LoadDocumentsByFilter(string currentSearchQuery, string currentFilterCategory);
+        Task<bool> CheckForDuplicateFileName(string fileName);
         void NextPage();
         void PreviousPage();
         Task ApplyFilters();

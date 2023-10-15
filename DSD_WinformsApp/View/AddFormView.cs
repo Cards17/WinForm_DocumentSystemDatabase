@@ -50,7 +50,7 @@ namespace DSD_WinformsApp.View
         private void AddForm_Load(object sender, EventArgs e)
         {
 
-            // Set CustomButton properties
+            // NOT TRY TO DELETE THESE CODES
             //btnSave = new CustomButton(ColorTranslator.FromHtml("#05982E"), SystemColors.Control);
             //btnCancel = new CustomButton(ColorTranslator.FromHtml("#DA0B0B"), SystemColors.Control);
             //buttonUploadFile = new CustomButton(ColorTranslator.FromHtml("#A5D7E8"), SystemColors.Control);
@@ -154,7 +154,7 @@ namespace DSD_WinformsApp.View
             DialogResult = DialogResult.Cancel;
         }
 
-        private void buttonUploadFile_Click(object? sender, EventArgs e)
+        private  async void buttonUploadFile_Click(object? sender, EventArgs e)
         {
             OpenFileDialog openFileDialog = new OpenFileDialog();
             openFileDialog.Filter = "All Files|*.*";
@@ -174,12 +174,21 @@ namespace DSD_WinformsApp.View
                 // Display only the file name without the extension in the label and the TextBox
                 string fileNameWithExtension = Path.GetFileName(openFileDialog.FileName);
                 labelFilename.Text = fileNameWithExtension;
+
+
+                // Check for duplicate file name in the repository
+                bool hasDuplicateFileName = await _presenter.CheckForDuplicateFileName(fileNameWithExtension);
+
+                if (hasDuplicateFileName)
+                {
+                    MessageBox.Show("A file with the same name already exists. Please choose a different file name.");
+                    return;
+                }  
             }
             // labelFilename.Enabled = false;
             labelFilename.Visible = true;
 
         }
-
 
         private void Control_TextChanged(object? sender, EventArgs e)
         {
