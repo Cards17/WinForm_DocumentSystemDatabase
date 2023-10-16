@@ -62,9 +62,9 @@ namespace DSD_WinformsApp.Presenter
         }
         public async Task LoadDocumentsByFilter(string currentSearchQuery, string currentFilterCategory)
         {
-            // i wan to capture values from 
-            filteredDocuments = await _documentRepository.GetFilteredDocuments(currentSearchQuery, currentFilterCategory);
-            _mainDocumentView.BindDataMainView(filteredDocuments);
+            filteredDocuments = await _documentRepository.GetFilteredDocuments(currentSearchQuery, currentFilterCategory); // Get the filtered documents
+            _mainDocumentView.BindDataMainView(filteredDocuments); // Bind the filtered documents to the view
+            _mainDocumentView.UpdatePageLabel(currentPage, TotalPages()); // Update the page label when navigating to a new page
         }
 
         public async Task<bool> CheckForDuplicateFileName(string fileName)
@@ -330,7 +330,8 @@ namespace DSD_WinformsApp.Presenter
         public async Task LoadUsersByFilter(string currentUsersSearchQuery, string currentUsersJobFilter)
         {
             allUsers = await _userRepository.GetFilteredUsers(currentUsersSearchQuery, currentUsersJobFilter);
-            _mainDocumentView.BindDataManageUsers(allUsers);
+            _mainDocumentView.BindDataManageUsers(allUsers); // Bind the filtered users to the view
+            _mainDocumentView.UpdateUsersPageLabel(currentUsersPage, UsersTotalPages()); // Update the page label when navigating to a new page
         }
 
         public async Task<bool> DeleteUser(UserCredentialsDto user)

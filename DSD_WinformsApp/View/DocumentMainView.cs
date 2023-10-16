@@ -1148,7 +1148,7 @@ namespace DSD_WinformsApp.View
 
         }
 
-        // event when delete button was clicked
+        // event when user delete button was clicked
         private async void dataGridViewManageUsers_DeleteButton_CellClick(object? sender, DataGridViewCellEventArgs e)
         {
 
@@ -1222,25 +1222,22 @@ namespace DSD_WinformsApp.View
             {
                 labelDocumentPagination.Text = $"Page {currentPage} of {totalPages + 1}";
             }
+
+            else if (totalPages < currentPage && totalPages > 0)
+            {
+                labelDocumentPagination.Text = $"Page {currentPage -1} of {totalPages}";
+            }
+
             else
             {
                 labelDocumentPagination.Text = $"Page {currentPage} of {totalPages}";
             }
 
             // Disable back icon if page == 1
-            iconBack.Enabled = currentPage == 1 ? false : true;
+            iconBack.Enabled = currentPage <= 1 || totalPages <= 1 ? false : true;
 
             // Disable next ixon if page == totalpages
-            iconNext.Enabled = currentPage == totalPages ? false : true;
-        }
-
-        public void DisableNextButton()
-        {
-            iconNext.Enabled = false;
-        }
-        public void DisablePreviousButton()
-        {
-            iconBack.Enabled = false;
+            iconNext.Enabled = currentPage == totalPages || totalPages <= 1? false : true;
         }
 
         #endregion
@@ -1288,6 +1285,12 @@ namespace DSD_WinformsApp.View
             {
                 labelUsersPagination.Text = $"Page {currentPageUsers} of {UsersTotalPages + 1}";
             }
+
+            else if (UsersTotalPages < currentPageUsers && UsersTotalPages > 0)
+            {
+                labelUsersPagination.Text = $"Page {currentPageUsers - 1} of {UsersTotalPages}";
+            }
+
             else
             {
                 labelUsersPagination.Text = $"Page {currentPageUsers} of {UsersTotalPages}";
@@ -1295,10 +1298,10 @@ namespace DSD_WinformsApp.View
 
             
             // Disable back icon if page == 1
-            pictureBoxUsersBackIcon.Enabled = currentPageUsers == 1 ? false : true;
+            pictureBoxUsersBackIcon.Enabled = currentPageUsers <= 1 || UsersTotalPages <= 1 ? false : true;
 
-            // Disable next ixon if page == totalpages
-            pictureBoxUsersNextIcon.Enabled = currentPageUsers == UsersTotalPages ? false : true;
+            // Disable next icon if page == totalpages
+            pictureBoxUsersNextIcon.Enabled = currentPageUsers == UsersTotalPages || UsersTotalPages <= 1 ? false : true;
            
 
         }
