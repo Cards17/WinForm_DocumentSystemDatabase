@@ -29,12 +29,11 @@
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(LoginFormView));
-            textBoxEmailAddress = new TextBox();
-            textBoxPassword = new TextBox();
-            button_SignIn = new Button();
+            textBoxSignInUserName = new TextBox();
+            textBoxSignInPassword = new TextBox();
+            button_SignInButton = new Button();
             labelSignIn = new Label();
-            linkLabelSignUp = new LinkLabel();
-            linkLabelForgetPassword = new LinkLabel();
+            linkLabelSignInToSignUp = new LinkLabel();
             panelSignIn = new Panel();
             panelSignUp = new Panel();
             buttonBackToSignIn = new Button();
@@ -48,33 +47,33 @@
             panelSignUp.SuspendLayout();
             SuspendLayout();
             // 
-            // textBoxEmailAddress
+            // textBoxSignInUserName
             // 
-            textBoxEmailAddress.Location = new Point(104, 107);
-            textBoxEmailAddress.Name = "textBoxEmailAddress";
-            textBoxEmailAddress.PlaceholderText = "Email Address";
-            textBoxEmailAddress.Size = new Size(350, 31);
-            textBoxEmailAddress.TabIndex = 2;
+            textBoxSignInUserName.Location = new Point(104, 107);
+            textBoxSignInUserName.Name = "textBoxSignInUserName";
+            textBoxSignInUserName.PlaceholderText = "User Name";
+            textBoxSignInUserName.Size = new Size(350, 31);
+            textBoxSignInUserName.TabIndex = 2;
             // 
-            // textBoxPassword
+            // textBoxSignInPassword
             // 
-            textBoxPassword.Location = new Point(104, 186);
-            textBoxPassword.Name = "textBoxPassword";
-            textBoxPassword.PlaceholderText = "Password";
-            textBoxPassword.Size = new Size(350, 31);
-            textBoxPassword.TabIndex = 3;
+            textBoxSignInPassword.Location = new Point(104, 186);
+            textBoxSignInPassword.Name = "textBoxSignInPassword";
+            textBoxSignInPassword.PlaceholderText = "Password";
+            textBoxSignInPassword.Size = new Size(350, 31);
+            textBoxSignInPassword.TabIndex = 3;
             // 
-            // button_SignIn
+            // button_SignInButton
             // 
-            button_SignIn.BackColor = Color.FromArgb(165, 215, 232);
-            button_SignIn.Cursor = Cursors.Hand;
-            button_SignIn.Location = new Point(104, 258);
-            button_SignIn.Name = "button_SignIn";
-            button_SignIn.Size = new Size(350, 35);
-            button_SignIn.TabIndex = 4;
-            button_SignIn.Text = "Sign In";
-            button_SignIn.UseVisualStyleBackColor = false;
-            button_SignIn.Click += button_SignIn_Click;
+            button_SignInButton.BackColor = Color.FromArgb(165, 215, 232);
+            button_SignInButton.Cursor = Cursors.Hand;
+            button_SignInButton.Location = new Point(104, 258);
+            button_SignInButton.Name = "button_SignInButton";
+            button_SignInButton.Size = new Size(350, 35);
+            button_SignInButton.TabIndex = 4;
+            button_SignInButton.Text = "Sign In";
+            button_SignInButton.UseVisualStyleBackColor = false;
+            button_SignInButton.Click += button_SignIn_Click;
             // 
             // labelSignIn
             // 
@@ -85,30 +84,25 @@
             labelSignIn.TabIndex = 5;
             labelSignIn.Text = "Sign In";
             // 
-            // linkLabelSignUp
+            // linkLabelSignInToSignUp
             // 
-            linkLabelSignUp.AutoSize = true;
-            linkLabelSignUp.Location = new Point(104, 392);
-            linkLabelSignUp.Name = "linkLabelSignUp";
-            linkLabelSignUp.Size = new Size(138, 25);
-            linkLabelSignUp.TabIndex = 6;
-            linkLabelSignUp.TabStop = true;
-            linkLabelSignUp.Text = "Click to Sign Up";
-            // 
-            // linkLabelForgetPassword
-            // 
-            linkLabelForgetPassword.AutoSize = true;
-            linkLabelForgetPassword.Location = new Point(104, 337);
-            linkLabelForgetPassword.Name = "linkLabelForgetPassword";
-            linkLabelForgetPassword.Size = new Size(152, 25);
-            linkLabelForgetPassword.TabIndex = 7;
-            linkLabelForgetPassword.TabStop = true;
-            linkLabelForgetPassword.Text = "Forget Password?";
+            linkLabelSignInToSignUp.AutoSize = true;
+            linkLabelSignInToSignUp.Location = new Point(104, 318);
+            linkLabelSignInToSignUp.Name = "linkLabelSignInToSignUp";
+            linkLabelSignInToSignUp.Size = new Size(138, 25);
+            linkLabelSignInToSignUp.TabIndex = 6;
+            linkLabelSignInToSignUp.TabStop = true;
+            linkLabelSignInToSignUp.Text = "Click to Sign Up";
             // 
             // panelSignIn
             // 
+            panelSignIn.Controls.Add(linkLabelSignInToSignUp);
             panelSignIn.Controls.Add(panelSignUp);
-            panelSignIn.Location = new Point(26, 12);
+            panelSignIn.Controls.Add(labelSignIn);
+            panelSignIn.Controls.Add(button_SignInButton);
+            panelSignIn.Controls.Add(textBoxSignInPassword);
+            panelSignIn.Controls.Add(textBoxSignInUserName);
+            panelSignIn.Location = new Point(30, 35);
             panelSignIn.Name = "panelSignIn";
             panelSignIn.Size = new Size(539, 454);
             panelSignIn.TabIndex = 8;
@@ -196,31 +190,24 @@
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(600, 600);
             Controls.Add(panelSignIn);
-            Controls.Add(linkLabelForgetPassword);
-            Controls.Add(linkLabelSignUp);
-            Controls.Add(labelSignIn);
-            Controls.Add(button_SignIn);
-            Controls.Add(textBoxPassword);
-            Controls.Add(textBoxEmailAddress);
             Icon = (Icon)resources.GetObject("$this.Icon");
             Name = "LoginFormView";
             Text = "Login Page";
             Load += LoginFormView_Load;
             panelSignIn.ResumeLayout(false);
+            panelSignIn.PerformLayout();
             panelSignUp.ResumeLayout(false);
             panelSignUp.PerformLayout();
             ResumeLayout(false);
-            PerformLayout();
         }
 
         #endregion
 
-        private TextBox textBoxEmailAddress;
-        private TextBox textBoxPassword;
-        private Button button_SignIn;
+        private TextBox textBoxSignInUserName;
+        private TextBox textBoxSignInPassword;
+        private Button button_SignInButton;
         private Label labelSignIn;
-        private LinkLabel linkLabelSignUp;
-        private LinkLabel linkLabelForgetPassword;
+        private LinkLabel linkLabelSignInToSignUp;
         private Panel panelSignIn;
         private Panel panelSignUp;
         private TextBox textBoxFirstname;

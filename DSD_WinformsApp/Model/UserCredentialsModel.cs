@@ -23,6 +23,12 @@ namespace DSD_WinformsApp.Model
         public string ImagePath { get; set; } = string.Empty;
 
         public UserRole UserRole { get; set; } = UserRole.User;
+        public string UserName { get; set; } 
+
+        public UserCredentialsModel()
+        {
+            UserName = $"{Firstname} {Lastname}";
+        }
 
     }
 }

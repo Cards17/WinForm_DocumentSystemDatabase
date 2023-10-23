@@ -291,12 +291,11 @@ namespace DSD_WinformsApp.Presenter
         {
             try
             {
-                var user = await _userRepository.GetUserByEmail(userCredentials.EmailAddress);
+                var user = await _userRepository.GetUserByUserName(userCredentials.UserName);
 
                 if (user != null && user.Password == userCredentials.Password)
                 {
-                    // Valid credentials, store the user's role
-                    string userRole = _userRepository.GetUserRole(user.EmailAddress);
+                    string userRole = _userRepository.GetUserRole(user.EmailAddress); // Get the user role
 
                     if (userRole == "Admin")
                     {

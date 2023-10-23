@@ -54,12 +54,12 @@ namespace DSD_WinformsApp.Infrastructure.Data.Services
         }
        
         // Add method to Get a user by email address
-        public async Task<UserCredentialsDto?> GetUserByEmail(string emailAddress)
+        public async Task<UserCredentialsDto?> GetUserByUserName(string userName)
         {
             return await Task.Run(() =>
             {
                 return _dbContext.UserCredentials
-                    .Where(user => user.EmailAddress == emailAddress)
+                    .Where(user => user.UserName == userName)
                     .Select(user => new UserCredentialsDto
                     {
                         Firstname = user.Firstname,

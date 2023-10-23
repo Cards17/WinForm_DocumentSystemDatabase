@@ -307,6 +307,7 @@ namespace DSD_WinformsApp.View
                     // Delete the document and its backups from the database using the presenter
                     await _presenter.DeleteDocumentWithBackups(selectedDocument);
 
+                    // Get the current search query and filter category
                     var currentSearchQueryWhenItemDeleted = GetSearchQuery();
                     var currentFilterCategoryWhenItemDeleted = GetFilterCategory();
 
@@ -933,8 +934,12 @@ namespace DSD_WinformsApp.View
         private async void buttonManageUsers_Click(object sender, EventArgs e)
         {
 
-            await _presenter.LoadUsers();
+            //await _presenter.LoadUsers();
 
+            var currentUsersSearchQueryWhenItemDeleted = GetSearchUserQuery();
+            var currentUsersFilterCategoryWhenItemDeleted = GetFilterUsersCategory();
+
+            await _presenter.LoadUsersByFilter(currentUsersSearchQueryWhenItemDeleted, currentUsersFilterCategoryWhenItemDeleted);
 
 
             panelDocumentButton.Visible = false;

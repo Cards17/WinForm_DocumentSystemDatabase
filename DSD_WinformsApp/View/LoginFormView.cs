@@ -44,15 +44,15 @@ namespace DSD_WinformsApp.View
 
             // Sign-up and sign-in button disabled initially
             buttonSignUp.Enabled = false;
-            button_SignIn.Enabled = false;
+            button_SignInButton.Enabled = false;
 
             errorProvider.BlinkStyle = ErrorBlinkStyle.NeverBlink; // Icon will not blink when error occurs
 
-            textBoxEmailAddress.Focus(); // Set the focus to the textBoxFirstname control
+            textBoxSignInUserName.Focus(); // Set the focus to the textBoxFirstname control
 
             //If sign-in panel is visible attach TextChanged event handlers to relevant controls
-            textBoxEmailAddress.TextChanged += Control_TextChanged;
-            textBoxPassword.TextChanged += Control_TextChanged;
+            textBoxSignInUserName.TextChanged += Control_TextChanged;
+            textBoxSignInPassword.TextChanged += Control_TextChanged;
 
             SignInUI(); // Call the SignInUI method
         }
@@ -60,12 +60,11 @@ namespace DSD_WinformsApp.View
         private void SignInUI()
         {
             // Add controls to the panelSignIn
-            panelSignIn.Controls.Add(textBoxEmailAddress);
-            panelSignIn.Controls.Add(textBoxPassword);
-            panelSignIn.Controls.Add(button_SignIn);
+            panelSignIn.Controls.Add(textBoxSignInUserName);
+            panelSignIn.Controls.Add(textBoxSignInPassword);
+            panelSignIn.Controls.Add(button_SignInButton);
             panelSignIn.Controls.Add(labelSignIn);
-            panelSignIn.Controls.Add(linkLabelSignUp);
-            panelSignIn.Controls.Add(linkLabelForgetPassword);
+            panelSignIn.Controls.Add(linkLabelSignInToSignUp);
 
             // Add controls to the panelSignUp
             panelSignUp.Controls.Add(labelSIgnUp);
@@ -77,11 +76,11 @@ namespace DSD_WinformsApp.View
 
 
             // Set hex color code signin and signup button
-            button_SignIn.BackColor = ColorTranslator.FromHtml("#A5D7E8");
+            button_SignInButton.BackColor = ColorTranslator.FromHtml("#A5D7E8");
             buttonSignUp.BackColor = ColorTranslator.FromHtml("#05982E");
 
             // Wire up the linkLabelSignUp's Click event to show the signup panel
-            linkLabelSignUp.Click += LinkLabelSignUp_Click;
+            linkLabelSignInToSignUp.Click += LinkLabelSignUp_Click;
         }
 
         private void LinkLabelSignUp_Click(object? sender, EventArgs e)
@@ -106,8 +105,8 @@ namespace DSD_WinformsApp.View
             // if paneSignup is visible remove the error icon from panelSignIn
             if (panelSignUp.Visible == true)
             {
-                errorProvider.SetError(textBoxEmailAddress, "");
-                errorProvider.SetError(textBoxPassword, "");
+                errorProvider.SetError(textBoxSignInUserName, "");
+                errorProvider.SetError(textBoxSignInPassword, "");
             }
         }
 
@@ -122,19 +121,16 @@ namespace DSD_WinformsApp.View
                     Lastname = textBoxLastname.Text,
                     EmailAddress = textBoxEmailAdd.Text,
                     Password = textBoxPasswrd.Text,
+                    UserName = $"{textBoxFirstname.Text} {textBoxLastname.Text}"
                 };
 
-                // Use presenter to call the signup method
-                _presenter.SaveUserRegistration(userCredentials);
-
-                // Show confirmation modal and show to signin panel
-                MessageBox.Show("Registration successful.");
+                _presenter.SaveUserRegistration(userCredentials); // Use presenter to call the save method
+                MessageBox.Show("Registration successful."); // Show a success message
                 panelSignUp.Visible = false;
 
             }
             catch (Exception ex)
             {
-                // Display error message
                 MessageBox.Show(ex.Message);
             }
 
@@ -144,34 +140,28 @@ namespace DSD_WinformsApp.View
         {
             try
             {
-                // Disable the signin button
-                button_SignIn.Enabled = false;
+                button_SignInButton.Enabled = false; // Disable the signin button
 
-                // Create an instance of the UserCredentialsDto
                 var userCredentials = new UserCredentialsDto
                 {
-                    EmailAddress = textBoxEmailAddress.Text,
-                    Password = textBoxPassword.Text
+                    UserName = textBoxSignInUserName.Text,
+                    Password = textBoxSignInPassword.Text
                 };
 
-                // Use presenter to call the signin method asynchronously and get the result tuple
-                bool isValidCredentials = await _presenter.ValidateUserCredentials(userCredentials);
+                bool isValidCredentials = await _presenter.ValidateUserCredentials(userCredentials); // Use presenter to call the validate method
 
 
                 if (isValidCredentials)
-                {                  
-                    // Close the login form
-                    this.Close();
+                {
+                    this.Close(); // Close the login form
                 }
                 else
                 {
-                    // Show an error message for invalid credentials
                     MessageBox.Show("Invalid credentials. Please try again.");
                 }
             }
             catch (Exception ex)
             {
-                // Display error message
                 MessageBox.Show(ex.Message);
             }
         }
@@ -189,14 +179,14 @@ namespace DSD_WinformsApp.View
             if (panelSignIn.Visible && !panelSignUp.Visible)
             {
                 // add the email and password validation
-                if (string.IsNullOrWhiteSpace(textBoxEmailAddress.Text))
+                if (string.IsNullOrWhiteSpace(textBoxSignInUserName.Text))
                 {
-                    errorProvider.SetError(textBoxEmailAddress, "Email Address is required.");
+                    errorProvider.SetError(textBoxSignInUserName, "Email Address is required.");
                     isValid = false;
                 }
-                if (string.IsNullOrWhiteSpace(textBoxPassword.Text))
+                if (string.IsNullOrWhiteSpace(textBoxSignInPassword.Text))
                 {
-                    errorProvider.SetError(textBoxPassword, "Password is required.");
+                    errorProvider.SetError(textBoxSignInPassword, "Password is required.");
                     isValid = false;
                 }
             }
@@ -228,7 +218,7 @@ namespace DSD_WinformsApp.View
 
 
             buttonSignUp.Enabled = isValid;
-            button_SignIn.Enabled = isValid;
+            button_SignInButton.Enabled = isValid;
         }
 
         private void buttonBackToSignIn_Click(object sender, EventArgs e)
