@@ -117,11 +117,11 @@ namespace DSD_WinformsApp.View
                 // Create an instance of the UserCredentialsDto
                 var userCredentials = new UserCredentialsDto
                 {
-                    Firstname = textBoxFirstname.Text,
-                    Lastname = textBoxLastname.Text,
-                    EmailAddress = textBoxEmailAdd.Text,
-                    Password = textBoxPasswrd.Text,
-                    UserName = $"{textBoxFirstname.Text} {textBoxLastname.Text}"
+                    Firstname = textBoxFirstname.Text.Trim(),
+                    Lastname = textBoxLastname.Text.Trim(),
+                    EmailAddress = textBoxEmailAdd.Text.Trim(),
+                    Password = textBoxPasswrd.Text.Trim(),
+                    UserName = $"{textBoxFirstname.Text.Trim()} {textBoxLastname.Text.Trim()}"
                 };
 
                 _presenter.SaveUserRegistration(userCredentials); // Use presenter to call the save method
@@ -144,8 +144,8 @@ namespace DSD_WinformsApp.View
 
                 var userCredentials = new UserCredentialsDto
                 {
-                    UserName = textBoxSignInUserName.Text,
-                    Password = textBoxSignInPassword.Text
+                    UserName = textBoxSignInUserName.Text.Trim(),
+                    Password = textBoxSignInPassword.Text.Trim()
                 };
 
                 bool isValidCredentials = await _presenter.ValidateUserCredentials(userCredentials); // Use presenter to call the validate method

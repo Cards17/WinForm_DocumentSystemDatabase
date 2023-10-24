@@ -22,6 +22,7 @@ namespace DSD_WinformsApp.Model
         public string CreatedDate { get; set; } = string.Empty;
         public string ImagePath { get; set; } = string.Empty;
 
+        [EnumDataType(typeof(UserRole))]
         public UserRole UserRole { get; set; } = UserRole.User;
         public string UserName { get; set; } 
 

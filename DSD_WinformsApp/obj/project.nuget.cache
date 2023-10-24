@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "FMBVSms+h2kZXoKXsyBj7ATuSltcjrsB94PwXZ2YDgksRo8MuObilvbZFWCEzGs1dNaeDMoL3MNYD7ccXy1gIw==",
+  "dgSpecHash": "C1bdKrfbxRJ/L+0xCAVhNfIzTFXtoUgx7O/JMXgpeElXa0uUzM7QDL7GPfF+3U9ffFGVBbnqoTAp+rjv07kjhg==",
   "success": true,
   "projectFilePath": "C:\\Users\\ricardo.piquero.jr\\source\\repos\\DSD Solution v6.0\\DSD_WinformsApp\\DSD_WinformsApp.csproj",
   "expectedPackageFiles": [
@@ -62,6 +62,7 @@
     "C:\\Users\\ricardo.piquero.jr\\.nuget\\packages\\microsoft.win32.registry\\5.0.0\\microsoft.win32.registry.5.0.0.nupkg.sha512",
     "C:\\Users\\ricardo.piquero.jr\\.nuget\\packages\\microsoft.win32.systemevents\\5.0.0\\microsoft.win32.systemevents.5.0.0.nupkg.sha512",
     "C:\\Users\\ricardo.piquero.jr\\.nuget\\packages\\mono.texttemplating\\2.2.1\\mono.texttemplating.2.2.1.nupkg.sha512",
+    "C:\\Users\\ricardo.piquero.jr\\.nuget\\packages\\newtonsoft.json\\13.0.3\\newtonsoft.json.13.0.3.nupkg.sha512",
     "C:\\Users\\ricardo.piquero.jr\\.nuget\\packages\\system.buffers\\4.5.1\\system.buffers.4.5.1.nupkg.sha512",
     "C:\\Users\\ricardo.piquero.jr\\.nuget\\packages\\system.codedom\\4.4.0\\system.codedom.4.4.0.nupkg.sha512",
     "C:\\Users\\ricardo.piquero.jr\\.nuget\\packages\\system.configuration.configurationmanager\\5.0.0\\system.configuration.configurationmanager.5.0.0.nupkg.sha512",

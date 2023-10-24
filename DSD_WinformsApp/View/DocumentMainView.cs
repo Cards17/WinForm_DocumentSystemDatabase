@@ -954,32 +954,33 @@ namespace DSD_WinformsApp.View
             dataGridViewManageUsers.Columns["Lastname"].DisplayIndex = 2;
             dataGridViewManageUsers.Columns["EmailAddress"].DisplayIndex = 3;
             dataGridViewManageUsers.Columns["JobTitle"].DisplayIndex = 4;
-            dataGridViewManageUsers.Columns["CreatedDate"].DisplayIndex = 5;
+            dataGridViewManageUsers.Columns["UserRole"].DisplayIndex = 5;
 
             // Set the column widths
-            dataGridViewManageUsers.Columns["UserId"].Width = 60;
             dataGridViewManageUsers.Columns["Firstname"].Width = 155;
             dataGridViewManageUsers.Columns["Lastname"].Width = 155;
-            dataGridViewManageUsers.Columns["EmailAddress"].Width = 300;
-            dataGridViewManageUsers.Columns["JobTitle"].Width = 270;
+            dataGridViewManageUsers.Columns["EmailAddress"].Width = 250;
+            dataGridViewManageUsers.Columns["JobTitle"].Width = 250;
+            dataGridViewManageUsers.Columns["UserRole"].Width = 130;
 
-            dataGridViewManageUsers.Columns["UserId"].Visible = true;
             dataGridViewManageUsers.Columns["Firstname"].Visible = true;
             dataGridViewManageUsers.Columns["Lastname"].Visible = true;
             dataGridViewManageUsers.Columns["EmailAddress"].Visible = true;
             dataGridViewManageUsers.Columns["JobTitle"].Visible = true;
+            dataGridViewManageUsers.Columns["UserRole"].Visible = true;
+            dataGridViewManageUsers.Columns["UserId"].Visible = false;
             dataGridViewManageUsers.Columns["CreatedDate"].Visible = false;
             dataGridViewManageUsers.Columns["Password"].Visible = false;
             dataGridViewManageUsers.Columns["ImageData"].Visible = false;
-            dataGridViewManageUsers.Columns["UserRole"].Visible = false;
+            dataGridViewManageUsers.Columns["Username"].Visible = false;
 
             // Display name for headertext
-            dataGridViewManageUsers.Columns["UserId"].HeaderText = "ID";
             dataGridViewManageUsers.Columns["Firstname"].HeaderText = "First Name";
             dataGridViewManageUsers.Columns["Lastname"].HeaderText = "Last Name";
             dataGridViewManageUsers.Columns["EmailAddress"].HeaderText = "Email Address";
             dataGridViewManageUsers.Columns["JobTitle"].HeaderText = "Job Title";
-            dataGridViewManageUsers.Columns["CreatedDate"].HeaderText = "Created Date";
+            dataGridViewManageUsers.Columns["UserRole"].HeaderText = "User Role";
+
         }
 
         // event when details button was clicked

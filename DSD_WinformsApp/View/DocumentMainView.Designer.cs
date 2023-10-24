@@ -103,7 +103,7 @@ namespace DSD_WinformsApp.View
             dataGridView1.RowHeadersWidth = 62;
             dataGridView1.RowTemplate.Height = 33;
             dataGridView1.RowTemplate.Resizable = DataGridViewTriState.False;
-            dataGridView1.ScrollBars = ScrollBars.None;
+            dataGridView1.ScrollBars = ScrollBars.Horizontal;
             dataGridView1.Size = new Size(1125, 366);
             dataGridView1.TabIndex = 0;
             // 
@@ -351,7 +351,7 @@ namespace DSD_WinformsApp.View
             dataGridViewManageUsers.RowHeadersVisible = false;
             dataGridViewManageUsers.RowHeadersWidth = 62;
             dataGridViewManageUsers.RowTemplate.Height = 33;
-            dataGridViewManageUsers.ScrollBars = ScrollBars.None;
+            dataGridViewManageUsers.ScrollBars = ScrollBars.Horizontal;
             dataGridViewManageUsers.Size = new Size(1125, 366);
             dataGridViewManageUsers.TabIndex = 0;
             // 
