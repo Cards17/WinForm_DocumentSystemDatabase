@@ -44,7 +44,7 @@ namespace DSD_WinformsApp.View
             StatusComboBox();
             CategoryComboBox();
             CreatedByComboBox();
-           
+
         }
 
         private void AddForm_Load(object sender, EventArgs e)
@@ -54,6 +54,9 @@ namespace DSD_WinformsApp.View
             //btnSave = new CustomButton(ColorTranslator.FromHtml("#05982E"), SystemColors.Control);
             //btnCancel = new CustomButton(ColorTranslator.FromHtml("#DA0B0B"), SystemColors.Control);
             //buttonUploadFile = new CustomButton(ColorTranslator.FromHtml("#A5D7E8"), SystemColors.Control);
+
+            buttonUploadFile.BackColor = ColorTranslator.FromHtml("#A5D7E8");
+            btnCancel.BackColor = ColorTranslator.FromHtml("#DA0B0B");
 
 
             // Set the title of the form
@@ -65,11 +68,6 @@ namespace DSD_WinformsApp.View
             // Hide filename label initially
             labelFilename.Visible = false;
 
-            // Attach TextChanged event handlers to relevant controls
-            labelFilename.TextChanged += Control_TextChanged;
-            txtBoxNotes.TextChanged += Control_TextChanged;
-            comboBoxCreatedBy.TextChanged += Control_TextChanged;
-
             errorProvider.BlinkStyle = ErrorBlinkStyle.NeverBlink; // remove the blinking icon when error occurs
 
             // Attach SelectedIndexChanged event handlers to ComboBox controls
@@ -77,8 +75,10 @@ namespace DSD_WinformsApp.View
             comboBoxCreatedBy.SelectedIndexChanged += Control_SelectedIndexChanged;
             cmbStatus.SelectedIndexChanged += Control_SelectedIndexChanged;
 
-
-
+            // Attach TextChanged event handlers to relevant controls
+            labelFilename.TextChanged += Control_TextChanged;
+            textBoxDocumentVersion.TextChanged += Control_TextChanged;
+            txtBoxNotes.TextChanged += Control_TextChanged;
         }
 
         // Status selection
@@ -128,6 +128,7 @@ namespace DSD_WinformsApp.View
             var documentDto = new DocumentDto
             {
                 Filename = labelFilename.Text,
+                DocumentVersion = textBoxDocumentVersion.Text,
                 Category = cmbCategories.SelectedItem?.ToString() ?? "",
                 Status = cmbStatus.SelectedItem?.ToString() ?? "",
                 Notes = txtBoxNotes.Text,
@@ -135,26 +136,23 @@ namespace DSD_WinformsApp.View
                 CreatedDate = DateTime.Now.Date,
                 ModifiedDate = DateTime.Now.Date,
             };
-            // Use the presenter to save the document with file data
-            _presenter.SaveDocument(documentDto, fileDataBytes);
+            
+            _presenter.SaveDocument(documentDto, fileDataBytes); // Use the presenter to save the document with file data
 
-            // Inform the presenter about the new document
-            _presenter.AddNewDocument(documentDto);
+            _presenter.AddNewDocument(documentDto); // Inform the presenter about the new document
+           
+            await _presenter.LoadDocumentsByFilter(currentSearchQuery, currentFilterCategory);  // Load the documents again to update the view
 
-            // Load the documents again to update the view
-            await _presenter.LoadDocumentsByFilter(currentSearchQuery, currentFilterCategory);
-
-            // Close the form and return DialogResult.OK
-            DialogResult = DialogResult.OK;
+            DialogResult = DialogResult.OK; // Close the form and return DialogResult.OK
         }
 
-        private void btnCancel_Click(object? sender, EventArgs e)
+        private void btnCancel_Click(object sender, EventArgs e)
         {
             // Close the form and return DialogResult.Cancel
             DialogResult = DialogResult.Cancel;
         }
 
-        private  async void buttonUploadFile_Click(object? sender, EventArgs e)
+        private async void buttonUploadFile_Click(object? sender, EventArgs e)
         {
             OpenFileDialog openFileDialog = new OpenFileDialog();
             openFileDialog.Filter = "All Files|*.*";
@@ -183,7 +181,7 @@ namespace DSD_WinformsApp.View
                 {
                     MessageBox.Show("A file with the same name already exists. Please choose a different file name.");
                     return;
-                }  
+                }
             }
             // labelFilename.Enabled = false;
             labelFilename.Visible = true;
@@ -212,9 +210,15 @@ namespace DSD_WinformsApp.View
                 isValid = false;
             }
 
+            if (string.IsNullOrWhiteSpace(textBoxDocumentVersion.Text))
+            {
+                errorProvider.SetError(textBoxDocumentVersion, "Document Version is required.");
+                isValid = false;
+            }
+
             if (cmbCategories.SelectedItem == null)
             {
-                errorProvider.SetError(cmbCategories, "Category is required.");
+                errorProvider.SetError(cmbCategories, "Document Category is required.");
                 isValid = false;
             }
 

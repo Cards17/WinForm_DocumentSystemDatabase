@@ -3,6 +3,7 @@ using DSD_WinformsApp.Infrastructure.Data;
 using DSD_WinformsApp.Infrastructure.Data.Services;
 using DSD_WinformsApp.Model;
 using DSD_WinformsApp.Presenter;
+using Microsoft.VisualBasic.ApplicationServices;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -33,6 +34,7 @@ namespace DSD_WinformsApp.View
         private string currentSearchUserQuery = "";
         private string currentJobFilter = "";
 
+
         public DocumentMainView(IUnitOfWork unitOfWork)
         {
             InitializeComponent();
@@ -43,7 +45,7 @@ namespace DSD_WinformsApp.View
             // Attach the FormClosing event handler
             this.FormClosing += DocumentViewForm_FormClosing;
 
-            ToggleManageUsersButtonVisibility(isVisible); // Manage Users button visibility
+            ToggleAdminRights(isVisible); // Manage Users button visibility
 
             // Documents filter events 
             textBoxSearchBar.TextChanged += textBoxSearchBar_TextChanged;
@@ -67,6 +69,7 @@ namespace DSD_WinformsApp.View
             // Store the original state of the checkbox
             originalCheckBoxState = checkBoxEnableAdmin.Checked;
 
+
             #endregion
         }
 
@@ -78,11 +81,13 @@ namespace DSD_WinformsApp.View
             // Load the users from the database using the presenter
             await _presenter.LoadUsersByFilter(currentSearchUserQuery, currentJobFilter);
 
+
             // DONT TRY TO REMOVE THIS COMMENTED CODE
             //buttonUsersDetailSave = new CustomButton(ColorTranslator.FromHtml("#05982E"), SystemColors.Control);
             //buttonCloseUser = new CustomButton(ColorTranslator.FromHtml("#DA0B0B"), SystemColors.Control);
             //buttonEditUser = new CustomButton(ColorTranslator.FromHtml("#A5D7E8"), SystemColors.Control);
 
+ 
 
             #region Manage Users Properties
 
@@ -150,11 +155,12 @@ namespace DSD_WinformsApp.View
             comboBoxCategoryDropdown.SelectedIndex = 0; // Set the default value to "Select Category"
 
             // Define the column width from documentmodel
-            dataGridView1.Columns["Id"].Width = 55;
-            dataGridView1.Columns["Filename"].Width = 300;
-            dataGridView1.Columns["Category"].Width = 170;
-            dataGridView1.Columns["Status"].Width = 160;
-            dataGridView1.Columns["CreatedDate"].Width = 155;
+            dataGridView1.Columns["DocumentVersion"].Width = 200;
+            dataGridView1.Columns["Filename"].Width = 425;
+            dataGridView1.Columns["Category"].Width = 270;
+            dataGridView1.Columns["Status"].Width = 150;
+            dataGridView1.Columns["Id"].Visible = false;
+            dataGridView1.Columns["CreatedDate"].Visible = false;
             dataGridView1.Columns["CreatedBy"].Visible = false;
             dataGridView1.Columns["ModifiedBy"].Visible = false;
             dataGridView1.Columns["ModifiedDate"].Visible = false;
@@ -162,12 +168,10 @@ namespace DSD_WinformsApp.View
             dataGridView1.Columns["FileData"].Visible = false;
 
             // Display name for table columns
-            dataGridView1.Columns["Id"].HeaderText = "Id";
-            dataGridView1.Columns["Status"].HeaderText = "File Status";
-            dataGridView1.Columns["Filename"].HeaderText = "Filename";
-            dataGridView1.Columns["Category"].HeaderText = "File Category";
-            dataGridView1.Columns["CreatedDate"].HeaderText = "Created Date";
-
+            dataGridView1.Columns["DocumentVersion"].HeaderText = "Document Version";
+            dataGridView1.Columns["Status"].HeaderText = "Status";
+            dataGridView1.Columns["Filename"].HeaderText = "Document Title";
+            dataGridView1.Columns["Category"].HeaderText = "Category";
 
             // Add details button functionality
             DataGridViewButtonColumn detailsColumn = new DataGridViewButtonColumn();
@@ -178,7 +182,6 @@ namespace DSD_WinformsApp.View
             detailsColumn.HeaderText = string.Empty;
             dataGridView1.Columns.Add(detailsColumn);
 
-
             // add download button here and then when the button was clicked i need to download the file into downloads folder
             DataGridViewButtonColumn downloadColumn = new DataGridViewButtonColumn();
             downloadColumn.Text = "Download";
@@ -188,18 +191,20 @@ namespace DSD_WinformsApp.View
             downloadColumn.HeaderText = string.Empty;
             dataGridView1.Columns.Add(downloadColumn);
 
-            // Add delete button functionality
-            DataGridViewButtonColumn deleteColumn = new DataGridViewButtonColumn();
-            deleteColumn.Text = "Delete";
-            deleteColumn.Name = "Delete";
-            deleteColumn.Width = 93;
-            deleteColumn.UseColumnTextForButtonValue = true;
-            deleteColumn.HeaderText = string.Empty;
-            dataGridView1.Columns.Add(deleteColumn);
+            //DataGridViewButtonColumn deleteColumn = new DataGridViewButtonColumn();
+            //deleteColumn.Text = "Delete";
+            //deleteColumn.Name = "Delete";
+            //deleteColumn.Width = 93;
+            //deleteColumn.UseColumnTextForButtonValue = true;
+            //deleteColumn.HeaderText = string.Empty;
+            //dataGridView1.Columns.Add(deleteColumn);
+
+
+
 
             // Wire up the CellClick event handler
             dataGridView1.CellClick += dataGridView1_DetailsButton_CellClick;
-            dataGridView1.CellClick += dataGridView1_DeleteButton_CellClick;
+            //dataGridView1.CellClick += dataGridView1_DeleteButton_CellClick;
             dataGridView1.CellClick += dataGridView1_DownloadButton_CellClick;
 
             // Set the cursor to hand when hovering over the Details button
@@ -256,6 +261,7 @@ namespace DSD_WinformsApp.View
                 }
             }
         }
+        
 
         private void ConfirmDownloadDocument(DocumentDto selectedDocument)
         {
@@ -292,11 +298,12 @@ namespace DSD_WinformsApp.View
         }
 
 
-        //Event method when details button was clicked
-        private async void dataGridView1_DeleteButton_CellClick(object? sender, DataGridViewCellEventArgs e)
+        //Event method when delete button was clicked
+        /* private async void dataGridView1_DeleteButton_CellClick(object? sender, DataGridViewCellEventArgs e)
         {
             if (e.RowIndex >= 0 && e.ColumnIndex == dataGridView1.Columns["Delete"].Index)
             {
+ 
                 DocumentDto selectedDocument = (DocumentDto)dataGridView1.Rows[e.RowIndex].DataBoundItem;
                 // Show the delete confirmation modal directly in the main form.
                 DialogResult result = MessageBox.Show("Are you sure you want to delete the selected document?", "Delete Confirmation", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
@@ -320,8 +327,13 @@ namespace DSD_WinformsApp.View
                     // User clicked "No" or closed the dialog, cancel the deletion
                     // Add any additional logic if needed.
                 }
+
+                
             }
         }
+        */
+
+       
 
         private async void ShowDocumentDetailsModal(DocumentDto selectedDocument)
         {
@@ -927,14 +939,24 @@ namespace DSD_WinformsApp.View
         #region Manage Users Methods
 
         // Event method when details button was clicked
-        public void ToggleManageUsersButtonVisibility(bool isVisible)
+        public void ToggleAdminRights(bool isVisible)
         {
             buttonManageUsers.Visible = isVisible;
+            
         }
+
+        // Implement the method to enable or disable the delete button
+        public bool ToggleDocumentDeleteButton(bool enable)
+        {
+            return enable;
+           
+        }
+
+
+
+
         private async void buttonManageUsers_Click(object sender, EventArgs e)
         {
-
-            //await _presenter.LoadUsers();
 
             var currentUsersSearchQueryWhenItemDeleted = GetSearchUserQuery();
             var currentUsersFilterCategoryWhenItemDeleted = GetFilterUsersCategory();
@@ -1231,7 +1253,7 @@ namespace DSD_WinformsApp.View
 
             else if (totalPages < currentPage && totalPages > 0)
             {
-                labelDocumentPagination.Text = $"Page {currentPage -1} of {totalPages}";
+                labelDocumentPagination.Text = $"Page {currentPage - 1} of {totalPages}";
             }
 
             else
@@ -1243,7 +1265,7 @@ namespace DSD_WinformsApp.View
             iconBack.Enabled = currentPage <= 1 || totalPages <= 1 ? false : true;
 
             // Disable next ixon if page == totalpages
-            iconNext.Enabled = currentPage == totalPages || totalPages <= 1? false : true;
+            iconNext.Enabled = currentPage == totalPages || totalPages <= 1 ? false : true;
         }
 
         #endregion
@@ -1302,13 +1324,13 @@ namespace DSD_WinformsApp.View
                 labelUsersPagination.Text = $"Page {currentPageUsers} of {UsersTotalPages}";
             }
 
-            
+
             // Disable back icon if page == 1
             pictureBoxUsersBackIcon.Enabled = currentPageUsers <= 1 || UsersTotalPages <= 1 ? false : true;
 
             // Disable next icon if page == totalpages
             pictureBoxUsersNextIcon.Enabled = currentPageUsers == UsersTotalPages || UsersTotalPages <= 1 ? false : true;
-           
+
 
         }
 
@@ -1326,6 +1348,6 @@ namespace DSD_WinformsApp.View
             Application.Exit();
         }
 
-        
+
     }
 }

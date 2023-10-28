@@ -10,6 +10,11 @@ namespace DSD_WinformsApp.Core.DTOs
     public class DocumentDto
     {
         public int Id { get; set; }
+
+        [MinLength(1), MaxLength(30)]
+        public string DocumentVersion { get; set; } = string.Empty;
+
+        [MaxLength(150)]
         public string Filename { get; set; } = string.Empty;
         public string Category { get; set; } = string.Empty;
         public string Status { get; set; } = string.Empty;
@@ -21,6 +26,8 @@ namespace DSD_WinformsApp.Core.DTOs
         [MaxLength(150)]
         public string Notes { get; set; } = string.Empty;
         public byte[] FileData { get; set; } = null!;
+
+
 
 
     }

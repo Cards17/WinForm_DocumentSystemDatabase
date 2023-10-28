@@ -12,7 +12,10 @@ namespace DSD_WinformsApp.View
         void ShowDocumentView();
         string GetSearchQuery();
         string GetFilterCategory();
-        void ToggleManageUsersButtonVisibility(bool isAdminUser);
+        void ToggleAdminRights(bool isAdminUser);
+
+        bool ToggleDocumentDeleteButton(bool enable);
+
         string GetSearchUserQuery();
         string GetFilterUsersCategory();
         void SetUsernameLabel(string username);

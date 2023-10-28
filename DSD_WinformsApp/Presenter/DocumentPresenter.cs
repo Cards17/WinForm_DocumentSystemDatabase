@@ -296,16 +296,17 @@ namespace DSD_WinformsApp.Presenter
                 if (user != null && user.Password == userCredentials.Password)
                 {
                     string userRole = _userRepository.GetUserRole(user.EmailAddress); // Get the user role
+                    _mainDocumentView.SetUsernameLabel($"{user.Firstname} {user.Lastname}"); // Set the username label
 
                     if (userRole == "Admin")
                     {
-                        _mainDocumentView.ToggleManageUsersButtonVisibility(true);
-                        _mainDocumentView.SetUsernameLabel($"{user.Firstname} {user.Lastname}");
+                        _mainDocumentView.ToggleAdminRights(true);
+                        _mainDocumentView.ToggleDocumentDeleteButton(true);
                     }
                     else
                     {
-                        _mainDocumentView.ToggleManageUsersButtonVisibility(false);
-                        _mainDocumentView.SetUsernameLabel($"{user.Firstname} {user.Lastname}");
+                        _mainDocumentView.ToggleAdminRights(false);
+                        _mainDocumentView.ToggleDocumentDeleteButton(false);
                     }
 
                     _mainDocumentView.ShowDocumentView();

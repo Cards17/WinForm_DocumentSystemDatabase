@@ -73,11 +73,9 @@ namespace DSD_WinformsApp.View
             labelHomePage = new Label();
             labelHomePageUserLogin = new Label();
             labelFooter = new Label();
-
             buttonUsersDetailSave = new CustomButton(ColorTranslator.FromHtml("#05982E"), SystemColors.Control);
             buttonCloseUser = new CustomButton(ColorTranslator.FromHtml("#DA0B0B"), SystemColors.Control);
             buttonEditUser = new CustomButton(ColorTranslator.FromHtml("#A5D7E8"), SystemColors.Control);
-
             ((System.ComponentModel.ISupportInitialize)dataGridView1).BeginInit();
             panel1.SuspendLayout();
             panelDocumentButton.SuspendLayout();
@@ -104,7 +102,7 @@ namespace DSD_WinformsApp.View
             dataGridView1.RowTemplate.Height = 33;
             dataGridView1.RowTemplate.Resizable = DataGridViewTriState.False;
             dataGridView1.ScrollBars = ScrollBars.Horizontal;
-            dataGridView1.Size = new Size(1125, 366);
+            dataGridView1.Size = new Size(1235, 366);
             dataGridView1.TabIndex = 0;
             // 
             // panel1
@@ -186,14 +184,14 @@ namespace DSD_WinformsApp.View
             panelDocumentButton.Controls.Add(textBoxSearchBar);
             panelDocumentButton.Location = new Point(250, 80);
             panelDocumentButton.Name = "panelDocumentButton";
-            panelDocumentButton.Size = new Size(1195, 830);
+            panelDocumentButton.Size = new Size(1550, 830);
             panelDocumentButton.TabIndex = 2;
             // 
             // labelDocumentPagination
             // 
             labelDocumentPagination.AutoSize = true;
             labelDocumentPagination.Font = new Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point);
-            labelDocumentPagination.Location = new Point(995, 657);
+            labelDocumentPagination.Location = new Point(1105, 657);
             labelDocumentPagination.Name = "labelDocumentPagination";
             labelDocumentPagination.Size = new Size(59, 25);
             labelDocumentPagination.TabIndex = 8;
@@ -203,7 +201,7 @@ namespace DSD_WinformsApp.View
             // 
             iconNext.Cursor = Cursors.Hand;
             iconNext.Image = Properties.Resources.next;
-            iconNext.Location = new Point(1110, 650);
+            iconNext.Location = new Point(1218, 650);
             iconNext.Name = "iconNext";
             iconNext.Size = new Size(36, 36);
             iconNext.SizeMode = PictureBoxSizeMode.Zoom;
@@ -215,7 +213,7 @@ namespace DSD_WinformsApp.View
             // 
             iconBack.Cursor = Cursors.Hand;
             iconBack.Image = Properties.Resources.back;
-            iconBack.Location = new Point(955, 650);
+            iconBack.Location = new Point(1064, 650);
             iconBack.Name = "iconBack";
             iconBack.Size = new Size(36, 36);
             iconBack.SizeMode = PictureBoxSizeMode.Zoom;
@@ -225,28 +223,32 @@ namespace DSD_WinformsApp.View
             // 
             // comboBoxCategoryDropdown
             // 
+            comboBoxCategoryDropdown.Font = new Font("Segoe UI", 10F, FontStyle.Regular, GraphicsUnit.Point);
             comboBoxCategoryDropdown.FormattingEnabled = true;
-            comboBoxCategoryDropdown.Location = new Point(890, 130);
+            comboBoxCategoryDropdown.Location = new Point(1005, 130);
             comboBoxCategoryDropdown.Name = "comboBoxCategoryDropdown";
-            comboBoxCategoryDropdown.Size = new Size(250, 33);
+            comboBoxCategoryDropdown.Size = new Size(250, 36);
             comboBoxCategoryDropdown.TabIndex = 5;
             comboBoxCategoryDropdown.Text = "All Category Options";
             comboBoxCategoryDropdown.SelectedIndexChanged += comboBoxCategoryDropdown_SelectedIndexChanged;
             // 
             // comboBoxCategory
             // 
+            comboBoxCategory.AllowDrop = true;
             comboBoxCategory.FormattingEnabled = true;
             comboBoxCategory.Location = new Point(1200, 180);
             comboBoxCategory.Name = "comboBoxCategory";
             comboBoxCategory.Size = new Size(182, 33);
             comboBoxCategory.TabIndex = 4;
+            comboBoxCategory.Visible = false;
             // 
             // textBoxSearchBar
             // 
-            textBoxSearchBar.Location = new Point(600, 130);
+            textBoxSearchBar.Font = new Font("Segoe UI", 10F, FontStyle.Regular, GraphicsUnit.Point);
+            textBoxSearchBar.Location = new Point(680, 130);
             textBoxSearchBar.Name = "textBoxSearchBar";
             textBoxSearchBar.PlaceholderText = "Search by Filename";
-            textBoxSearchBar.Size = new Size(250, 31);
+            textBoxSearchBar.Size = new Size(250, 34);
             textBoxSearchBar.TabIndex = 3;
             textBoxSearchBar.TextChanged += textBoxSearchBar_TextChanged;
             // 
@@ -267,7 +269,7 @@ namespace DSD_WinformsApp.View
             buttonSignOut.BackColor = Color.FromArgb(218, 11, 11);
             buttonSignOut.Cursor = Cursors.Hand;
             buttonSignOut.Font = new Font("Segoe UI Semibold", 10F, FontStyle.Bold, GraphicsUnit.Point);
-            buttonSignOut.Location = new Point(1280, 25);
+            buttonSignOut.Location = new Point(1400, 25);
             buttonSignOut.Name = "buttonSignOut";
             buttonSignOut.Size = new Size(110, 40);
             buttonSignOut.TabIndex = 3;
@@ -361,7 +363,7 @@ namespace DSD_WinformsApp.View
             panelUserDetails.Controls.Add(panelUserDetails2);
             panelUserDetails.Location = new Point(250, 80);
             panelUserDetails.Name = "panelUserDetails";
-            panelUserDetails.Size = new Size(1195, 830);
+            panelUserDetails.Size = new Size(1550, 830);
             panelUserDetails.TabIndex = 0;
             // 
             // panelUserDetails2
@@ -528,7 +530,7 @@ namespace DSD_WinformsApp.View
             panelHome.Controls.Add(labelHomePage);
             panelHome.Location = new Point(250, 80);
             panelHome.Name = "panelHome";
-            panelHome.Size = new Size(1195, 830);
+            panelHome.Size = new Size(1550, 830);
             panelHome.TabIndex = 8;
             // 
             // labelHomePage
@@ -545,7 +547,7 @@ namespace DSD_WinformsApp.View
             // 
             labelHomePageUserLogin.AutoSize = true;
             labelHomePageUserLogin.Font = new Font("Segoe UI Semibold", 10F, FontStyle.Bold, GraphicsUnit.Point);
-            labelHomePageUserLogin.Location = new Point(1012, 33);
+            labelHomePageUserLogin.Location = new Point(1110, 33);
             labelHomePageUserLogin.Name = "labelHomePageUserLogin";
             labelHomePageUserLogin.Size = new Size(63, 28);
             labelHomePageUserLogin.TabIndex = 9;
@@ -566,16 +568,16 @@ namespace DSD_WinformsApp.View
             AutoScaleDimensions = new SizeF(10F, 25F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.White;
-            ClientSize = new Size(1418, 968);
+            ClientSize = new Size(1528, 968);
             Controls.Add(labelFooter);
             Controls.Add(labelHomePageUserLogin);
             Controls.Add(buttonSignOut);
             Controls.Add(panel1);
-            Controls.Add(panelHome);
-            Controls.Add(panelUserDetails);
             Controls.Add(panelDocumentButton);
             Controls.Add(panelManageUsers);
             Controls.Add(dataGridView1);
+            Controls.Add(panelHome);
+            Controls.Add(panelUserDetails);
             Icon = (Icon)resources.GetObject("$this.Icon");
             Name = "DocumentMainView";
             Text = "Main Page";
