@@ -23,7 +23,6 @@ namespace DSD_WinformsApp.View
 
         private bool isNewFileUploaded = false;
 
-        private bool isEnabled = true;
 
         // Initial values for search query and category filter
         private string currentSearchQuery = "";
@@ -33,7 +32,6 @@ namespace DSD_WinformsApp.View
         // Initial value for user search query
         private string currentSearchUserQuery = "";
         private string currentJobFilter = "";
-
 
         public DocumentMainView(IUnitOfWork unitOfWork)
         {
@@ -75,23 +73,20 @@ namespace DSD_WinformsApp.View
 
         private async void DocumentView_Load_1(object sender, EventArgs e)
         {
-            // Load the documents from the database using the presenter
-            await _presenter.LoadDocumentsByFilter(currentSearchQuery, currentFilterCategory);
+            await _presenter.LoadDocumentsByFilter(currentSearchQuery, currentFilterCategory); // Load the documents by filter using the presenter
 
-            // Load the users from the database using the presenter
-            await _presenter.LoadUsersByFilter(currentSearchUserQuery, currentJobFilter);
+            await _presenter.LoadUsersByFilter(currentSearchUserQuery, currentJobFilter); // Load the users from the database using the presenter
 
+            bool isAdmin = await _presenter.CheckUserAccess(labelHomePageUserLogin.Text); // Check if the logged in user is an admin
 
             // DONT TRY TO REMOVE THIS COMMENTED CODE
             //buttonUsersDetailSave = new CustomButton(ColorTranslator.FromHtml("#05982E"), SystemColors.Control);
             //buttonCloseUser = new CustomButton(ColorTranslator.FromHtml("#DA0B0B"), SystemColors.Control);
             //buttonEditUser = new CustomButton(ColorTranslator.FromHtml("#A5D7E8"), SystemColors.Control);
 
- 
+
 
             #region Manage Users Properties
-
-
 
             // Create instance for comboBox_JobCategory items
             comboBox_JobCategory.Items.Add("All Job Titles");
@@ -136,6 +131,7 @@ namespace DSD_WinformsApp.View
             panelManageUsers.Visible = false; // Hide the panelManageUsers initially
 
             // Add controls for panel2
+            pictureBox1.Enabled = isAdmin; // enable for admin user
             panelDocumentButton.Controls.Add(pictureBox1);
             panelDocumentButton.Controls.Add(dataGridView1);
 
@@ -182,14 +178,14 @@ namespace DSD_WinformsApp.View
             detailsColumn.HeaderText = string.Empty;
             dataGridView1.Columns.Add(detailsColumn);
 
-            // add download button here and then when the button was clicked i need to download the file into downloads folder
-            DataGridViewButtonColumn downloadColumn = new DataGridViewButtonColumn();
-            downloadColumn.Text = "Download";
-            downloadColumn.Name = "Download";
-            downloadColumn.Width = 93;
-            downloadColumn.UseColumnTextForButtonValue = true;
-            downloadColumn.HeaderText = string.Empty;
-            dataGridView1.Columns.Add(downloadColumn);
+            //// add download button here and then when the button was clicked i need to download the file into downloads folder
+            //DataGridViewButtonColumn downloadColumn = new DataGridViewButtonColumn();
+            //downloadColumn.Text = "Download";
+            //downloadColumn.Name = "Download";
+            //downloadColumn.Width = 93;
+            //downloadColumn.UseColumnTextForButtonValue = true;
+            //downloadColumn.HeaderText = string.Empty;
+            //dataGridView1.Columns.Add(downloadColumn);
 
             //DataGridViewButtonColumn deleteColumn = new DataGridViewButtonColumn();
             //deleteColumn.Text = "Delete";
@@ -205,7 +201,7 @@ namespace DSD_WinformsApp.View
             // Wire up the CellClick event handler
             dataGridView1.CellClick += dataGridView1_DetailsButton_CellClick;
             //dataGridView1.CellClick += dataGridView1_DeleteButton_CellClick;
-            dataGridView1.CellClick += dataGridView1_DownloadButton_CellClick;
+            //dataGridView1.CellClick += dataGridView1_DownloadButton_CellClick;
 
             // Set the cursor to hand when hovering over the Details button
             dataGridView1.CellMouseEnter += (sender, e) =>
@@ -240,28 +236,28 @@ namespace DSD_WinformsApp.View
             panelDocumentButton.Visible = true;
         }
 
-        private void dataGridView1_DownloadButton_CellClick(object? sender, DataGridViewCellEventArgs e)
-        {
-            //implement download file functionality here
-            if (e.RowIndex >= 0 && e.ColumnIndex == dataGridView1.Columns["Download"].Index)
-            {
-                DocumentDto selectedDocument = (DocumentDto)dataGridView1.Rows[e.RowIndex].DataBoundItem;
-                // Show the delete confirmation modal directly in the main form.
-                DialogResult result = MessageBox.Show("Are you sure you want to download the selected document?", "Download Confirmation", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+        //private void dataGridView1_DownloadButton_CellClick(object? sender, DataGridViewCellEventArgs e)
+        //{
+        //    //implement download file functionality here
+        //    if (e.RowIndex >= 0 && e.ColumnIndex == dataGridView1.Columns["Download"].Index)
+        //    {
+        //        DocumentDto selectedDocument = (DocumentDto)dataGridView1.Rows[e.RowIndex].DataBoundItem;
+        //        // Show the delete confirmation modal directly in the main form.
+        //        DialogResult result = MessageBox.Show("Are you sure you want to download the selected document?", "Download Confirmation", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
 
-                if (result == DialogResult.Yes)
-                {
-                    // User clicked "Yes," proceed with the deletion
-                    ConfirmDownloadDocument(selectedDocument);
-                }
-                else
-                {
-                    // User clicked "No" or closed the dialog, cancel the deletion
-                    // Add any additional logic if needed.
-                }
-            }
-        }
-        
+        //        if (result == DialogResult.Yes)
+        //        {
+        //            // User clicked "Yes," proceed with the deletion
+        //            ConfirmDownloadDocument(selectedDocument);
+        //        }
+        //        else
+        //        {
+        //            // User clicked "No" or closed the dialog, cancel the deletion
+        //            // Add any additional logic if needed.
+        //        }
+        //    }
+        //}
+
 
         private void ConfirmDownloadDocument(DocumentDto selectedDocument)
         {
@@ -290,10 +286,12 @@ namespace DSD_WinformsApp.View
         //Event method when details button was clicked
         private void dataGridView1_DetailsButton_CellClick(object? sender, DataGridViewCellEventArgs e)
         {
+
             if (e.RowIndex >= 0 && e.ColumnIndex == dataGridView1.Columns["Details"].Index)
             {
                 DocumentDto selectedDocument = (DocumentDto)dataGridView1.Rows[e.RowIndex].DataBoundItem;
                 ShowDocumentDetailsModal(selectedDocument);
+
             }
         }
 
@@ -333,13 +331,17 @@ namespace DSD_WinformsApp.View
         }
         */
 
-       
+
 
         private async void ShowDocumentDetailsModal(DocumentDto selectedDocument)
         {
+            // check user access base on labelHomePageUserLogin in document page.
+            bool isAdmin = await _presenter.CheckUserAccess(labelHomePageUserLogin.Text);
+
+
             // Create a new form to display the document details (modal form).
             DetailsFormView detailsForm = new DetailsFormView();
-            detailsForm.Text = "Document Details";
+            detailsForm.Text = "Document Form";
             detailsForm.FormBorderStyle = FormBorderStyle.FixedDialog;
             detailsForm.StartPosition = FormStartPosition.CenterParent;
 
@@ -357,6 +359,70 @@ namespace DSD_WinformsApp.View
             detailsForm.Controls.Add(groupBox);
 
             int textBoxWidth = 450; // You can adjust the default width for TextBox controls
+
+            // Create delete button on top of textbox and inside the groupbox
+            CustomButton deleteButton = new CustomButton(ColorTranslator.FromHtml("#DA0B0B"), SystemColors.Control);
+            deleteButton.Text = "Delete";
+            deleteButton.Name = "deleteButton";
+            deleteButton.Location = new Point(groupBox.Right - (deleteButton.Width + 120), groupBox.Top - 50);
+            deleteButton.Height = 40;
+            deleteButton.Width = 110;
+            deleteButton.Visible = isAdmin;
+            deleteButton.Click += async (sender, e) =>
+            {
+                // Show the delete confirmation modal directly in the main form.
+                DialogResult result = MessageBox.Show("Are you sure you want to delete the selected document?", "Delete Confirmation", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+
+                if (result == DialogResult.Yes)
+                {
+                    // Delete the document and its backups from the database using the presenter
+                    await _presenter.DeleteDocumentWithBackups(selectedDocument);
+
+                    // Get the current search query and filter category
+                    var currentSearchQueryWhenItemDeleted = GetSearchQuery();
+                    var currentFilterCategoryWhenItemDeleted = GetFilterCategory();
+
+                    // Load the filtered documents again to update the view
+                    await _presenter.LoadDocumentsByFilter(currentSearchQueryWhenItemDeleted, currentFilterCategoryWhenItemDeleted);
+
+                    // Close the DetailsForm (current form) to go back to MainView
+                    detailsForm.Close();
+                }
+                else
+                {
+                    // User clicked "No" or closed the dialog, cancel the deletion
+                    // Add any additional logic if needed.
+                }
+            };
+            groupBox.Controls.Add(deleteButton);
+
+            // Create download button beside delete 
+            CustomButton downloadButton = new CustomButton(ColorTranslator.FromHtml("#A5D7E8"), SystemColors.Control);
+            downloadButton.Text = "Download";
+            downloadButton.Name = "downloadButton";
+            downloadButton.Location = new Point(deleteButton.Left - (downloadButton.Width + 40), deleteButton.Top);
+            downloadButton.Height = 40;
+            downloadButton.Width = 110;
+            downloadButton.Click += (sender, e) =>
+            {
+
+                // Show the delete confirmation modal directly in the main form.
+                DialogResult result = MessageBox.Show("Are you sure you want to download the selected document?", "Download Confirmation", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+
+                if (result == DialogResult.Yes)
+                {
+                    // User clicked "Yes," proceed with the deletion
+                    ConfirmDownloadDocument(selectedDocument);
+                }
+                else
+                {
+                    // User clicked "No" or closed the dialog, cancel the deletion
+                    // Add any additional logic if needed.
+                }
+            };
+            groupBox.Controls.Add(downloadButton);
+
+
 
             // Create a TextBox for "Filename"
             TextBox filenameTextBox = new TextBox();
@@ -465,26 +531,27 @@ namespace DSD_WinformsApp.View
 
             #endregion
 
-            #region File Details
+            #region Document Details
 
             // Create the buttons and add them to the detailsForm
             CustomButton button1 = new CustomButton(ColorTranslator.FromHtml("#A5D7E8"), SystemColors.Control);
-            button1.Text = "File Details";
+            button1.Text = "Document Details";
             button1.Location = new Point(20, 35); // Adjust the coordinates as needed.
             button1.Height = 40;
-            button1.Width = 120;
+            button1.Width = 200;
             detailsForm.Controls.Add(button1);
 
             CustomButton button2 = new CustomButton(ColorTranslator.FromHtml("#A5D7E8"), SystemColors.Control);
-            button2.Text = "File History";
+            button2.Text = "Document History";
             button2.Location = new Point(button1.Right + 10, 35);
             button2.Height = button1.Height;
             button2.Width = button1.Width;
+            button2.Visible = isAdmin; // Hide the button if the user is not an admin
             detailsForm.Controls.Add(button2);
 
             // Create the GroupBox containing the second DataGridView (DataGridView2)
             GroupBox groupBox2 = new GroupBox();
-            groupBox2.Text = "File Details";
+            groupBox2.Text = "";
             groupBox2.AutoSize = true;
             groupBox2.Location = new Point(20, button2.Bottom + 20); // Adjust the position as needed
             groupBox2.Visible = false; // Set the initial visibility to false
@@ -642,6 +709,7 @@ namespace DSD_WinformsApp.View
             editButton.Location = new Point(groupBox.Right - editButton.Width, groupBox.Bottom + 10);
             editButton.Height = 40;
             editButton.Width = 80;
+            editButton.Enabled = isAdmin; // Enable for admin only
             editButton.Click += EditButton_Click;
             detailsForm.Controls.Add(editButton);
 
@@ -664,6 +732,10 @@ namespace DSD_WinformsApp.View
             saveButton.Height = closeButton.Height;
             saveButton.Width = closeButton.Width;
             saveButton.Enabled = false; // Disable the Save button initially
+
+
+
+
 
             // Create a dictionary to store the original values of the TextBoxes
             var originalTextBoxValues = new Dictionary<TextBox, string>();
@@ -942,17 +1014,8 @@ namespace DSD_WinformsApp.View
         public void ToggleAdminRights(bool isVisible)
         {
             buttonManageUsers.Visible = isVisible;
-            
+
         }
-
-        // Implement the method to enable or disable the delete button
-        public bool ToggleDocumentDeleteButton(bool enable)
-        {
-            return enable;
-           
-        }
-
-
 
 
         private async void buttonManageUsers_Click(object sender, EventArgs e)
@@ -1340,7 +1403,8 @@ namespace DSD_WinformsApp.View
         public void SetUsernameLabel(string username)
         {
             // Assuming labelUsername is the name of your label control
-            labelHomePageUserLogin.Text = "Hello, " + username;
+            //labelHomePageUserLogin.Text = "Hello, " + username;
+            labelHomePageUserLogin.Text = username;
         }
 
         private void buttonSignOut_Click(object sender, EventArgs e)

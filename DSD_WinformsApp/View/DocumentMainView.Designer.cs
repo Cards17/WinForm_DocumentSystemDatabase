@@ -73,6 +73,7 @@ namespace DSD_WinformsApp.View
             labelHomePage = new Label();
             labelHomePageUserLogin = new Label();
             labelFooter = new Label();
+            labelHello = new Label();
             buttonUsersDetailSave = new CustomButton(ColorTranslator.FromHtml("#05982E"), SystemColors.Control);
             buttonCloseUser = new CustomButton(ColorTranslator.FromHtml("#DA0B0B"), SystemColors.Control);
             buttonEditUser = new CustomButton(ColorTranslator.FromHtml("#A5D7E8"), SystemColors.Control);
@@ -547,11 +548,10 @@ namespace DSD_WinformsApp.View
             // 
             labelHomePageUserLogin.AutoSize = true;
             labelHomePageUserLogin.Font = new Font("Segoe UI Semibold", 10F, FontStyle.Bold, GraphicsUnit.Point);
-            labelHomePageUserLogin.Location = new Point(1110, 33);
+            labelHomePageUserLogin.Location = new Point(1120, 33);
             labelHomePageUserLogin.Name = "labelHomePageUserLogin";
-            labelHomePageUserLogin.Size = new Size(63, 28);
+            labelHomePageUserLogin.Size = new Size(0, 28);
             labelHomePageUserLogin.TabIndex = 9;
-            labelHomePageUserLogin.Text = "label1";
             // 
             // labelFooter
             // 
@@ -563,12 +563,25 @@ namespace DSD_WinformsApp.View
             labelFooter.TabIndex = 10;
             labelFooter.Text = "© 2023 TEAM COOP. All Rights Reserved";
             // 
+            // labelHello
+            // 
+            labelHello.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
+            labelHello.AutoSize = true;
+            labelHello.Font = new Font("Segoe UI Semibold", 10F, FontStyle.Bold, GraphicsUnit.Point);
+            labelHello.Location = new Point(1060, 33);
+            labelHello.Name = "labelHello";
+            labelHello.Size = new Size(65, 28);
+            labelHello.TabIndex = 11;
+            labelHello.Text = "Hello,";
+            labelHello.TextAlign = ContentAlignment.TopRight;
+            // 
             // DocumentMainView
             // 
             AutoScaleDimensions = new SizeF(10F, 25F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.White;
             ClientSize = new Size(1528, 968);
+            Controls.Add(labelHello);
             Controls.Add(labelFooter);
             Controls.Add(labelHomePageUserLogin);
             Controls.Add(buttonSignOut);
@@ -651,5 +664,7 @@ namespace DSD_WinformsApp.View
         private CustomButton buttonEditUser;
         private CustomButton buttonCloseUser;
         private CustomButton buttonUsersDetailSave;
+        private Label label1;
+        private Label labelHello;
     }
 }

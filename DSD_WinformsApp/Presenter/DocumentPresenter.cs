@@ -301,12 +301,10 @@ namespace DSD_WinformsApp.Presenter
                     if (userRole == "Admin")
                     {
                         _mainDocumentView.ToggleAdminRights(true);
-                        _mainDocumentView.ToggleDocumentDeleteButton(true);
                     }
                     else
                     {
                         _mainDocumentView.ToggleAdminRights(false);
-                        _mainDocumentView.ToggleDocumentDeleteButton(false);
                     }
 
                     _mainDocumentView.ShowDocumentView();
@@ -353,6 +351,39 @@ namespace DSD_WinformsApp.Presenter
             catch (Exception)
             {
                 return false; // User not found, cannot delete.
+            }
+        }
+
+        // method for // check user access base on labelHomePageUserLogin in document page.
+        //bool isAdmin = await _presenter.CheckUserAccess(labelHomePageUserLogin.Text);
+        public async Task<bool> CheckUserAccess(string username)
+        {
+            try
+            {
+                var user = await _userRepository.GetUserByUserName(username);
+
+                if (user != null)
+                {
+                    string userRole = _userRepository.GetUserRole(user.EmailAddress); // Get the user role
+
+                    if (userRole == "Admin")
+                    {
+                        return true;
+                    }
+                    else
+                    {
+                        return false;
+                    }
+                }
+                else
+                {
+                    // Return both the result and an empty username
+                    return false;
+                }
+            }
+            catch (Exception)
+            {
+                return false;
             }
         }
 

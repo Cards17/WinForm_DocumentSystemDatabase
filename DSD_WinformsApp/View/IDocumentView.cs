@@ -14,8 +14,6 @@ namespace DSD_WinformsApp.View
         string GetFilterCategory();
         void ToggleAdminRights(bool isAdminUser);
 
-        bool ToggleDocumentDeleteButton(bool enable);
-
         string GetSearchUserQuery();
         string GetFilterUsersCategory();
         void SetUsernameLabel(string username);
