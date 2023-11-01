@@ -331,3 +331,6 @@ C:\Users\ricardo.piquero.jr\source\repos\DSD Solution v6.0\DSD_WinformsApp\obj\D
 C:\Users\ricardo.piquero.jr\source\repos\DSD Solution v6.0\DSD_WinformsApp\obj\Debug\net7.0-windows\DSD_WinformsApp.genruntimeconfig.cache
 C:\Users\ricardo.piquero.jr\source\repos\DSD Solution v6.0\DSD_WinformsApp\obj\Debug\net7.0-windows\ref\DSD_WinformsApp.dll
 C:\Users\ricardo.piquero.jr\source\repos\DSD Solution v6.0\DSD_WinformsApp\bin\Debug\net7.0-windows\Newtonsoft.Json.dll
+C:\Users\ricardo.piquero.jr\source\repos\DSD Solution v6.0\DSD_WinformsApp\obj\Debug\net7.0-windows\Interop.Microsoft.Office.Interop.Word.dll
+C:\Users\ricardo.piquero.jr\source\repos\DSD Solution v6.0\DSD_WinformsApp\obj\Debug\net7.0-windows\Interop.Microsoft.Office.Interop.Excel.dll
+C:\Users\ricardo.piquero.jr\source\repos\DSD Solution v6.0\DSD_WinformsApp\obj\Debug\net7.0-windows\DSD_WinformsApp.csproj.ResolveComReference.cache

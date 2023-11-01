@@ -10,9 +10,13 @@ using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.Linq;
+using System.Reflection.Metadata;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using WordApp = Microsoft.Office.Interop.Word.Application;
+using ExcelApp = Microsoft.Office.Interop.Excel.Application;
+
 
 namespace DSD_WinformsApp.View
 {
@@ -231,58 +235,12 @@ namespace DSD_WinformsApp.View
 
         private void buttonDocument_Click(object sender, EventArgs e)
         {
-            panelManageUsers.Visible = false; // Hide the Manage Users panel
-            panelHome.Visible = false; // Hide the Home panel
-            panelUserDetails.Visible = false; // Hide the User Details panel
+            panelManageUsers.Visible = false; 
+            panelHome.Visible = false; 
+            panelUserDetails.Visible = false; 
             panelDocumentButton.Visible = true;
         }
 
-        //private void dataGridView1_DownloadButton_CellClick(object? sender, DataGridViewCellEventArgs e)
-        //{
-        //    //implement download file functionality here
-        //    if (e.RowIndex >= 0 && e.ColumnIndex == dataGridView1.Columns["Download"].Index)
-        //    {
-        //        DocumentDto selectedDocument = (DocumentDto)dataGridView1.Rows[e.RowIndex].DataBoundItem;
-        //        // Show the delete confirmation modal directly in the main form.
-        //        DialogResult result = MessageBox.Show("Are you sure you want to download the selected document?", "Download Confirmation", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
-
-        //        if (result == DialogResult.Yes)
-        //        {
-        //            // User clicked "Yes," proceed with the deletion
-        //            ConfirmDownloadDocument(selectedDocument);
-        //        }
-        //        else
-        //        {
-        //            // User clicked "No" or closed the dialog, cancel the deletion
-        //            // Add any additional logic if needed.
-        //        }
-        //    }
-        //}
-        private void ConfirmDownloadDocument(DocumentDto selectedDocument)
-        {
-            try
-            {
-                // Get the file data (byte array) from the selectedDocument
-                byte[] fileData = selectedDocument.FileData;
-
-                // Distination path in the user's "Downloads" folder
-                string downloadsPath = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile);
-                string destinationFilePath = Path.Combine(downloadsPath, "Downloads", selectedDocument.Filename);
-
-                // Write the file data to the destination file
-                File.WriteAllBytes(destinationFilePath, fileData);
-
-                // Show a message to indicate the download completion
-                MessageBox.Show("File downloaded successfully!", "Download Complete", MessageBoxButtons.OK, MessageBoxIcon.Information);
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show($"Error downloading the file: {ex.Message}", "Download Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-
-        }
-
-        //Event method when details button was clicked
         private void dataGridView1_DetailsButton_CellClick(object? sender, DataGridViewCellEventArgs e)
         {
             if (e.RowIndex >= 0 && e.ColumnIndex == dataGridView1.Columns["Details"].Index)
@@ -333,7 +291,6 @@ namespace DSD_WinformsApp.View
             // check user access base on labelHomePageUserLogin in document page.
             bool isAdmin = await _presenter.CheckUserAccess(labelHomePageUserLogin.Text);
 
-
             // Create a new form to display the document details (modal form).
             DetailsFormView detailsForm = new DetailsFormView();
             detailsForm.Text = "Documents Page";
@@ -367,18 +324,15 @@ namespace DSD_WinformsApp.View
             {
 
                 // Show the delete confirmation modal directly in the main form.
-                DialogResult result = MessageBox.Show("Are you sure you want to download the selected document?", "Download Confirmation", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+                DialogResult result = MessageBox.Show($"Are you sure you want to download?", "Download Confirmation", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
 
                 if (result == DialogResult.Yes)
                 {
-                    // User clicked "Yes," proceed with the deletion
+                    downloadButton.Enabled = false;
                     ConfirmDownloadDocument(selectedDocument);
+                    downloadButton.Enabled = true; // Enable the button again after the download is complete
                 }
-                else
-                {
-                    // User clicked "No" or closed the dialog, cancel the deletion
-                    // Add any additional logic if needed.
-                }
+
             };
             groupBox.Controls.Add(downloadButton);
 
@@ -392,28 +346,19 @@ namespace DSD_WinformsApp.View
             deleteButton.Visible = isAdmin;
             deleteButton.Click += async (sender, e) =>
             {
-                // Show the delete confirmation modal directly in the main form.
-                DialogResult result = MessageBox.Show("Are you sure you want to delete the selected document?", "Delete Confirmation", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+                DialogResult result = MessageBox.Show("Are you sure you want to delete?", "Delete Confirmation", MessageBoxButtons.YesNo, MessageBoxIcon.Question); // Show the delete confirmation modal directly in the main form.
 
                 if (result == DialogResult.Yes)
                 {
-                    // Delete the document and its backups from the database using the presenter
-                    await _presenter.DeleteDocumentWithBackups(selectedDocument);
+                    await _presenter.DeleteDocumentWithBackups(selectedDocument); // Delete the document and its backups from the database.
 
                     // Get the current search query and filter category
                     var currentSearchQueryWhenItemDeleted = GetSearchQuery();
                     var currentFilterCategoryWhenItemDeleted = GetFilterCategory();
 
-                    // Load the filtered documents again to update the view
-                    await _presenter.LoadDocumentsByFilter(currentSearchQueryWhenItemDeleted, currentFilterCategoryWhenItemDeleted);
+                    await _presenter.LoadDocumentsByFilter(currentSearchQueryWhenItemDeleted, currentFilterCategoryWhenItemDeleted); // Load the filtered documents again to update the view
 
-                    // Close the DetailsForm (current form) to go back to MainView
-                    detailsForm.Close();
-                }
-                else
-                {
-                    // User clicked "No" or closed the dialog, cancel the deletion
-                    // Add any additional logic if needed.
+                    detailsForm.Close(); // Close the detailsForm
                 }
             };
             groupBox.Controls.Add(deleteButton);
@@ -943,6 +888,74 @@ namespace DSD_WinformsApp.View
             detailsForm.ShowDialog();
 
             #endregion
+
+        }
+
+        private void ConfirmDownloadDocument(DocumentDto selectedDocument)
+        {
+            try
+            {
+                // Get the file data (byte array) from the selectedDocument
+                byte[] fileData = selectedDocument.FileData;
+
+                // Distination path in the user's "Downloads" folder
+                string downloadsPath = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile);
+                string destinationFilePath = Path.Combine(downloadsPath, "Downloads", Path.ChangeExtension(selectedDocument.Filename, ".pdf"));
+
+                if (Path.GetExtension(selectedDocument.Filename).Equals(".docx", StringComparison.OrdinalIgnoreCase) ||
+                    Path.GetExtension(selectedDocument.Filename).Equals(".doc", StringComparison.OrdinalIgnoreCase))
+                {
+                    // Save the file data to a temporary file
+                    string tempFilePath = Path.GetTempFileName();
+                    File.WriteAllBytes(tempFilePath, selectedDocument.FileData);
+
+                    // If it's a Word document, convert it to PDF using Office Interop
+                    Microsoft.Office.Interop.Word.Application word = new Microsoft.Office.Interop.Word.Application();
+                    Microsoft.Office.Interop.Word.Document doc = word.Documents.Open(tempFilePath);
+
+                    // Specify the destination file with a ".pdf" extension
+                    string pdfFilePath = Path.ChangeExtension(destinationFilePath, ".pdf");
+
+                    doc.SaveAs2(FileName: pdfFilePath, FileFormat: Microsoft.Office.Interop.Word.WdSaveFormat.wdFormatPDF);
+                    doc.Close();
+                    word.Quit();
+
+                    // Delete the temporary file
+                    File.Delete(tempFilePath);
+
+                }
+
+                else if (Path.GetExtension(selectedDocument.Filename).Equals(".xlsx", StringComparison.OrdinalIgnoreCase) ||
+                        Path.GetExtension(selectedDocument.Filename).Equals(".xls", StringComparison.OrdinalIgnoreCase))
+                {
+                    // Save the file data to a temporary file
+                    string tempFilePath = Path.GetTempFileName();
+                    File.WriteAllBytes(tempFilePath, selectedDocument.FileData);
+
+                    // If it's an Excel document, convert it to PDF using Office Interop
+                    Microsoft.Office.Interop.Excel.Application excel = new Microsoft.Office.Interop.Excel.Application();
+                    Microsoft.Office.Interop.Excel.Workbook wb = excel.Workbooks.Open(tempFilePath);
+
+                    string pdfFilePath = Path.ChangeExtension(destinationFilePath, ".pdf"); // Specify the destination file with a ".pdf" extension
+
+                    wb.ExportAsFixedFormat(Microsoft.Office.Interop.Excel.XlFixedFormatType.xlTypePDF, pdfFilePath);
+                    wb.Close();
+                    excel.Quit();
+
+                    File.Delete(tempFilePath); // Delete the temporary file
+                }
+
+                else
+                {
+                    File.WriteAllBytes(destinationFilePath, fileData); // Write the file data to the destination file
+                }
+
+                MessageBox.Show("Document downloaded successfully!", "Download Complete", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Error downloading: {ex.Message}", "Download Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
 
         }
 

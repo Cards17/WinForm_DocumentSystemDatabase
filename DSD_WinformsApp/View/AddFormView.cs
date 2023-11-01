@@ -121,14 +121,13 @@ namespace DSD_WinformsApp.View
                 return;
             }
 
-            // Read the file data from the selected file
-            byte[] fileDataBytes = File.ReadAllBytes(selectedFilePath);
+            byte[] fileDataBytes = File.ReadAllBytes(selectedFilePath); // Read the file data into a byte array
 
             // Create an instance of DocumentDto to hold the data
             var documentDto = new DocumentDto
             {
                 Filename = labelFilename.Text,
-                DocumentVersion = textBoxDocumentVersion.Text,
+                DocumentVersion = textBoxDocumentVersion.Text.ToUpper(),
                 Category = cmbCategories.SelectedItem?.ToString() ?? "",
                 Status = cmbStatus.SelectedItem?.ToString() ?? "",
                 Notes = txtBoxNotes.Text,
