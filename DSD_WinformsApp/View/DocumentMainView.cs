@@ -151,12 +151,13 @@ namespace DSD_WinformsApp.View
             comboBoxCategoryDropdown.SelectedIndex = 0; // Set the default value to "Select Category"
 
             // Define the column width from documentmodel
-            dataGridView1.Columns["DocumentVersion"].Width = 200;
-            dataGridView1.Columns["Filename"].Width = 425;
-            dataGridView1.Columns["Category"].Width = 270;
-            dataGridView1.Columns["Status"].Width = 150;
+            dataGridView1.Columns["DocumentVersion"].Width = 170;
+            dataGridView1.Columns["Filename"].Width = 438;
+            dataGridView1.Columns["Category"].Width = 250;
+            dataGridView1.Columns["Status"].Width = 140;
+            dataGridView1.Columns["CreatedDate"].Width = 140;
             dataGridView1.Columns["Id"].Visible = false;
-            dataGridView1.Columns["CreatedDate"].Visible = false;
+            //dataGridView1.Columns["CreatedDate"].Visible = false;
             dataGridView1.Columns["CreatedBy"].Visible = false;
             dataGridView1.Columns["ModifiedBy"].Visible = false;
             dataGridView1.Columns["ModifiedDate"].Visible = false;
@@ -164,7 +165,7 @@ namespace DSD_WinformsApp.View
             dataGridView1.Columns["FileData"].Visible = false;
 
             // Display name for table columns
-            dataGridView1.Columns["DocumentVersion"].HeaderText = "Document Version";
+            dataGridView1.Columns["DocumentVersion"].HeaderText = "Document No.";
             dataGridView1.Columns["Status"].HeaderText = "Status";
             dataGridView1.Columns["Filename"].HeaderText = "Document Title";
             dataGridView1.Columns["Category"].HeaderText = "Category";
@@ -257,8 +258,6 @@ namespace DSD_WinformsApp.View
         //        }
         //    }
         //}
-
-
         private void ConfirmDownloadDocument(DocumentDto selectedDocument)
         {
             try
@@ -286,7 +285,6 @@ namespace DSD_WinformsApp.View
         //Event method when details button was clicked
         private void dataGridView1_DetailsButton_CellClick(object? sender, DataGridViewCellEventArgs e)
         {
-
             if (e.RowIndex >= 0 && e.ColumnIndex == dataGridView1.Columns["Details"].Index)
             {
                 DocumentDto selectedDocument = (DocumentDto)dataGridView1.Rows[e.RowIndex].DataBoundItem;
@@ -294,7 +292,6 @@ namespace DSD_WinformsApp.View
 
             }
         }
-
 
         //Event method when delete button was clicked
         /* private async void dataGridView1_DeleteButton_CellClick(object? sender, DataGridViewCellEventArgs e)
@@ -331,8 +328,6 @@ namespace DSD_WinformsApp.View
         }
         */
 
-
-
         private async void ShowDocumentDetailsModal(DocumentDto selectedDocument)
         {
             // check user access base on labelHomePageUserLogin in document page.
@@ -341,7 +336,7 @@ namespace DSD_WinformsApp.View
 
             // Create a new form to display the document details (modal form).
             DetailsFormView detailsForm = new DetailsFormView();
-            detailsForm.Text = "Document Form";
+            detailsForm.Text = "Documents Page";
             detailsForm.FormBorderStyle = FormBorderStyle.FixedDialog;
             detailsForm.StartPosition = FormStartPosition.CenterParent;
 
@@ -349,10 +344,10 @@ namespace DSD_WinformsApp.View
             // Create the GroupBox
             GroupBox groupBox = new GroupBox();
             groupBox.Text = "Document Details";
-            groupBox.AutoSize = false; // Set AutoSize to false.
-            groupBox.Width = detailsForm.ClientSize.Width; // Set the width to match detailsForm's client width.
-            groupBox.Height = detailsForm.ClientSize.Height; // Set the height to match detailsForm's client height.
-            groupBox.Location = new Point(20, 80); // Adjust the coordinates as needed.
+            groupBox.AutoSize = false;
+            groupBox.Width = detailsForm.ClientSize.Width;
+            groupBox.Height = detailsForm.ClientSize.Height;
+            groupBox.Location = new Point(20, 80);
             groupBox.Visible = true;
 
             // Add the GroupBox to the detailsForm
@@ -360,11 +355,38 @@ namespace DSD_WinformsApp.View
 
             int textBoxWidth = 450; // You can adjust the default width for TextBox controls
 
-            // Create delete button on top of textbox and inside the groupbox
+
+            // Create download button
+            CustomButton downloadButton = new CustomButton(ColorTranslator.FromHtml("#A5D7E8"), SystemColors.Control);
+            downloadButton.Text = "Download";
+            downloadButton.Name = "downloadButton";
+            downloadButton.Location = new Point(groupBox.Right - (downloadButton.Width + 120), groupBox.Top - 50);
+            downloadButton.Height = 40;
+            downloadButton.Width = 110;
+            downloadButton.Click += (sender, e) =>
+            {
+
+                // Show the delete confirmation modal directly in the main form.
+                DialogResult result = MessageBox.Show("Are you sure you want to download the selected document?", "Download Confirmation", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+
+                if (result == DialogResult.Yes)
+                {
+                    // User clicked "Yes," proceed with the deletion
+                    ConfirmDownloadDocument(selectedDocument);
+                }
+                else
+                {
+                    // User clicked "No" or closed the dialog, cancel the deletion
+                    // Add any additional logic if needed.
+                }
+            };
+            groupBox.Controls.Add(downloadButton);
+
+            // Create delete button
             CustomButton deleteButton = new CustomButton(ColorTranslator.FromHtml("#DA0B0B"), SystemColors.Control);
             deleteButton.Text = "Delete";
             deleteButton.Name = "deleteButton";
-            deleteButton.Location = new Point(groupBox.Right - (deleteButton.Width + 120), groupBox.Top - 50);
+            deleteButton.Location = new Point(downloadButton.Left - (downloadButton.Width + 10), downloadButton.Top);
             deleteButton.Height = 40;
             deleteButton.Width = 110;
             deleteButton.Visible = isAdmin;
@@ -396,80 +418,69 @@ namespace DSD_WinformsApp.View
             };
             groupBox.Controls.Add(deleteButton);
 
-            // Create download button beside delete 
-            CustomButton downloadButton = new CustomButton(ColorTranslator.FromHtml("#A5D7E8"), SystemColors.Control);
-            downloadButton.Text = "Download";
-            downloadButton.Name = "downloadButton";
-            downloadButton.Location = new Point(deleteButton.Left - (downloadButton.Width + 40), deleteButton.Top);
-            downloadButton.Height = 40;
-            downloadButton.Width = 110;
-            downloadButton.Click += (sender, e) =>
-            {
-
-                // Show the delete confirmation modal directly in the main form.
-                DialogResult result = MessageBox.Show("Are you sure you want to download the selected document?", "Download Confirmation", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
-
-                if (result == DialogResult.Yes)
-                {
-                    // User clicked "Yes," proceed with the deletion
-                    ConfirmDownloadDocument(selectedDocument);
-                }
-                else
-                {
-                    // User clicked "No" or closed the dialog, cancel the deletion
-                    // Add any additional logic if needed.
-                }
-            };
-            groupBox.Controls.Add(downloadButton);
-
-
 
             // Create a TextBox for "Filename"
             TextBox filenameTextBox = new TextBox();
             filenameTextBox.Text = selectedDocument.Filename;
             filenameTextBox.ReadOnly = true;
+            filenameTextBox.Multiline = true;
+            filenameTextBox.Height = 36;
             int filenameTextBoxWidth = textBoxWidth - 130; // Adjust the width as needed
-            AddRow(groupBox, "Filename:", filenameTextBox, filenameTextBoxWidth);
+            AddRow(groupBox, "Document Title:", filenameTextBox, filenameTextBoxWidth);
 
             // Create the "Upload File" button and pass the filenameTextBox as a parameter
             CustomButton uploadFileButton = new CustomButton(ColorTranslator.FromHtml("#A5D7E8"), SystemColors.Control);
             uploadFileButton.Text = "Upload File";
-            uploadFileButton.Location = new Point(filenameTextBox.Right + 10, filenameTextBox.Top - 5); // Right next to the Filename TextBox
-            uploadFileButton.Height = filenameTextBox.Height + 10; // Match the height of the TextBox
-            uploadFileButton.Width = 120; // Adjust the width as needed
-            uploadFileButton.Enabled = false; // Disable the button initially
+            uploadFileButton.Location = new Point(filenameTextBox.Right + 10, filenameTextBox.Top - 5);
+            uploadFileButton.Height = filenameTextBox.Height + 6;
+            uploadFileButton.Width = 120;
+            uploadFileButton.Padding = new Padding(0);
+            uploadFileButton.Enabled = false;
             uploadFileButton.Click += (sender, e) => UploadFileButton_Click(sender, e, filenameTextBox);
             groupBox.Controls.Add(uploadFileButton);
 
+            // Create textbox for Document Version
+            TextBox documentVersionTextBox = new TextBox();
+            documentVersionTextBox.Text = selectedDocument.DocumentVersion;
+            documentVersionTextBox.ReadOnly = true;
+            documentVersionTextBox.Multiline = true;
+            documentVersionTextBox.Height = 36;
+            int documentVersionTextBoxWidth = textBoxWidth;
+            AddRow(groupBox, "Document Version:", documentVersionTextBox, documentVersionTextBoxWidth);
+
             // Create the Category ComboBox
             ComboBox categoryComboBox = new ComboBox();
-            categoryComboBox.DropDownStyle = ComboBoxStyle.DropDownList; // Make it a drop-down list
+            categoryComboBox.DropDownStyle = ComboBoxStyle.DropDownList;
             categoryComboBox.Items.Add("Board Resolutions");
             categoryComboBox.Items.Add("Canteen Policies");
             categoryComboBox.Items.Add("COOP Policies");
             categoryComboBox.Items.Add("COOP Article & By Laws");
             categoryComboBox.Items.Add("Minutes of the Meeting");
             categoryComboBox.Items.Add("Regulatory Requirements");
-            categoryComboBox.Text = selectedDocument.Category.ToString(); // Set the initial selected item
-            categoryComboBox.Enabled = false; // Disable the ComboBox initially, enable it when editing
-            int categoryComboBoxWidth = textBoxWidth; // Adjust the width as needed
+            categoryComboBox.Text = selectedDocument.Category.ToString();
+            categoryComboBox.Enabled = false;
+            categoryComboBox.Height = 36;
+            int categoryComboBoxWidth = textBoxWidth;
             AddRow(groupBox, "Category:", categoryComboBox, categoryComboBoxWidth);
 
             // Create the Status ComboBox
             ComboBox statusComboBox = new ComboBox();
-            statusComboBox.DropDownStyle = ComboBoxStyle.DropDownList; // Make it a drop-down list;
+            statusComboBox.DropDownStyle = ComboBoxStyle.DropDownList;
             statusComboBox.Items.Add("New");
             statusComboBox.Items.Add("Revised");
             statusComboBox.Items.Add("Obsolete");
-            statusComboBox.SelectedItem = selectedDocument.Status.ToString(); // Set the initial selected item
-            statusComboBox.Enabled = false; // Disable the ComboBox initially, enable it when editing
-            int statusComboBoxWidth = textBoxWidth; // Adjust the width as needed
+            statusComboBox.SelectedItem = selectedDocument.Status.ToString();
+            statusComboBox.Enabled = false;
+            statusComboBox.Height = 36;
+            int statusComboBoxWidth = textBoxWidth;
             AddRow(groupBox, "Status:", statusComboBox, statusComboBoxWidth);
 
             // Create a TextBox for the "Created Date" property and set its initial value
             TextBox createdDateTextBox = new TextBox();
             createdDateTextBox.Text = selectedDocument.CreatedDate.ToString("yyyy-MM-dd");
             createdDateTextBox.ReadOnly = true;
+            createdDateTextBox.Multiline = true;
+            createdDateTextBox.Height = 36;
             int createdDateTextBoxWidth = textBoxWidth; // Adjust the width as needed
             AddRow(groupBox, "Created Date:", createdDateTextBox, createdDateTextBoxWidth);
 
@@ -477,21 +488,27 @@ namespace DSD_WinformsApp.View
             TextBox createdByTextBox = new TextBox();
             createdByTextBox.Text = selectedDocument.CreatedBy;
             createdByTextBox.ReadOnly = true;
-            int createdByTextBoxWidth = textBoxWidth; // Adjust the width as needed
+            createdByTextBox.Multiline = true;
+            createdByTextBox.Height = 36;
+            int createdByTextBoxWidth = textBoxWidth;
             AddRow(groupBox, "Created By:", createdByTextBox, createdByTextBoxWidth);
 
             // Create a TextBox for the "Modified By" property and set its initial value
             TextBox modifiedByTextBox = new TextBox();
             modifiedByTextBox.Text = selectedDocument.ModifiedBy;
             modifiedByTextBox.ReadOnly = true;
-            int modifiedByTextBoxWidth = textBoxWidth; // Adjust the width as needed
+            modifiedByTextBox.Multiline = true;
+            modifiedByTextBox.Height = 36;
+            int modifiedByTextBoxWidth = textBoxWidth;
             AddRow(groupBox, "Modified By:", modifiedByTextBox, modifiedByTextBoxWidth);
 
             // Create a TextBox for the "Modified Date" property and set its initial value
             TextBox modifiedDateTextBox = new TextBox();
             modifiedDateTextBox.Text = selectedDocument.ModifiedDate.ToString("yyyy-MM-dd");
             modifiedDateTextBox.ReadOnly = true;
-            int modifiedDateTextBoxWidth = textBoxWidth; // Adjust the width as needed
+            modifiedDateTextBox.Multiline = true;
+            modifiedDateTextBox.Height = 36;
+            int modifiedDateTextBoxWidth = textBoxWidth;
             AddRow(groupBox, "Modified Date:", modifiedDateTextBox, modifiedDateTextBoxWidth);
 
             // Create a multiline TextBox for the "Notes" property
@@ -499,8 +516,8 @@ namespace DSD_WinformsApp.View
             notesTextBox.Text = selectedDocument.Notes;
             notesTextBox.ReadOnly = true;
             notesTextBox.Multiline = true;
-            notesTextBox.MaxLength = 200; // Set the maximum length to 150 characters
-            notesTextBox.Height = 150; // Set the fixed height to 100 pixels (adjust the value as needed)
+            notesTextBox.MaxLength = 200;
+            notesTextBox.Height = 100;
 
             int notesTextBoxWidth = textBoxWidth; // Adjust the width as needed
             AddRow(groupBox, "Notes:", notesTextBox, notesTextBoxWidth);
@@ -512,7 +529,7 @@ namespace DSD_WinformsApp.View
                 label.Text = labelText;
                 label.AutoSize = true;
 
-                int labelTop = parent.Controls.Count * 20 + 50;
+                int labelTop = parent.Controls.Count * 25 + 50;
                 label.Location = new Point(50, labelTop);
 
                 int controlLeft = label.Right + 80;
@@ -524,25 +541,25 @@ namespace DSD_WinformsApp.View
             }
 
             // Adjust the size of the GroupBox to fit its contents
-            int groupBoxWidth = 750;
-            int groupBoxHeight = groupBox.Controls.Count * 30 + 30; // Add some buffer (e.g., 40 pixels) to avoid cutting off any controls.
+            int groupBoxWidth = 800;
+            int groupBoxHeight = groupBox.Controls.Count * 30 + 30;
             groupBox.Width = groupBoxWidth;
             groupBox.Height = groupBoxHeight;
 
             #endregion
 
-            #region Document Details
+            #region Document History
 
             // Create the buttons and add them to the detailsForm
             CustomButton button1 = new CustomButton(ColorTranslator.FromHtml("#A5D7E8"), SystemColors.Control);
-            button1.Text = "Document Details";
+            button1.Text = "Details";
             button1.Location = new Point(20, 35); // Adjust the coordinates as needed.
             button1.Height = 40;
-            button1.Width = 200;
+            button1.Width = 100;
             detailsForm.Controls.Add(button1);
 
             CustomButton button2 = new CustomButton(ColorTranslator.FromHtml("#A5D7E8"), SystemColors.Control);
-            button2.Text = "Document History";
+            button2.Text = "History";
             button2.Location = new Point(button1.Right + 10, 35);
             button2.Height = button1.Height;
             button2.Width = button1.Width;
@@ -551,7 +568,7 @@ namespace DSD_WinformsApp.View
 
             // Create the GroupBox containing the second DataGridView (DataGridView2)
             GroupBox groupBox2 = new GroupBox();
-            groupBox2.Text = "";
+            groupBox2.Text = "Document History";
             groupBox2.AutoSize = true;
             groupBox2.Location = new Point(20, button2.Bottom + 20); // Adjust the position as needed
             groupBox2.Visible = false; // Set the initial visibility to false
@@ -575,16 +592,17 @@ namespace DSD_WinformsApp.View
 
 
             // Display Columns in datagridview2
-            dataGridView2.Columns["BackupId"].Width = 75;
+            dataGridView2.Columns["DocumentVersion"].Width = 170;
             dataGridView2.Columns["Filename"].Width = 300;
-            dataGridView2.Columns["BackupDate"].Width = 80;
+            dataGridView2.Columns["BackupDate"].Width = 100;
             dataGridView2.Columns["Version"].Width = 85;
 
-            dataGridView2.Columns["BackupId"].HeaderText = "File Id";
-            dataGridView2.Columns["Filename"].HeaderText = "Filename";
+            dataGridView2.Columns["DocumentVersion"].HeaderText = "Document No.";
+            dataGridView2.Columns["Filename"].HeaderText = "Document Title";
             dataGridView2.Columns["BackupDate"].HeaderText = "Date";
-            dataGridView2.Columns["Version"].HeaderText = "Version";
+            dataGridView2.Columns["Version"].HeaderText = "Version #";
 
+            dataGridView2.Columns["BackupId"].Visible = false;
             dataGridView2.Columns["OriginalFilePath"].Visible = false;
             dataGridView2.Columns["BackupFilePath"].Visible = false;
             dataGridView2.Columns["Id"].Visible = false;
@@ -1411,7 +1429,6 @@ namespace DSD_WinformsApp.View
         {
             Application.Exit();
         }
-
 
     }
 }

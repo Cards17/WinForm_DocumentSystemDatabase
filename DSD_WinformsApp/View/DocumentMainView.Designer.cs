@@ -44,8 +44,8 @@ namespace DSD_WinformsApp.View
             iconNext = new PictureBox();
             iconBack = new PictureBox();
             comboBoxCategoryDropdown = new ComboBox();
-            comboBoxCategory = new ComboBox();
             textBoxSearchBar = new TextBox();
+            comboBoxCategory = new ComboBox();
             pictureBox1 = new PictureBox();
             buttonSignOut = new Button();
             panelManageUsers = new Panel();
@@ -74,9 +74,6 @@ namespace DSD_WinformsApp.View
             labelHomePageUserLogin = new Label();
             labelFooter = new Label();
             labelHello = new Label();
-            buttonUsersDetailSave = new CustomButton(ColorTranslator.FromHtml("#05982E"), SystemColors.Control);
-            buttonCloseUser = new CustomButton(ColorTranslator.FromHtml("#DA0B0B"), SystemColors.Control);
-            buttonEditUser = new CustomButton(ColorTranslator.FromHtml("#A5D7E8"), SystemColors.Control);
             ((System.ComponentModel.ISupportInitialize)dataGridView1).BeginInit();
             panel1.SuspendLayout();
             panelDocumentButton.SuspendLayout();
@@ -96,14 +93,13 @@ namespace DSD_WinformsApp.View
             // dataGridView1
             // 
             dataGridView1.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridView1.Location = new Point(20, 225);
+            dataGridView1.Location = new Point(20, 130);
             dataGridView1.Name = "dataGridView1";
             dataGridView1.RowHeadersVisible = false;
             dataGridView1.RowHeadersWidth = 62;
-            dataGridView1.RowTemplate.Height = 33;
+            dataGridView1.RowTemplate.Height = 36;
             dataGridView1.RowTemplate.Resizable = DataGridViewTriState.False;
-            dataGridView1.ScrollBars = ScrollBars.Horizontal;
-            dataGridView1.Size = new Size(1235, 366);
+            dataGridView1.Size = new Size(1235, 576);
             dataGridView1.TabIndex = 0;
             // 
             // panel1
@@ -177,11 +173,11 @@ namespace DSD_WinformsApp.View
             // panelDocumentButton
             // 
             panelDocumentButton.BackColor = Color.FromArgb(165, 215, 232);
+            panelDocumentButton.Controls.Add(dataGridView1);
             panelDocumentButton.Controls.Add(labelDocumentPagination);
             panelDocumentButton.Controls.Add(iconNext);
             panelDocumentButton.Controls.Add(iconBack);
             panelDocumentButton.Controls.Add(comboBoxCategoryDropdown);
-            panelDocumentButton.Controls.Add(comboBoxCategory);
             panelDocumentButton.Controls.Add(textBoxSearchBar);
             panelDocumentButton.Location = new Point(250, 80);
             panelDocumentButton.Name = "panelDocumentButton";
@@ -192,20 +188,19 @@ namespace DSD_WinformsApp.View
             // 
             labelDocumentPagination.AutoSize = true;
             labelDocumentPagination.Font = new Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point);
-            labelDocumentPagination.Location = new Point(1105, 657);
+            labelDocumentPagination.Location = new Point(1105, 750);
             labelDocumentPagination.Name = "labelDocumentPagination";
-            labelDocumentPagination.Size = new Size(59, 25);
+            labelDocumentPagination.Size = new Size(0, 25);
             labelDocumentPagination.TabIndex = 8;
-            labelDocumentPagination.Text = "label1";
             // 
             // iconNext
             // 
             iconNext.Cursor = Cursors.Hand;
             iconNext.Image = Properties.Resources.next;
-            iconNext.Location = new Point(1218, 650);
+            iconNext.Location = new Point(1218, 750);
             iconNext.Name = "iconNext";
-            iconNext.Size = new Size(36, 36);
-            iconNext.SizeMode = PictureBoxSizeMode.Zoom;
+            iconNext.Size = new Size(32, 32);
+            iconNext.SizeMode = PictureBoxSizeMode.CenterImage;
             iconNext.TabIndex = 7;
             iconNext.TabStop = false;
             iconNext.Click += pictureBox3_Click;
@@ -214,10 +209,10 @@ namespace DSD_WinformsApp.View
             // 
             iconBack.Cursor = Cursors.Hand;
             iconBack.Image = Properties.Resources.back;
-            iconBack.Location = new Point(1064, 650);
+            iconBack.Location = new Point(1064, 750);
             iconBack.Name = "iconBack";
-            iconBack.Size = new Size(36, 36);
-            iconBack.SizeMode = PictureBoxSizeMode.Zoom;
+            iconBack.Size = new Size(32, 32);
+            iconBack.SizeMode = PictureBoxSizeMode.CenterImage;
             iconBack.TabIndex = 6;
             iconBack.TabStop = false;
             iconBack.Click += iconBack_Click;
@@ -226,38 +221,38 @@ namespace DSD_WinformsApp.View
             // 
             comboBoxCategoryDropdown.Font = new Font("Segoe UI", 10F, FontStyle.Regular, GraphicsUnit.Point);
             comboBoxCategoryDropdown.FormattingEnabled = true;
-            comboBoxCategoryDropdown.Location = new Point(1005, 130);
+            comboBoxCategoryDropdown.Location = new Point(1005, 50);
             comboBoxCategoryDropdown.Name = "comboBoxCategoryDropdown";
             comboBoxCategoryDropdown.Size = new Size(250, 36);
             comboBoxCategoryDropdown.TabIndex = 5;
-            comboBoxCategoryDropdown.Text = "All Category Options";
+            comboBoxCategoryDropdown.Text = "All Categories";
             comboBoxCategoryDropdown.SelectedIndexChanged += comboBoxCategoryDropdown_SelectedIndexChanged;
-            // 
-            // comboBoxCategory
-            // 
-            comboBoxCategory.AllowDrop = true;
-            comboBoxCategory.FormattingEnabled = true;
-            comboBoxCategory.Location = new Point(1200, 180);
-            comboBoxCategory.Name = "comboBoxCategory";
-            comboBoxCategory.Size = new Size(182, 33);
-            comboBoxCategory.TabIndex = 4;
-            comboBoxCategory.Visible = false;
             // 
             // textBoxSearchBar
             // 
             textBoxSearchBar.Font = new Font("Segoe UI", 10F, FontStyle.Regular, GraphicsUnit.Point);
-            textBoxSearchBar.Location = new Point(680, 130);
+            textBoxSearchBar.Location = new Point(680, 50);
             textBoxSearchBar.Name = "textBoxSearchBar";
             textBoxSearchBar.PlaceholderText = "Search by Filename";
             textBoxSearchBar.Size = new Size(250, 34);
             textBoxSearchBar.TabIndex = 3;
             textBoxSearchBar.TextChanged += textBoxSearchBar_TextChanged;
             // 
+            // comboBoxCategory
+            // 
+            comboBoxCategory.AllowDrop = true;
+            comboBoxCategory.FormattingEnabled = true;
+            comboBoxCategory.Location = new Point(700, 50);
+            comboBoxCategory.Name = "comboBoxCategory";
+            comboBoxCategory.Size = new Size(250, 33);
+            comboBoxCategory.TabIndex = 4;
+            comboBoxCategory.Visible = false;
+            // 
             // pictureBox1
             // 
             pictureBox1.Cursor = Cursors.Hand;
             pictureBox1.Image = Properties.Resources.plus;
-            pictureBox1.Location = new Point(20, 130);
+            pictureBox1.Location = new Point(20, 50);
             pictureBox1.Name = "pictureBox1";
             pictureBox1.Size = new Size(40, 40);
             pictureBox1.SizeMode = PictureBoxSizeMode.Zoom;
@@ -286,26 +281,26 @@ namespace DSD_WinformsApp.View
             panelManageUsers.Controls.Add(textBoxUsersSearchBox);
             panelManageUsers.Controls.Add(pictureBoxUsersNextIcon);
             panelManageUsers.Controls.Add(pictureBoxUsersBackIcon);
+            panelManageUsers.Controls.Add(comboBoxCategory);
             panelManageUsers.Controls.Add(dataGridViewManageUsers);
             panelManageUsers.Location = new Point(250, 80);
             panelManageUsers.Name = "panelManageUsers";
-            panelManageUsers.Size = new Size(1195, 830);
+            panelManageUsers.Size = new Size(1550, 830);
             panelManageUsers.TabIndex = 4;
             // 
             // labelUsersPagination
             // 
             labelUsersPagination.AutoSize = true;
             labelUsersPagination.Font = new Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point);
-            labelUsersPagination.Location = new Point(996, 657);
+            labelUsersPagination.Location = new Point(1107, 754);
             labelUsersPagination.Name = "labelUsersPagination";
-            labelUsersPagination.Size = new Size(59, 25);
+            labelUsersPagination.Size = new Size(0, 25);
             labelUsersPagination.TabIndex = 5;
-            labelUsersPagination.Text = "label1";
             // 
             // comboBox_JobCategory
             // 
             comboBox_JobCategory.FormattingEnabled = true;
-            comboBox_JobCategory.Location = new Point(890, 169);
+            comboBox_JobCategory.Location = new Point(700, 50);
             comboBox_JobCategory.Name = "comboBox_JobCategory";
             comboBox_JobCategory.Size = new Size(250, 33);
             comboBox_JobCategory.TabIndex = 4;
@@ -314,7 +309,7 @@ namespace DSD_WinformsApp.View
             // 
             // textBoxUsersSearchBox
             // 
-            textBoxUsersSearchBox.Location = new Point(891, 130);
+            textBoxUsersSearchBox.Location = new Point(1004, 50);
             textBoxUsersSearchBox.Name = "textBoxUsersSearchBox";
             textBoxUsersSearchBox.PlaceholderText = "Search User Name";
             textBoxUsersSearchBox.Size = new Size(250, 31);
@@ -325,10 +320,10 @@ namespace DSD_WinformsApp.View
             // 
             pictureBoxUsersNextIcon.Cursor = Cursors.Hand;
             pictureBoxUsersNextIcon.Image = Properties.Resources.next;
-            pictureBoxUsersNextIcon.Location = new Point(1110, 650);
+            pictureBoxUsersNextIcon.Location = new Point(1218, 750);
             pictureBoxUsersNextIcon.Name = "pictureBoxUsersNextIcon";
             pictureBoxUsersNextIcon.Size = new Size(36, 36);
-            pictureBoxUsersNextIcon.SizeMode = PictureBoxSizeMode.Zoom;
+            pictureBoxUsersNextIcon.SizeMode = PictureBoxSizeMode.CenterImage;
             pictureBoxUsersNextIcon.TabIndex = 2;
             pictureBoxUsersNextIcon.TabStop = false;
             pictureBoxUsersNextIcon.Click += pictureBoxUsersNextIcon_Click;
@@ -337,10 +332,10 @@ namespace DSD_WinformsApp.View
             // 
             pictureBoxUsersBackIcon.Cursor = Cursors.Hand;
             pictureBoxUsersBackIcon.Image = Properties.Resources.back;
-            pictureBoxUsersBackIcon.Location = new Point(955, 650);
+            pictureBoxUsersBackIcon.Location = new Point(1064, 750);
             pictureBoxUsersBackIcon.Name = "pictureBoxUsersBackIcon";
             pictureBoxUsersBackIcon.Size = new Size(36, 36);
-            pictureBoxUsersBackIcon.SizeMode = PictureBoxSizeMode.Zoom;
+            pictureBoxUsersBackIcon.SizeMode = PictureBoxSizeMode.CenterImage;
             pictureBoxUsersBackIcon.TabIndex = 1;
             pictureBoxUsersBackIcon.TabStop = false;
             pictureBoxUsersBackIcon.Click += pictureBoxUsersBackIcon_Click;
@@ -349,13 +344,13 @@ namespace DSD_WinformsApp.View
             // 
             dataGridViewManageUsers.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             dataGridViewManageUsers.Cursor = Cursors.Hand;
-            dataGridViewManageUsers.Location = new Point(20, 225);
+            dataGridViewManageUsers.Location = new Point(18, 130);
             dataGridViewManageUsers.Name = "dataGridViewManageUsers";
             dataGridViewManageUsers.RowHeadersVisible = false;
             dataGridViewManageUsers.RowHeadersWidth = 62;
             dataGridViewManageUsers.RowTemplate.Height = 33;
             dataGridViewManageUsers.ScrollBars = ScrollBars.Horizontal;
-            dataGridViewManageUsers.Size = new Size(1125, 366);
+            dataGridViewManageUsers.Size = new Size(1235, 576);
             dataGridViewManageUsers.TabIndex = 0;
             // 
             // panelUserDetails
@@ -370,9 +365,6 @@ namespace DSD_WinformsApp.View
             // panelUserDetails2
             // 
             panelUserDetails2.BackColor = Color.White;
-            panelUserDetails2.Controls.Add(buttonEditUser);
-            panelUserDetails2.Controls.Add(buttonCloseUser);
-            panelUserDetails2.Controls.Add(buttonUsersDetailSave);
             panelUserDetails2.Controls.Add(checkBoxEnableAdmin);
             panelUserDetails2.Controls.Add(textBoxUserEmailAdd);
             panelUserDetails2.Controls.Add(textBoxUserJobTitle);
@@ -389,40 +381,6 @@ namespace DSD_WinformsApp.View
             panelUserDetails2.Name = "panelUserDetails2";
             panelUserDetails2.Size = new Size(1010, 750);
             panelUserDetails2.TabIndex = 6;
-            // 
-            // buttonEditUser
-            // 
-            buttonEditUser.BackColor = Color.FromArgb(165, 215, 232);
-            buttonEditUser.Location = new Point(768, 607);
-            buttonEditUser.Name = "buttonEditUser";
-            buttonEditUser.Size = new Size(112, 34);
-            buttonEditUser.TabIndex = 21;
-            buttonEditUser.Text = "Edit";
-            buttonEditUser.UseVisualStyleBackColor = true;
-            buttonEditUser.Click += buttonEditUser_Click;
-            // 
-            // buttonCloseUser
-            // 
-            buttonCloseUser.BackColor = Color.FromArgb(218, 11, 11);
-            buttonCloseUser.Location = new Point(633, 607);
-            buttonCloseUser.Name = "buttonCloseUser";
-            buttonCloseUser.Size = new Size(112, 34);
-            buttonCloseUser.TabIndex = 20;
-            buttonCloseUser.Text = "Close";
-            buttonCloseUser.UseVisualStyleBackColor = true;
-            buttonCloseUser.Click += buttonCloseUser_Click;
-            // 
-            // buttonUsersDetailSave
-            // 
-            buttonUsersDetailSave.BackColor = Color.FromArgb(5, 152, 46);
-            buttonUsersDetailSave.Enabled = false;
-            buttonUsersDetailSave.Location = new Point(499, 607);
-            buttonUsersDetailSave.Name = "buttonUsersDetailSave";
-            buttonUsersDetailSave.Size = new Size(112, 34);
-            buttonUsersDetailSave.TabIndex = 19;
-            buttonUsersDetailSave.Text = "Save";
-            buttonUsersDetailSave.UseVisualStyleBackColor = true;
-            buttonUsersDetailSave.Click += buttonUsersDetailSave_Click;
             // 
             // checkBoxEnableAdmin
             // 
@@ -586,11 +544,10 @@ namespace DSD_WinformsApp.View
             Controls.Add(labelHomePageUserLogin);
             Controls.Add(buttonSignOut);
             Controls.Add(panel1);
-            Controls.Add(panelDocumentButton);
             Controls.Add(panelManageUsers);
-            Controls.Add(dataGridView1);
             Controls.Add(panelHome);
             Controls.Add(panelUserDetails);
+            Controls.Add(panelDocumentButton);
             Icon = (Icon)resources.GetObject("$this.Icon");
             Name = "DocumentMainView";
             Text = "Main Page";

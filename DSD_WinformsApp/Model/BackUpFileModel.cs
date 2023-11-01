@@ -12,6 +12,7 @@ namespace DSD_WinformsApp.Model
     {
         [Key]
         public int BackupId { get; set; }
+        public string DocumentVersion { get; set; } = string.Empty;
         public string Filename { get; set; } = string.Empty;
         public string OriginalFilePath { get; set; } = string.Empty;
         public string BackupFilePath { get; set; } = string.Empty;

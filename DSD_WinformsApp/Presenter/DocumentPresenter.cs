@@ -24,7 +24,7 @@ namespace DSD_WinformsApp.Presenter
         #region Document Page Pagination Fields
         private List<DocumentDto> allDocuments = null!;
         private int currentPage = 1;
-        private int itemsPerPage = 10;
+        private int itemsPerPage = 15;
 
         // Initial values for search query and category filter
         private string currentSearchQuery = "";
@@ -35,7 +35,7 @@ namespace DSD_WinformsApp.Presenter
         #region Manage Users Page Pagination Fields
         private List<UserCredentialsDto> allUsers = null!;
         private int currentUsersPage = 1;
-        private int itemsUsersPerPage = 10;
+        private int itemsUsersPerPage = 15;
 
         private string currentUsersSearchQuery = ""; // Initial value for search query
         private string currentUsersJobFilter = "";

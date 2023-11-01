@@ -11,6 +11,7 @@ namespace DSD_WinformsApp.Core.DTOs
     {
         [Key]
         public int BackupId { get; set; }
+        public string DocumentVersion { get; set; } = string.Empty;
         public string Filename { get; set; } = string.Empty;
         public string OriginalFilePath { get; set; } = string.Empty;
         public string BackupFilePath { get; set; } = string.Empty;
