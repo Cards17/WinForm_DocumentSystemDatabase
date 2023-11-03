@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\ricardo.piquero.jr\\source\\repos\\DSD Solution v6.0\\DSD_WinformsApp\\DSD_WinformsApp.csproj": {}
+    "C:\\Users\\ricardo.piquero.jr\\source\\repos\\DSD Solution\\DSD_WinformsApp\\DSD_WinformsApp.csproj": {}
   },
   "projects": {
-    "C:\\Users\\ricardo.piquero.jr\\source\\repos\\DSD Solution v6.0\\DSD_WinformsApp\\DSD_WinformsApp.csproj": {
+    "C:\\Users\\ricardo.piquero.jr\\source\\repos\\DSD Solution\\DSD_WinformsApp\\DSD_WinformsApp.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\ricardo.piquero.jr\\source\\repos\\DSD Solution v6.0\\DSD_WinformsApp\\DSD_WinformsApp.csproj",
+        "projectUniqueName": "C:\\Users\\ricardo.piquero.jr\\source\\repos\\DSD Solution\\DSD_WinformsApp\\DSD_WinformsApp.csproj",
         "projectName": "DSD_WinformsApp",
-        "projectPath": "C:\\Users\\ricardo.piquero.jr\\source\\repos\\DSD Solution v6.0\\DSD_WinformsApp\\DSD_WinformsApp.csproj",
+        "projectPath": "C:\\Users\\ricardo.piquero.jr\\source\\repos\\DSD Solution\\DSD_WinformsApp\\DSD_WinformsApp.csproj",
         "packagesPath": "C:\\Users\\ricardo.piquero.jr\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\ricardo.piquero.jr\\source\\repos\\DSD Solution v6.0\\DSD_WinformsApp\\obj\\",
+        "outputPath": "C:\\Users\\ricardo.piquero.jr\\source\\repos\\DSD Solution\\DSD_WinformsApp\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\ricardo.piquero.jr\\AppData\\Roaming\\NuGet\\NuGet.Config",

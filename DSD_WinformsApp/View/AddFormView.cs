@@ -101,7 +101,7 @@ namespace DSD_WinformsApp.View
         }
 
         // Add method for combo box items from the database
-        private async Task CreatedByComboBox()
+        private async void CreatedByComboBox()
         {
             var users = await _presenter.GetAllRegisteredUsers();
             foreach (var user in users)
@@ -169,12 +169,12 @@ namespace DSD_WinformsApp.View
                 selectedFilePath = openFileDialog.FileName; // Store the selected file path
 
                 // Display only the file name without the extension in the label and the TextBox
-                string fileNameWithExtension = Path.GetFileName(openFileDialog.FileName);
-                labelFilename.Text = fileNameWithExtension;
+                string fileNameWithoutExtension = Path.GetFileNameWithoutExtension(openFileDialog.FileName);
+                labelFilename.Text = fileNameWithoutExtension;
 
 
                 // Check for duplicate file name in the repository
-                bool hasDuplicateFileName = await _presenter.CheckForDuplicateFileName(fileNameWithExtension);
+                bool hasDuplicateFileName = await _presenter.CheckForDuplicateFileName(fileNameWithoutExtension);
 
                 if (hasDuplicateFileName)
                 {

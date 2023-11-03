@@ -235,9 +235,9 @@ namespace DSD_WinformsApp.View
 
         private void buttonDocument_Click(object sender, EventArgs e)
         {
-            panelManageUsers.Visible = false; 
-            panelHome.Visible = false; 
-            panelUserDetails.Visible = false; 
+            panelManageUsers.Visible = false;
+            panelHome.Visible = false;
+            panelUserDetails.Visible = false;
             panelDocumentButton.Visible = true;
         }
 
@@ -718,17 +718,16 @@ namespace DSD_WinformsApp.View
                 string status = statusComboBox.Text;
                 DateTime createdDate = DateTime.Parse(createdDateTextBox.Text);
                 string createdBy = createdByTextBox.Text;
-                string modifiedBy = modifiedByTextBox.Text;
+                string modifiedBy = labelHomePageUserLogin.Text;
                 DateTime modifiedDate = DateTime.Parse(modifiedDateTextBox.Text);
                 string notes = notesTextBox.Text;
 
                 // Check if the file name has been changed
-                if (filename != Path.GetFileName(filePath))
+                if (filename != Path.GetFileNameWithoutExtension(filePath))
                 {
                     // Update the filenameTextBox with the new file name
                     filenameTextBox.Text = Path.GetFileNameWithoutExtension(filePath);
                 }
-
 
                 // Create a new DocumentDto with the modified data
                 DocumentDto modifiedDocument = new DocumentDto
@@ -751,7 +750,7 @@ namespace DSD_WinformsApp.View
                 await _presenter.LoadDocuments();
 
                 // Show a confirmation dialog
-                var result = MessageBox.Show("Document has been successfully saved. Do you want to proceed to MainView?", "Confirmation", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+                var result = MessageBox.Show("Document has been updated.", "Confirmation", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
                 // Check if the user clicked "Yes"
                 if (result == DialogResult.Yes)
                 {
@@ -968,19 +967,21 @@ namespace DSD_WinformsApp.View
             if (openFileDialog.ShowDialog() == DialogResult.OK)
             {
 
-                // Get the selected file path
-                string filePath = openFileDialog.FileName;
-                string filePath_Filename = Path.GetFileName(filePath);
+                string filePath = openFileDialog.FileName; // Get the full path of the selected file
+                string filePathFilename = Path.GetFileNameWithoutExtension(filePath);
 
                 // Check if the selected file is different from the current file
-                if (filePath_Filename != filenameTextBox.Tag as string)
+                if (!string.Equals(filePathFilename, filenameTextBox.Text, StringComparison.OrdinalIgnoreCase))
                 {
-                    // Update the TextBox with the selected file name
-                    filenameTextBox.Text = filePath_Filename;
+                    filenameTextBox.Text = filePathFilename; // Update the TextBox with the selected file name
 
-                    // Set the flag to indicate that a new file has been uploaded
-                    isNewFileUploaded = true;
+                    isNewFileUploaded = true; // Set the flag to indicate that a new file has been uploaded
                 }
+                else
+                {
+                    MessageBox.Show($"{filenameTextBox.Text} already exists", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error); // Show an error message if the selected file is the same as the current file
+                }
+
                 // Disable editing of the TextBox
                 filenameTextBox.Enabled = false;
                 // Store the file path in the Tag property of the TextBox

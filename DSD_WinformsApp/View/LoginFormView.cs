@@ -31,6 +31,8 @@ namespace DSD_WinformsApp.View
 
             StartPosition = FormStartPosition.CenterScreen; // Set the form's start position to the center of the screen
 
+
+
         }
 
 
@@ -53,6 +55,11 @@ namespace DSD_WinformsApp.View
             //If sign-in panel is visible attach TextChanged event handlers to relevant controls
             textBoxSignInUserName.TextChanged += Control_TextChanged;
             textBoxSignInPassword.TextChanged += Control_TextChanged;
+
+            buttonHideEyeIcon.Visible = false; // Hide the hide eye icon initially
+            buttonEyeIcon.Visible = true; // Show the eye icon initially
+            // set password char to * initially
+            textBoxSignInPassword.PasswordChar = '*';
 
             SignInUI(); // Call the SignInUI method
         }
@@ -229,7 +236,33 @@ namespace DSD_WinformsApp.View
 
         }
 
+        private void buttonEyeIcon_Click(object sender, EventArgs e)
+        {
+            // Show the password from hide to show
+            if (textBoxSignInPassword.PasswordChar == '*')
+            {
+                textBoxSignInPassword.PasswordChar = '\0';
+                buttonHideEyeIcon.Visible = true;
+                buttonEyeIcon.Visible = false;
+                // i want the tabindex be on password textbox when the eye icon is clicked
+                textBoxSignInPassword.TabIndex = 0;
 
+            }
+
+        }
+
+        private void buttonHideEyeIcon_Click(object sender, EventArgs e)
+        {
+            // Hide the password from show to hide
+            if (textBoxSignInPassword.PasswordChar == '\0')
+            {
+                textBoxSignInPassword.PasswordChar = '*';
+                buttonHideEyeIcon.Visible = false;
+                buttonEyeIcon.Visible = true;
+                textBoxSignInPassword.TabIndex = 0;
+            }
+
+        }
     }
 
 

@@ -544,10 +544,10 @@ namespace DSD_WinformsApp.View
             Controls.Add(labelHomePageUserLogin);
             Controls.Add(buttonSignOut);
             Controls.Add(panel1);
-            Controls.Add(panelManageUsers);
             Controls.Add(panelHome);
             Controls.Add(panelUserDetails);
             Controls.Add(panelDocumentButton);
+            Controls.Add(panelManageUsers);
             Icon = (Icon)resources.GetObject("$this.Icon");
             Name = "DocumentMainView";
             Text = "Main Page";

@@ -35,6 +35,8 @@
             labelSignIn = new Label();
             linkLabelSignInToSignUp = new LinkLabel();
             panelSignIn = new Panel();
+            buttonHideEyeIcon = new Button();
+            buttonEyeIcon = new Button();
             panelSignUp = new Panel();
             buttonBackToSignIn = new Button();
             buttonSignUp = new Button();
@@ -56,7 +58,7 @@
             textBoxSignInUserName.Name = "textBoxSignInUserName";
             textBoxSignInUserName.PlaceholderText = "User Name";
             textBoxSignInUserName.Size = new Size(350, 45);
-            textBoxSignInUserName.TabIndex = 2;
+            textBoxSignInUserName.TabIndex = 0;
             // 
             // textBoxSignInPassword
             // 
@@ -67,7 +69,7 @@
             textBoxSignInPassword.Name = "textBoxSignInPassword";
             textBoxSignInPassword.PlaceholderText = "Password";
             textBoxSignInPassword.Size = new Size(350, 45);
-            textBoxSignInPassword.TabIndex = 3;
+            textBoxSignInPassword.TabIndex = 1;
             // 
             // button_SignInButton
             // 
@@ -78,7 +80,7 @@
             button_SignInButton.MinimumSize = new Size(350, 45);
             button_SignInButton.Name = "button_SignInButton";
             button_SignInButton.Size = new Size(350, 45);
-            button_SignInButton.TabIndex = 4;
+            button_SignInButton.TabIndex = 2;
             button_SignInButton.Text = "Sign In";
             button_SignInButton.UseVisualStyleBackColor = false;
             button_SignInButton.Click += button_SignIn_Click;
@@ -106,6 +108,8 @@
             // 
             // panelSignIn
             // 
+            panelSignIn.Controls.Add(buttonHideEyeIcon);
+            panelSignIn.Controls.Add(buttonEyeIcon);
             panelSignIn.Controls.Add(labelSignIn);
             panelSignIn.Controls.Add(button_SignInButton);
             panelSignIn.Controls.Add(textBoxSignInPassword);
@@ -115,6 +119,38 @@
             panelSignIn.Name = "panelSignIn";
             panelSignIn.Size = new Size(539, 454);
             panelSignIn.TabIndex = 8;
+            // 
+            // buttonHideEyeIcon
+            // 
+            buttonHideEyeIcon.BackColor = Color.White;
+            buttonHideEyeIcon.BackgroundImage = (Image)resources.GetObject("buttonHideEyeIcon.BackgroundImage");
+            buttonHideEyeIcon.BackgroundImageLayout = ImageLayout.Stretch;
+            buttonHideEyeIcon.Cursor = Cursors.Hand;
+            buttonHideEyeIcon.FlatAppearance.BorderSize = 0;
+            buttonHideEyeIcon.FlatStyle = FlatStyle.Flat;
+            buttonHideEyeIcon.Font = new Font("Segoe UI", 10F, FontStyle.Regular, GraphicsUnit.Point);
+            buttonHideEyeIcon.Location = new Point(416, 196);
+            buttonHideEyeIcon.Name = "buttonHideEyeIcon";
+            buttonHideEyeIcon.Size = new Size(36, 30);
+            buttonHideEyeIcon.TabIndex = 3;
+            buttonHideEyeIcon.UseVisualStyleBackColor = false;
+            buttonHideEyeIcon.Click += buttonHideEyeIcon_Click;
+            // 
+            // buttonEyeIcon
+            // 
+            buttonEyeIcon.BackColor = Color.White;
+            buttonEyeIcon.BackgroundImage = (Image)resources.GetObject("buttonEyeIcon.BackgroundImage");
+            buttonEyeIcon.BackgroundImageLayout = ImageLayout.Stretch;
+            buttonEyeIcon.Cursor = Cursors.Hand;
+            buttonEyeIcon.FlatAppearance.BorderSize = 0;
+            buttonEyeIcon.FlatStyle = FlatStyle.Flat;
+            buttonEyeIcon.Font = new Font("Segoe UI", 10F, FontStyle.Regular, GraphicsUnit.Point);
+            buttonEyeIcon.Location = new Point(421, 196);
+            buttonEyeIcon.Name = "buttonEyeIcon";
+            buttonEyeIcon.Size = new Size(25, 29);
+            buttonEyeIcon.TabIndex = 4;
+            buttonEyeIcon.UseVisualStyleBackColor = false;
+            buttonEyeIcon.Click += buttonEyeIcon_Click;
             // 
             // panelSignUp
             // 
@@ -128,7 +164,7 @@
             panelSignUp.Location = new Point(30, 35);
             panelSignUp.Name = "panelSignUp";
             panelSignUp.Size = new Size(539, 541);
-            panelSignUp.TabIndex = 0;
+            panelSignUp.TabIndex = 5;
             // 
             // buttonBackToSignIn
             // 
@@ -212,8 +248,8 @@
             AutoScaleDimensions = new SizeF(10F, 25F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(600, 600);
-            Controls.Add(panelSignUp);
             Controls.Add(panelSignIn);
+            Controls.Add(panelSignUp);
             Icon = (Icon)resources.GetObject("$this.Icon");
             Name = "LoginFormView";
             Text = "Login Page";
@@ -242,5 +278,7 @@
         private Button buttonSignUp;
         private Label labelToastMessage;
         private Button buttonBackToSignIn;
+        private Button buttonEyeIcon;
+        private Button buttonHideEyeIcon;
     }
 }
