@@ -19,6 +19,7 @@ namespace DSD_WinformsApp.Presenter
         Task ApplyFilters();
         void SaveDocument(DocumentDto document, byte[] fileDataBytes);
         Task SearchDocuments(string filterCriteria, string searchQuery);
+        Task DownloadAllDocuments();
 
         // User Repository methods
         Task LoadUsers();

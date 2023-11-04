@@ -7,6 +7,7 @@ using DSD_WinformsApp.Presenter;
 using DSD_WinformsApp.View;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using OfficeOpenXml;
 
 namespace DSD_WinformsApp
 {
@@ -15,6 +16,8 @@ namespace DSD_WinformsApp
         [STAThread]
         static void Main()
         {
+            ExcelPackage.LicenseContext = LicenseContext.NonCommercial; // EPPlus License
+
             Application.SetHighDpiMode(HighDpiMode.SystemAware);
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);

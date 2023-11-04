@@ -40,6 +40,8 @@ namespace DSD_WinformsApp.View
             buttonDocument = new Button();
             buttonHome = new Button();
             panelDocumentButton = new Panel();
+            labelDownloadAllDocs = new Label();
+            linkLabelDownloadAllDocs = new LinkLabel();
             labelDocumentPagination = new Label();
             iconNext = new PictureBox();
             iconBack = new PictureBox();
@@ -173,6 +175,8 @@ namespace DSD_WinformsApp.View
             // panelDocumentButton
             // 
             panelDocumentButton.BackColor = Color.FromArgb(165, 215, 232);
+            panelDocumentButton.Controls.Add(labelDownloadAllDocs);
+            panelDocumentButton.Controls.Add(linkLabelDownloadAllDocs);
             panelDocumentButton.Controls.Add(dataGridView1);
             panelDocumentButton.Controls.Add(labelDocumentPagination);
             panelDocumentButton.Controls.Add(iconNext);
@@ -183,6 +187,28 @@ namespace DSD_WinformsApp.View
             panelDocumentButton.Name = "panelDocumentButton";
             panelDocumentButton.Size = new Size(1550, 830);
             panelDocumentButton.TabIndex = 2;
+            // 
+            // labelDownloadAllDocs
+            // 
+            labelDownloadAllDocs.AutoSize = true;
+            labelDownloadAllDocs.Font = new Font("Segoe UI", 10F, FontStyle.Regular, GraphicsUnit.Point);
+            labelDownloadAllDocs.Location = new Point(20, 736);
+            labelDownloadAllDocs.Name = "labelDownloadAllDocs";
+            labelDownloadAllDocs.Size = new Size(229, 28);
+            labelDownloadAllDocs.TabIndex = 10;
+            labelDownloadAllDocs.Text = "Download all documents";
+            // 
+            // linkLabelDownloadAllDocs
+            // 
+            linkLabelDownloadAllDocs.AutoSize = true;
+            linkLabelDownloadAllDocs.Font = new Font("Segoe UI", 10F, FontStyle.Regular, GraphicsUnit.Point);
+            linkLabelDownloadAllDocs.Location = new Point(243, 736);
+            linkLabelDownloadAllDocs.Name = "linkLabelDownloadAllDocs";
+            linkLabelDownloadAllDocs.Size = new Size(54, 28);
+            linkLabelDownloadAllDocs.TabIndex = 9;
+            linkLabelDownloadAllDocs.TabStop = true;
+            linkLabelDownloadAllDocs.Text = "here.";
+            linkLabelDownloadAllDocs.LinkClicked += linkLabel1_LinkClicked;
             // 
             // labelDocumentPagination
             // 
@@ -544,10 +570,10 @@ namespace DSD_WinformsApp.View
             Controls.Add(labelHomePageUserLogin);
             Controls.Add(buttonSignOut);
             Controls.Add(panel1);
-            Controls.Add(panelHome);
-            Controls.Add(panelUserDetails);
             Controls.Add(panelDocumentButton);
             Controls.Add(panelManageUsers);
+            Controls.Add(panelHome);
+            Controls.Add(panelUserDetails);
             Icon = (Icon)resources.GetObject("$this.Icon");
             Name = "DocumentMainView";
             Text = "Main Page";
@@ -623,5 +649,7 @@ namespace DSD_WinformsApp.View
         private CustomButton buttonUsersDetailSave;
         private Label label1;
         private Label labelHello;
+        private LinkLabel linkLabelDownloadAllDocs;
+        private Label labelDownloadAllDocs;
     }
 }

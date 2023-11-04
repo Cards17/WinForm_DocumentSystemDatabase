@@ -421,3 +421,9 @@ C:\Users\ricardo.piquero.jr\source\repos\DSD Solution\DSD_WinformsApp\obj\Debug\
 C:\Users\ricardo.piquero.jr\source\repos\DSD Solution\DSD_WinformsApp\obj\Debug\net7.0-windows\DSD_WinformsApp.pdb
 C:\Users\ricardo.piquero.jr\source\repos\DSD Solution\DSD_WinformsApp\obj\Debug\net7.0-windows\DSD_WinformsApp.genruntimeconfig.cache
 C:\Users\ricardo.piquero.jr\source\repos\DSD Solution\DSD_WinformsApp\obj\Debug\net7.0-windows\ref\DSD_WinformsApp.dll
+C:\Users\ricardo.piquero.jr\source\repos\DSD Solution\DSD_WinformsApp\bin\Debug\net7.0-windows\EPPlus.dll
+C:\Users\ricardo.piquero.jr\source\repos\DSD Solution\DSD_WinformsApp\bin\Debug\net7.0-windows\EPPlus.Interfaces.dll
+C:\Users\ricardo.piquero.jr\source\repos\DSD Solution\DSD_WinformsApp\bin\Debug\net7.0-windows\EPPlus.System.Drawing.dll
+C:\Users\ricardo.piquero.jr\source\repos\DSD Solution\DSD_WinformsApp\bin\Debug\net7.0-windows\Microsoft.IO.RecyclableMemoryStream.dll
+C:\Users\ricardo.piquero.jr\source\repos\DSD Solution\DSD_WinformsApp\bin\Debug\net7.0-windows\System.Security.Cryptography.Pkcs.dll
+C:\Users\ricardo.piquero.jr\source\repos\DSD Solution\DSD_WinformsApp\bin\Debug\net7.0-windows\runtimes\win\lib\net7.0\System.Security.Cryptography.Pkcs.dll

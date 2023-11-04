@@ -1046,6 +1046,8 @@ namespace DSD_WinformsApp.View
         public void ToggleAdminRights(bool isVisible)
         {
             buttonManageUsers.Visible = isVisible;
+            labelDownloadAllDocs.Visible = isVisible;
+            linkLabelDownloadAllDocs.Visible = isVisible;
 
         }
 
@@ -1439,10 +1441,22 @@ namespace DSD_WinformsApp.View
             labelHomePageUserLogin.Text = username;
         }
 
+        private async void linkLabel1_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            // show message box to download all documents
+            DialogResult result = MessageBox.Show("Are you sure you want to download all documents?", "Download Confirmation", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+            if (result == DialogResult.Yes)
+            {
+                await _presenter.DownloadAllDocuments();
+            }
+
+
+        }
         private void buttonSignOut_Click(object sender, EventArgs e)
         {
             Application.Exit();
         }
+
 
     }
 }

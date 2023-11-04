@@ -4,8 +4,10 @@ using DSD_WinformsApp.Infrastructure.Data.Services;
 using DSD_WinformsApp.Model;
 using DSD_WinformsApp.View;
 using Microsoft.VisualBasic.ApplicationServices;
+using OfficeOpenXml;
 using System;
 using System.Collections.Generic;
+using System.IO.Packaging;
 using System.Linq;
 using System.Reflection.Metadata;
 using System.Text;
@@ -153,6 +155,80 @@ namespace DSD_WinformsApp.Presenter
         {
             List<DocumentDto> filteredDocuments = await _documentRepository.GetFilteredDocuments(searchQuery, filterCriteria);
             _mainDocumentView.BindDataMainView(filteredDocuments);
+        }
+
+        public async Task DownloadAllDocuments()
+        {
+            // Get all documents from the repository and save them to an Excel file
+            try
+            {
+                List<DocumentDto> documents = await _documentRepository.GetAllDocuments();
+
+                using (var package = new ExcelPackage())
+                {
+                    var worksheet = package.Workbook.Worksheets.Add("Documents");
+
+                    worksheet.Cells[1, 1].Value = "Document Version";
+                    worksheet.Cells[1, 2].Value = "Filename";
+                    worksheet.Cells[1, 3].Value = "Category";
+                    worksheet.Cells[1, 4].Value = "Status";
+                    worksheet.Cells[1, 5].Value = "Created Date";
+                    worksheet.Cells[1, 6].Value = "Created By";
+                    worksheet.Cells[1, 7].Value = "Modified By";
+                    worksheet.Cells[1, 8].Value = "Modified Date";
+                    worksheet.Cells[1, 9].Value = "Notes";
+
+                    int row = 2;
+
+                    foreach (var document in documents)
+                    {
+                        worksheet.Cells[row, 1].Value = document.DocumentVersion;
+                        worksheet.Cells[row, 2].Value = document.Filename;
+                        worksheet.Cells[row, 3].Value = document.Category;
+                        worksheet.Cells[row, 4].Value = document.Status;
+                        worksheet.Cells[row, 5].Value = document.CreatedDate;
+                        worksheet.Cells[row, 6].Value = document.CreatedBy;
+                        worksheet.Cells[row, 7].Value = document.ModifiedBy;
+                        worksheet.Cells[row, 8].Value = document.ModifiedDate;
+                        worksheet.Cells[row, 9].Value = document.Notes;
+
+                        // show the atual text value of date column
+                        worksheet.Cells[row, 5].Style.Numberformat.Format = "dd/MM/yyyy";
+                        worksheet.Cells[row, 8].Style.Numberformat.Format = "dd/MM/yyyy";
+
+                        row++;
+                    }
+
+                    string fileName = $"Documents_{DateTime.Now:yyyyMMddHHmmss}.xlsx"; 
+                    fileName = Path.ChangeExtension(fileName, "xlsx"); 
+
+                    SaveExcelFileToDownloads(package, fileName);
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("An error occurred: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private void SaveExcelFileToDownloads(ExcelPackage package, string fileName)
+        {
+            // Save the file to the Downloads folder
+            try
+            {
+                string savePath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile), "Downloads", fileName);
+
+                using (FileStream fileStream = new FileStream(savePath, FileMode.Create, FileAccess.Write))
+                {
+                    package.SaveAs(fileStream);
+                }
+
+                MessageBox.Show("File saved to Downloads folder.", "Download Complete", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("An error occurred while saving the file: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
 
         //BackUpFileRepository methods

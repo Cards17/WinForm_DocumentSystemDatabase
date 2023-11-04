@@ -56,7 +56,7 @@
             textBoxSignInUserName.MinimumSize = new Size(350, 45);
             textBoxSignInUserName.Multiline = true;
             textBoxSignInUserName.Name = "textBoxSignInUserName";
-            textBoxSignInUserName.PlaceholderText = "User Name";
+            textBoxSignInUserName.PlaceholderText = "Username";
             textBoxSignInUserName.Size = new Size(350, 45);
             textBoxSignInUserName.TabIndex = 0;
             // 
@@ -117,7 +117,7 @@
             panelSignIn.Controls.Add(linkLabelSignInToSignUp);
             panelSignIn.Location = new Point(30, 35);
             panelSignIn.Name = "panelSignIn";
-            panelSignIn.Size = new Size(539, 454);
+            panelSignIn.Size = new Size(539, 538);
             panelSignIn.TabIndex = 8;
             // 
             // buttonHideEyeIcon
@@ -126,6 +126,7 @@
             buttonHideEyeIcon.BackgroundImage = (Image)resources.GetObject("buttonHideEyeIcon.BackgroundImage");
             buttonHideEyeIcon.BackgroundImageLayout = ImageLayout.Stretch;
             buttonHideEyeIcon.Cursor = Cursors.Hand;
+            buttonHideEyeIcon.FlatAppearance.BorderColor = Color.White;
             buttonHideEyeIcon.FlatAppearance.BorderSize = 0;
             buttonHideEyeIcon.FlatStyle = FlatStyle.Flat;
             buttonHideEyeIcon.Font = new Font("Segoe UI", 10F, FontStyle.Regular, GraphicsUnit.Point);
@@ -133,6 +134,7 @@
             buttonHideEyeIcon.Name = "buttonHideEyeIcon";
             buttonHideEyeIcon.Size = new Size(36, 30);
             buttonHideEyeIcon.TabIndex = 3;
+            buttonHideEyeIcon.TabStop = false;
             buttonHideEyeIcon.UseVisualStyleBackColor = false;
             buttonHideEyeIcon.Click += buttonHideEyeIcon_Click;
             // 
@@ -142,6 +144,7 @@
             buttonEyeIcon.BackgroundImage = (Image)resources.GetObject("buttonEyeIcon.BackgroundImage");
             buttonEyeIcon.BackgroundImageLayout = ImageLayout.Stretch;
             buttonEyeIcon.Cursor = Cursors.Hand;
+            buttonEyeIcon.FlatAppearance.BorderColor = Color.White;
             buttonEyeIcon.FlatAppearance.BorderSize = 0;
             buttonEyeIcon.FlatStyle = FlatStyle.Flat;
             buttonEyeIcon.Font = new Font("Segoe UI", 10F, FontStyle.Regular, GraphicsUnit.Point);
@@ -149,6 +152,7 @@
             buttonEyeIcon.Name = "buttonEyeIcon";
             buttonEyeIcon.Size = new Size(25, 29);
             buttonEyeIcon.TabIndex = 4;
+            buttonEyeIcon.TabStop = false;
             buttonEyeIcon.UseVisualStyleBackColor = false;
             buttonEyeIcon.Click += buttonEyeIcon_Click;
             // 

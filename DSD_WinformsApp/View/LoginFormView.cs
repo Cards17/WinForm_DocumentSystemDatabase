@@ -81,13 +81,11 @@ namespace DSD_WinformsApp.View
             panelSignUp.Controls.Add(textBoxPasswrd);
             panelSignUp.Controls.Add(buttonSignUp);
 
-
             // Set hex color code signin and signup button
             button_SignInButton.BackColor = ColorTranslator.FromHtml("#A5D7E8");
             buttonSignUp.BackColor = ColorTranslator.FromHtml("#05982E");
 
-            // Wire up the linkLabelSignUp's Click event to show the signup panel
-            linkLabelSignInToSignUp.Click += LinkLabelSignUp_Click;
+            linkLabelSignInToSignUp.Click += LinkLabelSignUp_Click; // Add click event to the linkLabelSignInToSignUp
         }
 
         private void LinkLabelSignUp_Click(object? sender, EventArgs e)
@@ -98,7 +96,9 @@ namespace DSD_WinformsApp.View
             textBoxEmailAdd.Text = "";
             textBoxPasswrd.Text = "";
 
-            panelSignUp.Visible = true; // Show the signup panel
+            // Show the signup panel and hide the signin panel
+            panelSignUp.Visible = true;
+            panelSignIn.Visible = false;
 
             textBoxFirstname.Focus(); // Set the focus to the textBoxFirstname control
 
@@ -131,9 +131,10 @@ namespace DSD_WinformsApp.View
                     UserName = $"{textBoxFirstname.Text.Trim()} {textBoxLastname.Text.Trim()}"
                 };
 
-                _presenter.SaveUserRegistration(userCredentials); // Use presenter to call the save method
-                MessageBox.Show("Registration successful."); // Show a success message
+                _presenter.SaveUserRegistration(userCredentials); // Save the user registration using the presenter
+                MessageBox.Show("Registration successful.");
                 panelSignUp.Visible = false;
+                panelSignIn.Visible = true;
 
             }
             catch (Exception ex)
