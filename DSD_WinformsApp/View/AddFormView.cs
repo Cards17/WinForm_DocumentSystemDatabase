@@ -49,31 +49,23 @@ namespace DSD_WinformsApp.View
 
         private void AddForm_Load(object sender, EventArgs e)
         {
+            MaximizeBox = false; // Remove the maximize box
 
-            // NOT TRY TO DELETE THESE CODES
-            //btnSave = new CustomButton(ColorTranslator.FromHtml("#05982E"), SystemColors.Control);
-            //btnCancel = new CustomButton(ColorTranslator.FromHtml("#DA0B0B"), SystemColors.Control);
-            //buttonUploadFile = new CustomButton(ColorTranslator.FromHtml("#A5D7E8"), SystemColors.Control);
+            btnSave.Enabled = false; // Disable the Save button initially
 
-            buttonUploadDocs.BackColor = ColorTranslator.FromHtml("#A5D7E8");
-            btnCancel.BackColor = ColorTranslator.FromHtml("#DA0B0B");
-
-
-            // Set the title of the form
-            MaximizeBox = false;
-
-            // Disable the Save button initially
-            btnSave.Enabled = false;
-
-            // Hide filename label initially
-            labelFilename.Visible = false;
+            labelFilename.Visible = false; // Hide the label that displays the selected file name
 
             errorProvider.BlinkStyle = ErrorBlinkStyle.NeverBlink; // remove the blinking icon when error occurs
+
+            // Set the background color of buttons initially.
+            btnSave.BackColor = SystemColors.Control;
+            buttonUploadDocs.BackColor = ColorTranslator.FromHtml("#A5D7E8");
+            btnCancel.BackColor = ColorTranslator.FromHtml("#DA0B0B");
 
             // Attach SelectedIndexChanged event handlers to ComboBox controls
             cmbCategories.SelectedIndexChanged += Control_SelectedIndexChanged;
             comboBoxCreatedBy.SelectedIndexChanged += Control_SelectedIndexChanged;
-            cmbStatus.SelectedIndexChanged += Control_SelectedIndexChanged;
+            cmbStatus.SelectedIndexChanged += Control_SelectedIndexChanged; 
 
             // Attach TextChanged event handlers to relevant controls
             labelFilename.TextChanged += Control_TextChanged;

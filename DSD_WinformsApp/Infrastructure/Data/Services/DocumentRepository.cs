@@ -161,9 +161,9 @@ namespace DSD_WinformsApp.Infrastructure.Data.Services
         public async Task<List<DocumentDto>> GetFilteredDocuments(string searchQuery, string filterCriteria)
         {
             // add condition for search and filter was empty or null
-
-
-            var allDocuments = await _dbContext.Documents.ToListAsync();
+            var allDocuments = await _dbContext.Documents
+                .OrderByDescending(d => d.Id)
+                .ToListAsync();
             var categoryFilter = GetFilterCategories(filterCriteria);
             var searchFilter = searchQuery ?? "";
 

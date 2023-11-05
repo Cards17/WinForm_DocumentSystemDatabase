@@ -26,8 +26,9 @@ namespace DSD_WinformsApp.Infrastructure.Data.Services
         public async Task<List<BackUpFileDto>> GetRelatedBackupFiles(int documentId)
         {
             var relatedBackupFiles = await _dbContext.BackupFiles
-                .Where(b => b.Id == documentId)
-                .ToListAsync();
+               .Where(b => b.Id == documentId)
+               .OrderByDescending(b => b.BackupId) // Sort by BackFileId in descending order
+               .ToListAsync();
 
             var backUpFiles = _mapper.Map<List<BackUpFileModel>, List<BackUpFileDto>>(relatedBackupFiles);
             return backUpFiles;

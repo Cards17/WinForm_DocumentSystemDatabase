@@ -191,6 +191,7 @@
             buttonUploadDocs.TabIndex = 24;
             buttonUploadDocs.Text = "Upload";
             buttonUploadDocs.UseVisualStyleBackColor = true;
+            buttonUploadDocs.Cursor = Cursors.Hand;
             buttonUploadDocs.Click += buttonUploadDocs_Click;
             // 
             // btnSave
@@ -202,6 +203,7 @@
             btnSave.TabIndex = 25;
             btnSave.Text = "Save";
             btnSave.UseVisualStyleBackColor = true;
+            btnSave.Cursor = Cursors.Hand;
             btnSave.Click += btnSave_Click;
             // 
             // btnCancel
@@ -213,6 +215,7 @@
             btnCancel.TabIndex = 26;
             btnCancel.Text = "Cancel";
             btnCancel.UseVisualStyleBackColor = true;
+            btnCancel.Cursor = Cursors.Hand;
             btnCancel.Click += btnCancel_Click;
             // 
             // AddFormView

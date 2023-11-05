@@ -349,7 +349,16 @@ namespace DSD_WinformsApp.Presenter
         public async Task LoadUsers()
         {
             List<UserCredentialsDto> users = await _userRepository.GetAllUsers();
+            users = users.OrderByDescending(user => user.UserId).ToList();
             _mainDocumentView.BindDataManageUsers(users);
+        }
+
+        public async Task LoadUsersByFilter(string currentUsersSearchQuery, string currentUsersJobFilter)
+        {
+            allUsers = await _userRepository.GetFilteredUsers(currentUsersSearchQuery, currentUsersJobFilter);
+            allUsers = allUsers.OrderByDescending(user => user.UserId).ToList();
+            _mainDocumentView.BindDataManageUsers(allUsers); // Bind the filtered users to the view
+            _mainDocumentView.UpdateUsersPageLabel(currentUsersPage, UsersTotalPages()); // Update the page label when navigating to a new page
         }
 
         public void SaveUserRegistration(UserCredentialsDto userCredentials)
@@ -401,12 +410,7 @@ namespace DSD_WinformsApp.Presenter
             }
         }
 
-        public async Task LoadUsersByFilter(string currentUsersSearchQuery, string currentUsersJobFilter)
-        {
-            allUsers = await _userRepository.GetFilteredUsers(currentUsersSearchQuery, currentUsersJobFilter);
-            _mainDocumentView.BindDataManageUsers(allUsers); // Bind the filtered users to the view
-            _mainDocumentView.UpdateUsersPageLabel(currentUsersPage, UsersTotalPages()); // Update the page label when navigating to a new page
-        }
+       
 
         public async Task<bool> DeleteUser(UserCredentialsDto user)
         {

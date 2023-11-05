@@ -16,6 +16,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using WordApp = Microsoft.Office.Interop.Word.Application;
 using ExcelApp = Microsoft.Office.Interop.Excel.Application;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 
 namespace DSD_WinformsApp.View
@@ -24,6 +25,7 @@ namespace DSD_WinformsApp.View
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly IDocumentPresenter _presenter;
+
 
         private bool isNewFileUploaded = false;
 
@@ -42,6 +44,7 @@ namespace DSD_WinformsApp.View
             InitializeComponent();
             _unitOfWork = unitOfWork;
             _presenter = new DocumentPresenter(this, _unitOfWork.Documents, _unitOfWork.BackUpFiles, _unitOfWork.Users);
+
 
 
             // Attach the FormClosing event handler
@@ -71,6 +74,7 @@ namespace DSD_WinformsApp.View
 
             // Store the original state of the checkbox
             originalCheckBoxState = checkBoxEnableAdmin.Checked;
+
 
 
             #endregion
@@ -169,6 +173,9 @@ namespace DSD_WinformsApp.View
             dataGridView1.Columns["Category"].HeaderText = "CATEGORY";
             dataGridView1.Columns["CreatedDate"].HeaderText = "CREATED DATE";
 
+            // Create sorting in documentversion column
+            dataGridView1.Columns["DocumentVersion"].SortMode = DataGridViewColumnSortMode.Automatic;
+
             // Add details button functionality
             DataGridViewButtonColumn detailsColumn = new DataGridViewButtonColumn();
             detailsColumn.Text = "Details";
@@ -178,30 +185,8 @@ namespace DSD_WinformsApp.View
             detailsColumn.HeaderText = string.Empty;
             dataGridView1.Columns.Add(detailsColumn);
 
-            //// add download button here and then when the button was clicked i need to download the file into downloads folder
-            //DataGridViewButtonColumn downloadColumn = new DataGridViewButtonColumn();
-            //downloadColumn.Text = "Download";
-            //downloadColumn.Name = "Download";
-            //downloadColumn.Width = 93;
-            //downloadColumn.UseColumnTextForButtonValue = true;
-            //downloadColumn.HeaderText = string.Empty;
-            //dataGridView1.Columns.Add(downloadColumn);
-
-            //DataGridViewButtonColumn deleteColumn = new DataGridViewButtonColumn();
-            //deleteColumn.Text = "Delete";
-            //deleteColumn.Name = "Delete";
-            //deleteColumn.Width = 93;
-            //deleteColumn.UseColumnTextForButtonValue = true;
-            //deleteColumn.HeaderText = string.Empty;
-            //dataGridView1.Columns.Add(deleteColumn);
-
-
-
-
             // Wire up the CellClick event handler
             dataGridView1.CellClick += dataGridView1_DetailsButton_CellClick;
-            //dataGridView1.CellClick += dataGridView1_DeleteButton_CellClick;
-            //dataGridView1.CellClick += dataGridView1_DownloadButton_CellClick;
 
             // Set the cursor to hand when hovering over the Details button
             dataGridView1.CellMouseEnter += (sender, e) =>
@@ -486,6 +471,7 @@ namespace DSD_WinformsApp.View
             dataGridView2.Dock = DockStyle.Fill;
             dataGridView2.AllowUserToAddRows = false;
             dataGridView2.RowHeadersVisible = false;
+            dataGridView2.ScrollBars = ScrollBars.Horizontal;
             groupBox2.Controls.Add(dataGridView2);
 
 
@@ -710,7 +696,7 @@ namespace DSD_WinformsApp.View
 
                 _presenter.EditDocument(modifiedDocument, fileDataBytes); // Edit the document in the database
 
-                await _presenter.LoadDocuments(); // Load the documents again to update the view
+                await _presenter.LoadDocumentsByFilter(GetSearchQuery(), GetFilterCategory()); // Load the filtered documents again to update the view
 
                 var result = MessageBox.Show($"{filenameTextBox.Text} details have been updated.", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information); // Show a message to indicate that the document has been updated.                                                                                                                                                   
                 if (result == DialogResult.OK)
@@ -1011,10 +997,8 @@ namespace DSD_WinformsApp.View
 
         }
 
-
         private async void buttonManageUsers_Click(object sender, EventArgs e)
         {
-
             var currentUsersSearchQueryWhenItemDeleted = GetSearchUserQuery();
             var currentUsersFilterCategoryWhenItemDeleted = GetFilterUsersCategory();
 

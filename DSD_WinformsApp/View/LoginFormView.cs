@@ -161,7 +161,12 @@ namespace DSD_WinformsApp.View
 
                 if (isValidCredentials)
                 {
-                    this.Close(); // Close the login form
+                    // clear the signin fields
+                    textBoxSignInUserName.Text = "";
+                    textBoxSignInPassword.Text = "";
+                    // remove the loginform
+                    this.Hide();
+
                 }
                 else
                 {

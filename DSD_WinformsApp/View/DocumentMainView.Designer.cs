@@ -97,6 +97,7 @@ namespace DSD_WinformsApp.View
             // 
             // dataGridView1
             // 
+            dataGridView1.AllowUserToOrderColumns = true;
             dataGridView1.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             dataGridView1.Location = new Point(20, 130);
             dataGridView1.Name = "dataGridView1";
@@ -104,6 +105,7 @@ namespace DSD_WinformsApp.View
             dataGridView1.RowHeadersWidth = 62;
             dataGridView1.RowTemplate.Height = 36;
             dataGridView1.RowTemplate.Resizable = DataGridViewTriState.False;
+            dataGridView1.ScrollBars = ScrollBars.Horizontal;
             dataGridView1.Size = new Size(1235, 576);
             dataGridView1.TabIndex = 0;
             // 
@@ -416,6 +418,7 @@ namespace DSD_WinformsApp.View
             // 
             // buttonEditUser
             // 
+            buttonEditUser.Cursor = Cursors.Hand;
             buttonEditUser.Location = new Point(780, 620);
             buttonEditUser.Name = "buttonEditUser";
             buttonEditUser.Size = new Size(100, 35);
@@ -426,6 +429,7 @@ namespace DSD_WinformsApp.View
             // 
             // buttonCloseUser
             // 
+            buttonCloseUser.Cursor = Cursors.Hand;
             buttonCloseUser.Location = new Point(650, 620);
             buttonCloseUser.Name = "buttonCloseUser";
             buttonCloseUser.Size = new Size(100, 35);
@@ -436,6 +440,7 @@ namespace DSD_WinformsApp.View
             // 
             // buttonUsersDetailSave
             // 
+            buttonUsersDetailSave.Cursor = Cursors.Hand;
             buttonUsersDetailSave.Location = new Point(520, 620);
             buttonUsersDetailSave.Name = "buttonUsersDetailSave";
             buttonUsersDetailSave.Size = new Size(100, 35);
@@ -447,6 +452,7 @@ namespace DSD_WinformsApp.View
             // checkBoxEnableAdmin
             // 
             checkBoxEnableAdmin.AutoSize = true;
+            checkBoxEnableAdmin.Cursor = Cursors.Hand;
             checkBoxEnableAdmin.Location = new Point(499, 302);
             checkBoxEnableAdmin.Name = "checkBoxEnableAdmin";
             checkBoxEnableAdmin.Size = new Size(148, 29);
