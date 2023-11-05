@@ -12,6 +12,7 @@ namespace DSD_WinformsApp.Model
         public int Id { get; set; }
         public string DocumentVersion { get; set; } = string.Empty;
         public string Filename { get; set; } = string.Empty;
+        public string FilenameExtension { get; set; } = string.Empty;
         public string Category { get; set; } = string.Empty;
         public string Status { get; set; } = string.Empty;
         public DateTime CreatedDate { get; set; } = DateTime.Now.Date;

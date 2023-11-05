@@ -42,9 +42,10 @@
             textBoxDocumentVersion = new TextBox();
             labelFilename = new Label();
             labelFileUpload = new Label();
-            btnSave = new CustomButton(ColorTranslator.FromHtml("#05982E"), SystemColors.Control);
-            btnCancel = new CustomButton(ColorTranslator.FromHtml("#DA0B0B"), SystemColors.Control);
-            buttonUploadFile = new CustomButton(ColorTranslator.FromHtml("#A5D7E8"), SystemColors.Control);
+            labelDocumentNameWithExtension = new Label();
+            buttonUploadDocs = new Button();
+            btnSave = new Button();
+            btnCancel = new Button();
             SuspendLayout();
             // 
             // txtCategory
@@ -173,53 +174,56 @@
             labelFileUpload.TabIndex = 19;
             labelFileUpload.Text = "Upload Document:";
             // 
+            // labelDocumentNameWithExtension
+            // 
+            labelDocumentNameWithExtension.AutoSize = true;
+            labelDocumentNameWithExtension.Location = new Point(452, 86);
+            labelDocumentNameWithExtension.Name = "labelDocumentNameWithExtension";
+            labelDocumentNameWithExtension.Size = new Size(0, 25);
+            labelDocumentNameWithExtension.TabIndex = 23;
+            labelDocumentNameWithExtension.Visible = false;
+            // 
+            // buttonUploadDocs
+            // 
+            buttonUploadDocs.Location = new Point(239, 84);
+            buttonUploadDocs.Name = "buttonUploadDocs";
+            buttonUploadDocs.Size = new Size(112, 36);
+            buttonUploadDocs.TabIndex = 24;
+            buttonUploadDocs.Text = "Upload";
+            buttonUploadDocs.UseVisualStyleBackColor = true;
+            buttonUploadDocs.Click += buttonUploadDocs_Click;
+            // 
             // btnSave
             // 
-            btnSave.BackColor = Color.FromArgb(5, 152, 46);
-            btnSave.Cursor = Cursors.Hand;
             btnSave.Font = new Font("Segoe UI", 10F, FontStyle.Regular, GraphicsUnit.Point);
-            btnSave.Location = new Point(738, 416);
+            btnSave.Location = new Point(600, 420);
             btnSave.Name = "btnSave";
-            btnSave.Size = new Size(112, 36);
-            btnSave.TabIndex = 22;
+            btnSave.Size = new Size(100, 36);
+            btnSave.TabIndex = 25;
             btnSave.Text = "Save";
             btnSave.UseVisualStyleBackColor = true;
             btnSave.Click += btnSave_Click;
             // 
             // btnCancel
             // 
-            btnCancel.BackColor = Color.FromArgb(218, 11, 11);
-            btnCancel.Cursor = Cursors.Hand;
             btnCancel.Font = new Font("Segoe UI", 10F, FontStyle.Regular, GraphicsUnit.Point);
-            btnCancel.Location = new Point(551, 416);
+            btnCancel.Location = new Point(750, 420);
             btnCancel.Name = "btnCancel";
-            btnCancel.Size = new Size(112, 36);
-            btnCancel.TabIndex = 21;
+            btnCancel.Size = new Size(100, 36);
+            btnCancel.TabIndex = 26;
             btnCancel.Text = "Cancel";
             btnCancel.UseVisualStyleBackColor = true;
             btnCancel.Click += btnCancel_Click;
-            // 
-            // buttonUploadFile
-            // 
-            buttonUploadFile.BackColor = Color.FromArgb(165, 215, 232);
-            buttonUploadFile.Cursor = Cursors.Hand;
-            buttonUploadFile.Font = new Font("Segoe UI", 10F, FontStyle.Regular, GraphicsUnit.Point);
-            buttonUploadFile.Location = new Point(239, 78);
-            buttonUploadFile.Name = "buttonUploadFile";
-            buttonUploadFile.Size = new Size(112, 36);
-            buttonUploadFile.TabIndex = 20;
-            buttonUploadFile.Text = "Upload";
-            buttonUploadFile.UseVisualStyleBackColor = true;
-            buttonUploadFile.Click += buttonUploadFile_Click;
             // 
             // AddFormView
             // 
             AutoScaleDimensions = new SizeF(10F, 25F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(878, 494);
-            Controls.Add(btnSave);
             Controls.Add(btnCancel);
-            Controls.Add(buttonUploadFile);
+            Controls.Add(btnSave);
+            Controls.Add(buttonUploadDocs);
+            Controls.Add(labelDocumentNameWithExtension);
             Controls.Add(textBoxDocumentVersion);
             Controls.Add(labelDocVersion);
             Controls.Add(comboBoxCreatedBy);
@@ -258,9 +262,9 @@
         private TextBox textBoxDocumentVersion;
         private Label labelFilename;
         private Label labelFileUpload;
-        private CustomButton btnCancel;
-        private CustomButton btnSave;
-        private CustomButton buttonUploadFile;
-
+        private Label labelDocumentNameWithExtension;
+        private Button buttonUploadDocs;
+        private Button btnSave;
+        private Button btnCancel;
     }
 }

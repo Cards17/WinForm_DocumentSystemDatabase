@@ -64,6 +64,7 @@ namespace DSD_WinformsApp.View
             textBoxUserLastName.TextChanged += TextBox_TextChanged;
             textBoxUserEmailAdd.TextChanged += TextBox_TextChanged;
             textBoxUserJobTitle.TextChanged += TextBox_TextChanged;
+            checkBoxEnableAdmin.CheckedChanged += CheckBox_CheckedChanged;
 
             // Attach CheckedChanged event handler to the checkbox
             checkBoxEnableAdmin.CheckedChanged += CheckBox_CheckedChanged;
@@ -82,13 +83,6 @@ namespace DSD_WinformsApp.View
             await _presenter.LoadUsersByFilter(currentSearchUserQuery, currentJobFilter); // Load the users from the database using the presenter
 
             bool isAdmin = await _presenter.CheckUserAccess(labelHomePageUserLogin.Text); // Check if the logged in user is an admin
-
-            // DONT TRY TO REMOVE THIS COMMENTED CODE
-            //buttonUsersDetailSave = new CustomButton(ColorTranslator.FromHtml("#05982E"), SystemColors.Control);
-            //buttonCloseUser = new CustomButton(ColorTranslator.FromHtml("#DA0B0B"), SystemColors.Control);
-            //buttonEditUser = new CustomButton(ColorTranslator.FromHtml("#A5D7E8"), SystemColors.Control);
-
-
 
             #region Manage Users Properties
 
@@ -155,24 +149,25 @@ namespace DSD_WinformsApp.View
             comboBoxCategoryDropdown.SelectedIndex = 0; // Set the default value to "Select Category"
 
             // Define the column width from documentmodel
-            dataGridView1.Columns["DocumentVersion"].Width = 170;
-            dataGridView1.Columns["Filename"].Width = 438;
-            dataGridView1.Columns["Category"].Width = 250;
-            dataGridView1.Columns["Status"].Width = 140;
-            dataGridView1.Columns["CreatedDate"].Width = 140;
+            dataGridView1.Columns["DocumentVersion"].Width = 190;
+            dataGridView1.Columns["Filename"].Width = 418;
+            dataGridView1.Columns["Category"].Width = 230;
+            dataGridView1.Columns["Status"].Width = 130;
+            dataGridView1.Columns["CreatedDate"].Width = 170;
             dataGridView1.Columns["Id"].Visible = false;
-            //dataGridView1.Columns["CreatedDate"].Visible = false;
             dataGridView1.Columns["CreatedBy"].Visible = false;
             dataGridView1.Columns["ModifiedBy"].Visible = false;
             dataGridView1.Columns["ModifiedDate"].Visible = false;
             dataGridView1.Columns["Notes"].Visible = false;
             dataGridView1.Columns["FileData"].Visible = false;
+            dataGridView1.Columns["FilenameExtension"].Visible = false;
 
             // Display name for table columns
-            dataGridView1.Columns["DocumentVersion"].HeaderText = "Document No.";
-            dataGridView1.Columns["Status"].HeaderText = "Status";
-            dataGridView1.Columns["Filename"].HeaderText = "Document Title";
-            dataGridView1.Columns["Category"].HeaderText = "Category";
+            dataGridView1.Columns["DocumentVersion"].HeaderText = "DOCUMENT NO.";
+            dataGridView1.Columns["Status"].HeaderText = "STATUS";
+            dataGridView1.Columns["Filename"].HeaderText = "DOCUMENT TITLE";
+            dataGridView1.Columns["Category"].HeaderText = "CATEGORY";
+            dataGridView1.Columns["CreatedDate"].HeaderText = "CREATED DATE";
 
             // Add details button functionality
             DataGridViewButtonColumn detailsColumn = new DataGridViewButtonColumn();
@@ -261,6 +256,9 @@ namespace DSD_WinformsApp.View
             detailsForm.Text = "Documents Page";
             detailsForm.FormBorderStyle = FormBorderStyle.FixedDialog;
             detailsForm.StartPosition = FormStartPosition.CenterParent;
+            detailsForm.MaximizeBox = false;
+            detailsForm.MinimizeBox = false;
+            detailsForm.Cursor = Cursors.Default;
 
             #region Document Details
             // Create the GroupBox
@@ -518,6 +516,7 @@ namespace DSD_WinformsApp.View
             dataGridView2.Columns["Id"].Visible = false;
 
 
+
             // Set the cursor to hand when hovering over the Details button
             dataGridView2.CellMouseEnter += (sender, e) =>
             {
@@ -549,9 +548,11 @@ namespace DSD_WinformsApp.View
                             // Source path of the backup file
                             string sourceFilePath = selectedBackupFile.BackupFilePath;
 
+                            // Get filename wioth extension
+                            string docExtension = Path.GetExtension(sourceFilePath);
                             // Destination path in the user's "Downloads" folder
                             string downloadsPath = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile);
-                            string destinationFilePath = Path.Combine(downloadsPath, "Downloads", selectedBackupFile.Filename);
+                            string destinationFilePath = Path.Combine(downloadsPath, "Downloads", selectedBackupFile.Filename + docExtension);
 
                             // Copy the file from source to destination
                             File.Copy(sourceFilePath, destinationFilePath, true);
@@ -585,35 +586,36 @@ namespace DSD_WinformsApp.View
                     if (dataGridView2.Rows[e.RowIndex].DataBoundItem is BackUpFileDto selectedBackupFile)
                     {
                         // Show a confirmation message before deleting the file
-                        DialogResult result = MessageBox.Show("Are you sure you want to delete this file?", "Confirm Delete", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+                        DialogResult result = MessageBox.Show($"Do you want to delete {selectedBackupFile.Filename}?", "Confirm Delete", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
                         if (result == DialogResult.Yes)
                         {
                             try
                             {
-                                // Delete the file
-                                await _presenter.DeleteBackUpFile(selectedBackupFile);
+                                await _presenter.DeleteBackUpFile(selectedBackupFile); // Delete the backup file
 
                                 // Refresh the DataGridView
                                 relatedBackupFiles.Remove(selectedBackupFile);
                                 dataGridView2.DataSource = null;
                                 dataGridView2.DataSource = relatedBackupFiles;
 
-                                // Display Columns in datagridview2
-                                dataGridView2.Columns["BackupId"].DisplayIndex = 0;
+                                // DisplayIndex beginning from DocumentVersion
+                                dataGridView2.Columns["DocumentVersion"].DisplayIndex = 0;
                                 dataGridView2.Columns["Filename"].DisplayIndex = 1;
                                 dataGridView2.Columns["BackupDate"].DisplayIndex = 2;
                                 dataGridView2.Columns["Version"].DisplayIndex = 3;
 
-                                dataGridView2.Columns["BackupId"].Width = 75;
-                                dataGridView2.Columns["Filename"].Width = 300;
-                                dataGridView2.Columns["BackupDate"].Width = 80;
-                                dataGridView2.Columns["Version"].Width = 85;
+                                // Display Columns in datagridview2
+                                dataGridView2.Columns["DocumentVersion"].Width = 170;
+                                dataGridView2.Columns["Filename"].Width = 330;
+                                dataGridView2.Columns["BackupDate"].Width = 120;
+                                dataGridView2.Columns["Version"].Width = 100;
 
-                                dataGridView2.Columns["BackupId"].HeaderText = "File Id";
-                                dataGridView2.Columns["Filename"].HeaderText = "Filename";
+                                dataGridView2.Columns["DocumentVersion"].HeaderText = "Document No.";
+                                dataGridView2.Columns["Filename"].HeaderText = "Document Title";
                                 dataGridView2.Columns["BackupDate"].HeaderText = "Date";
-                                dataGridView2.Columns["Version"].HeaderText = "Version";
+                                dataGridView2.Columns["Version"].HeaderText = "Version No.";
 
+                                dataGridView2.Columns["BackupId"].Visible = false;
                                 dataGridView2.Columns["OriginalFilePath"].Visible = false;
                                 dataGridView2.Columns["BackupFilePath"].Visible = false;
                                 dataGridView2.Columns["Id"].Visible = false;
@@ -859,8 +861,9 @@ namespace DSD_WinformsApp.View
                 string downloadsPath = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile);
                 string destinationFilePath = Path.Combine(downloadsPath, "Downloads", Path.ChangeExtension(selectedDocument.Filename, ".pdf"));
 
-                if (Path.GetExtension(selectedDocument.Filename).Equals(".docx", StringComparison.OrdinalIgnoreCase) ||
-                    Path.GetExtension(selectedDocument.Filename).Equals(".doc", StringComparison.OrdinalIgnoreCase))
+                string fileExtension = selectedDocument.FilenameExtension.ToLower();
+
+                if (fileExtension == "docx" || fileExtension == "doc")
                 {
                     // Save the file data to a temporary file
                     string tempFilePath = Path.GetTempFileName();
@@ -873,17 +876,14 @@ namespace DSD_WinformsApp.View
                     // Specify the destination file with a ".pdf" extension
                     string pdfFilePath = Path.ChangeExtension(destinationFilePath, ".pdf");
 
-                    doc.SaveAs2(FileName: pdfFilePath, FileFormat: Microsoft.Office.Interop.Word.WdSaveFormat.wdFormatPDF);
+                    doc.SaveAs2(pdfFilePath, Microsoft.Office.Interop.Word.WdSaveFormat.wdFormatPDF);
                     doc.Close();
                     word.Quit();
 
                     // Delete the temporary file
                     File.Delete(tempFilePath);
-
                 }
-
-                else if (Path.GetExtension(selectedDocument.Filename).Equals(".xlsx", StringComparison.OrdinalIgnoreCase) ||
-                        Path.GetExtension(selectedDocument.Filename).Equals(".xls", StringComparison.OrdinalIgnoreCase))
+                else if (fileExtension == "xlsx" || fileExtension == "xls")
                 {
                     // Save the file data to a temporary file
                     string tempFilePath = Path.GetTempFileName();
@@ -901,14 +901,15 @@ namespace DSD_WinformsApp.View
 
                     File.Delete(tempFilePath); // Delete the temporary file
                 }
-
                 else
                 {
-                    File.WriteAllBytes(destinationFilePath, fileData); // Write the file data to the destination file
+                    // For other file types, simply write the file data to the destination file
+                    File.WriteAllBytes(destinationFilePath, fileData);
                 }
 
                 MessageBox.Show("Document downloaded successfully!", "Download Complete", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
+
             catch (Exception ex)
             {
                 MessageBox.Show($"Error downloading: {ex.Message}", "Download Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
@@ -927,6 +928,7 @@ namespace DSD_WinformsApp.View
 
                 string filePath = openFileDialog.FileName; // Get the full path of the selected file
                 string filePathFilename = Path.GetFileNameWithoutExtension(filePath);
+
 
                 // Check if the selected file is different from the current file
                 if (!string.Equals(filePathFilename, filenameTextBox.Text, StringComparison.OrdinalIgnoreCase))
@@ -1034,11 +1036,11 @@ namespace DSD_WinformsApp.View
             dataGridViewManageUsers.Columns["UserRole"].DisplayIndex = 5;
 
             // Set the column widths
-            dataGridViewManageUsers.Columns["Firstname"].Width = 155;
-            dataGridViewManageUsers.Columns["Lastname"].Width = 155;
-            dataGridViewManageUsers.Columns["EmailAddress"].Width = 250;
-            dataGridViewManageUsers.Columns["JobTitle"].Width = 250;
-            dataGridViewManageUsers.Columns["UserRole"].Width = 130;
+            dataGridViewManageUsers.Columns["Firstname"].Width = 175;
+            dataGridViewManageUsers.Columns["Lastname"].Width = 175;
+            dataGridViewManageUsers.Columns["EmailAddress"].Width = 320;
+            dataGridViewManageUsers.Columns["JobTitle"].Width = 230;
+            dataGridViewManageUsers.Columns["UserRole"].Width = 150;
 
             dataGridViewManageUsers.Columns["Firstname"].Visible = true;
             dataGridViewManageUsers.Columns["Lastname"].Visible = true;
@@ -1052,11 +1054,11 @@ namespace DSD_WinformsApp.View
             dataGridViewManageUsers.Columns["Username"].Visible = false;
 
             // Display name for headertext
-            dataGridViewManageUsers.Columns["Firstname"].HeaderText = "First Name";
-            dataGridViewManageUsers.Columns["Lastname"].HeaderText = "Last Name";
-            dataGridViewManageUsers.Columns["EmailAddress"].HeaderText = "Email Address";
-            dataGridViewManageUsers.Columns["JobTitle"].HeaderText = "Job Title";
-            dataGridViewManageUsers.Columns["UserRole"].HeaderText = "User Role";
+            dataGridViewManageUsers.Columns["Firstname"].HeaderText = "FIRST NAME";
+            dataGridViewManageUsers.Columns["Lastname"].HeaderText = "LAST NAME";
+            dataGridViewManageUsers.Columns["EmailAddress"].HeaderText = "EMAIL ADDRESS";
+            dataGridViewManageUsers.Columns["JobTitle"].HeaderText = "JOB TITLE";
+            dataGridViewManageUsers.Columns["UserRole"].HeaderText = "USER ROLE";
 
         }
 
@@ -1187,6 +1189,7 @@ namespace DSD_WinformsApp.View
             panelManageUsers.Visible = true;
         }
 
+        // event when user fields was changed
         private void TextBox_TextChanged(object? sender, EventArgs e)
         {
             Control textBox = (Control)sender;
@@ -1201,11 +1204,13 @@ namespace DSD_WinformsApp.View
                 {
                     // Enable the Save button when changes are detected
                     buttonUsersDetailSave.Enabled = true;
+                    buttonUsersDetailSave.BackColor = ColorTranslator.FromHtml("#05982E");
                 }
                 else
                 {
                     // Disable the Save button when there are no changes
                     buttonUsersDetailSave.Enabled = false;
+                    buttonUsersDetailSave.BackColor = SystemColors.Control;
                 }
             }
         }
@@ -1218,11 +1223,13 @@ namespace DSD_WinformsApp.View
             if (originalCheckBoxState != checkBoxEnableAdmin.Checked)
             {
                 buttonUsersDetailSave.Enabled = true;
+                buttonUsersDetailSave.BackColor = ColorTranslator.FromHtml("#05982E");
             }
             else
             {
                 // Disable the Save button when the checkbox state is the same as the original
                 buttonUsersDetailSave.Enabled = false;
+                buttonUsersDetailSave.BackColor = SystemColors.Control;
             }
         }
 

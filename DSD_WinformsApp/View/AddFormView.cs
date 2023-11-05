@@ -55,7 +55,7 @@ namespace DSD_WinformsApp.View
             //btnCancel = new CustomButton(ColorTranslator.FromHtml("#DA0B0B"), SystemColors.Control);
             //buttonUploadFile = new CustomButton(ColorTranslator.FromHtml("#A5D7E8"), SystemColors.Control);
 
-            buttonUploadFile.BackColor = ColorTranslator.FromHtml("#A5D7E8");
+            buttonUploadDocs.BackColor = ColorTranslator.FromHtml("#A5D7E8");
             btnCancel.BackColor = ColorTranslator.FromHtml("#DA0B0B");
 
 
@@ -126,7 +126,9 @@ namespace DSD_WinformsApp.View
             // Create an instance of DocumentDto to hold the data
             var documentDto = new DocumentDto
             {
-                Filename = labelFilename.Text,
+               // Filename = labelFilename.Text,
+                Filename = labelDocumentNameWithExtension.Text.Split('.')[0],
+                FilenameExtension = labelDocumentNameWithExtension.Text.Split('.')[1],
                 DocumentVersion = textBoxDocumentVersion.Text.ToUpper(),
                 Category = cmbCategories.SelectedItem?.ToString() ?? "",
                 Status = cmbStatus.SelectedItem?.ToString() ?? "",
@@ -135,11 +137,11 @@ namespace DSD_WinformsApp.View
                 CreatedDate = DateTime.Now.Date,
                 ModifiedDate = DateTime.Now.Date,
             };
-            
+
             _presenter.SaveDocument(documentDto, fileDataBytes); // Use the presenter to save the document with file data
 
             _presenter.AddNewDocument(documentDto); // Inform the presenter about the new document
-           
+
             await _presenter.LoadDocumentsByFilter(currentSearchQuery, currentFilterCategory);  // Load the documents again to update the view
 
             DialogResult = DialogResult.OK; // Close the form and return DialogResult.OK
@@ -151,7 +153,7 @@ namespace DSD_WinformsApp.View
             DialogResult = DialogResult.Cancel;
         }
 
-        private async void buttonUploadFile_Click(object? sender, EventArgs e)
+        private async void buttonUploadDocs_Click(object? sender, EventArgs e)
         {
             OpenFileDialog openFileDialog = new OpenFileDialog();
             openFileDialog.Filter = "All Files|*.*";
@@ -171,6 +173,10 @@ namespace DSD_WinformsApp.View
                 // Display only the file name without the extension in the label and the TextBox
                 string fileNameWithoutExtension = Path.GetFileNameWithoutExtension(openFileDialog.FileName);
                 labelFilename.Text = fileNameWithoutExtension;
+
+                // Get filename with extension
+                string fileNameWithExtension = Path.GetFileName(openFileDialog.FileName);
+                labelDocumentNameWithExtension.Text = fileNameWithExtension;
 
 
                 // Check for duplicate file name in the repository
@@ -205,7 +211,7 @@ namespace DSD_WinformsApp.View
 
             if (string.IsNullOrWhiteSpace(labelFilename.Text))
             {
-                errorProvider.SetError(buttonUploadFile, "Upload file is required.");
+                errorProvider.SetError(buttonUploadDocs, "Upload file is required.");
                 isValid = false;
             }
 

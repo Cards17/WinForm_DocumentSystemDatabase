@@ -36,8 +36,9 @@ namespace DSD_WinformsApp.Infrastructure.Data.Services
         public void CreateDocument(DocumentDto document, byte[] fileDataBytes)
         {
             var documentModel = _mapper.Map<DocumentDto, DocumentModel>(document);
-            var fileName = document.Filename; // Retain the original file name
-            var filePath = Path.Combine(@"C:\Users\ricardo.piquero.jr\source\repos\DSD Solution\DSD_WinformsApp\Resources\UploadedFiles", fileName);
+            var fileName = document.Filename;
+            var fileNameExtension = document.FilenameExtension;
+            var filePath = Path.Combine(@"C:\Users\ricardo.piquero.jr\source\repos\DSD Solution\DSD_WinformsApp\Resources\UploadedFiles", fileName + "." + fileNameExtension);
 
             // Save the file to the server
             File.WriteAllBytes(filePath, fileDataBytes);

@@ -16,6 +16,7 @@ namespace DSD_WinformsApp.Core.DTOs
 
         [MaxLength(150)]
         public string Filename { get; set; } = string.Empty;
+        public string FilenameExtension { get; set; } = string.Empty;
         public string Category { get; set; } = string.Empty;
         public string Status { get; set; } = string.Empty;
         public DateTime CreatedDate { get; set; } = DateTime.Now.Date;
