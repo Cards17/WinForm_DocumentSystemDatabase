@@ -242,7 +242,7 @@ namespace DSD_WinformsApp.Presenter
             try
             {
                 // Delete the backup files associated with the document
-                await _backUpFileRepository.DeleteBackupFiles(document.Id);
+                await _backUpFileRepository.DeleteBasedOnDocumentId(document.Id);
 
                 // Delete the document using the repository
                 bool isDeleted = await _documentRepository.DeleteDocument(document.Id);
@@ -260,7 +260,7 @@ namespace DSD_WinformsApp.Presenter
             try
             {
                 // Delete the document using the repository
-                bool isDeleted = await _backUpFileRepository.DeleteBackupFiles(file.Id);
+                bool isDeleted = await _backUpFileRepository.DeleteBasedBackupDocumentId(file.BackupId);
 
                 if (isDeleted)
                 {

@@ -251,41 +251,6 @@ namespace DSD_WinformsApp.View
             }
         }
 
-        //Event method when delete button was clicked
-        /* private async void dataGridView1_DeleteButton_CellClick(object? sender, DataGridViewCellEventArgs e)
-        {
-            if (e.RowIndex >= 0 && e.ColumnIndex == dataGridView1.Columns["Delete"].Index)
-            {
- 
-                DocumentDto selectedDocument = (DocumentDto)dataGridView1.Rows[e.RowIndex].DataBoundItem;
-                // Show the delete confirmation modal directly in the main form.
-                DialogResult result = MessageBox.Show("Are you sure you want to delete the selected document?", "Delete Confirmation", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
-
-                if (result == DialogResult.Yes)
-                {
-
-                    // Delete the document and its backups from the database using the presenter
-                    await _presenter.DeleteDocumentWithBackups(selectedDocument);
-
-                    // Get the current search query and filter category
-                    var currentSearchQueryWhenItemDeleted = GetSearchQuery();
-                    var currentFilterCategoryWhenItemDeleted = GetFilterCategory();
-
-                    // Load the filtered documents again to update the view
-                    await _presenter.LoadDocumentsByFilter(currentSearchQueryWhenItemDeleted, currentFilterCategoryWhenItemDeleted);
-
-                }
-                else
-                {
-                    // User clicked "No" or closed the dialog, cancel the deletion
-                    // Add any additional logic if needed.
-                }
-
-                
-            }
-        }
-        */
-
         private async void ShowDocumentDetailsModal(DocumentDto selectedDocument)
         {
             // check user access base on labelHomePageUserLogin in document page.
@@ -538,14 +503,14 @@ namespace DSD_WinformsApp.View
 
             // Display Columns in datagridview2
             dataGridView2.Columns["DocumentVersion"].Width = 170;
-            dataGridView2.Columns["Filename"].Width = 300;
-            dataGridView2.Columns["BackupDate"].Width = 100;
-            dataGridView2.Columns["Version"].Width = 85;
+            dataGridView2.Columns["Filename"].Width = 330;
+            dataGridView2.Columns["BackupDate"].Width = 120;
+            dataGridView2.Columns["Version"].Width = 100;
 
             dataGridView2.Columns["DocumentVersion"].HeaderText = "Document No.";
             dataGridView2.Columns["Filename"].HeaderText = "Document Title";
             dataGridView2.Columns["BackupDate"].HeaderText = "Date";
-            dataGridView2.Columns["Version"].HeaderText = "Version #";
+            dataGridView2.Columns["Version"].HeaderText = "Version No.";
 
             dataGridView2.Columns["BackupId"].Visible = false;
             dataGridView2.Columns["OriginalFilePath"].Visible = false;
@@ -592,7 +557,7 @@ namespace DSD_WinformsApp.View
                             File.Copy(sourceFilePath, destinationFilePath, true);
 
                             // Show a message to indicate the download completion
-                            MessageBox.Show("File downloaded successfully!", "Download Complete", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                            MessageBox.Show($"{filenameTextBox.Text} downloaded successfully!", "Download Complete", MessageBoxButtons.OK, MessageBoxIcon.Information);
                         }
                         catch (Exception ex)
                         {
@@ -696,10 +661,6 @@ namespace DSD_WinformsApp.View
             saveButton.Width = closeButton.Width;
             saveButton.Enabled = false; // Disable the Save button initially
 
-
-
-
-
             // Create a dictionary to store the original values of the TextBoxes
             var originalTextBoxValues = new Dictionary<TextBox, string>();
 
@@ -713,6 +674,7 @@ namespace DSD_WinformsApp.View
                 byte[] fileDataBytes = isNewFileUploaded ? File.ReadAllBytes(filePath) : selectedDocument.FileData;
 
                 // Get the modified data from the TextBoxes and ComboBoxes
+                string documentVersion = documentVersionTextBox.Text;
                 string filename = filenameTextBox.Text;
                 string category = categoryComboBox.Text;
                 string status = statusComboBox.Text;
@@ -733,6 +695,7 @@ namespace DSD_WinformsApp.View
                 DocumentDto modifiedDocument = new DocumentDto
                 {
                     Id = selectedDocument.Id,
+                    DocumentVersion = documentVersion,
                     Filename = filename,
                     Category = category,
                     Status = status,
@@ -743,19 +706,14 @@ namespace DSD_WinformsApp.View
                     Notes = notes
                 };
 
-                // Save the modified document to the database using the presenter
-                _presenter.EditDocument(modifiedDocument, fileDataBytes);
+                _presenter.EditDocument(modifiedDocument, fileDataBytes); // Edit the document in the database
 
-                // Load the documents again to update the view
-                await _presenter.LoadDocuments();
+                await _presenter.LoadDocuments(); // Load the documents again to update the view
 
-                // Show a confirmation dialog
-                var result = MessageBox.Show("Document has been updated.", "Confirmation", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
-                // Check if the user clicked "Yes"
-                if (result == DialogResult.Yes)
+                var result = MessageBox.Show($"{filenameTextBox.Text} details have been updated.", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information); // Show a message to indicate that the document has been updated.                                                                                                                                                   
+                if (result == DialogResult.OK)
                 {
-                    // Close the DetailsForm (current form) to go back to MainView
-                    detailsForm.Close();
+                    detailsForm.Close(); // Close the detailsForm
                 }
 
                 // After saving, make the TextBoxes read-only again
@@ -1456,7 +1414,5 @@ namespace DSD_WinformsApp.View
         {
             Application.Exit();
         }
-
-
     }
 }

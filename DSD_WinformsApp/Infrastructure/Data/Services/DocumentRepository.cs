@@ -90,6 +90,7 @@ namespace DSD_WinformsApp.Infrastructure.Data.Services
             }
 
             // Update properties of the existing document with the data from the updatedDocument DTO
+            existingDocument.DocumentVersion = updatedDocument.DocumentVersion;
             existingDocument.Filename = updatedDocument.Filename;
             existingDocument.Category = updatedDocument.Category;
             existingDocument.Status = updatedDocument.Status;
@@ -116,18 +117,17 @@ namespace DSD_WinformsApp.Infrastructure.Data.Services
                 File.Move(existingDocument.FilePath, backupFilePath);
 
                 // Calculate the new version for the next backup
-                var existingBackups = _dbContext.BackupFiles.Where(x => x.Id == existingDocument.Id).ToList();
-                var newVersion = existingBackups.Any() ? existingBackups.Max(x => x.Version) + 1.0: 0;
+                var latestBackupVersion = _dbContext.BackupFiles
+                    .Where(x => x.Id == existingDocument.Id)
+                    .OrderByDescending(x => x.Version)
+                    .FirstOrDefault();
 
-            
-                foreach (var existingBackup in existingBackups)
-                {
-                    existingBackup.Version = newVersion; 
-                }
+                var newVersion = latestBackupVersion != null ? latestBackupVersion.Version + 1.0 : 0;
 
                 // Create a new BackupFile record
                 var newBackupFile = new BackUpFileModel
                 {
+                    DocumentVersion = existingDocument.DocumentVersion,
                     Filename = backupFileName,
                     OriginalFilePath = existingDocument.FilePath,
                     BackupFilePath = backupFilePath,

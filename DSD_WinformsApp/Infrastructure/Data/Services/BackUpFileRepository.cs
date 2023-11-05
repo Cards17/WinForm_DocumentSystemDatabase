@@ -33,7 +33,7 @@ namespace DSD_WinformsApp.Infrastructure.Data.Services
             return backUpFiles;
         }
 
-        public async Task<bool> DeleteBackupFiles(int documentId)
+        public async Task<bool> DeleteBasedOnDocumentId(int documentId)
         {
             try
             {
@@ -59,6 +59,38 @@ namespace DSD_WinformsApp.Infrastructure.Data.Services
             }
 
         }
+
+        public async Task<bool> DeleteBasedBackupDocumentId(int backupDocumentId)
+        {
+            try
+            {
+                var backupFileToDelete = await _dbContext.BackupFiles
+                    .Where(b => b.BackupId == backupDocumentId)
+                    .FirstOrDefaultAsync();
+
+                if (backupFileToDelete != null)
+                {
+                    // Delete the backup file from the file system
+                    File.Delete(backupFileToDelete.BackupFilePath);
+
+                    // Remove the backup file from the database
+                    _dbContext.BackupFiles.Remove(backupFileToDelete);
+                    _dbContext.SaveChanges();
+
+                    return true;
+                }
+                else
+                {
+                    // Backup file with the specified ID not found
+                    return false;
+                }
+            }
+            catch (Exception)
+            {
+                return false;
+            }
+        }
+
 
     }
 }
