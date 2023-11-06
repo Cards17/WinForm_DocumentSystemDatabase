@@ -17,15 +17,15 @@ namespace DSD_WinformsApp.View
     public partial class LoginFormView : Form
     {
         private readonly IDocumentPresenter _presenter;
-        private readonly IDocumentView _documentView;
+        private readonly IUnitOfWork _unitOfWork;
 
         private ErrorProvider errorProvider = null!;
 
-        public LoginFormView(IDocumentPresenter presenter, IDocumentView documentView)
+        public LoginFormView(IDocumentPresenter presenter, IUnitOfWork unitOfWork)
         {
             InitializeComponent();
-            _documentView = documentView;
             _presenter = presenter;
+            _unitOfWork = unitOfWork;
 
             errorProvider = new ErrorProvider(); // Initialize the ErrorProvider component
 
@@ -158,15 +158,10 @@ namespace DSD_WinformsApp.View
 
                 bool isValidCredentials = await _presenter.ValidateUserCredentials(userCredentials); // Use presenter to call the validate method
 
-
                 if (isValidCredentials)
                 {
-                    // clear the signin fields
-                    textBoxSignInUserName.Text = "";
-                    textBoxSignInPassword.Text = "";
-                    // remove the loginform
                     this.Hide();
-
+                    _presenter.ShowDocumentMainView(); // Show the document mainview
                 }
                 else
                 {

@@ -78,8 +78,8 @@ namespace DSD_WinformsApp.Presenter
             return allDocuments.Any(d => d.Filename == fileName);
         }
 
-        #region Document Page Pagination Methods
-        public void AddNewDocument(DocumentDto newDocument)
+    #region Document Page Pagination Methods
+    public void AddNewDocument(DocumentDto newDocument)
         {
             filteredDocuments.Add(newDocument);
             SetCurrentPageData();
@@ -156,7 +156,6 @@ namespace DSD_WinformsApp.Presenter
             List<DocumentDto> filteredDocuments = await _documentRepository.GetFilteredDocuments(searchQuery, filterCriteria);
             _mainDocumentView.BindDataMainView(filteredDocuments);
         }
-
         public async Task DownloadAllDocuments()
         {
             // Get all documents from the repository and save them to an Excel file
@@ -236,7 +235,6 @@ namespace DSD_WinformsApp.Presenter
         {
             return await _backUpFileRepository.GetRelatedBackupFiles(documentId);
         }
-
         public async Task<bool> DeleteDocumentWithBackups(DocumentDto document)
         {
             try
@@ -275,6 +273,10 @@ namespace DSD_WinformsApp.Presenter
             {
                 return false;
             }
+        }
+        public void ShowDocumentMainView()
+        {
+            _mainDocumentView.ShowDocumentView();
         }
 
         #endregion
@@ -392,11 +394,7 @@ namespace DSD_WinformsApp.Presenter
                         _mainDocumentView.ToggleAdminRights(false);
                     }
 
-                    _mainDocumentView.ShowDocumentView();
-
-
-                    // Return both the result and the username
-                    return true;
+                    return true; // User found
                 }
                 else
                 {

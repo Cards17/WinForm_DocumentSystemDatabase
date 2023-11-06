@@ -595,8 +595,9 @@ namespace DSD_WinformsApp.View
             labelHello.AutoSize = true;
             labelHello.Font = new Font("Segoe UI Semibold", 10F, FontStyle.Bold, GraphicsUnit.Point);
             labelHello.Location = new Point(1060, 33);
+            labelHello.MinimumSize = new Size(65, 36);
             labelHello.Name = "labelHello";
-            labelHello.Size = new Size(65, 28);
+            labelHello.Size = new Size(65, 36);
             labelHello.TabIndex = 11;
             labelHello.Text = "Hello,";
             labelHello.TextAlign = ContentAlignment.TopRight;
