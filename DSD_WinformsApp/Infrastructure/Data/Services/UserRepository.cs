@@ -65,18 +65,20 @@ namespace DSD_WinformsApp.Infrastructure.Data.Services
                         Firstname = user.Firstname,
                         Lastname = user.Lastname,
                         EmailAddress = user.EmailAddress,
-                        Password = user.Password
+                        Password = user.Password,
+                        UserName = user.UserName,
+                        UserRole = user.UserRole,
                     })
                     .FirstOrDefault();
             });
         }
 
-        public string GetUserRole(string emailAddress)
+        public string GetUserRole(string userName)
         {
             try
             {
                 var user = _dbContext.UserCredentials
-                    .FirstOrDefault(u => u.EmailAddress == emailAddress);
+                    .FirstOrDefault(u => u.UserName == userName);
 
                 if (user != null)
                 {

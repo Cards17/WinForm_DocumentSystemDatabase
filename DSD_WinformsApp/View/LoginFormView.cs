@@ -52,14 +52,21 @@ namespace DSD_WinformsApp.View
 
             textBoxSignInUserName.Focus(); // Set the focus to the textBoxFirstname control
 
-            //If sign-in panel is visible attach TextChanged event handlers to relevant controls
+            // If sign-in panel is visible attach TextChanged event handlers to relevant controls
             textBoxSignInUserName.TextChanged += Control_TextChanged;
             textBoxSignInPassword.TextChanged += Control_TextChanged;
 
-            buttonHideEyeIcon.Visible = false; // Hide the hide eye icon initially
-            buttonEyeIcon.Visible = true; // Show the eye icon initially
-            // set password char to * initially
+            // Visibilty of the sign-in eye icons
+            buttonHideEyeIcon.Visible = false;
+            buttonEyeIcon.Visible = true;
+
+            // Visibilty of the sign-up eye icons
+            buttonSignUpEyeIcon.Visible = true;
+            buttonSignUpHideIcon.Visible = false;
+
+            // Set password char to * initially
             textBoxSignInPassword.PasswordChar = '*';
+            textBoxPasswrd.PasswordChar = '*';
 
             SignInUI(); // Call the SignInUI method
         }
@@ -93,6 +100,7 @@ namespace DSD_WinformsApp.View
             // clear the textboxes
             textBoxFirstname.Text = "";
             textBoxLastname.Text = "";
+            textBoxUserJobTitle.Text = "";
             textBoxEmailAdd.Text = "";
             textBoxPasswrd.Text = "";
 
@@ -126,6 +134,7 @@ namespace DSD_WinformsApp.View
                 {
                     Firstname = textBoxFirstname.Text.Trim(),
                     Lastname = textBoxLastname.Text.Trim(),
+                    JobTitle = textBoxUserJobTitle.Text.Trim(),
                     EmailAddress = textBoxEmailAdd.Text.Trim(),
                     Password = textBoxPasswrd.Text.Trim(),
                     UserName = $"{textBoxFirstname.Text.Trim()} {textBoxLastname.Text.Trim()}"
@@ -133,9 +142,10 @@ namespace DSD_WinformsApp.View
 
                 _presenter.SaveUserRegistration(userCredentials); // Save the user registration using the presenter
                 MessageBox.Show("Registration successful.");
+
+                // Visibilty of the panels
                 panelSignUp.Visible = false;
                 panelSignIn.Visible = true;
-
             }
             catch (Exception ex)
             {
@@ -212,6 +222,11 @@ namespace DSD_WinformsApp.View
                     errorProvider.SetError(textBoxLastname, "Last Name is required.");
                     isValid = false;
                 }
+                if (string.IsNullOrWhiteSpace(textBoxUserJobTitle.Text))
+                {
+                    errorProvider.SetError(textBoxUserJobTitle, "Job Title is required.");
+                    isValid = false;
+                }
                 if (string.IsNullOrWhiteSpace(textBoxEmailAdd.Text))
                 {
                     errorProvider.SetError(textBoxEmailAdd, "Email Address is required.");
@@ -245,7 +260,6 @@ namespace DSD_WinformsApp.View
                 textBoxSignInPassword.PasswordChar = '\0';
                 buttonHideEyeIcon.Visible = true;
                 buttonEyeIcon.Visible = false;
-                // i want the tabindex be on password textbox when the eye icon is clicked
                 textBoxSignInPassword.TabIndex = 0;
 
             }
@@ -263,6 +277,30 @@ namespace DSD_WinformsApp.View
                 textBoxSignInPassword.TabIndex = 0;
             }
 
+        }
+
+        private void buttonSignUpHideIcon_Click(object sender, EventArgs e)
+        {
+            // Hide password from show to hide
+            if (textBoxPasswrd.PasswordChar == '\0')
+            {
+                textBoxPasswrd.PasswordChar = '*';
+                buttonSignUpHideIcon.Visible = false;
+                buttonSignUpEyeIcon.Visible = true;
+                textBoxPasswrd.TabIndex = 0;
+            }
+        }
+
+        private void buttonSignUpEyeIcon_Click(object sender, EventArgs e)
+        {
+            // Show password from hide to show
+            if (textBoxPasswrd.PasswordChar == '*')
+            {
+                textBoxPasswrd.PasswordChar = '\0';
+                buttonSignUpHideIcon.Visible = true;
+                buttonSignUpEyeIcon.Visible = false;
+                textBoxPasswrd.TabIndex = 0;
+            }
         }
     }
 

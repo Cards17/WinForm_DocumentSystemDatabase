@@ -98,8 +98,11 @@ namespace DSD_WinformsApp.View
             // dataGridView1
             // 
             dataGridView1.AllowUserToOrderColumns = true;
+            dataGridView1.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
+            dataGridView1.BackgroundColor = SystemColors.Window;
+            dataGridView1.BorderStyle = BorderStyle.None;
             dataGridView1.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridView1.Location = new Point(20, 130);
+            dataGridView1.Location = new Point(18, 130);
             dataGridView1.Name = "dataGridView1";
             dataGridView1.RowHeadersVisible = false;
             dataGridView1.RowHeadersWidth = 62;
@@ -145,6 +148,7 @@ namespace DSD_WinformsApp.View
             buttonManageUsers.TabIndex = 2;
             buttonManageUsers.Text = "Manage Users";
             buttonManageUsers.UseVisualStyleBackColor = false;
+            buttonManageUsers.Visible = false;
             buttonManageUsers.Click += buttonManageUsers_Click;
             // 
             // buttonDocument
@@ -179,6 +183,7 @@ namespace DSD_WinformsApp.View
             // 
             // panelDocumentButton
             // 
+            panelDocumentButton.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
             panelDocumentButton.BackColor = Color.FromArgb(165, 215, 232);
             panelDocumentButton.Controls.Add(labelDownloadAllDocs);
             panelDocumentButton.Controls.Add(linkLabelDownloadAllDocs);
@@ -217,6 +222,7 @@ namespace DSD_WinformsApp.View
             // 
             // labelDocumentPagination
             // 
+            labelDocumentPagination.Anchor = AnchorStyles.Top | AnchorStyles.Right;
             labelDocumentPagination.AutoSize = true;
             labelDocumentPagination.Font = new Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point);
             labelDocumentPagination.Location = new Point(1105, 750);
@@ -226,6 +232,7 @@ namespace DSD_WinformsApp.View
             // 
             // iconNext
             // 
+            iconNext.Anchor = AnchorStyles.Top | AnchorStyles.Right;
             iconNext.Cursor = Cursors.Hand;
             iconNext.Image = Properties.Resources.next;
             iconNext.Location = new Point(1218, 750);
@@ -238,6 +245,7 @@ namespace DSD_WinformsApp.View
             // 
             // iconBack
             // 
+            iconBack.Anchor = AnchorStyles.Top | AnchorStyles.Right;
             iconBack.Cursor = Cursors.Hand;
             iconBack.Image = Properties.Resources.back;
             iconBack.Location = new Point(1064, 750);
@@ -250,6 +258,7 @@ namespace DSD_WinformsApp.View
             // 
             // comboBoxCategoryDropdown
             // 
+            comboBoxCategoryDropdown.Anchor = AnchorStyles.Top | AnchorStyles.Right;
             comboBoxCategoryDropdown.Font = new Font("Segoe UI", 10F, FontStyle.Regular, GraphicsUnit.Point);
             comboBoxCategoryDropdown.FormattingEnabled = true;
             comboBoxCategoryDropdown.Location = new Point(1005, 50);
@@ -261,6 +270,7 @@ namespace DSD_WinformsApp.View
             // 
             // textBoxSearchBar
             // 
+            textBoxSearchBar.Anchor = AnchorStyles.Top | AnchorStyles.Right;
             textBoxSearchBar.Font = new Font("Segoe UI", 10F, FontStyle.Regular, GraphicsUnit.Point);
             textBoxSearchBar.Location = new Point(680, 50);
             textBoxSearchBar.Name = "textBoxSearchBar";
@@ -293,6 +303,7 @@ namespace DSD_WinformsApp.View
             // 
             // buttonSignOut
             // 
+            buttonSignOut.Anchor = AnchorStyles.Top | AnchorStyles.Right;
             buttonSignOut.BackColor = Color.FromArgb(218, 11, 11);
             buttonSignOut.Cursor = Cursors.Hand;
             buttonSignOut.Font = new Font("Segoe UI Semibold", 10F, FontStyle.Bold, GraphicsUnit.Point);
@@ -306,6 +317,7 @@ namespace DSD_WinformsApp.View
             // 
             // panelManageUsers
             // 
+            panelManageUsers.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
             panelManageUsers.BackColor = Color.FromArgb(165, 215, 232);
             panelManageUsers.Controls.Add(labelUsersPagination);
             panelManageUsers.Controls.Add(comboBox_JobCategory);
@@ -321,6 +333,7 @@ namespace DSD_WinformsApp.View
             // 
             // labelUsersPagination
             // 
+            labelUsersPagination.Anchor = AnchorStyles.Top | AnchorStyles.Right;
             labelUsersPagination.AutoSize = true;
             labelUsersPagination.Font = new Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point);
             labelUsersPagination.Location = new Point(1107, 754);
@@ -330,6 +343,8 @@ namespace DSD_WinformsApp.View
             // 
             // comboBox_JobCategory
             // 
+            comboBox_JobCategory.Anchor = AnchorStyles.Top | AnchorStyles.Right;
+            comboBox_JobCategory.AutoCompleteMode = AutoCompleteMode.SuggestAppend;
             comboBox_JobCategory.FormattingEnabled = true;
             comboBox_JobCategory.Location = new Point(700, 50);
             comboBox_JobCategory.Name = "comboBox_JobCategory";
@@ -340,6 +355,7 @@ namespace DSD_WinformsApp.View
             // 
             // textBoxUsersSearchBox
             // 
+            textBoxUsersSearchBox.Anchor = AnchorStyles.Top | AnchorStyles.Right;
             textBoxUsersSearchBox.Location = new Point(1004, 50);
             textBoxUsersSearchBox.Name = "textBoxUsersSearchBox";
             textBoxUsersSearchBox.PlaceholderText = "Search User Name";
@@ -349,6 +365,7 @@ namespace DSD_WinformsApp.View
             // 
             // pictureBoxUsersNextIcon
             // 
+            pictureBoxUsersNextIcon.Anchor = AnchorStyles.Top | AnchorStyles.Right;
             pictureBoxUsersNextIcon.Cursor = Cursors.Hand;
             pictureBoxUsersNextIcon.Image = Properties.Resources.next;
             pictureBoxUsersNextIcon.Location = new Point(1218, 750);
@@ -361,6 +378,7 @@ namespace DSD_WinformsApp.View
             // 
             // pictureBoxUsersBackIcon
             // 
+            pictureBoxUsersBackIcon.Anchor = AnchorStyles.Top | AnchorStyles.Right;
             pictureBoxUsersBackIcon.Cursor = Cursors.Hand;
             pictureBoxUsersBackIcon.Image = Properties.Resources.back;
             pictureBoxUsersBackIcon.Location = new Point(1064, 750);
@@ -373,6 +391,9 @@ namespace DSD_WinformsApp.View
             // 
             // dataGridViewManageUsers
             // 
+            dataGridViewManageUsers.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
+            dataGridViewManageUsers.BackgroundColor = SystemColors.Window;
+            dataGridViewManageUsers.BorderStyle = BorderStyle.None;
             dataGridViewManageUsers.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             dataGridViewManageUsers.Cursor = Cursors.Hand;
             dataGridViewManageUsers.Location = new Point(18, 130);
@@ -386,6 +407,7 @@ namespace DSD_WinformsApp.View
             // 
             // panelUserDetails
             // 
+            panelUserDetails.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
             panelUserDetails.BackColor = Color.FromArgb(165, 215, 232);
             panelUserDetails.Controls.Add(panelUserDetails2);
             panelUserDetails.Location = new Point(250, 80);
@@ -411,7 +433,7 @@ namespace DSD_WinformsApp.View
             panelUserDetails2.Controls.Add(labelLastName);
             panelUserDetails2.Controls.Add(labelJobTitle);
             panelUserDetails2.Controls.Add(labelEmailAddress);
-            panelUserDetails2.Location = new Point(80, 50);
+            panelUserDetails2.Location = new Point(150, 50);
             panelUserDetails2.Name = "panelUserDetails2";
             panelUserDetails2.Size = new Size(1010, 750);
             panelUserDetails2.TabIndex = 6;
@@ -553,8 +575,12 @@ namespace DSD_WinformsApp.View
             // 
             // panelHome
             // 
+            panelHome.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
+            panelHome.AutoSize = true;
             panelHome.BackColor = Color.FromArgb(165, 215, 232);
             panelHome.Controls.Add(labelHomePage);
+            panelHome.Font = new Font("Segoe UI Semibold", 10F, FontStyle.Bold, GraphicsUnit.Point);
+            panelHome.ForeColor = Color.White;
             panelHome.Location = new Point(250, 80);
             panelHome.Name = "panelHome";
             panelHome.Size = new Size(1550, 830);
@@ -562,9 +588,10 @@ namespace DSD_WinformsApp.View
             // 
             // labelHomePage
             // 
+            labelHomePage.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
             labelHomePage.AutoSize = true;
             labelHomePage.Font = new Font("Segoe UI", 32F, FontStyle.Regular, GraphicsUnit.Point);
-            labelHomePage.Location = new Point(170, 314);
+            labelHomePage.Location = new Point(300, 150);
             labelHomePage.Name = "labelHomePage";
             labelHomePage.Size = new Size(832, 86);
             labelHomePage.TabIndex = 0;
@@ -578,12 +605,14 @@ namespace DSD_WinformsApp.View
             labelHomePageUserLogin.Name = "labelHomePageUserLogin";
             labelHomePageUserLogin.Size = new Size(0, 28);
             labelHomePageUserLogin.TabIndex = 9;
+            labelHomePageUserLogin.Visible = false;
             // 
             // labelFooter
             // 
+            labelFooter.Anchor = AnchorStyles.Top;
             labelFooter.AutoSize = true;
             labelFooter.Font = new Font("Segoe UI Semibold", 10F, FontStyle.Bold, GraphicsUnit.Point);
-            labelFooter.Location = new Point(667, 925);
+            labelFooter.Location = new Point(700, 925);
             labelFooter.Name = "labelFooter";
             labelFooter.Size = new Size(381, 28);
             labelFooter.TabIndex = 10;
@@ -591,10 +620,10 @@ namespace DSD_WinformsApp.View
             // 
             // labelHello
             // 
-            labelHello.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
+            labelHello.Anchor = AnchorStyles.Top | AnchorStyles.Right;
             labelHello.AutoSize = true;
             labelHello.Font = new Font("Segoe UI Semibold", 10F, FontStyle.Bold, GraphicsUnit.Point);
-            labelHello.Location = new Point(1060, 33);
+            labelHello.Location = new Point(1100, 33);
             labelHello.MinimumSize = new Size(65, 36);
             labelHello.Name = "labelHello";
             labelHello.Size = new Size(65, 36);
@@ -613,10 +642,10 @@ namespace DSD_WinformsApp.View
             Controls.Add(labelHomePageUserLogin);
             Controls.Add(buttonSignOut);
             Controls.Add(panel1);
-            Controls.Add(panelHome);
             Controls.Add(panelUserDetails);
             Controls.Add(panelDocumentButton);
             Controls.Add(panelManageUsers);
+            Controls.Add(panelHome);
             Icon = (Icon)resources.GetObject("$this.Icon");
             Name = "DocumentMainView";
             Text = "Main Page";

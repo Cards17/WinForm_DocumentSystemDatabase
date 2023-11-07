@@ -35,16 +35,19 @@
             labelSignIn = new Label();
             linkLabelSignInToSignUp = new LinkLabel();
             panelSignIn = new Panel();
-            buttonHideEyeIcon = new Button();
             buttonEyeIcon = new Button();
+            buttonHideEyeIcon = new Button();
             panelSignUp = new Panel();
+            textBoxUserJobTitle = new TextBox();
             buttonBackToSignIn = new Button();
             buttonSignUp = new Button();
-            textBoxPasswrd = new TextBox();
             textBoxEmailAdd = new TextBox();
             textBoxLastname = new TextBox();
             labelSIgnUp = new Label();
             textBoxFirstname = new TextBox();
+            buttonSignUpEyeIcon = new Button();
+            buttonSignUpHideIcon = new Button();
+            textBoxPasswrd = new TextBox();
             panelSignIn.SuspendLayout();
             panelSignUp.SuspendLayout();
             SuspendLayout();
@@ -56,7 +59,7 @@
             textBoxSignInUserName.MinimumSize = new Size(350, 45);
             textBoxSignInUserName.Multiline = true;
             textBoxSignInUserName.Name = "textBoxSignInUserName";
-            textBoxSignInUserName.PlaceholderText = "Username";
+            textBoxSignInUserName.PlaceholderText = "     Username";
             textBoxSignInUserName.Size = new Size(350, 45);
             textBoxSignInUserName.TabIndex = 0;
             // 
@@ -67,7 +70,7 @@
             textBoxSignInPassword.MaximumSize = new Size(350, 45);
             textBoxSignInPassword.Multiline = true;
             textBoxSignInPassword.Name = "textBoxSignInPassword";
-            textBoxSignInPassword.PlaceholderText = "Password";
+            textBoxSignInPassword.PlaceholderText = "     Password";
             textBoxSignInPassword.Size = new Size(350, 45);
             textBoxSignInPassword.TabIndex = 1;
             // 
@@ -108,35 +111,17 @@
             // 
             // panelSignIn
             // 
-            panelSignIn.Controls.Add(buttonHideEyeIcon);
             panelSignIn.Controls.Add(buttonEyeIcon);
             panelSignIn.Controls.Add(labelSignIn);
             panelSignIn.Controls.Add(button_SignInButton);
             panelSignIn.Controls.Add(textBoxSignInPassword);
             panelSignIn.Controls.Add(textBoxSignInUserName);
             panelSignIn.Controls.Add(linkLabelSignInToSignUp);
+            panelSignIn.Controls.Add(buttonHideEyeIcon);
             panelSignIn.Location = new Point(30, 35);
             panelSignIn.Name = "panelSignIn";
             panelSignIn.Size = new Size(539, 538);
             panelSignIn.TabIndex = 8;
-            // 
-            // buttonHideEyeIcon
-            // 
-            buttonHideEyeIcon.BackColor = Color.White;
-            buttonHideEyeIcon.BackgroundImage = (Image)resources.GetObject("buttonHideEyeIcon.BackgroundImage");
-            buttonHideEyeIcon.BackgroundImageLayout = ImageLayout.Stretch;
-            buttonHideEyeIcon.Cursor = Cursors.Hand;
-            buttonHideEyeIcon.FlatAppearance.BorderColor = Color.White;
-            buttonHideEyeIcon.FlatAppearance.BorderSize = 0;
-            buttonHideEyeIcon.FlatStyle = FlatStyle.Flat;
-            buttonHideEyeIcon.Font = new Font("Segoe UI", 10F, FontStyle.Regular, GraphicsUnit.Point);
-            buttonHideEyeIcon.Location = new Point(416, 196);
-            buttonHideEyeIcon.Name = "buttonHideEyeIcon";
-            buttonHideEyeIcon.Size = new Size(36, 30);
-            buttonHideEyeIcon.TabIndex = 3;
-            buttonHideEyeIcon.TabStop = false;
-            buttonHideEyeIcon.UseVisualStyleBackColor = false;
-            buttonHideEyeIcon.Click += buttonHideEyeIcon_Click;
             // 
             // buttonEyeIcon
             // 
@@ -156,83 +141,106 @@
             buttonEyeIcon.UseVisualStyleBackColor = false;
             buttonEyeIcon.Click += buttonEyeIcon_Click;
             // 
+            // buttonHideEyeIcon
+            // 
+            buttonHideEyeIcon.BackColor = Color.White;
+            buttonHideEyeIcon.BackgroundImage = (Image)resources.GetObject("buttonHideEyeIcon.BackgroundImage");
+            buttonHideEyeIcon.BackgroundImageLayout = ImageLayout.Stretch;
+            buttonHideEyeIcon.Cursor = Cursors.Hand;
+            buttonHideEyeIcon.FlatAppearance.BorderColor = Color.White;
+            buttonHideEyeIcon.FlatAppearance.BorderSize = 0;
+            buttonHideEyeIcon.FlatStyle = FlatStyle.Flat;
+            buttonHideEyeIcon.Font = new Font("Segoe UI", 10F, FontStyle.Regular, GraphicsUnit.Point);
+            buttonHideEyeIcon.Location = new Point(416, 196);
+            buttonHideEyeIcon.Name = "buttonHideEyeIcon";
+            buttonHideEyeIcon.Size = new Size(36, 30);
+            buttonHideEyeIcon.TabIndex = 3;
+            buttonHideEyeIcon.TabStop = false;
+            buttonHideEyeIcon.UseVisualStyleBackColor = false;
+            buttonHideEyeIcon.Click += buttonHideEyeIcon_Click;
+            // 
             // panelSignUp
             // 
+            panelSignUp.Controls.Add(textBoxUserJobTitle);
             panelSignUp.Controls.Add(buttonBackToSignIn);
             panelSignUp.Controls.Add(buttonSignUp);
-            panelSignUp.Controls.Add(textBoxPasswrd);
             panelSignUp.Controls.Add(textBoxEmailAdd);
             panelSignUp.Controls.Add(textBoxLastname);
             panelSignUp.Controls.Add(labelSIgnUp);
             panelSignUp.Controls.Add(textBoxFirstname);
-            panelSignUp.Location = new Point(30, 35);
+            panelSignUp.Controls.Add(buttonSignUpEyeIcon);
+            panelSignUp.Controls.Add(buttonSignUpHideIcon);
+            panelSignUp.Controls.Add(textBoxPasswrd);
+            panelSignUp.Location = new Point(31, 35);
             panelSignUp.Name = "panelSignUp";
             panelSignUp.Size = new Size(539, 541);
             panelSignUp.TabIndex = 5;
             // 
+            // textBoxUserJobTitle
+            // 
+            textBoxUserJobTitle.Font = new Font("Segoe UI", 10F, FontStyle.Regular, GraphicsUnit.Point);
+            textBoxUserJobTitle.Location = new Point(45, 207);
+            textBoxUserJobTitle.MinimumSize = new Size(440, 45);
+            textBoxUserJobTitle.Multiline = true;
+            textBoxUserJobTitle.Name = "textBoxUserJobTitle";
+            textBoxUserJobTitle.PlaceholderText = "     Job Title";
+            textBoxUserJobTitle.Size = new Size(440, 45);
+            textBoxUserJobTitle.TabIndex = 3;
+            // 
             // buttonBackToSignIn
             // 
+            buttonBackToSignIn.BackColor = Color.Gray;
             buttonBackToSignIn.Cursor = Cursors.Hand;
-            buttonBackToSignIn.Font = new Font("Segoe UI", 10F, FontStyle.Regular, GraphicsUnit.Point);
-            buttonBackToSignIn.Location = new Point(45, 450);
+            buttonBackToSignIn.Font = new Font("Segoe UI Semibold", 10F, FontStyle.Bold, GraphicsUnit.Point);
+            buttonBackToSignIn.Location = new Point(335, 434);
             buttonBackToSignIn.Name = "buttonBackToSignIn";
-            buttonBackToSignIn.Size = new Size(440, 45);
+            buttonBackToSignIn.Size = new Size(150, 45);
             buttonBackToSignIn.TabIndex = 6;
             buttonBackToSignIn.Text = "Back";
-            buttonBackToSignIn.UseVisualStyleBackColor = true;
+            buttonBackToSignIn.UseVisualStyleBackColor = false;
             buttonBackToSignIn.Click += buttonBackToSignIn_Click;
             // 
             // buttonSignUp
             // 
             buttonSignUp.Cursor = Cursors.Hand;
-            buttonSignUp.Font = new Font("Segoe UI", 10F, FontStyle.Regular, GraphicsUnit.Point);
-            buttonSignUp.Location = new Point(45, 385);
+            buttonSignUp.Font = new Font("Segoe UI Semibold", 10F, FontStyle.Bold, GraphicsUnit.Point);
+            buttonSignUp.Location = new Point(141, 434);
             buttonSignUp.Name = "buttonSignUp";
-            buttonSignUp.Size = new Size(440, 45);
+            buttonSignUp.Size = new Size(150, 45);
             buttonSignUp.TabIndex = 5;
             buttonSignUp.Text = "Sign Up";
             buttonSignUp.UseVisualStyleBackColor = true;
             buttonSignUp.Click += buttonSignUp_Click;
             // 
-            // textBoxPasswrd
-            // 
-            textBoxPasswrd.Font = new Font("Segoe UI", 10F, FontStyle.Regular, GraphicsUnit.Point);
-            textBoxPasswrd.Location = new Point(45, 285);
-            textBoxPasswrd.MinimumSize = new Size(440, 45);
-            textBoxPasswrd.Multiline = true;
-            textBoxPasswrd.Name = "textBoxPasswrd";
-            textBoxPasswrd.PlaceholderText = "Password";
-            textBoxPasswrd.Size = new Size(440, 45);
-            textBoxPasswrd.TabIndex = 4;
-            // 
             // textBoxEmailAdd
             // 
-            textBoxEmailAdd.Location = new Point(45, 220);
+            textBoxEmailAdd.Font = new Font("Segoe UI", 10F, FontStyle.Regular, GraphicsUnit.Point);
+            textBoxEmailAdd.Location = new Point(45, 266);
             textBoxEmailAdd.MinimumSize = new Size(440, 45);
             textBoxEmailAdd.Multiline = true;
             textBoxEmailAdd.Name = "textBoxEmailAdd";
-            textBoxEmailAdd.PlaceholderText = "Email Address";
+            textBoxEmailAdd.PlaceholderText = "     Email Address";
             textBoxEmailAdd.Size = new Size(440, 45);
-            textBoxEmailAdd.TabIndex = 3;
+            textBoxEmailAdd.TabIndex = 4;
             // 
             // textBoxLastname
             // 
             textBoxLastname.Font = new Font("Segoe UI", 10F, FontStyle.Regular, GraphicsUnit.Point);
-            textBoxLastname.Location = new Point(45, 150);
+            textBoxLastname.Location = new Point(45, 146);
             textBoxLastname.MinimumSize = new Size(440, 45);
             textBoxLastname.Multiline = true;
             textBoxLastname.Name = "textBoxLastname";
-            textBoxLastname.PlaceholderText = "Last Name";
+            textBoxLastname.PlaceholderText = "     Last Name";
             textBoxLastname.Size = new Size(440, 45);
             textBoxLastname.TabIndex = 2;
             // 
             // labelSIgnUp
             // 
             labelSIgnUp.AutoSize = true;
-            labelSIgnUp.Font = new Font("Segoe UI", 10F, FontStyle.Regular, GraphicsUnit.Point);
+            labelSIgnUp.Font = new Font("Segoe UI Semibold", 10F, FontStyle.Bold, GraphicsUnit.Point);
             labelSIgnUp.Location = new Point(45, 30);
             labelSIgnUp.Name = "labelSIgnUp";
-            labelSIgnUp.Size = new Size(77, 28);
+            labelSIgnUp.Size = new Size(78, 28);
             labelSIgnUp.TabIndex = 0;
             labelSIgnUp.Text = "SignUp";
             // 
@@ -243,17 +251,64 @@
             textBoxFirstname.MinimumSize = new Size(440, 45);
             textBoxFirstname.Multiline = true;
             textBoxFirstname.Name = "textBoxFirstname";
-            textBoxFirstname.PlaceholderText = "First Name";
+            textBoxFirstname.PlaceholderText = "     First Name";
             textBoxFirstname.Size = new Size(440, 45);
             textBoxFirstname.TabIndex = 1;
+            // 
+            // buttonSignUpEyeIcon
+            // 
+            buttonSignUpEyeIcon.BackColor = Color.White;
+            buttonSignUpEyeIcon.BackgroundImage = (Image)resources.GetObject("buttonSignUpEyeIcon.BackgroundImage");
+            buttonSignUpEyeIcon.BackgroundImageLayout = ImageLayout.Stretch;
+            buttonSignUpEyeIcon.Cursor = Cursors.Hand;
+            buttonSignUpEyeIcon.FlatAppearance.BorderColor = Color.White;
+            buttonSignUpEyeIcon.FlatAppearance.BorderSize = 0;
+            buttonSignUpEyeIcon.FlatStyle = FlatStyle.Flat;
+            buttonSignUpEyeIcon.Font = new Font("Segoe UI", 10F, FontStyle.Regular, GraphicsUnit.Point);
+            buttonSignUpEyeIcon.Location = new Point(444, 340);
+            buttonSignUpEyeIcon.Name = "buttonSignUpEyeIcon";
+            buttonSignUpEyeIcon.Size = new Size(25, 29);
+            buttonSignUpEyeIcon.TabIndex = 9;
+            buttonSignUpEyeIcon.TabStop = false;
+            buttonSignUpEyeIcon.UseVisualStyleBackColor = false;
+            buttonSignUpEyeIcon.Click += buttonSignUpEyeIcon_Click;
+            // 
+            // buttonSignUpHideIcon
+            // 
+            buttonSignUpHideIcon.BackColor = Color.White;
+            buttonSignUpHideIcon.BackgroundImage = (Image)resources.GetObject("buttonSignUpHideIcon.BackgroundImage");
+            buttonSignUpHideIcon.BackgroundImageLayout = ImageLayout.Stretch;
+            buttonSignUpHideIcon.Cursor = Cursors.Hand;
+            buttonSignUpHideIcon.FlatAppearance.BorderColor = Color.White;
+            buttonSignUpHideIcon.FlatAppearance.BorderSize = 0;
+            buttonSignUpHideIcon.FlatStyle = FlatStyle.Flat;
+            buttonSignUpHideIcon.Font = new Font("Segoe UI", 10F, FontStyle.Regular, GraphicsUnit.Point);
+            buttonSignUpHideIcon.Location = new Point(440, 340);
+            buttonSignUpHideIcon.Name = "buttonSignUpHideIcon";
+            buttonSignUpHideIcon.Size = new Size(36, 30);
+            buttonSignUpHideIcon.TabIndex = 8;
+            buttonSignUpHideIcon.TabStop = false;
+            buttonSignUpHideIcon.UseVisualStyleBackColor = false;
+            buttonSignUpHideIcon.Click += buttonSignUpHideIcon_Click;
+            // 
+            // textBoxPasswrd
+            // 
+            textBoxPasswrd.Font = new Font("Segoe UI", 10F, FontStyle.Regular, GraphicsUnit.Point);
+            textBoxPasswrd.Location = new Point(45, 330);
+            textBoxPasswrd.MinimumSize = new Size(440, 45);
+            textBoxPasswrd.Multiline = true;
+            textBoxPasswrd.Name = "textBoxPasswrd";
+            textBoxPasswrd.PlaceholderText = "     Password";
+            textBoxPasswrd.Size = new Size(440, 45);
+            textBoxPasswrd.TabIndex = 5;
             // 
             // LoginFormView
             // 
             AutoScaleDimensions = new SizeF(10F, 25F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(600, 600);
-            Controls.Add(panelSignIn);
             Controls.Add(panelSignUp);
+            Controls.Add(panelSignIn);
             Icon = (Icon)resources.GetObject("$this.Icon");
             Name = "LoginFormView";
             Text = "Login Page";
@@ -284,5 +339,8 @@
         private Button buttonBackToSignIn;
         private Button buttonEyeIcon;
         private Button buttonHideEyeIcon;
+        private TextBox textBoxUserJobTitle;
+        private Button buttonSignUpHideIcon;
+        private Button buttonSignUpEyeIcon;
     }
 }

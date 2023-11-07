@@ -176,7 +176,7 @@ namespace DSD_WinformsApp.View
 
                 if (hasDuplicateFileName)
                 {
-                    MessageBox.Show("A file with the same name already exists. Please choose a different file name.");
+                    MessageBox.Show($"{fileNameWithoutExtension} already exists. Please rename the document.", "Duplicate File", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
                     return;
                 }
             }
@@ -237,9 +237,9 @@ namespace DSD_WinformsApp.View
                 isValid = false;
             }
 
-
-
+            // Enable or disable the Save button based on the validation result
             btnSave.Enabled = isValid;
+            btnSave.BackColor = isValid ? ColorTranslator.FromHtml("#05982E") : SystemColors.Control;
         }
 
     }

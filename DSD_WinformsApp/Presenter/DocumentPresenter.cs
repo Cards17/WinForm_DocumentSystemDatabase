@@ -382,8 +382,8 @@ namespace DSD_WinformsApp.Presenter
 
                 if (user != null && user.Password == userCredentials.Password)
                 {
-                    string userRole = _userRepository.GetUserRole(user.EmailAddress); // Get the user role
-                    _mainDocumentView.SetUsernameLabel($"{user.Firstname} {user.Lastname}"); // Set the username label
+                    string userRole = _userRepository.GetUserRole(user.UserName); // Get the user role
+                    _mainDocumentView.SetUsernameLabel($"{user.UserName}"); // Set the username label
 
                     if (userRole == "Admin")
                     {
@@ -442,7 +442,7 @@ namespace DSD_WinformsApp.Presenter
 
                 if (user != null)
                 {
-                    string userRole = _userRepository.GetUserRole(user.EmailAddress); // Get the user role
+                    string userRole = _userRepository.GetUserRole(user.UserName); // Get the user role
 
                     if (userRole == "Admin")
                     {

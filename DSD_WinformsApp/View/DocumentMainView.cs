@@ -75,8 +75,6 @@ namespace DSD_WinformsApp.View
             // Store the original state of the checkbox
             originalCheckBoxState = checkBoxEnableAdmin.Checked;
 
-
-
             #endregion
         }
 
@@ -86,7 +84,7 @@ namespace DSD_WinformsApp.View
 
             await _presenter.LoadUsersByFilter(currentSearchUserQuery, currentJobFilter); // Load the users from the database using the presenter
 
-            bool isAdmin = await _presenter.CheckUserAccess(labelHomePageUserLogin.Text); // Check if the logged in user is an admin
+            //bool isAdmin = await _presenter.CheckUserAccess(labelHomePageUserLogin.Text); // Check if the logged in user is an admin
 
             #region Manage Users Properties
 
@@ -133,7 +131,7 @@ namespace DSD_WinformsApp.View
             panelManageUsers.Visible = false; // Hide the panelManageUsers initially
 
             // Add controls for panel2
-            pictureBox1.Enabled = isAdmin; // enable for admin user
+            //pictureBox1.Enabled = isAdmin; // enable for admin user
             panelDocumentButton.Controls.Add(pictureBox1);
             panelDocumentButton.Controls.Add(dataGridView1);
 
@@ -153,11 +151,11 @@ namespace DSD_WinformsApp.View
             comboBoxCategoryDropdown.SelectedIndex = 0; // Set the default value to "Select Category"
 
             // Define the column width from documentmodel
-            dataGridView1.Columns["DocumentVersion"].Width = 190;
-            dataGridView1.Columns["Filename"].Width = 418;
-            dataGridView1.Columns["Category"].Width = 230;
-            dataGridView1.Columns["Status"].Width = 130;
-            dataGridView1.Columns["CreatedDate"].Width = 170;
+            dataGridView1.Columns["DocumentVersion"].Width = 200;
+            dataGridView1.Columns["Filename"].Width = 610;
+            dataGridView1.Columns["Category"].Width = 360;
+            dataGridView1.Columns["Status"].Width = 185;
+            dataGridView1.Columns["CreatedDate"].Width = 176;
             dataGridView1.Columns["Id"].Visible = false;
             dataGridView1.Columns["CreatedBy"].Visible = false;
             dataGridView1.Columns["ModifiedBy"].Visible = false;
@@ -227,7 +225,6 @@ namespace DSD_WinformsApp.View
             {
                 DocumentDto selectedDocument = (DocumentDto)dataGridView1.Rows[e.RowIndex].DataBoundItem;
                 ShowDocumentDetailsModal(selectedDocument);
-
             }
         }
 
@@ -272,7 +269,7 @@ namespace DSD_WinformsApp.View
             {
 
                 // Show the delete confirmation modal directly in the main form.
-                DialogResult result = MessageBox.Show($"Are you sure you want to download?", "Download Confirmation", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+                DialogResult result = MessageBox.Show(detailsForm, $"Do you want to delete {selectedDocument.Filename}", "Download Confirmation", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
 
                 if (result == DialogResult.Yes)
                 {
@@ -294,7 +291,7 @@ namespace DSD_WinformsApp.View
             deleteButton.Visible = isAdmin;
             deleteButton.Click += async (sender, e) =>
             {
-                DialogResult result = MessageBox.Show("Are you sure you want to delete?", "Delete Confirmation", MessageBoxButtons.YesNo, MessageBoxIcon.Question); // Show the delete confirmation modal directly in the main form.
+                DialogResult result = MessageBox.Show(detailsForm, $"Do you want to delete {selectedDocument.Filename}?", "Delete Confirmation", MessageBoxButtons.YesNo, MessageBoxIcon.Question); // Show the delete confirmation modal directly in the main form.
 
                 if (result == DialogResult.Yes)
                 {
@@ -318,7 +315,7 @@ namespace DSD_WinformsApp.View
             filenameTextBox.ReadOnly = true;
             filenameTextBox.Multiline = true;
             filenameTextBox.Height = 36;
-            int filenameTextBoxWidth = textBoxWidth - 130; // Adjust the width as needed
+            int filenameTextBoxWidth = textBoxWidth - 130;
             AddRow(groupBox, "Document Title:", filenameTextBox, filenameTextBoxWidth);
 
             // Create the "Upload File" button and pass the filenameTextBox as a parameter
@@ -531,24 +528,20 @@ namespace DSD_WinformsApp.View
                     {
                         try
                         {
-                            // Source path of the backup file
-                            string sourceFilePath = selectedBackupFile.BackupFilePath;
+                            string sourceFilePath = selectedBackupFile.BackupFilePath; // Backup file path
 
-                            // Get filename wioth extension
-                            string docExtension = Path.GetExtension(sourceFilePath);
-                            // Destination path in the user's "Downloads" folder
-                            string downloadsPath = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile);
+                            string docExtension = Path.GetExtension(sourceFilePath); // Get the file extension
+                            string downloadsPath = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile); // Downloads folder path
                             string destinationFilePath = Path.Combine(downloadsPath, "Downloads", selectedBackupFile.Filename + docExtension);
 
-                            // Copy the file from source to destination
-                            File.Copy(sourceFilePath, destinationFilePath, true);
+                            File.Copy(sourceFilePath, destinationFilePath, true); // Copy the file to the Downloads folder
 
                             // Show a message to indicate the download completion
-                            MessageBox.Show($"{filenameTextBox.Text} downloaded successfully!", "Download Complete", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                            MessageBox.Show(detailsForm, $"{filenameTextBox.Text} downloaded successfully!", "Download Complete", MessageBoxButtons.OK, MessageBoxIcon.Information);
                         }
                         catch (Exception ex)
                         {
-                            MessageBox.Show($"Error downloading the file: {ex.Message}", "Download Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                            MessageBox.Show(detailsForm, $"Error downloading the file: {ex.Message}", "Download Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                         }
                     }
                 }
@@ -572,7 +565,7 @@ namespace DSD_WinformsApp.View
                     if (dataGridView2.Rows[e.RowIndex].DataBoundItem is BackUpFileDto selectedBackupFile)
                     {
                         // Show a confirmation message before deleting the file
-                        DialogResult result = MessageBox.Show($"Do you want to delete {selectedBackupFile.Filename}?", "Confirm Delete", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+                        DialogResult result = MessageBox.Show(detailsForm, $"Do you want to delete {selectedBackupFile.Filename}?", "Confirm Delete", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
                         if (result == DialogResult.Yes)
                         {
                             try
@@ -608,7 +601,7 @@ namespace DSD_WinformsApp.View
                             }
                             catch (Exception ex)
                             {
-                                MessageBox.Show($"Error deleting the file: {ex.Message}", "Delete Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                                MessageBox.Show(detailsForm, $"Error deleting the file: {ex.Message}", "Delete Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                             }
                         }
                     }
@@ -675,7 +668,6 @@ namespace DSD_WinformsApp.View
                 // Check if the file name has been changed
                 if (filename != Path.GetFileNameWithoutExtension(filePath))
                 {
-                    // Update the filenameTextBox with the new file name
                     filenameTextBox.Text = Path.GetFileNameWithoutExtension(filePath);
                 }
 
@@ -698,7 +690,7 @@ namespace DSD_WinformsApp.View
 
                 await _presenter.LoadDocumentsByFilter(GetSearchQuery(), GetFilterCategory()); // Load the filtered documents again to update the view
 
-                var result = MessageBox.Show($"{filenameTextBox.Text} details have been updated.", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information); // Show a message to indicate that the document has been updated.                                                                                                                                                   
+                var result = MessageBox.Show(detailsForm, $"{filenameTextBox.Text} details have been updated.", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information); // Show a message to indicate that the document has been updated.                                                                                                                                                   
                 if (result == DialogResult.OK)
                 {
                     detailsForm.Close(); // Close the detailsForm
@@ -719,14 +711,10 @@ namespace DSD_WinformsApp.View
                     }
                 }
 
+                isNewFileUploaded = false; // Reset the flag
 
-                // Reset the flag for the next upload
-                isNewFileUploaded = false;
-
-                // Disable the Save button after saving
-                saveButton.Enabled = false;
-                // Re-enable the Edit button
-                editButton.Enabled = true;
+                saveButton.Enabled = false; // Disable the Save button after save
+                editButton.Enabled = true; // Re-enable the Edit button after save
             };
 
             detailsForm.Controls.Add(saveButton);
@@ -753,11 +741,8 @@ namespace DSD_WinformsApp.View
                     }
                 }
 
-                // Enable the Upload File button only if there's a file uploaded
-                uploadFileButton.Enabled = true;
-
-                // Disable the Edit button after enabling editing
-                editButton.Enabled = false;
+                uploadFileButton.Enabled = true; // Enable the Upload File button
+                editButton.Enabled = false; // Disable the Edit button after enabling editing
             };
 
             // Adjust the size of the detailsForm to fit the GroupBox and its contents
@@ -786,7 +771,6 @@ namespace DSD_WinformsApp.View
             // Handle the Edit button click event
             void EditButton_Click(object? sender, EventArgs e)
             {
-                // Enable editing of the controls inside the GroupBox except for Created Date and Modified Date.
                 foreach (Control control in groupBox.Controls)
                 {
                     // Check if the control is a TextBox and make it editable, except for Created Date and Modified Date
@@ -992,9 +976,9 @@ namespace DSD_WinformsApp.View
         public void ToggleAdminRights(bool isVisible)
         {
             buttonManageUsers.Visible = isVisible;
+            pictureBox1.Visible = isVisible; // Add document icon
             labelDownloadAllDocs.Visible = isVisible;
             linkLabelDownloadAllDocs.Visible = isVisible;
-
         }
 
         private async void buttonManageUsers_Click(object sender, EventArgs e)
@@ -1020,11 +1004,11 @@ namespace DSD_WinformsApp.View
             dataGridViewManageUsers.Columns["UserRole"].DisplayIndex = 5;
 
             // Set the column widths
-            dataGridViewManageUsers.Columns["Firstname"].Width = 175;
-            dataGridViewManageUsers.Columns["Lastname"].Width = 175;
-            dataGridViewManageUsers.Columns["EmailAddress"].Width = 320;
-            dataGridViewManageUsers.Columns["JobTitle"].Width = 230;
-            dataGridViewManageUsers.Columns["UserRole"].Width = 150;
+            dataGridViewManageUsers.Columns["Firstname"].Width = 245;
+            dataGridViewManageUsers.Columns["Lastname"].Width = 245;
+            dataGridViewManageUsers.Columns["EmailAddress"].Width = 470;
+            dataGridViewManageUsers.Columns["JobTitle"].Width = 280;
+            dataGridViewManageUsers.Columns["UserRole"].Width = 200;
 
             dataGridViewManageUsers.Columns["Firstname"].Visible = true;
             dataGridViewManageUsers.Columns["Lastname"].Visible = true;
@@ -1386,8 +1370,8 @@ namespace DSD_WinformsApp.View
         public void SetUsernameLabel(string username)
         {
             // Assuming labelUsername is the name of your label control
-            //labelHomePageUserLogin.Text = "Hello, " + username;
             labelHomePageUserLogin.Text = username;
+            labelHello.Text = $"Hello, {username}!";
         }
 
         private async void linkLabel1_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)

@@ -55,7 +55,7 @@
             txtCategory.Location = new Point(25, 204);
             txtCategory.Name = "txtCategory";
             txtCategory.Size = new Size(192, 28);
-            txtCategory.TabIndex = 2;
+            txtCategory.TabIndex = 5;
             txtCategory.Text = "Document Category:";
             // 
             // Status_Label
@@ -65,7 +65,7 @@
             Status_Label.Location = new Point(25, 264);
             Status_Label.Name = "Status_Label";
             Status_Label.Size = new Size(165, 28);
-            Status_Label.TabIndex = 4;
+            Status_Label.TabIndex = 7;
             Status_Label.Text = "Document Status:";
             // 
             // cmbStatus
@@ -75,7 +75,7 @@
             cmbStatus.Location = new Point(239, 256);
             cmbStatus.Name = "cmbStatus";
             cmbStatus.Size = new Size(250, 36);
-            cmbStatus.TabIndex = 5;
+            cmbStatus.TabIndex = 8;
             // 
             // Notes_Label
             // 
@@ -84,7 +84,7 @@
             Notes_Label.Location = new Point(519, 144);
             Notes_Label.Name = "Notes_Label";
             Notes_Label.Size = new Size(68, 28);
-            Notes_Label.TabIndex = 6;
+            Notes_Label.TabIndex = 11;
             Notes_Label.Text = "Notes:";
             // 
             // txtBoxNotes
@@ -94,7 +94,7 @@
             txtBoxNotes.Multiline = true;
             txtBoxNotes.Name = "txtBoxNotes";
             txtBoxNotes.Size = new Size(331, 156);
-            txtBoxNotes.TabIndex = 7;
+            txtBoxNotes.TabIndex = 12;
             // 
             // cmbCategories
             // 
@@ -105,7 +105,7 @@
             cmbCategories.MaximumSize = new Size(250, 0);
             cmbCategories.Name = "cmbCategories";
             cmbCategories.Size = new Size(250, 36);
-            cmbCategories.TabIndex = 3;
+            cmbCategories.TabIndex = 6;
             // 
             // label1
             // 
@@ -124,7 +124,7 @@
             labelCreatedBy.Location = new Point(27, 324);
             labelCreatedBy.Name = "labelCreatedBy";
             labelCreatedBy.Size = new Size(110, 28);
-            labelCreatedBy.TabIndex = 12;
+            labelCreatedBy.TabIndex = 9;
             labelCreatedBy.Text = "Created By:";
             // 
             // comboBoxCreatedBy
@@ -134,7 +134,7 @@
             comboBoxCreatedBy.Location = new Point(239, 316);
             comboBoxCreatedBy.Name = "comboBoxCreatedBy";
             comboBoxCreatedBy.Size = new Size(250, 36);
-            comboBoxCreatedBy.TabIndex = 15;
+            comboBoxCreatedBy.TabIndex = 10;
             // 
             // labelDocVersion
             // 
@@ -143,7 +143,7 @@
             labelDocVersion.Location = new Point(25, 144);
             labelDocVersion.Name = "labelDocVersion";
             labelDocVersion.Size = new Size(176, 28);
-            labelDocVersion.TabIndex = 16;
+            labelDocVersion.TabIndex = 3;
             labelDocVersion.Text = "Document Version:";
             // 
             // textBoxDocumentVersion
@@ -153,7 +153,7 @@
             textBoxDocumentVersion.Multiline = true;
             textBoxDocumentVersion.Name = "textBoxDocumentVersion";
             textBoxDocumentVersion.Size = new Size(250, 36);
-            textBoxDocumentVersion.TabIndex = 17;
+            textBoxDocumentVersion.TabIndex = 4;
             // 
             // labelFilename
             // 
@@ -171,7 +171,7 @@
             labelFileUpload.Location = new Point(25, 84);
             labelFileUpload.Name = "labelFileUpload";
             labelFileUpload.Size = new Size(177, 28);
-            labelFileUpload.TabIndex = 19;
+            labelFileUpload.TabIndex = 0;
             labelFileUpload.Text = "Upload Document:";
             // 
             // labelDocumentNameWithExtension
@@ -180,7 +180,7 @@
             labelDocumentNameWithExtension.Location = new Point(452, 86);
             labelDocumentNameWithExtension.Name = "labelDocumentNameWithExtension";
             labelDocumentNameWithExtension.Size = new Size(0, 25);
-            labelDocumentNameWithExtension.TabIndex = 23;
+            labelDocumentNameWithExtension.TabIndex = 2;
             labelDocumentNameWithExtension.Visible = false;
             // 
             // buttonUploadDocs
@@ -188,7 +188,7 @@
             buttonUploadDocs.Location = new Point(239, 84);
             buttonUploadDocs.Name = "buttonUploadDocs";
             buttonUploadDocs.Size = new Size(112, 36);
-            buttonUploadDocs.TabIndex = 24;
+            buttonUploadDocs.TabIndex = 1;
             buttonUploadDocs.Text = "Upload";
             buttonUploadDocs.UseVisualStyleBackColor = true;
             buttonUploadDocs.Cursor = Cursors.Hand;
@@ -200,7 +200,7 @@
             btnSave.Location = new Point(600, 420);
             btnSave.Name = "btnSave";
             btnSave.Size = new Size(100, 36);
-            btnSave.TabIndex = 25;
+            btnSave.TabIndex = 13;
             btnSave.Text = "Save";
             btnSave.UseVisualStyleBackColor = true;
             btnSave.Cursor = Cursors.Hand;
@@ -212,7 +212,7 @@
             btnCancel.Location = new Point(750, 420);
             btnCancel.Name = "btnCancel";
             btnCancel.Size = new Size(100, 36);
-            btnCancel.TabIndex = 26;
+            btnCancel.TabIndex = 14;
             btnCancel.Text = "Cancel";
             btnCancel.UseVisualStyleBackColor = true;
             btnCancel.Cursor = Cursors.Hand;
