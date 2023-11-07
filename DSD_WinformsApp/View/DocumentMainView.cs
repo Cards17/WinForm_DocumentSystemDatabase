@@ -52,10 +52,12 @@ namespace DSD_WinformsApp.View
 
             ToggleAdminRights(isVisible); // Manage Users button visibility
 
+            timerSearchBar.Interval = 500; // Set the interval for the document searchbar timer
+            timerUserSearchBar.Interval = 500; // Set the interval for the user searchbar timer
+
             // Documents filter events 
             textBoxSearchBar.TextChanged += textBoxSearchBar_TextChanged;
             comboBoxCategoryDropdown.SelectedIndexChanged += comboBoxCategoryDropdown_SelectedIndexChanged;
-
 
             // Users filter events
             textBoxUsersSearchBox.TextChanged += textBoxUsersSearchBox_TextChanged;
@@ -152,10 +154,10 @@ namespace DSD_WinformsApp.View
 
             // Define the column width from documentmodel
             dataGridView1.Columns["DocumentVersion"].Width = 200;
-            dataGridView1.Columns["Filename"].Width = 610;
+            dataGridView1.Columns["Filename"].Width = 600;
             dataGridView1.Columns["Category"].Width = 360;
             dataGridView1.Columns["Status"].Width = 185;
-            dataGridView1.Columns["CreatedDate"].Width = 176;
+            dataGridView1.Columns["CreatedDate"].Width = 186;
             dataGridView1.Columns["Id"].Visible = false;
             dataGridView1.Columns["CreatedBy"].Visible = false;
             dataGridView1.Columns["ModifiedBy"].Visible = false;
@@ -171,8 +173,19 @@ namespace DSD_WinformsApp.View
             dataGridView1.Columns["Category"].HeaderText = "CATEGORY";
             dataGridView1.Columns["CreatedDate"].HeaderText = "CREATED DATE";
 
-            // Create sorting in documentversion column
-            dataGridView1.Columns["DocumentVersion"].SortMode = DataGridViewColumnSortMode.Automatic;
+            // Set the font for the header cells
+            dataGridView1.Columns["DocumentVersion"].HeaderCell.Style.Font = new Font("Segoe UI", 9, FontStyle.Bold);
+            dataGridView1.Columns["Status"].HeaderCell.Style.Font = new Font("Segoe UI", 9, FontStyle.Bold);
+            dataGridView1.Columns["Filename"].HeaderCell.Style.Font = new Font("Segoe UI", 9, FontStyle.Bold);
+            dataGridView1.Columns["Category"].HeaderCell.Style.Font = new Font("Segoe UI", 9, FontStyle.Bold);
+            dataGridView1.Columns["CreatedDate"].HeaderCell.Style.Font = new Font("Segoe UI", 9, FontStyle.Bold);
+
+            // make header text center
+            dataGridView1.Columns["DocumentVersion"].HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            dataGridView1.Columns["Status"].HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            dataGridView1.Columns["Filename"].HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            dataGridView1.Columns["Category"].HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            dataGridView1.Columns["CreatedDate"].HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleCenter;
 
             // Add details button functionality
             DataGridViewButtonColumn detailsColumn = new DataGridViewButtonColumn();
@@ -1237,7 +1250,11 @@ namespace DSD_WinformsApp.View
 
         private void textBoxSearchBar_TextChanged(object? sender, EventArgs e)
         {
-            ApplyFilters();
+            // When the text changes, stop and restart the timer
+            timerSearchBar.Stop();
+            timerSearchBar.Start();
+
+            // ApplyFilters();
         }
 
         private void comboBoxCategoryDropdown_SelectedIndexChanged(object? sender, EventArgs e)
@@ -1303,7 +1320,9 @@ namespace DSD_WinformsApp.View
         #region Users Filter and Pagination Functionalities
         private void textBoxUsersSearchBox_TextChanged(object? sender, EventArgs e)
         {
-            ApplyUsersPageFilters();
+            // When the text changes, stop and restart the timer
+            timerUserSearchBar.Stop();
+            timerUserSearchBar.Start();
         }
 
         private void comboBox_JobCategory_SelectedIndexChanged(object? sender, EventArgs e)
@@ -1389,5 +1408,10 @@ namespace DSD_WinformsApp.View
         {
             Application.Exit();
         }
+
+        private void timerSearchBar_Tick(object? sender, EventArgs e) => ApplyFilters(); // Apply the documents filter
+
+        private void timerUserSearchBar_Tick(object sender, EventArgs e) => ApplyUsersPageFilters(); // Apply the users filter
+
     }
 }

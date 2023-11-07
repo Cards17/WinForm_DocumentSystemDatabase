@@ -32,6 +32,7 @@ namespace DSD_WinformsApp.View
         /// </summary>
         private void InitializeComponent()
         {
+            components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(DocumentMainView));
             dataGridView1 = new DataGridView();
             panel1 = new Panel();
@@ -79,6 +80,8 @@ namespace DSD_WinformsApp.View
             labelHomePageUserLogin = new Label();
             labelFooter = new Label();
             labelHello = new Label();
+            timerSearchBar = new System.Windows.Forms.Timer(components);
+            timerUserSearchBar = new System.Windows.Forms.Timer(components);
             ((System.ComponentModel.ISupportInitialize)dataGridView1).BeginInit();
             panel1.SuspendLayout();
             panelDocumentButton.SuspendLayout();
@@ -109,7 +112,7 @@ namespace DSD_WinformsApp.View
             dataGridView1.RowTemplate.Height = 36;
             dataGridView1.RowTemplate.Resizable = DataGridViewTriState.False;
             dataGridView1.ScrollBars = ScrollBars.Horizontal;
-            dataGridView1.Size = new Size(1235, 576);
+            dataGridView1.Size = new Size(1235, 575);
             dataGridView1.TabIndex = 0;
             // 
             // panel1
@@ -274,7 +277,7 @@ namespace DSD_WinformsApp.View
             textBoxSearchBar.Font = new Font("Segoe UI", 10F, FontStyle.Regular, GraphicsUnit.Point);
             textBoxSearchBar.Location = new Point(680, 50);
             textBoxSearchBar.Name = "textBoxSearchBar";
-            textBoxSearchBar.PlaceholderText = "Search by Filename";
+            textBoxSearchBar.PlaceholderText = "Search Document Title";
             textBoxSearchBar.Size = new Size(250, 34);
             textBoxSearchBar.TabIndex = 3;
             textBoxSearchBar.TextChanged += textBoxSearchBar_TextChanged;
@@ -345,10 +348,11 @@ namespace DSD_WinformsApp.View
             // 
             comboBox_JobCategory.Anchor = AnchorStyles.Top | AnchorStyles.Right;
             comboBox_JobCategory.AutoCompleteMode = AutoCompleteMode.SuggestAppend;
+            comboBox_JobCategory.Font = new Font("Segoe UI", 10F, FontStyle.Regular, GraphicsUnit.Point);
             comboBox_JobCategory.FormattingEnabled = true;
             comboBox_JobCategory.Location = new Point(700, 50);
             comboBox_JobCategory.Name = "comboBox_JobCategory";
-            comboBox_JobCategory.Size = new Size(250, 33);
+            comboBox_JobCategory.Size = new Size(250, 36);
             comboBox_JobCategory.TabIndex = 4;
             comboBox_JobCategory.Visible = false;
             comboBox_JobCategory.SelectedIndexChanged += comboBox_JobCategory_SelectedIndexChanged;
@@ -356,10 +360,11 @@ namespace DSD_WinformsApp.View
             // textBoxUsersSearchBox
             // 
             textBoxUsersSearchBox.Anchor = AnchorStyles.Top | AnchorStyles.Right;
+            textBoxUsersSearchBox.Font = new Font("Segoe UI", 10F, FontStyle.Regular, GraphicsUnit.Point);
             textBoxUsersSearchBox.Location = new Point(1004, 50);
             textBoxUsersSearchBox.Name = "textBoxUsersSearchBox";
             textBoxUsersSearchBox.PlaceholderText = "Search User Name";
-            textBoxUsersSearchBox.Size = new Size(250, 31);
+            textBoxUsersSearchBox.Size = new Size(250, 34);
             textBoxUsersSearchBox.TabIndex = 3;
             textBoxUsersSearchBox.TextChanged += textBoxUsersSearchBox_TextChanged;
             // 
@@ -631,6 +636,14 @@ namespace DSD_WinformsApp.View
             labelHello.Text = "Hello,";
             labelHello.TextAlign = ContentAlignment.TopRight;
             // 
+            // timerSearchBar
+            // 
+            timerSearchBar.Tick += timerSearchBar_Tick;
+            // 
+            // timerUserSearchBar
+            // 
+            timerUserSearchBar.Tick += timerUserSearchBar_Tick;
+            // 
             // DocumentMainView
             // 
             AutoScaleDimensions = new SizeF(10F, 25F);
@@ -642,10 +655,10 @@ namespace DSD_WinformsApp.View
             Controls.Add(labelHomePageUserLogin);
             Controls.Add(buttonSignOut);
             Controls.Add(panel1);
-            Controls.Add(panelUserDetails);
             Controls.Add(panelDocumentButton);
             Controls.Add(panelManageUsers);
             Controls.Add(panelHome);
+            Controls.Add(panelUserDetails);
             Icon = (Icon)resources.GetObject("$this.Icon");
             Name = "DocumentMainView";
             Text = "Main Page";
@@ -723,5 +736,7 @@ namespace DSD_WinformsApp.View
         private Button buttonEditUser;
         private Button buttonCloseUser;
         private Button buttonUsersDetailSave;
+        private System.Windows.Forms.Timer timerSearchBar;
+        private System.Windows.Forms.Timer timerUserSearchBar;
     }
 }
