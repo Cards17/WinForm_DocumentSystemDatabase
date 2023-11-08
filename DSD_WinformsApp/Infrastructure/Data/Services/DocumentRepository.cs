@@ -92,7 +92,6 @@ namespace DSD_WinformsApp.Infrastructure.Data.Services
 
             // Update properties of the existing document with the data from the updatedDocument DTO
             existingDocument.DocumentVersion = updatedDocument.DocumentVersion;
-            existingDocument.Filename = updatedDocument.Filename;
             existingDocument.Category = updatedDocument.Category;
             existingDocument.Status = updatedDocument.Status;
             existingDocument.CreatedDate = updatedDocument.CreatedDate;
@@ -101,57 +100,63 @@ namespace DSD_WinformsApp.Infrastructure.Data.Services
             existingDocument.ModifiedDate = updatedDocument.ModifiedDate;
             existingDocument.Notes = updatedDocument.Notes;
 
-            //Move the existing file to the backup folder
-            if (File.Exists(existingDocument.FilePath))
-            {
-                // versioning
-                //var currentVersion = _dbContext.BackupFiles.Where(x => x.Id == existingDocument.Id).Max(x => x.Version);
 
-                var backupFolderPath = Path.Combine(@"C:\Users\ricardo.piquero.jr\source\repos\DSD Solution\DSD_WinformsApp\Resources\BackupFiles");
-                if (!Directory.Exists(backupFolderPath))
-                {
-                    Directory.CreateDirectory(backupFolderPath);
-                }
-
-                var backupFileName = Path.GetFileName(existingDocument.FilePath);
-                var backupFilePath = Path.Combine(backupFolderPath, backupFileName);
-                File.Move(existingDocument.FilePath, backupFilePath);
-
-                // Calculate the new version for the next backup
-                var latestBackupVersion = _dbContext.BackupFiles
-                    .Where(x => x.Id == existingDocument.Id)
-                    .OrderByDescending(x => x.Version)
-                    .FirstOrDefault();
-
-                var newVersion = latestBackupVersion != null ? latestBackupVersion.Version + 1.0 : 0;
-
-                // Create a new BackupFile record
-                var newBackupFile = new BackUpFileModel
-                {
-                    DocumentVersion = existingDocument.DocumentVersion,
-                    Filename = backupFileName,
-                    OriginalFilePath = existingDocument.FilePath,
-                    BackupFilePath = backupFilePath,
-                    BackupDate = DateTime.Now.Date,
-                    Id = existingDocument.Id,
-                    Version = newVersion
-
-                };
-
-                // Add the new record to the BackupFiles DbSet
-                _dbContext.BackupFiles.Add(newBackupFile);
-            }
-
-            if (updatedDocument.FileData != null)
+            if (updatedDocument.Filename != existingDocument.Filename)
             {
                 var fileName = Path.GetFileName(updatedDocument.Filename);
-                var filePath = Path.Combine(@"C:\Users\ricardo.piquero.jr\source\repos\DSD Solution\DSD_WinformsApp\Resources\UploadedFiles", fileName);
+                var fileNameExtension = updatedDocument.FilenameExtension;
+                var filePath = Path.Combine(@"C:\Users\ricardo.piquero.jr\source\repos\DSD Solution\DSD_WinformsApp\Resources\UploadedFiles", fileName + "." + fileNameExtension);
                 // Save the updated file to the server
                 File.WriteAllBytes(filePath, updatedDocument.FileData);
+
+                existingDocument.Filename = updatedDocument.Filename; // Update the filename property
+
+                //Move the existing file to the backup folder
+                if (File.Exists(existingDocument.FilePath))
+                {
+                    var backupFolderPath = Path.Combine(@"C:\Users\ricardo.piquero.jr\source\repos\DSD Solution\DSD_WinformsApp\Resources\BackupFiles");
+                    if (!Directory.Exists(backupFolderPath))
+                    {
+                        Directory.CreateDirectory(backupFolderPath);
+                    }
+
+                    var backupFileName = Path.GetFileName(existingDocument.FilePath);
+                    var backupFilePath = Path.Combine(backupFolderPath, backupFileName);
+                    File.Move(existingDocument.FilePath, backupFilePath);
+
+                    // Calculate the new version for the next backup
+                    var latestBackupVersion = _dbContext.BackupFiles
+                        .Where(x => x.Id == existingDocument.Id)
+                        .OrderByDescending(x => x.Version)
+                        .FirstOrDefault();
+
+                    var newVersion = latestBackupVersion != null ? latestBackupVersion.Version + 1.0 : 0;
+
+                    // Create a new BackupFile record
+                    var newBackupFile = new BackUpFileModel
+                    {
+                        DocumentVersion = existingDocument.DocumentVersion,
+                        Filename = backupFileName,
+                        OriginalFilePath = existingDocument.FilePath,
+                        BackupFilePath = backupFilePath,
+                        BackupDate = DateTime.Now.Date,
+                        Id = existingDocument.Id,
+                        Version = newVersion
+
+                    };
+
+                    // Add the new record to the BackupFiles DbSet
+                    _dbContext.BackupFiles.Add(newBackupFile);
+                }
 
                 existingDocument.FilePath = filePath;
             }
 
+            else
+            {
+                // If the file was not updated, keep the existing file path
+                existingDocument.FilePath = existingDocument.FilePath;
+            }
 
             // Save changes to the database
             _dbContext.SaveChanges();

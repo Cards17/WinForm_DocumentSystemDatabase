@@ -187,6 +187,11 @@ namespace DSD_WinformsApp.View
             dataGridView1.Columns["Category"].HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleCenter;
             dataGridView1.Columns["CreatedDate"].HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleCenter;
 
+            // force header cell to have color
+            dataGridView1.EnableHeadersVisualStyles = false;
+            dataGridView1.ColumnHeadersDefaultCellStyle.BackColor = ColorTranslator.FromHtml("#576CBC");
+
+
             // Add details button functionality
             DataGridViewButtonColumn detailsColumn = new DataGridViewButtonColumn();
             detailsColumn.Text = "Details";
@@ -212,15 +217,9 @@ namespace DSD_WinformsApp.View
 
         }
 
-        public void BindDataMainView(List<DocumentDto> documents)
-        {
-            dataGridView1.DataSource = documents;
-        }
+        public void BindDataMainView(List<DocumentDto> documents) => dataGridView1.DataSource = documents; // Bind documents to dataGridView1
 
-        public void BindDataManageUsers(List<UserCredentialsDto> users)
-        {
-            dataGridViewManageUsers.DataSource = users;
-        }
+        public void BindDataManageUsers(List<UserCredentialsDto> users) => dataGridViewManageUsers.DataSource = users; // Bind users to dataGridViewManageUsers
 
         #region Document Page Methods
 
@@ -511,8 +510,6 @@ namespace DSD_WinformsApp.View
             dataGridView2.Columns["BackupFilePath"].Visible = false;
             dataGridView2.Columns["Id"].Visible = false;
 
-
-
             // Set the cursor to hand when hovering over the Details button
             dataGridView2.CellMouseEnter += (sender, e) =>
             {
@@ -550,7 +547,7 @@ namespace DSD_WinformsApp.View
                             File.Copy(sourceFilePath, destinationFilePath, true); // Copy the file to the Downloads folder
 
                             // Show a message to indicate the download completion
-                            MessageBox.Show(detailsForm, $"{filenameTextBox.Text} downloaded successfully!", "Download Complete", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                            MessageBox.Show(detailsForm, $"{selectedBackupFile.Filename} downloaded successfully!", "Download Complete", MessageBoxButtons.OK, MessageBoxIcon.Information);
                         }
                         catch (Exception ex)
                         {
@@ -670,6 +667,7 @@ namespace DSD_WinformsApp.View
                 // Get the modified data from the TextBoxes and ComboBoxes
                 string documentVersion = documentVersionTextBox.Text;
                 string filename = filenameTextBox.Text;
+                string filenameExtension = selectedDocument.FilenameExtension; // Get filename extension from db
                 string category = categoryComboBox.Text;
                 string status = statusComboBox.Text;
                 DateTime createdDate = DateTime.Parse(createdDateTextBox.Text);
@@ -696,7 +694,8 @@ namespace DSD_WinformsApp.View
                     CreatedBy = createdBy,
                     ModifiedBy = modifiedBy,
                     ModifiedDate = modifiedDate,
-                    Notes = notes
+                    Notes = notes,
+                    FilenameExtension = filenameExtension
                 };
 
                 _presenter.EditDocument(modifiedDocument, fileDataBytes); // Edit the document in the database
@@ -955,21 +954,14 @@ namespace DSD_WinformsApp.View
             }
         }
 
-        public void ShowDocumentView()
-        {
-            // Show the DocumentView form
-            this.ShowDialog();
+        public void ShowDocumentView() => this.ShowDialog(); // Show documentMainView form
 
-        }
 
-        // Handler for the FormClosing event
         private void DocumentViewForm_FormClosing(object? sender, FormClosingEventArgs e)
         {
-            // Make sure the form is closing explicitly (e.g., by clicking the close icon)
             if (e.CloseReason == CloseReason.UserClosing)
             {
-                // Close the entire application
-                Application.Exit();
+                Application.Exit(); // Exit the application when the form is closed
             }
         }
 
@@ -1040,6 +1032,24 @@ namespace DSD_WinformsApp.View
             dataGridViewManageUsers.Columns["EmailAddress"].HeaderText = "EMAIL ADDRESS";
             dataGridViewManageUsers.Columns["JobTitle"].HeaderText = "JOB TITLE";
             dataGridViewManageUsers.Columns["UserRole"].HeaderText = "USER ROLE";
+
+            // Set header text to center
+            dataGridViewManageUsers.Columns["Firstname"].HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewManageUsers.Columns["Lastname"].HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewManageUsers.Columns["EmailAddress"].HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewManageUsers.Columns["JobTitle"].HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewManageUsers.Columns["UserRole"].HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleCenter;
+
+            // Set header text to bold
+            dataGridViewManageUsers.Columns["Firstname"].HeaderCell.Style.Font = new Font("Segoe UI", 9, FontStyle.Bold);
+            dataGridViewManageUsers.Columns["Lastname"].HeaderCell.Style.Font = new Font("Segoe UI", 9, FontStyle.Bold);
+            dataGridViewManageUsers.Columns["EmailAddress"].HeaderCell.Style.Font = new Font("Segoe UI", 9, FontStyle.Bold);
+            dataGridViewManageUsers.Columns["JobTitle"].HeaderCell.Style.Font = new Font("Segoe UI", 9, FontStyle.Bold);
+            dataGridViewManageUsers.Columns["UserRole"].HeaderCell.Style.Font = new Font("Segoe UI", 9, FontStyle.Bold);
+
+            // Force header cell to have color
+            dataGridViewManageUsers.EnableHeadersVisualStyles = false;
+            dataGridViewManageUsers.ColumnHeadersDefaultCellStyle.BackColor = ColorTranslator.FromHtml("#576CBC");
 
         }
 
@@ -1254,40 +1264,19 @@ namespace DSD_WinformsApp.View
             timerSearchBar.Stop();
             timerSearchBar.Start();
 
-            // ApplyFilters();
         }
 
-        private void comboBoxCategoryDropdown_SelectedIndexChanged(object? sender, EventArgs e)
-        {
-            ApplyFilters();
-        }
+        private void comboBoxCategoryDropdown_SelectedIndexChanged(object? sender, EventArgs e) => ApplyFilters(); // Apply the filters when the selected index changes
+        private void ApplyFilters() => _presenter.ApplyFilters(); // Call presenter's ApplyFilters method
 
-        private void ApplyFilters()
-        {
-            _presenter.ApplyFilters();
-        }
+        private void pictureBox3_Click(object? sender, EventArgs e) => _presenter.NextPage(); // Call presenter's NextPage method
 
-        private void pictureBox3_Click(object? sender, EventArgs e)
-        {
-            _presenter.NextPage();
-        }
-
-        private void iconBack_Click(object? sender, EventArgs e)
-        {
-            _presenter.PreviousPage();
-        }
-
+        private void iconBack_Click(object? sender, EventArgs e) => _presenter.PreviousPage(); // Call presenter's PreviousPage method
 
         // Implement the IMainDocumentView interface methods
-        public string GetSearchQuery()
-        {
-            return textBoxSearchBar.Text.Trim() ?? string.Empty;
-        }
+        public string GetSearchQuery() => textBoxSearchBar.Text.Trim() ?? string.Empty; // Method for search bar query
 
-        public string GetFilterCategory()
-        {
-            return comboBoxCategoryDropdown.SelectedItem?.ToString() ?? string.Empty;
-        }
+        public string GetFilterCategory() => comboBoxCategoryDropdown.SelectedItem?.ToString() ?? string.Empty; // Method for combo box query
 
         // Method to update the page label for document pagination
         public void UpdatePageLabel(int currentPage, int totalPages)
@@ -1325,35 +1314,18 @@ namespace DSD_WinformsApp.View
             timerUserSearchBar.Start();
         }
 
-        private void comboBox_JobCategory_SelectedIndexChanged(object? sender, EventArgs e)
-        {
-            ApplyUsersPageFilters();
-        }
+        private void comboBox_JobCategory_SelectedIndexChanged(object? sender, EventArgs e) => ApplyUsersPageFilters(); // Apply  users filter when the selected index changes
 
-        private void ApplyUsersPageFilters()
-        {
-            _presenter.ApplyUsersPageFilters();
-        }
+        private void ApplyUsersPageFilters() => _presenter.ApplyUsersPageFilters(); // Call presenter's ApplyUsersPageFilters method 
 
-        private void pictureBoxUsersNextIcon_Click(object? sender, EventArgs e)
-        {
-            _presenter.NextUsersPage();
-        }
+        private void pictureBoxUsersNextIcon_Click(object? sender, EventArgs e) => _presenter.NextUsersPage(); // Call presenter's NextUsersPage method
 
-        private void pictureBoxUsersBackIcon_Click(object? sender, EventArgs e)
-        {
-            _presenter.BackUsersPage();
-        }
+        private void pictureBoxUsersBackIcon_Click(object? sender, EventArgs e) => _presenter.BackUsersPage(); // Call presenter's BackUsersPage method
 
-        public string GetSearchUserQuery()
-        {
-            return textBoxUsersSearchBox.Text.Trim() ?? string.Empty;
-        }
+        public string GetSearchUserQuery() => textBoxUsersSearchBox.Text.Trim() ?? string.Empty; // Method for search bar query
 
-        public string GetFilterUsersCategory()
-        {
-            return comboBox_JobCategory.SelectedItem?.ToString() ?? string.Empty;
-        }
+        public string GetFilterUsersCategory() => comboBox_JobCategory.SelectedItem?.ToString() ?? string.Empty; // Method for combo box query
+
 
         public void UpdateUsersPageLabel(int currentPageUsers, int UsersTotalPages)
         {
@@ -1388,26 +1360,20 @@ namespace DSD_WinformsApp.View
         // Implement the SetUsernameLabel method from the iDocument interface
         public void SetUsernameLabel(string username)
         {
-            // Assuming labelUsername is the name of your label control
             labelHomePageUserLogin.Text = username;
             labelHello.Text = $"Hello, {username}!";
         }
 
         private async void linkLabel1_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
-            // show message box to download all documents
             DialogResult result = MessageBox.Show("Are you sure you want to download all documents?", "Download Confirmation", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
             if (result == DialogResult.Yes)
             {
-                await _presenter.DownloadAllDocuments();
+                await _presenter.DownloadAllDocuments(); // Call presenter's DownloadAllDocuments method
             }
-
-
         }
-        private void buttonSignOut_Click(object sender, EventArgs e)
-        {
-            Application.Exit();
-        }
+        private void buttonSignOut_Click(object sender, EventArgs e) => Application.Exit();
+
 
         private void timerSearchBar_Tick(object? sender, EventArgs e) => ApplyFilters(); // Apply the documents filter
 
