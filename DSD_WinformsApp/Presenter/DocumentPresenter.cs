@@ -65,21 +65,18 @@ namespace DSD_WinformsApp.Presenter
         public async Task LoadDocumentsByFilter(string currentSearchQuery, string currentFilterCategory)
         {
             filteredDocuments = await _documentRepository.GetFilteredDocuments(currentSearchQuery, currentFilterCategory); // Get the filtered documents
-            _mainDocumentView.BindDataMainView(filteredDocuments); // Bind the filtered documents to the view
-            _mainDocumentView.UpdatePageLabel(currentPage, TotalPages()); // Update the page label when navigating to a new page
+            SetCurrentPageData();
         }
 
         public async Task<bool> CheckForDuplicateFileName(string fileName)
         {
-            // Load documents from the repository (replace with your actual repository method)
             List<DocumentDto> allDocuments = await _documentRepository.GetAllDocuments();
 
-            // Check for duplicate file names
-            return allDocuments.Any(d => d.Filename == fileName);
+            return allDocuments.Any(d => d.Filename == fileName);// Check for duplicate document name
         }
 
     #region Document Page Pagination Methods
-    public void AddNewDocument(DocumentDto newDocument)
+        public void AddNewDocument(DocumentDto newDocument)
         {
             filteredDocuments.Add(newDocument);
             SetCurrentPageData();
@@ -100,10 +97,7 @@ namespace DSD_WinformsApp.Presenter
             _mainDocumentView.UpdatePageLabel(currentPage, TotalPages());
         }
 
-        private int TotalPages()
-        {
-            return (int)Math.Ceiling((double)filteredDocuments.Count / itemsPerPage);
-        }
+        private int TotalPages() => (int)Math.Ceiling((double)filteredDocuments.Count / itemsPerPage);
 
         public void NextPage()
         {
@@ -291,11 +285,8 @@ namespace DSD_WinformsApp.Presenter
 
             currentPage = 1; // Reset the page when applying filters
 
-            // Get filtered users
-            filteredUsers = await _userRepository.GetFilteredUsers(currentUsersSearchQuery, currentUsersJobFilter);
+            filteredUsers = await _userRepository.GetFilteredUsers(currentUsersSearchQuery, currentUsersJobFilter); // Get the filtered users based on filters
             SetCurrentUsersPageData();
-
-
         }
                                             
         public void NextUsersPage()
@@ -326,18 +317,13 @@ namespace DSD_WinformsApp.Presenter
             int endIndex = Math.Min(startIndex + itemsUsersPerPage, filteredUsers.Count);
 
             var currentPageUsers = filteredUsers.Skip(startIndex).Take(endIndex - startIndex).ToList();
+            
             _mainDocumentView.BindDataManageUsers(currentPageUsers);
-
-            // Update the label after changing the current page
             _mainDocumentView.UpdateUsersPageLabel(currentUsersPage, UsersTotalPages());
 
         }
 
-        private int UsersTotalPages()
-        {
-            return (int)Math.Ceiling((double)filteredUsers.Count / itemsUsersPerPage);
-        }
-
+        private int UsersTotalPages() => (int)Math.Ceiling((double)filteredUsers.Count / itemsUsersPerPage); // Count no.pages in manage users page
 
         #endregion
 
@@ -357,22 +343,14 @@ namespace DSD_WinformsApp.Presenter
 
         public async Task LoadUsersByFilter(string currentUsersSearchQuery, string currentUsersJobFilter)
         {
-            allUsers = await _userRepository.GetFilteredUsers(currentUsersSearchQuery, currentUsersJobFilter);
-            allUsers = allUsers.OrderByDescending(user => user.UserId).ToList();
-            _mainDocumentView.BindDataManageUsers(allUsers); // Bind the filtered users to the view
-            _mainDocumentView.UpdateUsersPageLabel(currentUsersPage, UsersTotalPages()); // Update the page label when navigating to a new page
+            filteredUsers = await _userRepository.GetFilteredUsers(currentUsersSearchQuery, currentUsersJobFilter); // Get the filtered users based on filters
+            SetCurrentUsersPageData();
         }
 
-        public void SaveUserRegistration(UserCredentialsDto userCredentials)
-        {
-            // Set the user credentials to the UserCredentialsDto
-            _userRepository.RegisterUser(userCredentials);
-        }
+        public void SaveUserRegistration(UserCredentialsDto userCredentials) => _userRepository.RegisterUser(userCredentials); // Register the user using the repository
         
-        public void EditUser(UserCredentialsDto user)
-        {
-            _userRepository.EditUser(user.UserId, user);
-        }
+        public void EditUser(UserCredentialsDto user) => _userRepository.EditUser(user.UserId, user); // Edit user using the repository
+        
 
         public async Task<bool> ValidateUserCredentials(UserCredentialsDto userCredentials)
         {
@@ -409,7 +387,6 @@ namespace DSD_WinformsApp.Presenter
         }
 
        
-
         public async Task<bool> DeleteUser(UserCredentialsDto user)
         {
             try
@@ -432,8 +409,6 @@ namespace DSD_WinformsApp.Presenter
             }
         }
 
-        // method for // check user access base on labelHomePageUserLogin in document page.
-        //bool isAdmin = await _presenter.CheckUserAccess(labelHomePageUserLogin.Text);
         public async Task<bool> CheckUserAccess(string username)
         {
             try

@@ -111,7 +111,7 @@
             // 
             label1.AutoSize = true;
             label1.Font = new Font("Segoe UI Semibold", 10F, FontStyle.Bold, GraphicsUnit.Point);
-            label1.Location = new Point(25, 25);
+            label1.Location = new Point(315, 20);
             label1.Name = "label1";
             label1.Size = new Size(174, 28);
             label1.TabIndex = 10;
@@ -142,9 +142,9 @@
             labelDocVersion.Font = new Font("Segoe UI", 10F, FontStyle.Regular, GraphicsUnit.Point);
             labelDocVersion.Location = new Point(25, 144);
             labelDocVersion.Name = "labelDocVersion";
-            labelDocVersion.Size = new Size(176, 28);
+            labelDocVersion.Size = new Size(184, 28);
             labelDocVersion.TabIndex = 3;
-            labelDocVersion.Text = "Document Version:";
+            labelDocVersion.Text = "Document Number:";
             // 
             // textBoxDocumentVersion
             // 
@@ -172,7 +172,7 @@
             labelFileUpload.Name = "labelFileUpload";
             labelFileUpload.Size = new Size(177, 28);
             labelFileUpload.TabIndex = 0;
-            labelFileUpload.Text = "Upload Document:";
+            labelFileUpload.Text = "Document Upload:";
             // 
             // labelDocumentNameWithExtension
             // 
@@ -185,37 +185,38 @@
             // 
             // buttonUploadDocs
             // 
+            buttonUploadDocs.Cursor = Cursors.Hand;
+            buttonUploadDocs.Font = new Font("Segoe UI Semibold", 9F, FontStyle.Bold, GraphicsUnit.Point);
             buttonUploadDocs.Location = new Point(239, 84);
             buttonUploadDocs.Name = "buttonUploadDocs";
             buttonUploadDocs.Size = new Size(112, 36);
             buttonUploadDocs.TabIndex = 1;
             buttonUploadDocs.Text = "Upload";
             buttonUploadDocs.UseVisualStyleBackColor = true;
-            buttonUploadDocs.Cursor = Cursors.Hand;
             buttonUploadDocs.Click += buttonUploadDocs_Click;
             // 
             // btnSave
             // 
-            btnSave.Font = new Font("Segoe UI", 10F, FontStyle.Regular, GraphicsUnit.Point);
+            btnSave.Cursor = Cursors.Hand;
+            btnSave.Font = new Font("Segoe UI Semibold", 10F, FontStyle.Bold, GraphicsUnit.Point);
             btnSave.Location = new Point(600, 420);
             btnSave.Name = "btnSave";
             btnSave.Size = new Size(100, 36);
             btnSave.TabIndex = 13;
             btnSave.Text = "Save";
             btnSave.UseVisualStyleBackColor = true;
-            btnSave.Cursor = Cursors.Hand;
             btnSave.Click += btnSave_Click;
             // 
             // btnCancel
             // 
-            btnCancel.Font = new Font("Segoe UI", 10F, FontStyle.Regular, GraphicsUnit.Point);
+            btnCancel.Cursor = Cursors.Hand;
+            btnCancel.Font = new Font("Segoe UI Semibold", 10F, FontStyle.Bold, GraphicsUnit.Point);
             btnCancel.Location = new Point(750, 420);
             btnCancel.Name = "btnCancel";
             btnCancel.Size = new Size(100, 36);
             btnCancel.TabIndex = 14;
             btnCancel.Text = "Cancel";
             btnCancel.UseVisualStyleBackColor = true;
-            btnCancel.Cursor = Cursors.Hand;
             btnCancel.Click += btnCancel_Click;
             // 
             // AddFormView

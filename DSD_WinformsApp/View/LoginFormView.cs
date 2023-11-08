@@ -141,11 +141,15 @@ namespace DSD_WinformsApp.View
                 };
 
                 _presenter.SaveUserRegistration(userCredentials); // Save the user registration using the presenter
-                MessageBox.Show("Registration successful.");
+                MessageBox.Show("User registration succeded.", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
                 // Visibilty of the panels
                 panelSignUp.Visible = false;
                 panelSignIn.Visible = true;
+
+                // Clear sign in fields
+                textBoxSignInUserName.Text = "";
+                textBoxSignInPassword.Text = "";
             }
             catch (Exception ex)
             {

@@ -112,7 +112,7 @@ namespace DSD_WinformsApp.View
             dataGridView1.RowTemplate.Height = 36;
             dataGridView1.RowTemplate.Resizable = DataGridViewTriState.False;
             dataGridView1.ScrollBars = ScrollBars.Horizontal;
-            dataGridView1.Size = new Size(1235, 575);
+            dataGridView1.Size = new Size(1235, 570);
             dataGridView1.TabIndex = 0;
             // 
             // panel1
@@ -405,9 +405,9 @@ namespace DSD_WinformsApp.View
             dataGridViewManageUsers.Name = "dataGridViewManageUsers";
             dataGridViewManageUsers.RowHeadersVisible = false;
             dataGridViewManageUsers.RowHeadersWidth = 62;
-            dataGridViewManageUsers.RowTemplate.Height = 33;
+            dataGridViewManageUsers.RowTemplate.Height = 36;
             dataGridViewManageUsers.ScrollBars = ScrollBars.Horizontal;
-            dataGridViewManageUsers.Size = new Size(1235, 576);
+            dataGridViewManageUsers.Size = new Size(1235, 570);
             dataGridViewManageUsers.TabIndex = 0;
             // 
             // panelUserDetails

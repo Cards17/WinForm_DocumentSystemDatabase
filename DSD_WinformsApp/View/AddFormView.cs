@@ -25,9 +25,6 @@ namespace DSD_WinformsApp.View
         private string currentSearchQuery = "";
         private string currentFilterCategory = "";
 
-
-
-
         public AddFormView(IUnitOfWork unitOfWork, IDocumentPresenter presenter)
         {
             InitializeComponent();
@@ -65,7 +62,7 @@ namespace DSD_WinformsApp.View
             // Attach SelectedIndexChanged event handlers to ComboBox controls
             cmbCategories.SelectedIndexChanged += Control_SelectedIndexChanged;
             comboBoxCreatedBy.SelectedIndexChanged += Control_SelectedIndexChanged;
-            cmbStatus.SelectedIndexChanged += Control_SelectedIndexChanged; 
+            cmbStatus.SelectedIndexChanged += Control_SelectedIndexChanged;
 
             // Attach TextChanged event handlers to relevant controls
             labelFilename.TextChanged += Control_TextChanged;
@@ -118,7 +115,7 @@ namespace DSD_WinformsApp.View
             // Create an instance of DocumentDto to hold the data
             var documentDto = new DocumentDto
             {
-               // Filename = labelFilename.Text,
+                // Filename = labelFilename.Text,
                 Filename = labelDocumentNameWithExtension.Text.Split('.')[0],
                 FilenameExtension = labelDocumentNameWithExtension.Text.Split('.')[1],
                 DocumentVersion = textBoxDocumentVersion.Text.ToUpper(),

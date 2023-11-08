@@ -679,7 +679,7 @@ namespace DSD_WinformsApp.View
                 // Check if the file name has been changed
                 if (filename != Path.GetFileNameWithoutExtension(filePath))
                 {
-                    filenameTextBox.Text = Path.GetFileNameWithoutExtension(filePath);
+                    filenameTextBox.Text = filename;
                 }
 
                 // Create a new DocumentDto with the modified data
