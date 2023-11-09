@@ -82,6 +82,7 @@ namespace DSD_WinformsApp.View
             labelHello = new Label();
             timerSearchBar = new System.Windows.Forms.Timer(components);
             timerUserSearchBar = new System.Windows.Forms.Timer(components);
+            timerDocumentCatergoriesDropdown = new System.Windows.Forms.Timer(components);
             ((System.ComponentModel.ISupportInitialize)dataGridView1).BeginInit();
             panel1.SuspendLayout();
             panelDocumentButton.SuspendLayout();
@@ -112,7 +113,7 @@ namespace DSD_WinformsApp.View
             dataGridView1.RowTemplate.Height = 36;
             dataGridView1.RowTemplate.Resizable = DataGridViewTriState.False;
             dataGridView1.ScrollBars = ScrollBars.Horizontal;
-            dataGridView1.Size = new Size(1235, 570);
+            dataGridView1.Size = new Size(1235, 590);
             dataGridView1.TabIndex = 0;
             // 
             // panel1
@@ -262,6 +263,7 @@ namespace DSD_WinformsApp.View
             // comboBoxCategoryDropdown
             // 
             comboBoxCategoryDropdown.Anchor = AnchorStyles.Top | AnchorStyles.Right;
+            comboBoxCategoryDropdown.FlatStyle = FlatStyle.Flat;
             comboBoxCategoryDropdown.Font = new Font("Segoe UI", 10F, FontStyle.Regular, GraphicsUnit.Point);
             comboBoxCategoryDropdown.FormattingEnabled = true;
             comboBoxCategoryDropdown.Location = new Point(1005, 50);
@@ -276,9 +278,11 @@ namespace DSD_WinformsApp.View
             textBoxSearchBar.Anchor = AnchorStyles.Top | AnchorStyles.Right;
             textBoxSearchBar.Font = new Font("Segoe UI", 10F, FontStyle.Regular, GraphicsUnit.Point);
             textBoxSearchBar.Location = new Point(680, 50);
+            textBoxSearchBar.MaximumSize = new Size(250, 36);
+            textBoxSearchBar.Multiline = true;
             textBoxSearchBar.Name = "textBoxSearchBar";
             textBoxSearchBar.PlaceholderText = "Search Document Title";
-            textBoxSearchBar.Size = new Size(250, 34);
+            textBoxSearchBar.Size = new Size(250, 36);
             textBoxSearchBar.TabIndex = 3;
             textBoxSearchBar.TextChanged += textBoxSearchBar_TextChanged;
             // 
@@ -407,7 +411,7 @@ namespace DSD_WinformsApp.View
             dataGridViewManageUsers.RowHeadersWidth = 62;
             dataGridViewManageUsers.RowTemplate.Height = 36;
             dataGridViewManageUsers.ScrollBars = ScrollBars.Horizontal;
-            dataGridViewManageUsers.Size = new Size(1235, 570);
+            dataGridViewManageUsers.Size = new Size(1235, 590);
             dataGridViewManageUsers.TabIndex = 0;
             // 
             // panelUserDetails
@@ -596,7 +600,7 @@ namespace DSD_WinformsApp.View
             labelHomePage.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
             labelHomePage.AutoSize = true;
             labelHomePage.Font = new Font("Segoe UI", 32F, FontStyle.Regular, GraphicsUnit.Point);
-            labelHomePage.Location = new Point(300, 150);
+            labelHomePage.Location = new Point(400, 150);
             labelHomePage.Name = "labelHomePage";
             labelHomePage.Size = new Size(832, 86);
             labelHomePage.TabIndex = 0;
@@ -643,6 +647,10 @@ namespace DSD_WinformsApp.View
             // timerUserSearchBar
             // 
             timerUserSearchBar.Tick += timerUserSearchBar_Tick;
+            // 
+            // timerDocumentCatergoriesDropdown
+            // 
+            timerDocumentCatergoriesDropdown.Tick += timerDocumentCatergoriesDropdown_Tick;
             // 
             // DocumentMainView
             // 
@@ -738,5 +746,6 @@ namespace DSD_WinformsApp.View
         private Button buttonUsersDetailSave;
         private System.Windows.Forms.Timer timerSearchBar;
         private System.Windows.Forms.Timer timerUserSearchBar;
+        private System.Windows.Forms.Timer timerDocumentCatergoriesDropdown;
     }
 }

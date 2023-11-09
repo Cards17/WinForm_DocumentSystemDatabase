@@ -124,8 +124,6 @@ namespace DSD_WinformsApp.Presenter
             currentSearchQuery = _mainDocumentView.GetSearchQuery().Trim()?? string.Empty;
             currentFilterCategory = _mainDocumentView.GetFilterCategory() ?? string.Empty;
 
-            currentPage = 1; // Reset the page when applying filters
-
             // Get the filtered documents
             filteredDocuments = await _documentRepository.GetFilteredDocuments(currentSearchQuery, currentFilterCategory);
             SetCurrentPageData();
@@ -282,8 +280,6 @@ namespace DSD_WinformsApp.Presenter
         {
             currentUsersSearchQuery = _mainDocumentView.GetSearchUserQuery().Trim() ?? string.Empty;
             currentUsersJobFilter = _mainDocumentView.GetFilterUsersCategory() ?? string.Empty;
-
-            currentPage = 1; // Reset the page when applying filters
 
             filteredUsers = await _userRepository.GetFilteredUsers(currentUsersSearchQuery, currentUsersJobFilter); // Get the filtered users based on filters
             SetCurrentUsersPageData();

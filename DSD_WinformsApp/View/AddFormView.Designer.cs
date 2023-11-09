@@ -113,9 +113,9 @@
             label1.Font = new Font("Segoe UI Semibold", 10F, FontStyle.Bold, GraphicsUnit.Point);
             label1.Location = new Point(315, 20);
             label1.Name = "label1";
-            label1.Size = new Size(174, 28);
+            label1.Size = new Size(213, 28);
             label1.TabIndex = 10;
-            label1.Text = "Document Details";
+            label1.Text = "REGISTER DOCUMENT";
             // 
             // labelCreatedBy
             // 
