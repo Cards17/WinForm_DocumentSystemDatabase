@@ -409,7 +409,7 @@ namespace DSD_WinformsApp.View
             {
 
                 // Show the delete confirmation modal directly in the main form.
-                DialogResult result = MessageBox.Show(detailsForm, $"Do you want to delete {selectedDocument.Filename}", "Download Confirmation", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+                DialogResult result = MessageBox.Show(detailsForm, $"Do you want to download {selectedDocument.Filename}", "Download Confirmation", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
 
                 if (result == DialogResult.Yes)
                 {
@@ -1050,34 +1050,59 @@ namespace DSD_WinformsApp.View
 
         private void UploadFileButton_Click(object? sender, EventArgs e, TextBox filenameTextBox)
         {
-            OpenFileDialog openFileDialog = new OpenFileDialog();
-            openFileDialog.Filter = "All files (*.*)|*.*";
-            openFileDialog.RestoreDirectory = true;
-
-            if (openFileDialog.ShowDialog() == DialogResult.OK)
+            try
             {
+                OpenFileDialog openFileDialog = new OpenFileDialog();
+                openFileDialog.Filter = "All files (*.*)|*.*";
+                openFileDialog.RestoreDirectory = true;
 
-                string filePath = openFileDialog.FileName; // Get the full path of the selected file
-                string filePathFilename = Path.GetFileNameWithoutExtension(filePath);
-
-
-                // Check if the selected file is different from the current file
-                if (!string.Equals(filePathFilename, filenameTextBox.Text, StringComparison.OrdinalIgnoreCase))
+                if (openFileDialog.ShowDialog() == DialogResult.OK)
                 {
-                    filenameTextBox.Text = filePathFilename; // Update the TextBox with the selected file name
+                    string filePath = openFileDialog.FileName; // Get the full path of the selected file
+                    string filePathExtension = Path.GetExtension(filePath).ToLower();
 
-                    isNewFileUploaded = true; // Set the flag to indicate that a new file has been uploaded
-                }
-                else
-                {
-                    MessageBox.Show($"{filenameTextBox.Text} already exists", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error); // Show an error message if the selected file is the same as the current file
-                }
+                    // Check if the selected file has a valid extension (docx, doc, pdf, xlsx, xls)
+                    if (IsFileExtensionValid(filePathExtension))
+                    {
+                        string filePathFilename = Path.GetFileNameWithoutExtension(filePath);
 
-                // Disable editing of the TextBox
-                filenameTextBox.Enabled = false;
-                // Store the file path in the Tag property of the TextBox
-                filenameTextBox.Tag = filePath;
+                        // Check if the selected file is different from the current file
+                        if (!string.Equals(filePathFilename, filenameTextBox.Text, StringComparison.OrdinalIgnoreCase))
+                        {
+                            filenameTextBox.Text = filePathFilename; 
+                            isNewFileUploaded = true; // Set the flag to indicate that a new file has been uploaded
+                        }
+                        else
+                        {
+                            MessageBox.Show($"{filenameTextBox.Text} already exists", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error); // Show an error message if the selected file is the same as the current file
+                        }
+
+                        // Disable editing of the TextBox
+                        filenameTextBox.Enabled = false;
+                        // Store the file path in the Tag property of the TextBox
+                        filenameTextBox.Tag = filePath;
+                    }
+                    else
+                    {
+                        // Show a custom error message if the file has an invalid extension
+                        MessageBox.Show("Invalid document type. Please select a Word, PDF, or Excel document.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    }
+                }
             }
+            catch (Exception)
+            {
+                // Show a custom error message for any other exceptions
+                MessageBox.Show("An error occurred while selecting the document. Please try again.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+
+        }
+
+        // Function to check if the file extension is valid
+        private bool IsFileExtensionValid(string extension)
+        {
+            // List of valid file extensions (docx, doc, pdf, xlsx, xls)
+            List<string> validExtensions = new List<string> { ".docx", ".doc", ".pdf", ".xlsx", ".xls" };
+            return validExtensions.Contains(extension);
         }
 
         private void pictureBox1_Click(object sender, EventArgs e)

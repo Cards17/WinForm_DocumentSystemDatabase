@@ -153,7 +153,7 @@ namespace DSD_WinformsApp.View
                 List<string> allowedExtensions = new List<string> { ".docx", ".doc", ".xlsx", ".xls", ".pdf" }; // Allowed file extensions
                 if (!allowedExtensions.Contains(selectedExtension))
                 {
-                    MessageBox.Show("Please select a valid file type.");
+                    MessageBox.Show("Invalid file type. Please select a Word, PDF, or Excel file.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     return;
                 }
 
