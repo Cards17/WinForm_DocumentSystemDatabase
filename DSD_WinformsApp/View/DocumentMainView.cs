@@ -45,17 +45,11 @@ namespace DSD_WinformsApp.View
             _unitOfWork = unitOfWork;
             _presenter = new DocumentPresenter(this, _unitOfWork.Documents, _unitOfWork.BackUpFiles, _unitOfWork.Users);
 
+            WindowState = FormWindowState.Maximized; // Set the initial window state to Maximized
 
-            // Set documentview to maximized
-            WindowState = FormWindowState.Maximized;
-
-            // Attach the FormClosing event handler
-            this.FormClosing += DocumentViewForm_FormClosing;
+            this.FormClosing += DocumentViewForm_FormClosing; // Form closing event handler
 
             ToggleAdminRights(isVisible); // Manage Users button visibility
-
-
-            // Set the interval for the user searchbar timer
 
             // Documents filter events 
             textBoxSearchBar.TextChanged += textBoxSearchBar_TextChanged;
@@ -71,7 +65,6 @@ namespace DSD_WinformsApp.View
             textBoxUserLastName.TextChanged += TextBox_TextChanged;
             textBoxUserEmailAdd.TextChanged += TextBox_TextChanged;
             textBoxUserJobTitle.TextChanged += TextBox_TextChanged;
-            checkBoxEnableAdmin.CheckedChanged += CheckBox_CheckedChanged;
 
             // Attach CheckedChanged event handler to the checkbox
             checkBoxEnableAdmin.CheckedChanged += CheckBox_CheckedChanged;
@@ -88,14 +81,12 @@ namespace DSD_WinformsApp.View
 
             await _presenter.LoadUsersByFilter(currentSearchUserQuery, currentJobFilter); // Load the users from the database using the presenter
 
-
             #region Manage Users Properties
 
             // Create instance for comboBox_JobCategory items
             comboBox_JobCategory.Items.Add("All Job Titles");
             comboBox_JobCategory.Items.Add("Manager");
             comboBox_JobCategory.Items.Add("Staff");
-            comboBox_JobCategory.SelectedIndex = 0; // Set the default value to "Select Category"
 
             // Datagridviewbutton details column
             DataGridViewButtonColumn detailsButtonUserColumn = new DataGridViewButtonColumn();
@@ -152,15 +143,12 @@ namespace DSD_WinformsApp.View
 
             panelManageUsers.Visible = false; // Hide the panelManageUsers initially
 
-            // Add controls for panel2
-            //pictureBox1.Enabled = isAdmin; // enable for admin user
+            // Add controls into panelDocumentButton
             panelDocumentButton.Controls.Add(pictureBox1);
             panelDocumentButton.Controls.Add(dataGridView1);
 
             textBoxSearchBar.Height = 100;
             textBoxSearchBar.Padding = new Padding(5);
-            //set default text value for search bar when calling database
-            textBoxSearchBar.Text = "";
 
             // Create instance for comboBoxCategoryDropdown items
             comboBoxCategoryDropdown.Items.Add("All Categories");
@@ -171,6 +159,60 @@ namespace DSD_WinformsApp.View
             comboBoxCategoryDropdown.Items.Add("Minutes of the Meeting");
             comboBoxCategoryDropdown.Items.Add("Regulatory Requirements");
             comboBoxCategoryDropdown.SelectedIndex = 0; // Set the default value to "Select Category"
+
+            // Add details button functionality
+            DataGridViewButtonColumn detailsColumn = new DataGridViewButtonColumn();
+            detailsColumn.Text = "Details";
+            detailsColumn.Name = "Details";
+            detailsColumn.Width = 93;
+            detailsColumn.UseColumnTextForButtonValue = true;
+            detailsColumn.HeaderText = string.Empty;
+            detailsColumn.FlatStyle = FlatStyle.Flat;
+            detailsColumn.DefaultCellStyle.ForeColor = Color.Blue;
+            detailsColumn.DefaultCellStyle.Font = new Font("Segoe UI", 9, FontStyle.Underline);
+            dataGridView1.Columns.Add(detailsColumn);
+
+            // Wire up the CellClick event handler
+            dataGridView1.CellClick += dataGridView1_DetailsButton_CellClick;
+
+            // Set the cursor to hand when hovering over the Details button
+            dataGridView1.CellMouseEnter += (sender, e) =>
+            {
+                if (e.RowIndex >= 0 && e.ColumnIndex >= 0 && dataGridView1.Columns[e.ColumnIndex] is DataGridViewButtonColumn)
+                {
+                    dataGridView1.Cursor = Cursors.Hand;
+                }
+                else
+                {
+                    dataGridView1.Cursor = Cursors.Default; // Set the default cursor for other cells
+                }
+            };
+
+
+            #endregion
+        }
+
+        public void BindDataMainView(List<DocumentDto> documents) => dataGridView1.DataSource = documents; // Bind documents to dataGridView1
+
+        public void BindDataManageUsers(List<UserCredentialsDto> users) => dataGridViewManageUsers.DataSource = users; // Bind users to dataGridViewManageUsers
+
+
+        #region Panel Buttons Events
+
+        private void buttonHome_Click(object sender, EventArgs e)
+        {
+            panelHome.Visible = true;
+            panelDocumentButton.Visible = false;
+            panelManageUsers.Visible = false;
+
+        }
+
+        private void buttonDocument_Click(object sender, EventArgs e)
+        {
+            panelManageUsers.Visible = false;
+            panelHome.Visible = false;
+            panelUserDetails.Visible = false;
+            panelDocumentButton.Visible = true;
 
             // Define the column width from documentmodel
             dataGridView1.Columns["DocumentVersion"].Width = 200;
@@ -214,54 +256,90 @@ namespace DSD_WinformsApp.View
             // Enable header cell height
             dataGridView1.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.EnableResizing;
             dataGridView1.ColumnHeadersHeight = 50;
-            // force disbaled cell highlight color
+
+            // Disable cell highlight when click
             dataGridView1.DefaultCellStyle.SelectionBackColor = ColorTranslator.FromHtml("#FFFFFF");
             dataGridView1.DefaultCellStyle.SelectionForeColor = Color.Black;
-
-            // Add details button functionality
-            DataGridViewButtonColumn detailsColumn = new DataGridViewButtonColumn();
-            detailsColumn.Text = "Details";
-            detailsColumn.Name = "Details";
-            detailsColumn.Width = 93;
-            detailsColumn.UseColumnTextForButtonValue = true;
-            detailsColumn.HeaderText = string.Empty;
-            detailsColumn.FlatStyle = FlatStyle.Flat;
-            detailsColumn.DefaultCellStyle.ForeColor = Color.Blue;
-            detailsColumn.DefaultCellStyle.Font = new Font("Segoe UI", 9, FontStyle.Underline);
-            dataGridView1.Columns.Add(detailsColumn);
-
-            // Wire up the CellClick event handler
-            dataGridView1.CellClick += dataGridView1_DetailsButton_CellClick;
-
-            // Set the cursor to hand when hovering over the Details button
-            dataGridView1.CellMouseEnter += (sender, e) =>
-            {
-                if (e.RowIndex >= 0 && e.ColumnIndex >= 0 && dataGridView1.Columns[e.ColumnIndex] is DataGridViewButtonColumn)
-                {
-                    dataGridView1.Cursor = Cursors.Hand;
-                }
-                else
-                {
-                    dataGridView1.Cursor = Cursors.Default; // Set the default cursor for other cells
-                }
-            };
-
-            #endregion
         }
 
-        public void BindDataMainView(List<DocumentDto> documents) => dataGridView1.DataSource = documents; // Bind documents to dataGridView1
-
-        public void BindDataManageUsers(List<UserCredentialsDto> users) => dataGridViewManageUsers.DataSource = users; // Bind users to dataGridViewManageUsers
-
-        #region Document Page Methods
-
-        private void buttonDocument_Click(object sender, EventArgs e)
+        private async void buttonManageUsers_Click(object sender, EventArgs e)
         {
-            panelManageUsers.Visible = false;
+            var currentUsersSearchQueryWhenItemDeleted = GetSearchUserQuery();
+            var currentUsersFilterCategoryWhenItemDeleted = GetFilterUsersCategory();
+
+            await _presenter.LoadUsersByFilter(currentUsersSearchQueryWhenItemDeleted, currentUsersFilterCategoryWhenItemDeleted);
+
+
+            panelDocumentButton.Visible = false;
             panelHome.Visible = false;
             panelUserDetails.Visible = false;
-            panelDocumentButton.Visible = true;
+            panelManageUsers.Visible = true;
+            panelManageUsers.Controls.Add(dataGridViewManageUsers);
+
+            // Set the datagridviewManageUsers column properties
+            dataGridViewManageUsers.Columns["UserId"].DisplayIndex = 0;
+            dataGridViewManageUsers.Columns["Firstname"].DisplayIndex = 1;
+            dataGridViewManageUsers.Columns["Lastname"].DisplayIndex = 2;
+            dataGridViewManageUsers.Columns["EmailAddress"].DisplayIndex = 3;
+            dataGridViewManageUsers.Columns["JobTitle"].DisplayIndex = 4;
+            dataGridViewManageUsers.Columns["UserRole"].DisplayIndex = 5;
+
+            // Set the column widths
+            dataGridViewManageUsers.Columns["Firstname"].Width = 245;
+            dataGridViewManageUsers.Columns["Lastname"].Width = 245;
+            dataGridViewManageUsers.Columns["EmailAddress"].Width = 470;
+            dataGridViewManageUsers.Columns["JobTitle"].Width = 280;
+            dataGridViewManageUsers.Columns["UserRole"].Width = 200;
+
+            dataGridViewManageUsers.Columns["Firstname"].Visible = true;
+            dataGridViewManageUsers.Columns["Lastname"].Visible = true;
+            dataGridViewManageUsers.Columns["EmailAddress"].Visible = true;
+            dataGridViewManageUsers.Columns["JobTitle"].Visible = true;
+            dataGridViewManageUsers.Columns["UserRole"].Visible = true;
+            dataGridViewManageUsers.Columns["UserId"].Visible = false;
+            dataGridViewManageUsers.Columns["CreatedDate"].Visible = false;
+            dataGridViewManageUsers.Columns["Password"].Visible = false;
+            dataGridViewManageUsers.Columns["ImageData"].Visible = false;
+            dataGridViewManageUsers.Columns["Username"].Visible = false;
+
+            // Display name for headertext
+            dataGridViewManageUsers.Columns["Firstname"].HeaderText = "FIRST NAME";
+            dataGridViewManageUsers.Columns["Lastname"].HeaderText = "LAST NAME";
+            dataGridViewManageUsers.Columns["EmailAddress"].HeaderText = "EMAIL ADDRESS";
+            dataGridViewManageUsers.Columns["JobTitle"].HeaderText = "JOB TITLE";
+            dataGridViewManageUsers.Columns["UserRole"].HeaderText = "USER ROLE";
+
+            // Set header text to center
+            dataGridViewManageUsers.Columns["Firstname"].HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewManageUsers.Columns["Lastname"].HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewManageUsers.Columns["EmailAddress"].HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewManageUsers.Columns["JobTitle"].HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewManageUsers.Columns["UserRole"].HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleCenter;
+
+            // Set header text to bold
+            dataGridViewManageUsers.Columns["Firstname"].HeaderCell.Style.Font = new Font("Segoe UI", 9, FontStyle.Bold);
+            dataGridViewManageUsers.Columns["Lastname"].HeaderCell.Style.Font = new Font("Segoe UI", 9, FontStyle.Bold);
+            dataGridViewManageUsers.Columns["EmailAddress"].HeaderCell.Style.Font = new Font("Segoe UI", 9, FontStyle.Bold);
+            dataGridViewManageUsers.Columns["JobTitle"].HeaderCell.Style.Font = new Font("Segoe UI", 9, FontStyle.Bold);
+            dataGridViewManageUsers.Columns["UserRole"].HeaderCell.Style.Font = new Font("Segoe UI", 9, FontStyle.Bold);
+
+            // Force header cell to have color
+            dataGridViewManageUsers.EnableHeadersVisualStyles = false;
+            dataGridViewManageUsers.ColumnHeadersDefaultCellStyle.BackColor = ColorTranslator.FromHtml("#576CBC");
+
+            // Enable cell header height
+            dataGridViewManageUsers.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.EnableResizing;
+            dataGridViewManageUsers.ColumnHeadersHeight = 50;
+
+            // Force disable cell highlight color
+            dataGridViewManageUsers.DefaultCellStyle.SelectionBackColor = Color.White;
+            dataGridViewManageUsers.DefaultCellStyle.SelectionForeColor = Color.Black;
+
         }
+
+        #endregion
+
+        #region Document Page Methods
 
         private void dataGridView1_DetailsButton_CellClick(object? sender, DataGridViewCellEventArgs e)
         {
@@ -279,12 +357,30 @@ namespace DSD_WinformsApp.View
 
             // Create a new form to display the document details (modal form).
             DetailsFormView detailsForm = new DetailsFormView();
-            detailsForm.Text = "Documents Page";
+            detailsForm.Text = "Document Details Form";
             detailsForm.FormBorderStyle = FormBorderStyle.FixedDialog;
             detailsForm.StartPosition = FormStartPosition.CenterParent;
             detailsForm.MaximizeBox = false;
             detailsForm.MinimizeBox = false;
             detailsForm.Cursor = Cursors.Default;
+
+            // Create the buttons and add them to the detailsForm
+            CustomButton button1 = new CustomButton(ColorTranslator.FromHtml("#A5D7E8"), SystemColors.Control);
+            button1.Text = "DETAILS";
+            button1.Location = new Point(20, 35); // Adjust the coordinates as needed.
+            button1.Height = 40;
+            button1.Width = 130;
+            button1.Font = new Font("Segoe UI", 9, FontStyle.Bold);
+            detailsForm.Controls.Add(button1);
+
+            CustomButton button2 = new CustomButton(ColorTranslator.FromHtml("#A5D7E8"), SystemColors.Control);
+            button2.Text = "HISTORY";
+            button2.Location = new Point(button1.Right + 10, 35);
+            button2.Height = button1.Height;
+            button2.Width = button1.Width;
+            button2.Font = new Font("Segoe UI", 9, FontStyle.Bold);
+            button2.Visible = isAdmin; // Hide the button if the user is not an admin
+            detailsForm.Controls.Add(button2);
 
             #region Document Details
             // Create the GroupBox
@@ -394,6 +490,7 @@ namespace DSD_WinformsApp.View
             categoryComboBox.Text = selectedDocument.Category.ToString();
             categoryComboBox.Enabled = false;
             categoryComboBox.Height = 36;
+
             int categoryComboBoxWidth = textBoxWidth;
             AddRow(groupBox, "Category:", categoryComboBox, categoryComboBoxWidth);
 
@@ -484,22 +581,6 @@ namespace DSD_WinformsApp.View
 
             #region Document History
 
-            // Create the buttons and add them to the detailsForm
-            CustomButton button1 = new CustomButton(ColorTranslator.FromHtml("#A5D7E8"), SystemColors.Control);
-            button1.Text = "Details";
-            button1.Location = new Point(20, 35); // Adjust the coordinates as needed.
-            button1.Height = 40;
-            button1.Width = 100;
-            detailsForm.Controls.Add(button1);
-
-            CustomButton button2 = new CustomButton(ColorTranslator.FromHtml("#A5D7E8"), SystemColors.Control);
-            button2.Text = "History";
-            button2.Location = new Point(button1.Right + 10, 35);
-            button2.Height = button1.Height;
-            button2.Width = button1.Width;
-            button2.Visible = isAdmin; // Hide the button if the user is not an admin
-            detailsForm.Controls.Add(button2);
-
             // Create the GroupBox containing the second DataGridView (DataGridView2)
             GroupBox groupBox2 = new GroupBox();
             groupBox2.Text = "Document History";
@@ -512,7 +593,12 @@ namespace DSD_WinformsApp.View
             dataGridView2.Dock = DockStyle.Fill;
             dataGridView2.AllowUserToAddRows = false;
             dataGridView2.RowHeadersVisible = false;
-            dataGridView2.ScrollBars = ScrollBars.Horizontal;
+            dataGridView2.RowTemplate.Height = 36;
+            dataGridView2.BorderStyle = BorderStyle.None;
+            dataGridView2.DefaultCellStyle.SelectionBackColor = ColorTranslator.FromHtml("#FFFFFF");
+            dataGridView2.DefaultCellStyle.SelectionForeColor = Color.Black;
+            dataGridView2.ScrollBars = ScrollBars.Both;
+            dataGridView2.BackgroundColor = ColorTranslator.FromHtml("#FFFFFF");
             groupBox2.Controls.Add(dataGridView2);
 
 
@@ -527,10 +613,10 @@ namespace DSD_WinformsApp.View
 
 
             // Display Columns in datagridview2
-            dataGridView2.Columns["DocumentVersion"].Width = 170;
-            dataGridView2.Columns["Filename"].Width = 330;
+            dataGridView2.Columns["DocumentVersion"].Width = 180;
+            dataGridView2.Columns["Filename"].Width = 400;
             dataGridView2.Columns["BackupDate"].Width = 120;
-            dataGridView2.Columns["Version"].Width = 100;
+            dataGridView2.Columns["Version"].Width = 120;
 
             dataGridView2.Columns["DocumentVersion"].HeaderText = "Document No.";
             dataGridView2.Columns["Filename"].HeaderText = "Document Title";
@@ -542,12 +628,36 @@ namespace DSD_WinformsApp.View
             dataGridView2.Columns["BackupFilePath"].Visible = false;
             dataGridView2.Columns["Id"].Visible = false;
 
+            // set header cell height 
+            dataGridView2.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.EnableResizing;
+            dataGridView2.ColumnHeadersHeight = 50;
+
+            // Set header cell text in middle
+            dataGridView2.Columns["DocumentVersion"].HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            dataGridView2.Columns["Filename"].HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            dataGridView2.Columns["BackupDate"].HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            dataGridView2.Columns["Version"].HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleCenter;
+
+            // set header text to segoe bold
+            dataGridView2.Columns["DocumentVersion"].HeaderCell.Style.Font = new Font("Segoe UI", 9, FontStyle.Bold);
+            dataGridView2.Columns["Filename"].HeaderCell.Style.Font = new Font("Segoe UI", 9, FontStyle.Bold);
+            dataGridView2.Columns["BackupDate"].HeaderCell.Style.Font = new Font("Segoe UI", 9, FontStyle.Bold);
+            dataGridView2.Columns["Version"].HeaderCell.Style.Font = new Font("Segoe UI", 9, FontStyle.Bold);
+
+            // Set background color for header same with datagridview1
+            dataGridView2.EnableHeadersVisualStyles = false;
+            dataGridView2.ColumnHeadersDefaultCellStyle.BackColor = ColorTranslator.FromHtml("#576CBC");
+
             // Set the cursor to hand when hovering over the Details button
             dataGridView2.CellMouseEnter += (sender, e) =>
             {
                 if (e.RowIndex >= 0 && e.ColumnIndex >= 0 && dataGridView2.Columns[e.ColumnIndex] is DataGridViewButtonColumn)
                 {
                     dataGridView2.Cursor = Cursors.Hand;
+                }
+                else
+                {
+                    dataGridView2.Cursor = Cursor.Current; // Set the default cursor for other cells
                 }
             };
 
@@ -557,6 +667,9 @@ namespace DSD_WinformsApp.View
             downloadColumn.Name = "";
             downloadColumn.Width = 100;
             downloadColumn.UseColumnTextForButtonValue = true;
+            downloadColumn.FlatStyle = FlatStyle.Flat;
+            downloadColumn.DefaultCellStyle.ForeColor = Color.Green;
+            downloadColumn.DefaultCellStyle.Font = new Font("Segoe UI", 9, FontStyle.Underline);
             dataGridView2.Columns.Add(downloadColumn);
 
             // Subscribe to the CellClick event of the DataGridView for download button.
@@ -595,6 +708,10 @@ namespace DSD_WinformsApp.View
             deleteColumn.Name = "";
             deleteColumn.Width = 100;
             deleteColumn.UseColumnTextForButtonValue = true;
+            deleteColumn.UseColumnTextForButtonValue = true;
+            deleteColumn.FlatStyle = FlatStyle.Flat;
+            deleteColumn.DefaultCellStyle.ForeColor = Color.Red;
+            deleteColumn.DefaultCellStyle.Font = new Font("Segoe UI", 9, FontStyle.Underline);
             dataGridView2.Columns.Add(deleteColumn);
 
             //Subscribe to the CellClick event of the DataGridView for delete button.
@@ -760,7 +877,6 @@ namespace DSD_WinformsApp.View
                 saveButton.Enabled = false; // Disable the Save button after save
                 editButton.Enabled = true; // Re-enable the Edit button after save
             };
-
             detailsForm.Controls.Add(saveButton);
 
             // Handle the Edit button click event
@@ -822,6 +938,7 @@ namespace DSD_WinformsApp.View
                     {
                         textBox.ReadOnly = false;
                     }
+
                 }
 
                 // Disable the Edit button after enabling editing
@@ -999,14 +1116,6 @@ namespace DSD_WinformsApp.View
 
         #endregion
 
-        private void buttonHome_Click(object sender, EventArgs e)
-        {
-            panelHome.Visible = true;
-            panelDocumentButton.Visible = false;
-            panelManageUsers.Visible = false;
-
-        }
-
         #region Manage Users Methods
 
         // Event method when details button was clicked
@@ -1016,81 +1125,6 @@ namespace DSD_WinformsApp.View
             pictureBox1.Visible = isVisible; // Add document icon
             labelDownloadAllDocs.Visible = isVisible;
             linkLabelDownloadAllDocs.Visible = isVisible;
-        }
-
-        private async void buttonManageUsers_Click(object sender, EventArgs e)
-        {
-            var currentUsersSearchQueryWhenItemDeleted = GetSearchUserQuery();
-            var currentUsersFilterCategoryWhenItemDeleted = GetFilterUsersCategory();
-
-            await _presenter.LoadUsersByFilter(currentUsersSearchQueryWhenItemDeleted, currentUsersFilterCategoryWhenItemDeleted);
-
-
-            panelDocumentButton.Visible = false;
-            panelHome.Visible = false;
-            panelUserDetails.Visible = false;
-            panelManageUsers.Visible = true;
-            panelManageUsers.Controls.Add(dataGridViewManageUsers);
-
-            // Set the datagridviewManageUsers column properties
-            dataGridViewManageUsers.Columns["UserId"].DisplayIndex = 0;
-            dataGridViewManageUsers.Columns["Firstname"].DisplayIndex = 1;
-            dataGridViewManageUsers.Columns["Lastname"].DisplayIndex = 2;
-            dataGridViewManageUsers.Columns["EmailAddress"].DisplayIndex = 3;
-            dataGridViewManageUsers.Columns["JobTitle"].DisplayIndex = 4;
-            dataGridViewManageUsers.Columns["UserRole"].DisplayIndex = 5;
-
-            // Set the column widths
-            dataGridViewManageUsers.Columns["Firstname"].Width = 245;
-            dataGridViewManageUsers.Columns["Lastname"].Width = 245;
-            dataGridViewManageUsers.Columns["EmailAddress"].Width = 470;
-            dataGridViewManageUsers.Columns["JobTitle"].Width = 280;
-            dataGridViewManageUsers.Columns["UserRole"].Width = 200;
-
-            dataGridViewManageUsers.Columns["Firstname"].Visible = true;
-            dataGridViewManageUsers.Columns["Lastname"].Visible = true;
-            dataGridViewManageUsers.Columns["EmailAddress"].Visible = true;
-            dataGridViewManageUsers.Columns["JobTitle"].Visible = true;
-            dataGridViewManageUsers.Columns["UserRole"].Visible = true;
-            dataGridViewManageUsers.Columns["UserId"].Visible = false;
-            dataGridViewManageUsers.Columns["CreatedDate"].Visible = false;
-            dataGridViewManageUsers.Columns["Password"].Visible = false;
-            dataGridViewManageUsers.Columns["ImageData"].Visible = false;
-            dataGridViewManageUsers.Columns["Username"].Visible = false;
-
-            // Display name for headertext
-            dataGridViewManageUsers.Columns["Firstname"].HeaderText = "FIRST NAME";
-            dataGridViewManageUsers.Columns["Lastname"].HeaderText = "LAST NAME";
-            dataGridViewManageUsers.Columns["EmailAddress"].HeaderText = "EMAIL ADDRESS";
-            dataGridViewManageUsers.Columns["JobTitle"].HeaderText = "JOB TITLE";
-            dataGridViewManageUsers.Columns["UserRole"].HeaderText = "USER ROLE";
-
-            // Set header text to center
-            dataGridViewManageUsers.Columns["Firstname"].HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewManageUsers.Columns["Lastname"].HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewManageUsers.Columns["EmailAddress"].HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewManageUsers.Columns["JobTitle"].HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewManageUsers.Columns["UserRole"].HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleCenter;
-
-            // Set header text to bold
-            dataGridViewManageUsers.Columns["Firstname"].HeaderCell.Style.Font = new Font("Segoe UI", 9, FontStyle.Bold);
-            dataGridViewManageUsers.Columns["Lastname"].HeaderCell.Style.Font = new Font("Segoe UI", 9, FontStyle.Bold);
-            dataGridViewManageUsers.Columns["EmailAddress"].HeaderCell.Style.Font = new Font("Segoe UI", 9, FontStyle.Bold);
-            dataGridViewManageUsers.Columns["JobTitle"].HeaderCell.Style.Font = new Font("Segoe UI", 9, FontStyle.Bold);
-            dataGridViewManageUsers.Columns["UserRole"].HeaderCell.Style.Font = new Font("Segoe UI", 9, FontStyle.Bold);
-
-            // Force header cell to have color
-            dataGridViewManageUsers.EnableHeadersVisualStyles = false;
-            dataGridViewManageUsers.ColumnHeadersDefaultCellStyle.BackColor = ColorTranslator.FromHtml("#576CBC");
-
-            // Enable cell header height
-            dataGridViewManageUsers.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.EnableResizing;
-            dataGridViewManageUsers.ColumnHeadersHeight = 50;
-
-            // Force disable cell highlight color
-            dataGridViewManageUsers.DefaultCellStyle.SelectionBackColor = Color.White;
-            dataGridViewManageUsers.DefaultCellStyle.SelectionForeColor = Color.Black;
-
         }
 
         // event when details button was clicked
@@ -1308,9 +1342,7 @@ namespace DSD_WinformsApp.View
 
         private void comboBoxCategoryDropdown_SelectedIndexChanged(object? sender, EventArgs e)
         {
-            timerDocumentCatergoriesDropdown.Stop();
-            timerDocumentCatergoriesDropdown.Interval = 500; // Set the interval for the document searchbar timer
-            timerDocumentCatergoriesDropdown.Start();
+            ApplyFilters();
         }
         private void ApplyFilters() => _presenter.ApplyFilters(); // Call presenter's ApplyFilters method
 
@@ -1421,10 +1453,8 @@ namespace DSD_WinformsApp.View
         private void buttonSignOut_Click(object sender, EventArgs e) => Application.Exit();
 
 
-        private void timerSearchBar_Tick(object? sender, EventArgs e) => ApplyFilters();
-        private void timerDocumentCatergoriesDropdown_Tick(object sender, EventArgs e) => ApplyFilters(); // Apply the document filter
-
-        private void timerUserSearchBar_Tick(object sender, EventArgs e) => ApplyUsersPageFilters(); // Apply the users filter
+        private void timerSearchBar_Tick(object? sender, EventArgs e) => ApplyFilters(); // Apply timer on document searchbar
+        private void timerUserSearchBar_Tick(object sender, EventArgs e) => ApplyUsersPageFilters(); // Apply timer on users searchbar
 
 
     }

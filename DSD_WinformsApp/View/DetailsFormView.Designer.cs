@@ -38,7 +38,7 @@
             ClientSize = new Size(850, 600);
             Icon = (Icon)resources.GetObject("$this.Icon");
             Name = "DetailsFormView";
-            Text = "Document Details";
+            Text = "Document Details Form";
             ResumeLayout(false);
         }
 

@@ -243,7 +243,7 @@
             Controls.Add(txtCategory);
             Icon = (Icon)resources.GetObject("$this.Icon");
             Name = "AddFormView";
-            Text = "Add Document";
+            Text = "Add Document Form";
             Load += AddForm_Load;
             ResumeLayout(false);
             PerformLayout();

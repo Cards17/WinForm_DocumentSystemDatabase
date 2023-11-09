@@ -264,25 +264,26 @@ namespace DSD_WinformsApp.View
             // 
             comboBoxCategoryDropdown.Anchor = AnchorStyles.Top | AnchorStyles.Right;
             comboBoxCategoryDropdown.FlatStyle = FlatStyle.Flat;
-            comboBoxCategoryDropdown.Font = new Font("Segoe UI", 10F, FontStyle.Regular, GraphicsUnit.Point);
+            comboBoxCategoryDropdown.Font = new Font("Segoe UI", 10F, FontStyle.Italic, GraphicsUnit.Point);
             comboBoxCategoryDropdown.FormattingEnabled = true;
-            comboBoxCategoryDropdown.Location = new Point(1005, 50);
+            comboBoxCategoryDropdown.Location = new Point(973, 50);
             comboBoxCategoryDropdown.Name = "comboBoxCategoryDropdown";
-            comboBoxCategoryDropdown.Size = new Size(250, 36);
+            comboBoxCategoryDropdown.Size = new Size(280, 36);
             comboBoxCategoryDropdown.TabIndex = 5;
-            comboBoxCategoryDropdown.Text = "All Categories";
+            comboBoxCategoryDropdown.Text = "     All Categories";
             comboBoxCategoryDropdown.SelectedIndexChanged += comboBoxCategoryDropdown_SelectedIndexChanged;
             // 
             // textBoxSearchBar
             // 
             textBoxSearchBar.Anchor = AnchorStyles.Top | AnchorStyles.Right;
-            textBoxSearchBar.Font = new Font("Segoe UI", 10F, FontStyle.Regular, GraphicsUnit.Point);
-            textBoxSearchBar.Location = new Point(680, 50);
-            textBoxSearchBar.MaximumSize = new Size(250, 36);
+            textBoxSearchBar.BorderStyle = BorderStyle.None;
+            textBoxSearchBar.Font = new Font("Segoe UI", 10F, FontStyle.Italic, GraphicsUnit.Point);
+            textBoxSearchBar.Location = new Point(632, 51);
+            textBoxSearchBar.MaximumSize = new Size(350, 36);
             textBoxSearchBar.Multiline = true;
             textBoxSearchBar.Name = "textBoxSearchBar";
-            textBoxSearchBar.PlaceholderText = "Search Document Title";
-            textBoxSearchBar.Size = new Size(250, 36);
+            textBoxSearchBar.PlaceholderText = "  Search by Document No. or Title ";
+            textBoxSearchBar.Size = new Size(320, 36);
             textBoxSearchBar.TabIndex = 3;
             textBoxSearchBar.TextChanged += textBoxSearchBar_TextChanged;
             // 
@@ -290,7 +291,7 @@ namespace DSD_WinformsApp.View
             // 
             comboBoxCategory.AllowDrop = true;
             comboBoxCategory.FormattingEnabled = true;
-            comboBoxCategory.Location = new Point(700, 50);
+            comboBoxCategory.Location = new Point(583, 50);
             comboBoxCategory.Name = "comboBoxCategory";
             comboBoxCategory.Size = new Size(250, 33);
             comboBoxCategory.TabIndex = 4;
@@ -354,7 +355,7 @@ namespace DSD_WinformsApp.View
             comboBox_JobCategory.AutoCompleteMode = AutoCompleteMode.SuggestAppend;
             comboBox_JobCategory.Font = new Font("Segoe UI", 10F, FontStyle.Regular, GraphicsUnit.Point);
             comboBox_JobCategory.FormattingEnabled = true;
-            comboBox_JobCategory.Location = new Point(700, 50);
+            comboBox_JobCategory.Location = new Point(584, 50);
             comboBox_JobCategory.Name = "comboBox_JobCategory";
             comboBox_JobCategory.Size = new Size(250, 36);
             comboBox_JobCategory.TabIndex = 4;
@@ -364,11 +365,11 @@ namespace DSD_WinformsApp.View
             // textBoxUsersSearchBox
             // 
             textBoxUsersSearchBox.Anchor = AnchorStyles.Top | AnchorStyles.Right;
-            textBoxUsersSearchBox.Font = new Font("Segoe UI", 10F, FontStyle.Regular, GraphicsUnit.Point);
-            textBoxUsersSearchBox.Location = new Point(1004, 50);
+            textBoxUsersSearchBox.Font = new Font("Segoe UI", 10F, FontStyle.Italic, GraphicsUnit.Point);
+            textBoxUsersSearchBox.Location = new Point(904, 50);
             textBoxUsersSearchBox.Name = "textBoxUsersSearchBox";
-            textBoxUsersSearchBox.PlaceholderText = "Search User Name";
-            textBoxUsersSearchBox.Size = new Size(250, 34);
+            textBoxUsersSearchBox.PlaceholderText = "             Search by Username";
+            textBoxUsersSearchBox.Size = new Size(350, 34);
             textBoxUsersSearchBox.TabIndex = 3;
             textBoxUsersSearchBox.TextChanged += textBoxUsersSearchBox_TextChanged;
             // 
@@ -620,12 +621,12 @@ namespace DSD_WinformsApp.View
             // 
             labelFooter.Anchor = AnchorStyles.Top;
             labelFooter.AutoSize = true;
-            labelFooter.Font = new Font("Segoe UI Semibold", 10F, FontStyle.Bold, GraphicsUnit.Point);
-            labelFooter.Location = new Point(700, 925);
+            labelFooter.Font = new Font("Graphik Medium", 9F, FontStyle.Bold | FontStyle.Italic, GraphicsUnit.Point);
+            labelFooter.Location = new Point(630, 925);
             labelFooter.Name = "labelFooter";
-            labelFooter.Size = new Size(381, 28);
+            labelFooter.Size = new Size(574, 24);
             labelFooter.TabIndex = 10;
-            labelFooter.Text = "© 2023 TEAM COOP. All Rights Reserved";
+            labelFooter.Text = "© 2023 TEAM COOP. All Rights Reserved. Internal Use Only.";
             // 
             // labelHello
             // 
@@ -648,10 +649,6 @@ namespace DSD_WinformsApp.View
             // 
             timerUserSearchBar.Tick += timerUserSearchBar_Tick;
             // 
-            // timerDocumentCatergoriesDropdown
-            // 
-            timerDocumentCatergoriesDropdown.Tick += timerDocumentCatergoriesDropdown_Tick;
-            // 
             // DocumentMainView
             // 
             AutoScaleDimensions = new SizeF(10F, 25F);
@@ -663,13 +660,13 @@ namespace DSD_WinformsApp.View
             Controls.Add(labelHomePageUserLogin);
             Controls.Add(buttonSignOut);
             Controls.Add(panel1);
-            Controls.Add(panelHome);
-            Controls.Add(panelUserDetails);
             Controls.Add(panelDocumentButton);
             Controls.Add(panelManageUsers);
+            Controls.Add(panelHome);
+            Controls.Add(panelUserDetails);
             Icon = (Icon)resources.GetObject("$this.Icon");
             Name = "DocumentMainView";
-            Text = "Main Page";
+            Text = "Document System Database Main Form";
             Load += DocumentView_Load_1;
             ((System.ComponentModel.ISupportInitialize)dataGridView1).EndInit();
             panel1.ResumeLayout(false);
