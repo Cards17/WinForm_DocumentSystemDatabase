@@ -82,7 +82,6 @@ namespace DSD_WinformsApp.View
             labelHello = new Label();
             timerSearchBar = new System.Windows.Forms.Timer(components);
             timerUserSearchBar = new System.Windows.Forms.Timer(components);
-            timerDocumentCatergoriesDropdown = new System.Windows.Forms.Timer(components);
             ((System.ComponentModel.ISupportInitialize)dataGridView1).BeginInit();
             panel1.SuspendLayout();
             panelDocumentButton.SuspendLayout();
@@ -660,10 +659,10 @@ namespace DSD_WinformsApp.View
             Controls.Add(labelHomePageUserLogin);
             Controls.Add(buttonSignOut);
             Controls.Add(panel1);
-            Controls.Add(panelDocumentButton);
-            Controls.Add(panelManageUsers);
             Controls.Add(panelHome);
             Controls.Add(panelUserDetails);
+            Controls.Add(panelDocumentButton);
+            Controls.Add(panelManageUsers);
             Icon = (Icon)resources.GetObject("$this.Icon");
             Name = "DocumentMainView";
             Text = "Document System Database Main Form";
@@ -743,6 +742,5 @@ namespace DSD_WinformsApp.View
         private Button buttonUsersDetailSave;
         private System.Windows.Forms.Timer timerSearchBar;
         private System.Windows.Forms.Timer timerUserSearchBar;
-        private System.Windows.Forms.Timer timerDocumentCatergoriesDropdown;
     }
 }

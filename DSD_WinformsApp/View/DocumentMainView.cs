@@ -1232,8 +1232,8 @@ namespace DSD_WinformsApp.View
             panelHome.Visible = false;
             panelDocumentButton.Visible = false;
 
-            // Load the user
-            await _presenter.LoadUsers();
+            // Load the user by filter
+             await _presenter.LoadUsersByFilter(currentSearchUserQuery, currentJobFilter);
 
             // Clear the original values dictionary
             originalValues.Clear();
@@ -1308,7 +1308,7 @@ namespace DSD_WinformsApp.View
             {
                 UserCredentialsDto selectedUser = (UserCredentialsDto)dataGridViewManageUsers.Rows[e.RowIndex].DataBoundItem;
                 // Show the delete confirmation modal directly in the main form.
-                DialogResult result = MessageBox.Show("Are you sure you want to delete the selected user?", "Delete Confirmation", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+                DialogResult result = MessageBox.Show($"Do you want to remove {selectedUser.UserName} as user ?", "Delete Confirmation", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
 
                 if (result == DialogResult.Yes)
                 {
@@ -1324,9 +1324,6 @@ namespace DSD_WinformsApp.View
                 }
             }
         }
-
-
-
 
         #endregion
 

@@ -172,12 +172,6 @@ namespace DSD_WinformsApp.Infrastructure.Data.Services
             var categoryFilter = GetFilterCategories(filterCriteria);
             var searchFilter = searchQuery ?? "";
 
-            //var filteredDocuments = allDocuments
-            //    .Where(document =>
-            //        (string.IsNullOrEmpty(searchFilter) || document.Filename.Contains(searchFilter, StringComparison.OrdinalIgnoreCase)) &&
-            //        (string.IsNullOrEmpty(filterCriteria) || categoryFilter(document.Category)))
-            //    .ToList();
-
             var filteredDocuments = allDocuments
              .Where(document =>
                  (string.IsNullOrEmpty(searchFilter) || document.Filename.Contains(searchFilter, StringComparison.OrdinalIgnoreCase) || document.DocumentVersion.Contains(searchFilter, StringComparison.OrdinalIgnoreCase)) &&

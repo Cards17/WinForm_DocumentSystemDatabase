@@ -97,7 +97,9 @@ namespace DSD_WinformsApp.Infrastructure.Data.Services
         public async Task<List<UserCredentialsDto>> GetFilteredUsers(string searchUserQuery, string jobFilterCategory)
         {
             // add condition for search and filter was empty or null
-            var allUsers = await _dbContext.UserCredentials.ToListAsync();
+            var allUsers = await _dbContext.UserCredentials
+                .OrderByDescending(d => d.UserId)
+                .ToListAsync();
             var jobFilter = GetFilterJobTitleCategories(jobFilterCategory);
             var searchFilter = searchUserQuery ?? "";
 
