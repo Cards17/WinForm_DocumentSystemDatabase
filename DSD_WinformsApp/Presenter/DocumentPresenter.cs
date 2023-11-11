@@ -436,6 +436,13 @@ namespace DSD_WinformsApp.Presenter
             }
         }
 
+        public async Task<bool> CheckForDuplicateUsername(string userName)
+        {
+            List<UserCredentialsDto> allUsers = await _userRepository.GetAllUsers();
+
+            return allUsers.Any(d => d.UserName == userName);// Check for duplicate user name
+        }
+
         #endregion
 
     }

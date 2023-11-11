@@ -35,7 +35,6 @@ namespace DSD_WinformsApp.View
 
         }
 
-
         private void LoginFormView_Load(object sender, EventArgs e)
         {
             // Hide the signup panel initially
@@ -114,6 +113,7 @@ namespace DSD_WinformsApp.View
 
             textBoxFirstname.TextChanged += Control_TextChanged;
             textBoxLastname.TextChanged += Control_TextChanged;
+            textBoxUserJobTitle.TextChanged += Control_TextChanged;
             textBoxEmailAdd.TextChanged += Control_TextChanged;
             textBoxPasswrd.TextChanged += Control_TextChanged;
 
@@ -125,8 +125,9 @@ namespace DSD_WinformsApp.View
             }
         }
 
-        private void buttonSignUp_Click(object sender, EventArgs e)
+        private async void buttonSignUp_Click(object sender, EventArgs e)
         {
+            buttonSignUp.Enabled = false;
             try
             {
                 // Create an instance of the UserCredentialsDto
@@ -140,8 +141,18 @@ namespace DSD_WinformsApp.View
                     UserName = $"{textBoxFirstname.Text.Trim()} {textBoxLastname.Text.Trim()}"
                 };
 
-                _presenter.SaveUserRegistration(userCredentials); // Save the user registration using the presenter
-                MessageBox.Show("User registration succeded.", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                bool duplicateUsername = await _presenter.CheckForDuplicateUsername(userCredentials.UserName);
+
+                if (duplicateUsername)
+                {
+                    MessageBox.Show($"{userCredentials.UserName} already exist. Try another username.", "Duplicate Username", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                    return;
+                }
+                else
+                {
+                    _presenter.SaveUserRegistration(userCredentials); // Save the user registration using the presenter
+                    MessageBox.Show("User registration succeeded.", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
 
                 // Visibilty of the panels
                 panelSignUp.Visible = false;
@@ -151,9 +162,14 @@ namespace DSD_WinformsApp.View
                 textBoxSignInUserName.Text = "";
                 textBoxSignInPassword.Text = "";
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                MessageBox.Show(ex.Message);
+                MessageBox.Show($"An error occurred during signing up.", "Sign Up Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+
+            finally
+            {
+                buttonSignUp.Enabled = true; // Ensure the button is re-enabled even in case of an error
             }
 
         }
@@ -190,7 +206,47 @@ namespace DSD_WinformsApp.View
 
         private void Control_TextChanged(object? sender, EventArgs e)
         {
+            const int maxFirstNameCharacters = 30;
+            const int maxLastNameCharacters = 30;
+            const int maxJobtitleCharacters = 50;
+            const int maxEmailCharacters = 50;
+            const int maxPasswordCharacters = 20;
+
+            if (sender == textBoxFirstname)
+            {
+                ValidateAndLimitCharacters(textBoxFirstname, maxFirstNameCharacters);
+            }
+            else if (sender == textBoxLastname)
+            {
+                ValidateAndLimitCharacters(textBoxLastname, maxLastNameCharacters);
+            }
+            else if (sender == textBoxUserJobTitle)
+            {
+                ValidateAndLimitCharacters(textBoxUserJobTitle, maxJobtitleCharacters);
+            }
+            else if (sender == textBoxEmailAdd)
+            {
+                ValidateAndLimitCharacters(textBoxEmailAdd, maxEmailCharacters);
+            }
+            else if (sender == textBoxPasswrd)
+            {
+                ValidateAndLimitCharacters(textBoxPasswrd, maxPasswordCharacters);
+            }
+
             ValidateForm();
+        }
+
+        private void ValidateAndLimitCharacters(TextBox textBox, int maxCharacters)
+        {
+            // Check if the length of the entered text exceeds the limit
+            if (textBox.Text.Length > maxCharacters)
+            {
+                // If it does, truncate the text to the allowed length
+                textBox.Text = textBox.Text.Substring(0, maxCharacters);
+
+                // Optionally, you can display a message to the user indicating the character limit
+                MessageBox.Show($"Your entry exceed {maxCharacters} characters.", "Character Limit", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
         }
 
         private void ValidateForm()

@@ -33,6 +33,7 @@ namespace DSD_WinformsApp.View
         private void InitializeComponent()
         {
             components = new System.ComponentModel.Container();
+            DataGridViewCellStyle dataGridViewCellStyle2 = new DataGridViewCellStyle();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(DocumentMainView));
             dataGridView1 = new DataGridView();
             panel1 = new Panel();
@@ -105,13 +106,22 @@ namespace DSD_WinformsApp.View
             dataGridView1.BackgroundColor = SystemColors.Window;
             dataGridView1.BorderStyle = BorderStyle.None;
             dataGridView1.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            dataGridView1.GridColor = Color.FromArgb(0, 64, 0);
             dataGridView1.Location = new Point(18, 130);
             dataGridView1.Name = "dataGridView1";
+            dataGridView1.ReadOnly = true;
+            dataGridViewCellStyle2.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle2.BackColor = SystemColors.Highlight;
+            dataGridViewCellStyle2.Font = new Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point);
+            dataGridViewCellStyle2.ForeColor = SystemColors.Window;
+            dataGridViewCellStyle2.SelectionBackColor = SystemColors.Highlight;
+            dataGridViewCellStyle2.SelectionForeColor = SystemColors.HighlightText;
+            dataGridViewCellStyle2.WrapMode = DataGridViewTriState.True;
+            dataGridView1.RowHeadersDefaultCellStyle = dataGridViewCellStyle2;
             dataGridView1.RowHeadersVisible = false;
             dataGridView1.RowHeadersWidth = 62;
             dataGridView1.RowTemplate.Height = 36;
             dataGridView1.RowTemplate.Resizable = DataGridViewTriState.False;
-            dataGridView1.ScrollBars = ScrollBars.Horizontal;
             dataGridView1.Size = new Size(1235, 590);
             dataGridView1.TabIndex = 0;
             // 
@@ -130,11 +140,11 @@ namespace DSD_WinformsApp.View
             // labelAppName
             // 
             labelAppName.AutoSize = true;
-            labelAppName.Font = new Font("Segoe UI Semibold", 11F, FontStyle.Bold, GraphicsUnit.Point);
+            labelAppName.Font = new Font("Graphik", 10.999999F, FontStyle.Regular, GraphicsUnit.Point);
             labelAppName.ForeColor = SystemColors.HighlightText;
-            labelAppName.Location = new Point(24, 17);
+            labelAppName.Location = new Point(19, 28);
             labelAppName.Name = "labelAppName";
-            labelAppName.Size = new Size(199, 30);
+            labelAppName.Size = new Size(212, 26);
             labelAppName.TabIndex = 3;
             labelAppName.Text = "Document System ";
             // 
@@ -142,12 +152,14 @@ namespace DSD_WinformsApp.View
             // 
             buttonManageUsers.BackColor = Color.FromArgb(87, 108, 188);
             buttonManageUsers.Cursor = Cursors.Hand;
+            buttonManageUsers.FlatAppearance.BorderSize = 0;
+            buttonManageUsers.FlatAppearance.MouseOverBackColor = Color.FromArgb(0, 60, 80);
             buttonManageUsers.FlatStyle = FlatStyle.Flat;
-            buttonManageUsers.Font = new Font("Segoe UI Semibold", 10F, FontStyle.Bold, GraphicsUnit.Point);
-            buttonManageUsers.ForeColor = SystemColors.MenuBar;
-            buttonManageUsers.Location = new Point(8, 240);
+            buttonManageUsers.Font = new Font("Graphik", 10F, FontStyle.Regular, GraphicsUnit.Point);
+            buttonManageUsers.ForeColor = SystemColors.Window;
+            buttonManageUsers.Location = new Point(19, 259);
             buttonManageUsers.Name = "buttonManageUsers";
-            buttonManageUsers.Size = new Size(235, 38);
+            buttonManageUsers.Size = new Size(212, 40);
             buttonManageUsers.TabIndex = 2;
             buttonManageUsers.Text = "Manage Users";
             buttonManageUsers.UseVisualStyleBackColor = false;
@@ -158,12 +170,14 @@ namespace DSD_WinformsApp.View
             // 
             buttonDocument.BackColor = Color.FromArgb(87, 108, 188);
             buttonDocument.Cursor = Cursors.Hand;
+            buttonDocument.FlatAppearance.BorderSize = 0;
+            buttonDocument.FlatAppearance.MouseOverBackColor = Color.FromArgb(0, 60, 80);
             buttonDocument.FlatStyle = FlatStyle.Flat;
-            buttonDocument.Font = new Font("Segoe UI Semibold", 10F, FontStyle.Bold, GraphicsUnit.Point);
-            buttonDocument.ForeColor = SystemColors.MenuBar;
-            buttonDocument.Location = new Point(8, 180);
+            buttonDocument.Font = new Font("Graphik", 10F, FontStyle.Regular, GraphicsUnit.Point);
+            buttonDocument.ForeColor = SystemColors.Window;
+            buttonDocument.Location = new Point(19, 191);
             buttonDocument.Name = "buttonDocument";
-            buttonDocument.Size = new Size(235, 38);
+            buttonDocument.Size = new Size(212, 40);
             buttonDocument.TabIndex = 1;
             buttonDocument.Text = "Document";
             buttonDocument.UseVisualStyleBackColor = false;
@@ -173,12 +187,14 @@ namespace DSD_WinformsApp.View
             // 
             buttonHome.BackColor = Color.FromArgb(87, 108, 188);
             buttonHome.Cursor = Cursors.Hand;
+            buttonHome.FlatAppearance.BorderSize = 0;
+            buttonHome.FlatAppearance.MouseOverBackColor = Color.FromArgb(0, 60, 80);
             buttonHome.FlatStyle = FlatStyle.Flat;
-            buttonHome.Font = new Font("Segoe UI Semibold", 10F, FontStyle.Bold, GraphicsUnit.Point);
-            buttonHome.ForeColor = SystemColors.MenuBar;
-            buttonHome.Location = new Point(8, 120);
+            buttonHome.Font = new Font("Graphik", 10F, FontStyle.Regular, GraphicsUnit.Point);
+            buttonHome.ForeColor = SystemColors.Window;
+            buttonHome.Location = new Point(19, 120);
             buttonHome.Name = "buttonHome";
-            buttonHome.Size = new Size(235, 38);
+            buttonHome.Size = new Size(212, 40);
             buttonHome.TabIndex = 0;
             buttonHome.Text = "Home";
             buttonHome.UseVisualStyleBackColor = false;
@@ -237,7 +253,7 @@ namespace DSD_WinformsApp.View
             // 
             iconNext.Anchor = AnchorStyles.Top | AnchorStyles.Right;
             iconNext.Cursor = Cursors.Hand;
-            iconNext.Image = Properties.Resources.next;
+            iconNext.Image = Properties.Resources.doc_next;
             iconNext.Location = new Point(1218, 750);
             iconNext.Name = "iconNext";
             iconNext.Size = new Size(32, 32);
@@ -311,15 +327,19 @@ namespace DSD_WinformsApp.View
             // buttonSignOut
             // 
             buttonSignOut.Anchor = AnchorStyles.Top | AnchorStyles.Right;
-            buttonSignOut.BackColor = Color.FromArgb(218, 11, 11);
+            buttonSignOut.BackColor = Color.White;
             buttonSignOut.Cursor = Cursors.Hand;
-            buttonSignOut.Font = new Font("Segoe UI Semibold", 10F, FontStyle.Bold, GraphicsUnit.Point);
+            buttonSignOut.FlatAppearance.BorderSize = 0;
+            buttonSignOut.FlatAppearance.MouseOverBackColor = Color.FromArgb(9, 142, 154);
+            buttonSignOut.FlatStyle = FlatStyle.Flat;
+            buttonSignOut.Font = new Font("Graphik Semibold", 9.999999F, FontStyle.Bold, GraphicsUnit.Point);
+            buttonSignOut.ForeColor = Color.FromArgb(152, 21, 9);
             buttonSignOut.Location = new Point(1400, 25);
             buttonSignOut.Name = "buttonSignOut";
             buttonSignOut.Size = new Size(110, 40);
             buttonSignOut.TabIndex = 3;
             buttonSignOut.Text = "Sign Out";
-            buttonSignOut.UseVisualStyleBackColor = false;
+            buttonSignOut.UseVisualStyleBackColor = true;
             buttonSignOut.Click += buttonSignOut_Click;
             // 
             // panelManageUsers
@@ -367,7 +387,7 @@ namespace DSD_WinformsApp.View
             textBoxUsersSearchBox.Font = new Font("Segoe UI", 10F, FontStyle.Italic, GraphicsUnit.Point);
             textBoxUsersSearchBox.Location = new Point(904, 50);
             textBoxUsersSearchBox.Name = "textBoxUsersSearchBox";
-            textBoxUsersSearchBox.PlaceholderText = "             Search by Username";
+            textBoxUsersSearchBox.PlaceholderText = "Search by Username";
             textBoxUsersSearchBox.Size = new Size(350, 34);
             textBoxUsersSearchBox.TabIndex = 3;
             textBoxUsersSearchBox.TextChanged += textBoxUsersSearchBox_TextChanged;
@@ -407,10 +427,10 @@ namespace DSD_WinformsApp.View
             dataGridViewManageUsers.Cursor = Cursors.Hand;
             dataGridViewManageUsers.Location = new Point(18, 130);
             dataGridViewManageUsers.Name = "dataGridViewManageUsers";
+            dataGridViewManageUsers.ReadOnly = true;
             dataGridViewManageUsers.RowHeadersVisible = false;
             dataGridViewManageUsers.RowHeadersWidth = 62;
             dataGridViewManageUsers.RowTemplate.Height = 36;
-            dataGridViewManageUsers.ScrollBars = ScrollBars.Horizontal;
             dataGridViewManageUsers.Size = new Size(1235, 590);
             dataGridViewManageUsers.TabIndex = 0;
             // 
@@ -426,6 +446,7 @@ namespace DSD_WinformsApp.View
             // 
             // panelUserDetails2
             // 
+            panelUserDetails2.Anchor = AnchorStyles.Top | AnchorStyles.Bottom;
             panelUserDetails2.BackColor = Color.White;
             panelUserDetails2.Controls.Add(buttonEditUser);
             panelUserDetails2.Controls.Add(buttonCloseUser);
@@ -442,7 +463,7 @@ namespace DSD_WinformsApp.View
             panelUserDetails2.Controls.Add(labelLastName);
             panelUserDetails2.Controls.Add(labelJobTitle);
             panelUserDetails2.Controls.Add(labelEmailAddress);
-            panelUserDetails2.Location = new Point(150, 50);
+            panelUserDetails2.Location = new Point(135, 50);
             panelUserDetails2.Name = "panelUserDetails2";
             panelUserDetails2.Size = new Size(1010, 750);
             panelUserDetails2.TabIndex = 6;
@@ -597,12 +618,12 @@ namespace DSD_WinformsApp.View
             // 
             // labelHomePage
             // 
-            labelHomePage.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
+            labelHomePage.Anchor = AnchorStyles.Top | AnchorStyles.Bottom;
             labelHomePage.AutoSize = true;
-            labelHomePage.Font = new Font("Segoe UI", 32F, FontStyle.Regular, GraphicsUnit.Point);
-            labelHomePage.Location = new Point(400, 150);
+            labelHomePage.Font = new Font("Graphik Semibold", 32F, FontStyle.Bold, GraphicsUnit.Point);
+            labelHomePage.Location = new Point(180, 145);
             labelHomePage.Name = "labelHomePage";
-            labelHomePage.Size = new Size(832, 86);
+            labelHomePage.Size = new Size(919, 77);
             labelHomePage.TabIndex = 0;
             labelHomePage.Text = "Document System Database";
             // 
@@ -620,10 +641,10 @@ namespace DSD_WinformsApp.View
             // 
             labelFooter.Anchor = AnchorStyles.Top;
             labelFooter.AutoSize = true;
-            labelFooter.Font = new Font("Graphik Medium", 9F, FontStyle.Bold | FontStyle.Italic, GraphicsUnit.Point);
-            labelFooter.Location = new Point(630, 925);
+            labelFooter.Font = new Font("Graphik", 9F, FontStyle.Italic, GraphicsUnit.Point);
+            labelFooter.Location = new Point(630, 927);
             labelFooter.Name = "labelFooter";
-            labelFooter.Size = new Size(574, 24);
+            labelFooter.Size = new Size(519, 21);
             labelFooter.TabIndex = 10;
             labelFooter.Text = "© 2023 TEAM COOP. All Rights Reserved. Internal Use Only.";
             // 
@@ -631,7 +652,7 @@ namespace DSD_WinformsApp.View
             // 
             labelHello.Anchor = AnchorStyles.Top | AnchorStyles.Right;
             labelHello.AutoSize = true;
-            labelHello.Font = new Font("Segoe UI Semibold", 10F, FontStyle.Bold, GraphicsUnit.Point);
+            labelHello.Font = new Font("Graphik", 10F, FontStyle.Regular, GraphicsUnit.Point);
             labelHello.Location = new Point(1100, 33);
             labelHello.MinimumSize = new Size(65, 36);
             labelHello.Name = "labelHello";

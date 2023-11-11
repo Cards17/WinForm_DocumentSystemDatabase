@@ -26,9 +26,7 @@ namespace DSD_WinformsApp.View
         private readonly IUnitOfWork _unitOfWork;
         private readonly IDocumentPresenter _presenter;
 
-
         private bool isNewFileUploaded = false;
-
 
         // Initial values for search query and category filter
         private string currentSearchQuery = "";
@@ -81,6 +79,56 @@ namespace DSD_WinformsApp.View
 
             await _presenter.LoadUsersByFilter(currentSearchUserQuery, currentJobFilter); // Load the users from the database using the presenter
 
+            #region Document Page Properties
+
+            //panelManageUsers.Visible = false; // Hide the panelManageUsers initially
+
+            // Add controls into panelDocumentButton
+            panelDocumentButton.Controls.Add(pictureBox1);
+            panelDocumentButton.Controls.Add(dataGridView1);
+
+            textBoxSearchBar.Height = 100;
+            textBoxSearchBar.Padding = new Padding(5);
+
+            // Create instance for comboBoxCategoryDropdown items
+            comboBoxCategoryDropdown.Items.Add("All Categories");
+            comboBoxCategoryDropdown.Items.Add("Board Resolutions");
+            comboBoxCategoryDropdown.Items.Add("Canteen Policies");
+            comboBoxCategoryDropdown.Items.Add("COOP Policies");
+            comboBoxCategoryDropdown.Items.Add("COOP Article & By Laws");
+            comboBoxCategoryDropdown.Items.Add("Minutes of the Meeting");
+            comboBoxCategoryDropdown.Items.Add("Regulatory Requirements");
+
+            // Add details button functionality
+            DataGridViewButtonColumn detailsColumn = new DataGridViewButtonColumn();
+            detailsColumn.Text = "Details";
+            detailsColumn.Name = "Details";
+            detailsColumn.Width = 93;
+            detailsColumn.UseColumnTextForButtonValue = true;
+            detailsColumn.HeaderText = string.Empty;
+            detailsColumn.FlatStyle = FlatStyle.Flat;
+            detailsColumn.DefaultCellStyle.ForeColor = Color.Blue;
+            detailsColumn.DefaultCellStyle.Font = new Font("Segoe UI", 9, FontStyle.Underline);
+            dataGridView1.Columns.Add(detailsColumn);
+
+            // Wire up the CellClick event handler
+            dataGridView1.CellClick += dataGridView1_DetailsButton_CellClick;
+
+            // Set the cursor to hand when hovering over the Details button
+            dataGridView1.CellMouseEnter += (sender, e) =>
+            {
+                if (e.RowIndex >= 0 && e.ColumnIndex >= 0 && dataGridView1.Columns[e.ColumnIndex] is DataGridViewButtonColumn)
+                {
+                    dataGridView1.Cursor = Cursors.Hand;
+                }
+                else
+                {
+                    dataGridView1.Cursor = Cursors.Default; // Set the default cursor for other cells
+                }
+            };
+
+            #endregion
+
             #region Manage Users Properties
 
             // Create instance for comboBox_JobCategory items
@@ -116,10 +164,6 @@ namespace DSD_WinformsApp.View
             dataGridViewManageUsers.CellClick += dataGridViewManageUsers_DetailsButton_CellClick;
             dataGridViewManageUsers.CellClick += dataGridViewManageUsers_DeleteButton_CellClick;
 
-            // Set Onclick event for users pagination buttons
-            pictureBoxUsersNextIcon.Click += pictureBoxUsersNextIcon_Click;
-            pictureBoxUsersBackIcon.Click += pictureBoxUsersBackIcon_Click;
-
             // Set the cursor to hand if button columns only
             dataGridViewManageUsers.CellMouseEnter += (sender, e) =>
             {
@@ -132,62 +176,6 @@ namespace DSD_WinformsApp.View
                     dataGridViewManageUsers.Cursor = Cursors.Default; // Set the default cursor for other cells
                 }
             };
-
-            #endregion
-
-            #region Document Page Properties
-
-            // Set Onclick event for the pagination buttons
-            iconNext.Click += pictureBox3_Click;
-            iconBack.Click += iconBack_Click;
-
-            panelManageUsers.Visible = false; // Hide the panelManageUsers initially
-
-            // Add controls into panelDocumentButton
-            panelDocumentButton.Controls.Add(pictureBox1);
-            panelDocumentButton.Controls.Add(dataGridView1);
-
-            textBoxSearchBar.Height = 100;
-            textBoxSearchBar.Padding = new Padding(5);
-
-            // Create instance for comboBoxCategoryDropdown items
-            comboBoxCategoryDropdown.Items.Add("All Categories");
-            comboBoxCategoryDropdown.Items.Add("Board Resolutions");
-            comboBoxCategoryDropdown.Items.Add("Canteen Policies");
-            comboBoxCategoryDropdown.Items.Add("COOP Policies");
-            comboBoxCategoryDropdown.Items.Add("COOP Article & By Laws");
-            comboBoxCategoryDropdown.Items.Add("Minutes of the Meeting");
-            comboBoxCategoryDropdown.Items.Add("Regulatory Requirements");
-            comboBoxCategoryDropdown.SelectedIndex = 0; // Set the default value to "Select Category"
-
-            // Add details button functionality
-            DataGridViewButtonColumn detailsColumn = new DataGridViewButtonColumn();
-            detailsColumn.Text = "Details";
-            detailsColumn.Name = "Details";
-            detailsColumn.Width = 93;
-            detailsColumn.UseColumnTextForButtonValue = true;
-            detailsColumn.HeaderText = string.Empty;
-            detailsColumn.FlatStyle = FlatStyle.Flat;
-            detailsColumn.DefaultCellStyle.ForeColor = Color.Blue;
-            detailsColumn.DefaultCellStyle.Font = new Font("Segoe UI", 9, FontStyle.Underline);
-            dataGridView1.Columns.Add(detailsColumn);
-
-            // Wire up the CellClick event handler
-            dataGridView1.CellClick += dataGridView1_DetailsButton_CellClick;
-
-            // Set the cursor to hand when hovering over the Details button
-            dataGridView1.CellMouseEnter += (sender, e) =>
-            {
-                if (e.RowIndex >= 0 && e.ColumnIndex >= 0 && dataGridView1.Columns[e.ColumnIndex] is DataGridViewButtonColumn)
-                {
-                    dataGridView1.Cursor = Cursors.Hand;
-                }
-                else
-                {
-                    dataGridView1.Cursor = Cursors.Default; // Set the default cursor for other cells
-                }
-            };
-
 
             #endregion
         }
@@ -209,10 +197,10 @@ namespace DSD_WinformsApp.View
 
         private void buttonDocument_Click(object sender, EventArgs e)
         {
+            panelDocumentButton.Visible = true;
             panelManageUsers.Visible = false;
             panelHome.Visible = false;
             panelUserDetails.Visible = false;
-            panelDocumentButton.Visible = true;
 
             // Define the column width from documentmodel
             dataGridView1.Columns["DocumentVersion"].Width = 200;
@@ -242,6 +230,7 @@ namespace DSD_WinformsApp.View
             dataGridView1.Columns["Category"].HeaderCell.Style.Font = new Font("Segoe UI", 9, FontStyle.Bold);
             dataGridView1.Columns["CreatedDate"].HeaderCell.Style.Font = new Font("Segoe UI", 9, FontStyle.Bold);
 
+
             // make header text center
             dataGridView1.Columns["DocumentVersion"].HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleCenter;
             dataGridView1.Columns["Status"].HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleCenter;
@@ -252,6 +241,7 @@ namespace DSD_WinformsApp.View
             // force header cell to have color
             dataGridView1.EnableHeadersVisualStyles = false;
             dataGridView1.ColumnHeadersDefaultCellStyle.BackColor = ColorTranslator.FromHtml("#576CBC");
+            dataGridView1.ColumnHeadersDefaultCellStyle.ForeColor = Color.White;
 
             // Enable header cell height
             dataGridView1.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.EnableResizing;
@@ -326,6 +316,7 @@ namespace DSD_WinformsApp.View
             // Force header cell to have color
             dataGridViewManageUsers.EnableHeadersVisualStyles = false;
             dataGridViewManageUsers.ColumnHeadersDefaultCellStyle.BackColor = ColorTranslator.FromHtml("#576CBC");
+            dataGridViewManageUsers.ColumnHeadersDefaultCellStyle.ForeColor = Color.White;
 
             // Enable cell header height
             dataGridViewManageUsers.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.EnableResizing;
@@ -593,6 +584,7 @@ namespace DSD_WinformsApp.View
             dataGridView2.Dock = DockStyle.Fill;
             dataGridView2.AllowUserToAddRows = false;
             dataGridView2.RowHeadersVisible = false;
+            dataGridView2.ReadOnly = true;
             dataGridView2.RowTemplate.Height = 36;
             dataGridView2.BorderStyle = BorderStyle.None;
             dataGridView2.DefaultCellStyle.SelectionBackColor = ColorTranslator.FromHtml("#FFFFFF");
@@ -647,6 +639,7 @@ namespace DSD_WinformsApp.View
             // Set background color for header same with datagridview1
             dataGridView2.EnableHeadersVisualStyles = false;
             dataGridView2.ColumnHeadersDefaultCellStyle.BackColor = ColorTranslator.FromHtml("#576CBC");
+            dataGridView2.ColumnHeadersDefaultCellStyle.ForeColor = Color.White;
 
             // Set the cursor to hand when hovering over the Details button
             dataGridView2.CellMouseEnter += (sender, e) =>
@@ -901,8 +894,8 @@ namespace DSD_WinformsApp.View
                     }
                 }
 
-                uploadFileButton.Enabled = true; // Enable the Upload File button
-                editButton.Enabled = false; // Disable the Edit button after enabling editing
+                uploadFileButton.Enabled = true;
+                editButton.Enabled = false;
             };
 
             // Adjust the size of the detailsForm to fit the GroupBox and its contents
@@ -941,7 +934,6 @@ namespace DSD_WinformsApp.View
 
                 }
 
-                // Disable the Edit button after enabling editing
                 editButton.Enabled = false;
             }
 
@@ -1069,7 +1061,7 @@ namespace DSD_WinformsApp.View
                         // Check if the selected file is different from the current file
                         if (!string.Equals(filePathFilename, filenameTextBox.Text, StringComparison.OrdinalIgnoreCase))
                         {
-                            filenameTextBox.Text = filePathFilename; 
+                            filenameTextBox.Text = filePathFilename;
                             isNewFileUploaded = true; // Set the flag to indicate that a new file has been uploaded
                         }
                         else
@@ -1107,24 +1099,12 @@ namespace DSD_WinformsApp.View
 
         private void pictureBox1_Click(object sender, EventArgs e)
         {
-            // if set combo box to index 0 but when its already at index 0, it will go to index -1
-            if (comboBoxCategoryDropdown.SelectedIndex == 0)
-            {
-                comboBoxCategoryDropdown.SelectedIndex = -1;
-            }
-            else
-            {
-                comboBoxCategoryDropdown.SelectedIndex = 0;
-            }
-
-            // Clear search bar
-            textBoxSearchBar.Text = "";
-
+            // Show AddFormView Form
             using (AddFormView newForm = new AddFormView(_unitOfWork, _presenter))
             {
                 newForm.StartPosition = FormStartPosition.CenterParent;
                 newForm.ShowDialog();
-                comboBoxCategoryDropdown.SelectedIndex = 0;
+                //comboBoxCategoryDropdown.SelectedIndex = 0;
             }
         }
 
@@ -1258,7 +1238,7 @@ namespace DSD_WinformsApp.View
             panelDocumentButton.Visible = false;
 
             // Load the user by filter
-             await _presenter.LoadUsersByFilter(currentSearchUserQuery, currentJobFilter);
+            await _presenter.LoadUsersByFilter(currentSearchUserQuery, currentJobFilter);
 
             // Clear the original values dictionary
             originalValues.Clear();
@@ -1356,8 +1336,7 @@ namespace DSD_WinformsApp.View
 
         private void textBoxSearchBar_TextChanged(object? sender, EventArgs e)
         {
-            // When the text changes, stop and restart the timer
-            timerSearchBar.Stop();
+
             timerSearchBar.Interval = 500; // Set the interval for the document searchbar timer
             timerSearchBar.Start();
         }
@@ -1368,7 +1347,13 @@ namespace DSD_WinformsApp.View
         }
         private void ApplyFilters() => _presenter.ApplyFilters(); // Call presenter's ApplyFilters method
 
-        private void pictureBox3_Click(object? sender, EventArgs e) => _presenter.NextPage(); // Call presenter's NextPage method
+        private void pictureBox3_Click(object? sender, EventArgs e)
+        {
+            _presenter.NextPage(); // Call presenter's NextPage method
+        }
+
+
+
 
         private void iconBack_Click(object? sender, EventArgs e) => _presenter.PreviousPage(); // Call presenter's PreviousPage method
 
@@ -1473,11 +1458,12 @@ namespace DSD_WinformsApp.View
             }
         }
         private void buttonSignOut_Click(object sender, EventArgs e) => Application.Exit();
-
-
-        private void timerSearchBar_Tick(object? sender, EventArgs e) => ApplyFilters(); // Apply timer on document searchbar
+        private void timerSearchBar_Tick(object? sender, EventArgs e)
+        {
+            timerSearchBar.Stop();
+            ApplyFilters(); // Apply timer on document searchbar
+        }
         private void timerUserSearchBar_Tick(object sender, EventArgs e) => ApplyUsersPageFilters(); // Apply timer on users searchbar
-
 
     }
 }

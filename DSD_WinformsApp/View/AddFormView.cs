@@ -103,37 +103,47 @@ namespace DSD_WinformsApp.View
 
         private async void btnSave_Click(object? sender, EventArgs e)
         {
-            // Check if a file is selected
-            if (string.IsNullOrEmpty(selectedFilePath))
+            try
             {
-                MessageBox.Show("Please select a file before saving.");
-                return;
+                // Validate filePath 
+                if (string.IsNullOrEmpty(selectedFilePath))
+                {
+                    MessageBox.Show("Please select a document before saving.");
+                    return;
+                }
+
+                byte[] fileDataBytes = File.ReadAllBytes(selectedFilePath);
+
+                var documentDto = new DocumentDto
+                {
+                    Filename = labelDocumentNameWithExtension.Text.Split('.')[0],
+                    FilenameExtension = labelDocumentNameWithExtension.Text.Split('.')[1],
+                    DocumentVersion = textBoxDocumentVersion.Text.ToUpper(),
+                    Category = cmbCategories.SelectedItem?.ToString() ?? "",
+                    Status = cmbStatus.SelectedItem?.ToString() ?? "",
+                    Notes = txtBoxNotes.Text,
+                    CreatedBy = comboBoxCreatedBy.SelectedItem?.ToString() ?? "",
+                    CreatedDate = DateTime.Now.Date,
+                    ModifiedDate = DateTime.Now.Date,
+                };
+
+                _presenter.SaveDocument(documentDto, fileDataBytes);
+
+                _presenter.AddNewDocument(documentDto);
+
+                await _presenter.LoadDocumentsByFilter(currentSearchQuery, currentFilterCategory);
+
+                DialogResult = DialogResult.OK;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("An unexpected error occurred while saving the document. Please contact support for assistance.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            finally
+            {
+                DialogResult = DialogResult.OK; // Set DialogResult in the finally block
             }
 
-            byte[] fileDataBytes = File.ReadAllBytes(selectedFilePath); // Read the file data into a byte array
-
-            // Create an instance of DocumentDto to hold the data
-            var documentDto = new DocumentDto
-            {
-                // Filename = labelFilename.Text,
-                Filename = labelDocumentNameWithExtension.Text.Split('.')[0],
-                FilenameExtension = labelDocumentNameWithExtension.Text.Split('.')[1],
-                DocumentVersion = textBoxDocumentVersion.Text.ToUpper(),
-                Category = cmbCategories.SelectedItem?.ToString() ?? "",
-                Status = cmbStatus.SelectedItem?.ToString() ?? "",
-                Notes = txtBoxNotes.Text,
-                CreatedBy = comboBoxCreatedBy.SelectedItem?.ToString() ?? "",
-                CreatedDate = DateTime.Now.Date,
-                ModifiedDate = DateTime.Now.Date,
-            };
-
-            _presenter.SaveDocument(documentDto, fileDataBytes); // Use the presenter to save the document with file data
-
-            _presenter.AddNewDocument(documentDto); // Inform the presenter about the new document
-
-            await _presenter.LoadDocumentsByFilter(currentSearchQuery, currentFilterCategory);  // Load the documents again to update the view
-
-            DialogResult = DialogResult.OK; // Close the form and return DialogResult.OK
         }
 
         private void btnCancel_Click(object sender, EventArgs e)
@@ -153,7 +163,7 @@ namespace DSD_WinformsApp.View
                 List<string> allowedExtensions = new List<string> { ".docx", ".doc", ".xlsx", ".xls", ".pdf" }; // Allowed file extensions
                 if (!allowedExtensions.Contains(selectedExtension))
                 {
-                    MessageBox.Show("Invalid file type. Please select a Word, PDF, or Excel file.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MessageBox.Show("Invalid document type. Please select a Word, PDF, or Excel document.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     return;
                 }
 

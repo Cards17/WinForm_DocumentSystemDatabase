@@ -59,9 +59,10 @@
             textBoxSignInUserName.MinimumSize = new Size(350, 45);
             textBoxSignInUserName.Multiline = true;
             textBoxSignInUserName.Name = "textBoxSignInUserName";
-            textBoxSignInUserName.PlaceholderText = "     Username";
+            textBoxSignInUserName.PlaceholderText = "Username";
             textBoxSignInUserName.Size = new Size(350, 45);
             textBoxSignInUserName.TabIndex = 0;
+            textBoxSignInUserName.TextAlign = HorizontalAlignment.Center;
             // 
             // textBoxSignInPassword
             // 
@@ -70,41 +71,42 @@
             textBoxSignInPassword.MaximumSize = new Size(350, 45);
             textBoxSignInPassword.Multiline = true;
             textBoxSignInPassword.Name = "textBoxSignInPassword";
-            textBoxSignInPassword.PlaceholderText = "     Password";
+            textBoxSignInPassword.PlaceholderText = "Password";
             textBoxSignInPassword.Size = new Size(350, 45);
             textBoxSignInPassword.TabIndex = 1;
+            textBoxSignInPassword.TextAlign = HorizontalAlignment.Center;
             // 
             // button_SignInButton
             // 
             button_SignInButton.BackColor = Color.FromArgb(165, 215, 232);
             button_SignInButton.Cursor = Cursors.Hand;
-            button_SignInButton.Font = new Font("Segoe UI", 10F, FontStyle.Regular, GraphicsUnit.Point);
+            button_SignInButton.Font = new Font("Segoe UI Semibold", 10F, FontStyle.Bold, GraphicsUnit.Point);
             button_SignInButton.Location = new Point(104, 258);
             button_SignInButton.MinimumSize = new Size(350, 45);
             button_SignInButton.Name = "button_SignInButton";
             button_SignInButton.Size = new Size(350, 45);
             button_SignInButton.TabIndex = 2;
-            button_SignInButton.Text = "Sign In";
+            button_SignInButton.Text = "Log In";
             button_SignInButton.UseVisualStyleBackColor = false;
             button_SignInButton.Click += button_SignIn_Click;
             // 
             // labelSignIn
             // 
             labelSignIn.AutoSize = true;
-            labelSignIn.Font = new Font("Segoe UI", 10F, FontStyle.Regular, GraphicsUnit.Point);
+            labelSignIn.Font = new Font("Segoe UI Semibold", 10F, FontStyle.Bold, GraphicsUnit.Point);
             labelSignIn.Location = new Point(45, 30);
             labelSignIn.Name = "labelSignIn";
-            labelSignIn.Size = new Size(72, 28);
+            labelSignIn.Size = new Size(81, 28);
             labelSignIn.TabIndex = 5;
-            labelSignIn.Text = "Sign In";
+            labelSignIn.Text = "Sign In:";
             // 
             // linkLabelSignInToSignUp
             // 
             linkLabelSignInToSignUp.AutoSize = true;
-            linkLabelSignInToSignUp.Font = new Font("Segoe UI", 10F, FontStyle.Regular, GraphicsUnit.Point);
+            linkLabelSignInToSignUp.Font = new Font("Segoe UI Semibold", 10F, FontStyle.Bold, GraphicsUnit.Point);
             linkLabelSignInToSignUp.Location = new Point(104, 330);
             linkLabelSignInToSignUp.Name = "linkLabelSignInToSignUp";
-            linkLabelSignInToSignUp.Size = new Size(152, 28);
+            linkLabelSignInToSignUp.Size = new Size(157, 28);
             linkLabelSignInToSignUp.TabIndex = 6;
             linkLabelSignInToSignUp.TabStop = true;
             linkLabelSignInToSignUp.Text = "Click to Sign Up";
@@ -183,9 +185,10 @@
             textBoxUserJobTitle.MinimumSize = new Size(440, 45);
             textBoxUserJobTitle.Multiline = true;
             textBoxUserJobTitle.Name = "textBoxUserJobTitle";
-            textBoxUserJobTitle.PlaceholderText = "     Job Title";
+            textBoxUserJobTitle.PlaceholderText = "Job Title";
             textBoxUserJobTitle.Size = new Size(440, 45);
             textBoxUserJobTitle.TabIndex = 3;
+            textBoxUserJobTitle.TextAlign = HorizontalAlignment.Center;
             // 
             // buttonBackToSignIn
             // 
@@ -219,9 +222,10 @@
             textBoxEmailAdd.MinimumSize = new Size(440, 45);
             textBoxEmailAdd.Multiline = true;
             textBoxEmailAdd.Name = "textBoxEmailAdd";
-            textBoxEmailAdd.PlaceholderText = "     Email Address";
+            textBoxEmailAdd.PlaceholderText = "Email Address";
             textBoxEmailAdd.Size = new Size(440, 45);
             textBoxEmailAdd.TabIndex = 4;
+            textBoxEmailAdd.TextAlign = HorizontalAlignment.Center;
             // 
             // textBoxLastname
             // 
@@ -230,9 +234,10 @@
             textBoxLastname.MinimumSize = new Size(440, 45);
             textBoxLastname.Multiline = true;
             textBoxLastname.Name = "textBoxLastname";
-            textBoxLastname.PlaceholderText = "     Last Name";
+            textBoxLastname.PlaceholderText = "Lastname";
             textBoxLastname.Size = new Size(440, 45);
             textBoxLastname.TabIndex = 2;
+            textBoxLastname.TextAlign = HorizontalAlignment.Center;
             // 
             // labelSIgnUp
             // 
@@ -240,9 +245,9 @@
             labelSIgnUp.Font = new Font("Segoe UI Semibold", 10F, FontStyle.Bold, GraphicsUnit.Point);
             labelSIgnUp.Location = new Point(45, 30);
             labelSIgnUp.Name = "labelSIgnUp";
-            labelSIgnUp.Size = new Size(78, 28);
+            labelSIgnUp.Size = new Size(91, 28);
             labelSIgnUp.TabIndex = 0;
-            labelSIgnUp.Text = "SignUp";
+            labelSIgnUp.Text = "Register:";
             // 
             // textBoxFirstname
             // 
@@ -251,9 +256,10 @@
             textBoxFirstname.MinimumSize = new Size(440, 45);
             textBoxFirstname.Multiline = true;
             textBoxFirstname.Name = "textBoxFirstname";
-            textBoxFirstname.PlaceholderText = "     First Name";
+            textBoxFirstname.PlaceholderText = "Firstname";
             textBoxFirstname.Size = new Size(440, 45);
             textBoxFirstname.TabIndex = 1;
+            textBoxFirstname.TextAlign = HorizontalAlignment.Center;
             // 
             // buttonSignUpEyeIcon
             // 
@@ -298,20 +304,21 @@
             textBoxPasswrd.MinimumSize = new Size(440, 45);
             textBoxPasswrd.Multiline = true;
             textBoxPasswrd.Name = "textBoxPasswrd";
-            textBoxPasswrd.PlaceholderText = "     Password";
+            textBoxPasswrd.PlaceholderText = "Password";
             textBoxPasswrd.Size = new Size(440, 45);
             textBoxPasswrd.TabIndex = 5;
+            textBoxPasswrd.TextAlign = HorizontalAlignment.Center;
             // 
             // LoginFormView
             // 
             AutoScaleDimensions = new SizeF(10F, 25F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(600, 600);
-            Controls.Add(panelSignUp);
             Controls.Add(panelSignIn);
+            Controls.Add(panelSignUp);
             Icon = (Icon)resources.GetObject("$this.Icon");
             Name = "LoginFormView";
-            Text = "Login Page";
+            Text = "Sign Up & Sign In Form";
             Load += LoginFormView_Load;
             panelSignIn.ResumeLayout(false);
             panelSignIn.PerformLayout();
