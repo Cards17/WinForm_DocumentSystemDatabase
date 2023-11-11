@@ -33,7 +33,7 @@ namespace DSD_WinformsApp.View
         private void InitializeComponent()
         {
             components = new System.ComponentModel.Container();
-            DataGridViewCellStyle dataGridViewCellStyle2 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle1 = new DataGridViewCellStyle();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(DocumentMainView));
             dataGridView1 = new DataGridView();
             panel1 = new Panel();
@@ -83,6 +83,7 @@ namespace DSD_WinformsApp.View
             labelHello = new Label();
             timerSearchBar = new System.Windows.Forms.Timer(components);
             timerUserSearchBar = new System.Windows.Forms.Timer(components);
+            timerDocsCategory = new System.Windows.Forms.Timer(components);
             ((System.ComponentModel.ISupportInitialize)dataGridView1).BeginInit();
             panel1.SuspendLayout();
             panelDocumentButton.SuspendLayout();
@@ -110,14 +111,14 @@ namespace DSD_WinformsApp.View
             dataGridView1.Location = new Point(18, 130);
             dataGridView1.Name = "dataGridView1";
             dataGridView1.ReadOnly = true;
-            dataGridViewCellStyle2.Alignment = DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle2.BackColor = SystemColors.Highlight;
-            dataGridViewCellStyle2.Font = new Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point);
-            dataGridViewCellStyle2.ForeColor = SystemColors.Window;
-            dataGridViewCellStyle2.SelectionBackColor = SystemColors.Highlight;
-            dataGridViewCellStyle2.SelectionForeColor = SystemColors.HighlightText;
-            dataGridViewCellStyle2.WrapMode = DataGridViewTriState.True;
-            dataGridView1.RowHeadersDefaultCellStyle = dataGridViewCellStyle2;
+            dataGridViewCellStyle1.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle1.BackColor = SystemColors.Highlight;
+            dataGridViewCellStyle1.Font = new Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point);
+            dataGridViewCellStyle1.ForeColor = SystemColors.Window;
+            dataGridViewCellStyle1.SelectionBackColor = SystemColors.Highlight;
+            dataGridViewCellStyle1.SelectionForeColor = SystemColors.HighlightText;
+            dataGridViewCellStyle1.WrapMode = DataGridViewTriState.True;
+            dataGridView1.RowHeadersDefaultCellStyle = dataGridViewCellStyle1;
             dataGridView1.RowHeadersVisible = false;
             dataGridView1.RowHeadersWidth = 62;
             dataGridView1.RowTemplate.Height = 36;
@@ -669,6 +670,10 @@ namespace DSD_WinformsApp.View
             // 
             timerUserSearchBar.Tick += timerUserSearchBar_Tick;
             // 
+            // timerDocsCategory
+            // 
+            timerDocsCategory.Tick += timerDocsCategory_Tick;
+            // 
             // DocumentMainView
             // 
             AutoScaleDimensions = new SizeF(10F, 25F);
@@ -763,5 +768,6 @@ namespace DSD_WinformsApp.View
         private Button buttonUsersDetailSave;
         private System.Windows.Forms.Timer timerSearchBar;
         private System.Windows.Forms.Timer timerUserSearchBar;
+        private System.Windows.Forms.Timer timerDocsCategory;
     }
 }

@@ -1337,13 +1337,14 @@ namespace DSD_WinformsApp.View
         private void textBoxSearchBar_TextChanged(object? sender, EventArgs e)
         {
 
-            timerSearchBar.Interval = 500; // Set the interval for the document searchbar timer
+            timerSearchBar.Interval = 400; // Set the interval for the document searchbar timer
             timerSearchBar.Start();
         }
 
         private void comboBoxCategoryDropdown_SelectedIndexChanged(object? sender, EventArgs e)
         {
-            ApplyFilters();
+            timerDocsCategory.Interval = 100;
+            timerDocsCategory.Start();
         }
         private void ApplyFilters() => _presenter.ApplyFilters(); // Call presenter's ApplyFilters method
 
@@ -1351,9 +1352,6 @@ namespace DSD_WinformsApp.View
         {
             _presenter.NextPage(); // Call presenter's NextPage method
         }
-
-
-
 
         private void iconBack_Click(object? sender, EventArgs e) => _presenter.PreviousPage(); // Call presenter's PreviousPage method
 
@@ -1393,9 +1391,7 @@ namespace DSD_WinformsApp.View
         #region Users Filter and Pagination Functionalities
         private void textBoxUsersSearchBox_TextChanged(object? sender, EventArgs e)
         {
-            // When the text changes, stop and restart the timer
-            timerUserSearchBar.Stop();
-            timerUserSearchBar.Interval = 500;
+            timerUserSearchBar.Interval = 400;
             timerUserSearchBar.Start();
         }
 
@@ -1460,10 +1456,19 @@ namespace DSD_WinformsApp.View
         private void buttonSignOut_Click(object sender, EventArgs e) => Application.Exit();
         private void timerSearchBar_Tick(object? sender, EventArgs e)
         {
-            timerSearchBar.Stop();
-            ApplyFilters(); // Apply timer on document searchbar
+            timerSearchBar.Stop(); // Stop timer after interval
+            ApplyFilters(); 
         }
-        private void timerUserSearchBar_Tick(object sender, EventArgs e) => ApplyUsersPageFilters(); // Apply timer on users searchbar
+        private void timerUserSearchBar_Tick(object sender, EventArgs e)
+        {
+            timerUserSearchBar.Stop();
+            ApplyUsersPageFilters();
+        }
 
+        private void timerDocsCategory_Tick(object sender, EventArgs e)
+        {
+            timerDocsCategory.Stop();
+            ApplyFilters();
+        }
     }
 }
