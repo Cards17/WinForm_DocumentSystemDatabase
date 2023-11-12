@@ -42,6 +42,7 @@ namespace DSD_WinformsApp.View
             buttonDocument = new Button();
             buttonHome = new Button();
             panelDocumentButton = new Panel();
+            labelFilenameHidden = new Label();
             labelDownloadAllDocs = new Label();
             linkLabelDownloadAllDocs = new LinkLabel();
             labelDocumentPagination = new Label();
@@ -218,6 +219,16 @@ namespace DSD_WinformsApp.View
             panelDocumentButton.Size = new Size(1550, 830);
             panelDocumentButton.TabIndex = 2;
             // 
+            // labelFilenameHidden
+            // 
+            labelFilenameHidden.AutoSize = true;
+            labelFilenameHidden.Location = new Point(287, 9);
+            labelFilenameHidden.Name = "labelFilenameHidden";
+            labelFilenameHidden.Size = new Size(22, 25);
+            labelFilenameHidden.TabIndex = 11;
+            labelFilenameHidden.Text = "1";
+            labelFilenameHidden.Visible = false;
+            // 
             // labelDownloadAllDocs
             // 
             labelDownloadAllDocs.AutoSize = true;
@@ -245,7 +256,7 @@ namespace DSD_WinformsApp.View
             labelDocumentPagination.Anchor = AnchorStyles.Top | AnchorStyles.Right;
             labelDocumentPagination.AutoSize = true;
             labelDocumentPagination.Font = new Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point);
-            labelDocumentPagination.Location = new Point(1105, 750);
+            labelDocumentPagination.Location = new Point(1107, 754);
             labelDocumentPagination.Name = "labelDocumentPagination";
             labelDocumentPagination.Size = new Size(0, 25);
             labelDocumentPagination.TabIndex = 8;
@@ -398,7 +409,7 @@ namespace DSD_WinformsApp.View
             pictureBoxUsersNextIcon.Anchor = AnchorStyles.Top | AnchorStyles.Right;
             pictureBoxUsersNextIcon.Cursor = Cursors.Hand;
             pictureBoxUsersNextIcon.Image = Properties.Resources.next;
-            pictureBoxUsersNextIcon.Location = new Point(1218, 750);
+            pictureBoxUsersNextIcon.Location = new Point(1216, 748);
             pictureBoxUsersNextIcon.Name = "pictureBoxUsersNextIcon";
             pictureBoxUsersNextIcon.Size = new Size(36, 36);
             pictureBoxUsersNextIcon.SizeMode = PictureBoxSizeMode.CenterImage;
@@ -411,7 +422,7 @@ namespace DSD_WinformsApp.View
             pictureBoxUsersBackIcon.Anchor = AnchorStyles.Top | AnchorStyles.Right;
             pictureBoxUsersBackIcon.Cursor = Cursors.Hand;
             pictureBoxUsersBackIcon.Image = Properties.Resources.back;
-            pictureBoxUsersBackIcon.Location = new Point(1064, 750);
+            pictureBoxUsersBackIcon.Location = new Point(1062, 748);
             pictureBoxUsersBackIcon.Name = "pictureBoxUsersBackIcon";
             pictureBoxUsersBackIcon.Size = new Size(36, 36);
             pictureBoxUsersBackIcon.SizeMode = PictureBoxSizeMode.CenterImage;
@@ -443,7 +454,7 @@ namespace DSD_WinformsApp.View
             panelUserDetails.Location = new Point(250, 80);
             panelUserDetails.Name = "panelUserDetails";
             panelUserDetails.Size = new Size(1550, 830);
-            panelUserDetails.TabIndex = 0;
+            panelUserDetails.TabIndex = 9;
             // 
             // panelUserDetails2
             // 
@@ -680,6 +691,7 @@ namespace DSD_WinformsApp.View
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.White;
             ClientSize = new Size(1528, 968);
+            Controls.Add(labelFilenameHidden);
             Controls.Add(labelHello);
             Controls.Add(labelFooter);
             Controls.Add(labelHomePageUserLogin);
@@ -769,5 +781,6 @@ namespace DSD_WinformsApp.View
         private System.Windows.Forms.Timer timerSearchBar;
         private System.Windows.Forms.Timer timerUserSearchBar;
         private System.Windows.Forms.Timer timerDocsCategory;
+        private Label labelFilenameHidden;
     }
 }

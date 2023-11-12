@@ -28,14 +28,7 @@ namespace DSD_WinformsApp.View
 
         private bool isNewFileUploaded = false;
 
-        // Initial values for search query and category filter
-        private string currentSearchQuery = "";
-        private string currentFilterCategory = "";
         private bool isVisible;
-
-        // Initial value for user search query
-        private string currentSearchUserQuery = "";
-        private string currentJobFilter = "";
 
         public DocumentMainView(IUnitOfWork unitOfWork)
         {
@@ -75,13 +68,21 @@ namespace DSD_WinformsApp.View
 
         private async void DocumentView_Load_1(object sender, EventArgs e)
         {
-            await _presenter.LoadDocumentsByFilter(currentSearchQuery, currentFilterCategory); // Load the documents by filter using the presenter
+            string varDocSearchQuery = GetSearchQuery();
+            string varDocCategoryQuery = GetFilterCategory();
+            string varUserSearchQuery = GetSearchUserQuery();
+            string varUserJobcatergoryQuery = GetFilterUsersCategory();
 
-            await _presenter.LoadUsersByFilter(currentSearchUserQuery, currentJobFilter); // Load the users from the database using the presenter
+            await _presenter.LoadDocumentsByFilter(varDocSearchQuery, varDocCategoryQuery); // Load the documents by filter using the presenter
+
+            await _presenter.LoadUsersByFilter(varUserSearchQuery, varUserJobcatergoryQuery); // Load the users from the database using the presenter
+
+            panelHome.Visible = true;
+            panelDocumentButton.Visible = false;
+            panelManageUsers.Visible = false;
+            panelUserDetails.Visible = false;
 
             #region Document Page Properties
-
-            //panelManageUsers.Visible = false; // Hide the panelManageUsers initially
 
             // Add controls into panelDocumentButton
             panelDocumentButton.Controls.Add(pictureBox1);
@@ -189,17 +190,19 @@ namespace DSD_WinformsApp.View
 
         private void buttonHome_Click(object sender, EventArgs e)
         {
+            // Set panelHome as visible only
             panelHome.Visible = true;
             panelDocumentButton.Visible = false;
             panelManageUsers.Visible = false;
-
+            panelUserDetails.Visible = false;
         }
 
         private void buttonDocument_Click(object sender, EventArgs e)
         {
+            // Set panelDocument as visible only
             panelDocumentButton.Visible = true;
-            panelManageUsers.Visible = false;
             panelHome.Visible = false;
+            panelManageUsers.Visible = false;
             panelUserDetails.Visible = false;
 
             // Define the column width from documentmodel
@@ -254,16 +257,17 @@ namespace DSD_WinformsApp.View
 
         private async void buttonManageUsers_Click(object sender, EventArgs e)
         {
+            // Set panelManageUsers as visible only
+            panelManageUsers.Visible = true;
+            panelHome.Visible = false;
+            panelDocumentButton.Visible = false;
+            panelUserDetails.Visible = false;
+
             var currentUsersSearchQueryWhenItemDeleted = GetSearchUserQuery();
             var currentUsersFilterCategoryWhenItemDeleted = GetFilterUsersCategory();
 
             await _presenter.LoadUsersByFilter(currentUsersSearchQueryWhenItemDeleted, currentUsersFilterCategoryWhenItemDeleted);
 
-
-            panelDocumentButton.Visible = false;
-            panelHome.Visible = false;
-            panelUserDetails.Visible = false;
-            panelManageUsers.Visible = true;
             panelManageUsers.Controls.Add(dataGridViewManageUsers);
 
             // Set the datagridviewManageUsers column properties
@@ -325,7 +329,6 @@ namespace DSD_WinformsApp.View
             // Force disable cell highlight color
             dataGridViewManageUsers.DefaultCellStyle.SelectionBackColor = Color.White;
             dataGridViewManageUsers.DefaultCellStyle.SelectionForeColor = Color.Black;
-
         }
 
         #endregion
@@ -358,10 +361,11 @@ namespace DSD_WinformsApp.View
             // Create the buttons and add them to the detailsForm
             CustomButton button1 = new CustomButton(ColorTranslator.FromHtml("#A5D7E8"), SystemColors.Control);
             button1.Text = "DETAILS";
-            button1.Location = new Point(20, 35); // Adjust the coordinates as needed.
+            button1.Location = new Point(20, 35);
             button1.Height = 40;
             button1.Width = 130;
             button1.Font = new Font("Segoe UI", 9, FontStyle.Bold);
+            button1.ForeColor = Color.White;
             detailsForm.Controls.Add(button1);
 
             CustomButton button2 = new CustomButton(ColorTranslator.FromHtml("#A5D7E8"), SystemColors.Control);
@@ -370,6 +374,7 @@ namespace DSD_WinformsApp.View
             button2.Height = button1.Height;
             button2.Width = button1.Width;
             button2.Font = new Font("Segoe UI", 9, FontStyle.Bold);
+            button2.ForeColor = Color.White;
             button2.Visible = isAdmin; // Hide the button if the user is not an admin
             detailsForm.Controls.Add(button2);
 
@@ -800,75 +805,88 @@ namespace DSD_WinformsApp.View
             // Save button click event
             saveButton.Click += async (sender, e) =>
             {
-                // Check if a file has been uploaded
-                string? filePath = filenameTextBox.Tag as string;
-
-                // Read the file data from the selected file if a new file has been uploaded
-                byte[] fileDataBytes = isNewFileUploaded ? File.ReadAllBytes(filePath) : selectedDocument.FileData;
-
-                // Get the modified data from the TextBoxes and ComboBoxes
-                string documentVersion = documentVersionTextBox.Text;
-                string filename = filenameTextBox.Text;
-                string filenameExtension = selectedDocument.FilenameExtension; // Get filename extension from db
-                string category = categoryComboBox.Text;
-                string status = statusComboBox.Text;
-                DateTime createdDate = DateTime.Parse(createdDateTextBox.Text);
-                string createdBy = createdByTextBox.Text;
-                string modifiedBy = labelHomePageUserLogin.Text;
-                DateTime modifiedDate = DateTime.Parse(modifiedDateTextBox.Text);
-                string notes = notesTextBox.Text;
-
-                // Check if the file name has been changed
-                if (filename != Path.GetFileNameWithoutExtension(filePath))
+                try
                 {
-                    filenameTextBox.Text = filename;
-                }
+                    // Check if a file has been uploaded
+                    string? filePath = filenameTextBox.Tag as string;
 
-                // Create a new DocumentDto with the modified data
-                DocumentDto modifiedDocument = new DocumentDto
-                {
-                    Id = selectedDocument.Id,
-                    DocumentVersion = documentVersion,
-                    Filename = filename,
-                    Category = category,
-                    Status = status,
-                    CreatedDate = createdDate,
-                    CreatedBy = createdBy,
-                    ModifiedBy = modifiedBy,
-                    ModifiedDate = modifiedDate,
-                    Notes = notes,
-                    FilenameExtension = filenameExtension
-                };
+                    // Read the file data from the selected file if a new file has been uploaded
+                    byte[] fileDataBytes = isNewFileUploaded ? File.ReadAllBytes(filePath) : selectedDocument.FileData;
 
-                _presenter.EditDocument(modifiedDocument, fileDataBytes); // Edit the document in the database
+                    // Get the modified data from the TextBoxes and ComboBoxes
+                    string documentVersion = documentVersionTextBox.Text.ToUpper();
+                    string filename = filenameTextBox.Text;
+                    string filenameExtension = labelFilenameHidden.Text;
+                    string category = categoryComboBox.Text;
+                    string status = statusComboBox.Text;
+                    DateTime createdDate = DateTime.Parse(createdDateTextBox.Text);
+                    string createdBy = createdByTextBox.Text;
+                    string modifiedBy = labelHomePageUserLogin.Text;
+                    DateTime modifiedDate = DateTime.Parse(modifiedDateTextBox.Text);
+                    string notes = notesTextBox.Text;
 
-                await _presenter.LoadDocumentsByFilter(GetSearchQuery(), GetFilterCategory()); // Load the filtered documents again to update the view
-
-                var result = MessageBox.Show(detailsForm, $"{filenameTextBox.Text} details have been updated.", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information); // Show a message to indicate that the document has been updated.                                                                                                                                                   
-                if (result == DialogResult.OK)
-                {
-                    detailsForm.Close(); // Close the detailsForm
-                }
-
-                // After saving, make the TextBoxes read-only again
-                foreach (Control control in groupBox.Controls)
-                {
-                    if (control is TextBox textBox)
+                    // Check if the file name has been changed
+                    if (filename != Path.GetFileNameWithoutExtension(filePath))
                     {
-                        textBox.ReadOnly = true;
-                        textBox.TextChanged -= TextBox_TextChanged; // Detach the event handler to stop tracking changes
+                        filenameTextBox.Text = filename;
                     }
-                    else if (control is ComboBox comboBox)
+
+                    // Create a new DocumentDto with the modified data
+                    DocumentDto modifiedDocument = new DocumentDto
                     {
-                        comboBox.Enabled = false; // Disable the ComboBox controls
-                        comboBox.SelectedIndexChanged -= ComboBox_SelectedIndexChanged; // Detach the event handler to stop tracking changes
+                        Id = selectedDocument.Id,
+                        DocumentVersion = documentVersion,
+                        Filename = filename,
+                        Category = category,
+                        Status = status,
+                        CreatedDate = createdDate,
+                        CreatedBy = createdBy,
+                        ModifiedBy = modifiedBy,
+                        ModifiedDate = modifiedDate,
+                        Notes = notes,
+                        FilenameExtension = filenameExtension
+                    };
+
+                    _presenter.EditDocument(modifiedDocument, fileDataBytes); // Edit the document in the database
+
+                    await _presenter.LoadDocumentsByFilter(GetSearchQuery(), GetFilterCategory()); // Load the filtered documents again to update the view
+
+                    var result = MessageBox.Show(detailsForm, $"{filenameTextBox.Text} details have been updated.", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information); // Show a message to indicate that the document has been updated.                                                                                                                                                   
+                    if (result == DialogResult.OK)
+                    {
+                        detailsForm.Close(); // Close the detailsForm
+                    }
+
+                    // After saving, make the TextBoxes read-only again
+                    foreach (Control control in groupBox.Controls)
+                    {
+                        if (control is TextBox textBox)
+                        {
+                            textBox.ReadOnly = true;
+                            textBox.TextChanged -= TextBox_TextChanged; // Detach the event handler to stop tracking changes
+                        }
+                        else if (control is ComboBox comboBox)
+                        {
+                            comboBox.Enabled = false; // Disable the ComboBox controls
+                            comboBox.SelectedIndexChanged -= ComboBox_SelectedIndexChanged; // Detach the event handler to stop tracking changes
+                        }
                     }
                 }
 
-                isNewFileUploaded = false; // Reset the flag
 
-                saveButton.Enabled = false; // Disable the Save button after save
-                editButton.Enabled = true; // Re-enable the Edit button after save
+                catch (Exception)
+                {
+                    MessageBox.Show($"An unexpected error occurred while saving the document. Please try again or contact support.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+
+                finally
+                {
+                    isNewFileUploaded = false; // Reset the flag
+                    saveButton.Enabled = false; // Disable the Save button after save
+                    editButton.Enabled = true; // Re-enable the Edit button after save
+                }
+
+
             };
             detailsForm.Controls.Add(saveButton);
 
@@ -918,7 +936,6 @@ namespace DSD_WinformsApp.View
                 editButton.Visible = false;
                 saveButton.Visible = false;
                 closeButton.Visible = false;
-
             };
 
             // Handle the Edit button click event
@@ -931,7 +948,6 @@ namespace DSD_WinformsApp.View
                     {
                         textBox.ReadOnly = false;
                     }
-
                 }
 
                 editButton.Enabled = false;
@@ -982,11 +998,11 @@ namespace DSD_WinformsApp.View
 
                 // Distination path in the user's "Downloads" folder
                 string downloadsPath = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile);
-                string destinationFilePath = Path.Combine(downloadsPath, "Downloads", Path.ChangeExtension(selectedDocument.Filename, ".pdf"));
+                string destinationFilePath = Path.Combine(downloadsPath, "Downloads", selectedDocument.Filename + selectedDocument.FilenameExtension);
 
-                string fileExtension = selectedDocument.FilenameExtension.ToLower();
+                string fileExtension = selectedDocument.FilenameExtension;
 
-                if (fileExtension == "docx" || fileExtension == "doc")
+                if (fileExtension == ".docx" || fileExtension == ".doc")
                 {
                     // Save the file data to a temporary file
                     string tempFilePath = Path.GetTempFileName();
@@ -1006,7 +1022,7 @@ namespace DSD_WinformsApp.View
                     // Delete the temporary file
                     File.Delete(tempFilePath);
                 }
-                else if (fileExtension == "xlsx" || fileExtension == "xls")
+                else if (fileExtension == ".xlsx" || fileExtension == ".xls")
                 {
                     // Save the file data to a temporary file
                     string tempFilePath = Path.GetTempFileName();
@@ -1062,6 +1078,7 @@ namespace DSD_WinformsApp.View
                         if (!string.Equals(filePathFilename, filenameTextBox.Text, StringComparison.OrdinalIgnoreCase))
                         {
                             filenameTextBox.Text = filePathFilename;
+                            labelFilenameHidden.Text = filePathExtension;
                             isNewFileUploaded = true; // Set the flag to indicate that a new file has been uploaded
                         }
                         else
@@ -1097,15 +1114,16 @@ namespace DSD_WinformsApp.View
             return validExtensions.Contains(extension);
         }
 
-        private void pictureBox1_Click(object sender, EventArgs e)
+        private async void pictureBox1_Click(object sender, EventArgs e)
         {
             // Show AddFormView Form
             using (AddFormView newForm = new AddFormView(_unitOfWork, _presenter))
             {
                 newForm.StartPosition = FormStartPosition.CenterParent;
                 newForm.ShowDialog();
-                //comboBoxCategoryDropdown.SelectedIndex = 0;
             }
+
+            await _presenter.LoadDocumentsByFilter(GetSearchQuery(), GetFilterCategory()); // Load documents including newly added
         }
 
         public void ShowDocumentView() => this.ShowDialog(); // Show documentMainView form
@@ -1210,6 +1228,9 @@ namespace DSD_WinformsApp.View
 
         private async void buttonUsersDetailSave_Click(object sender, EventArgs e)
         {
+            string varUserSearchQuery = GetSearchUserQuery();
+            string varUserJobcatergoryQuery = GetFilterUsersCategory();
+
             // Get modified data from the textboxes
             int userId = int.Parse(textBoxID.Text);
             UserRole userRole = checkBoxEnableAdmin.Checked ? UserRole.Admin : UserRole.User;
@@ -1238,7 +1259,7 @@ namespace DSD_WinformsApp.View
             panelDocumentButton.Visible = false;
 
             // Load the user by filter
-            await _presenter.LoadUsersByFilter(currentSearchUserQuery, currentJobFilter);
+            await _presenter.LoadUsersByFilter(varUserSearchQuery, varUserJobcatergoryQuery);
 
             // Clear the original values dictionary
             originalValues.Clear();
@@ -1457,7 +1478,7 @@ namespace DSD_WinformsApp.View
         private void timerSearchBar_Tick(object? sender, EventArgs e)
         {
             timerSearchBar.Stop(); // Stop timer after interval
-            ApplyFilters(); 
+            ApplyFilters();
         }
         private void timerUserSearchBar_Tick(object sender, EventArgs e)
         {

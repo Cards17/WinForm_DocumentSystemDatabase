@@ -22,9 +22,6 @@ namespace DSD_WinformsApp.View
 
         private string selectedFilePath = null!; // Class-level variable to store the selected file path
 
-        private string currentSearchQuery = "";
-        private string currentFilterCategory = "";
-
         public AddFormView(IUnitOfWork unitOfWork, IDocumentPresenter presenter)
         {
             InitializeComponent();
@@ -101,7 +98,7 @@ namespace DSD_WinformsApp.View
         }
 
 
-        private async void btnSave_Click(object? sender, EventArgs e)
+        private void btnSave_Click(object? sender, EventArgs e)
         {
             try
             {
@@ -116,8 +113,8 @@ namespace DSD_WinformsApp.View
 
                 var documentDto = new DocumentDto
                 {
-                    Filename = labelDocumentNameWithExtension.Text.Split('.')[0],
-                    FilenameExtension = labelDocumentNameWithExtension.Text.Split('.')[1],
+                    Filename = labelFilename.Text,
+                    FilenameExtension = labelDocumentNameWithExtension.Text,
                     DocumentVersion = textBoxDocumentVersion.Text.ToUpper(),
                     Category = cmbCategories.SelectedItem?.ToString() ?? "",
                     Status = cmbStatus.SelectedItem?.ToString() ?? "",
@@ -127,15 +124,11 @@ namespace DSD_WinformsApp.View
                     ModifiedDate = DateTime.Now.Date,
                 };
 
-                _presenter.SaveDocument(documentDto, fileDataBytes);
+                _presenter.SaveDocument(documentDto, fileDataBytes); // Save added document to database
 
-                _presenter.AddNewDocument(documentDto);
-
-                await _presenter.LoadDocumentsByFilter(currentSearchQuery, currentFilterCategory);
-
-                DialogResult = DialogResult.OK;
+                _presenter.AddNewDocument(documentDto); // Reflect added document in documentview
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 MessageBox.Show("An unexpected error occurred while saving the document. Please contact support for assistance.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
@@ -173,9 +166,9 @@ namespace DSD_WinformsApp.View
                 string fileNameWithoutExtension = Path.GetFileNameWithoutExtension(openFileDialog.FileName);
                 labelFilename.Text = fileNameWithoutExtension;
 
-                // Get filename with extension
-                string fileNameWithExtension = Path.GetFileName(openFileDialog.FileName);
-                labelDocumentNameWithExtension.Text = fileNameWithExtension;
+                // Get filename with extension for saving to db
+                string fileExtension = Path.GetExtension(openFileDialog.FileName);
+                labelDocumentNameWithExtension.Text = fileExtension;
 
 
                 // Check for duplicate file name in the repository

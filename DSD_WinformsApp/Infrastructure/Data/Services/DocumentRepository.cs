@@ -38,7 +38,7 @@ namespace DSD_WinformsApp.Infrastructure.Data.Services
             var documentModel = _mapper.Map<DocumentDto, DocumentModel>(document);
             var fileName = document.Filename;
             var fileNameExtension = document.FilenameExtension;
-            var filePath = Path.Combine(@"C:\Users\ricardo.piquero.jr\source\repos\DSD Solution\DSD_WinformsApp\Resources\UploadedFiles", fileName + "." + fileNameExtension);
+            var filePath = Path.Combine(@"C:\Users\ricardo.piquero.jr\source\repos\DSD Solution\DSD_WinformsApp\Resources\UploadedFiles", fileName + fileNameExtension);
 
             // Save the file to the server
             File.WriteAllBytes(filePath, fileDataBytes);
@@ -105,11 +105,13 @@ namespace DSD_WinformsApp.Infrastructure.Data.Services
             {
                 var fileName = Path.GetFileName(updatedDocument.Filename);
                 var fileNameExtension = updatedDocument.FilenameExtension;
-                var filePath = Path.Combine(@"C:\Users\ricardo.piquero.jr\source\repos\DSD Solution\DSD_WinformsApp\Resources\UploadedFiles", fileName + "." + fileNameExtension);
+                var filePath = Path.Combine(@"C:\Users\ricardo.piquero.jr\source\repos\DSD Solution\DSD_WinformsApp\Resources\UploadedFiles", fileName + fileNameExtension);
                 // Save the updated file to the server
                 File.WriteAllBytes(filePath, updatedDocument.FileData);
 
                 existingDocument.Filename = updatedDocument.Filename; // Update the filename property
+                existingDocument.FilenameExtension = updatedDocument.FilenameExtension;
+
 
                 //Move the existing file to the backup folder
                 if (File.Exists(existingDocument.FilePath))
