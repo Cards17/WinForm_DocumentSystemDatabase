@@ -130,7 +130,7 @@ namespace DSD_WinformsApp.View
             }
             catch (Exception)
             {
-                MessageBox.Show("An unexpected error occurred while saving the document. Please contact support for assistance.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("An unexpected error occurred while saving the document. Please try again.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
             finally
             {
@@ -147,42 +147,48 @@ namespace DSD_WinformsApp.View
 
         private async void buttonUploadDocs_Click(object? sender, EventArgs e)
         {
-            OpenFileDialog openFileDialog = new OpenFileDialog();
-            openFileDialog.Filter = "All Files|*.*";
-
-            if (openFileDialog.ShowDialog() == DialogResult.OK)
+            try
             {
-                string selectedExtension = Path.GetExtension(openFileDialog.FileName); // Get the selected file extension
-                List<string> allowedExtensions = new List<string> { ".docx", ".doc", ".xlsx", ".xls", ".pdf" }; // Allowed file extensions
-                if (!allowedExtensions.Contains(selectedExtension))
+                OpenFileDialog openFileDialog = new OpenFileDialog();
+                openFileDialog.Filter = "All Files|*.*";
+
+                if (openFileDialog.ShowDialog() == DialogResult.OK)
                 {
-                    MessageBox.Show("Invalid document type. Please select a Word, PDF, or Excel document.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    return;
-                }
+                    string selectedExtension = Path.GetExtension(openFileDialog.FileName); // Get the selected file extension
+                    List<string> allowedExtensions = new List<string> { ".docx", ".doc", ".xlsx", ".xls", ".pdf" }; // Allowed file extensions
+                    if (!allowedExtensions.Contains(selectedExtension))
+                    {
+                        MessageBox.Show("Invalid document type. Please select a Word, PDF, or Excel document.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        return;
+                    }
 
-                selectedFilePath = openFileDialog.FileName; // Store the selected file path
+                    selectedFilePath = openFileDialog.FileName; // Store the selected file path
 
-                // Display only the file name without the extension in the label and the TextBox
-                string fileNameWithoutExtension = Path.GetFileNameWithoutExtension(openFileDialog.FileName);
-                labelFilename.Text = fileNameWithoutExtension;
+                    // Display only the file name without the extension in the label and the TextBox
+                    string fileNameWithoutExtension = Path.GetFileNameWithoutExtension(openFileDialog.FileName);
+                    labelFilename.Text = fileNameWithoutExtension;
 
-                // Get filename with extension for saving to db
-                string fileExtension = Path.GetExtension(openFileDialog.FileName);
-                labelDocumentNameWithExtension.Text = fileExtension;
+                    // Get filename with extension for saving to db
+                    string fileExtension = Path.GetExtension(openFileDialog.FileName);
+                    labelDocumentNameWithExtension.Text = fileExtension;
 
+                    // Check for duplicate file name in the repository
+                    bool hasDuplicateFileName = await _presenter.CheckForDuplicateFileName(fileNameWithoutExtension);
 
-                // Check for duplicate file name in the repository
-                bool hasDuplicateFileName = await _presenter.CheckForDuplicateFileName(fileNameWithoutExtension);
+                    if (hasDuplicateFileName)
+                    {
+                        MessageBox.Show($"{fileNameWithoutExtension} already exists. Please rename the document.", "Duplicate File", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                        return;
+                    }
 
-                if (hasDuplicateFileName)
-                {
-                    MessageBox.Show($"{fileNameWithoutExtension} already exists. Please rename the document.", "Duplicate File", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
-                    return;
+                    labelFilename.Visible = true; // show document label
                 }
             }
-            // labelFilename.Enabled = false;
-            labelFilename.Visible = true;
 
+            catch (Exception)
+            {
+                MessageBox.Show("An unexpected error occurred while selecting a document. Please try again.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
 
         private void Control_TextChanged(object? sender, EventArgs e)

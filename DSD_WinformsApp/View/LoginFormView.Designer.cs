@@ -80,6 +80,9 @@
             // 
             button_SignInButton.BackColor = Color.FromArgb(165, 215, 232);
             button_SignInButton.Cursor = Cursors.Hand;
+            button_SignInButton.FlatAppearance.BorderSize = 0;
+            button_SignInButton.FlatAppearance.MouseOverBackColor = Color.FromArgb(9, 142, 154);
+            button_SignInButton.FlatStyle = FlatStyle.Flat;
             button_SignInButton.Font = new Font("Segoe UI Semibold", 10F, FontStyle.Bold, GraphicsUnit.Point);
             button_SignInButton.Location = new Point(104, 258);
             button_SignInButton.MinimumSize = new Size(350, 45);
@@ -102,6 +105,7 @@
             // 
             // linkLabelSignInToSignUp
             // 
+            linkLabelSignInToSignUp.ActiveLinkColor = Color.Blue;
             linkLabelSignInToSignUp.AutoSize = true;
             linkLabelSignInToSignUp.Font = new Font("Segoe UI Semibold", 10F, FontStyle.Bold, GraphicsUnit.Point);
             linkLabelSignInToSignUp.Location = new Point(104, 330);
@@ -194,6 +198,9 @@
             // 
             buttonBackToSignIn.BackColor = Color.Gray;
             buttonBackToSignIn.Cursor = Cursors.Hand;
+            buttonBackToSignIn.FlatAppearance.BorderSize = 0;
+            buttonBackToSignIn.FlatAppearance.MouseOverBackColor = Color.FromArgb(9, 142, 154);
+            buttonBackToSignIn.FlatStyle = FlatStyle.Flat;
             buttonBackToSignIn.Font = new Font("Segoe UI Semibold", 10F, FontStyle.Bold, GraphicsUnit.Point);
             buttonBackToSignIn.Location = new Point(335, 434);
             buttonBackToSignIn.Name = "buttonBackToSignIn";
@@ -206,6 +213,9 @@
             // buttonSignUp
             // 
             buttonSignUp.Cursor = Cursors.Hand;
+            buttonSignUp.FlatAppearance.BorderSize = 0;
+            buttonSignUp.FlatAppearance.MouseOverBackColor = Color.FromArgb(9, 142, 154);
+            buttonSignUp.FlatStyle = FlatStyle.Flat;
             buttonSignUp.Font = new Font("Segoe UI Semibold", 10F, FontStyle.Bold, GraphicsUnit.Point);
             buttonSignUp.Location = new Point(141, 434);
             buttonSignUp.Name = "buttonSignUp";

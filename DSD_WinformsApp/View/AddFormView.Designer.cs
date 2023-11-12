@@ -186,6 +186,9 @@
             // buttonUploadDocs
             // 
             buttonUploadDocs.Cursor = Cursors.Hand;
+            buttonUploadDocs.FlatAppearance.BorderSize = 0;
+            buttonUploadDocs.FlatAppearance.MouseOverBackColor = Color.FromArgb(9, 142, 154);
+            buttonUploadDocs.FlatStyle = FlatStyle.Flat;
             buttonUploadDocs.Font = new Font("Segoe UI Semibold", 9F, FontStyle.Bold, GraphicsUnit.Point);
             buttonUploadDocs.Location = new Point(239, 84);
             buttonUploadDocs.Name = "buttonUploadDocs";
@@ -198,6 +201,9 @@
             // btnSave
             // 
             btnSave.Cursor = Cursors.Hand;
+            btnSave.FlatAppearance.BorderSize = 0;
+            btnSave.FlatAppearance.MouseOverBackColor = Color.FromArgb(9, 142, 154);
+            btnSave.FlatStyle = FlatStyle.Flat;
             btnSave.Font = new Font("Segoe UI Semibold", 10F, FontStyle.Bold, GraphicsUnit.Point);
             btnSave.Location = new Point(600, 420);
             btnSave.Name = "btnSave";
@@ -210,6 +216,9 @@
             // btnCancel
             // 
             btnCancel.Cursor = Cursors.Hand;
+            btnCancel.FlatAppearance.BorderSize = 0;
+            btnCancel.FlatAppearance.MouseOverBackColor = Color.FromArgb(9, 142, 154);
+            btnCancel.FlatStyle = FlatStyle.Flat;
             btnCancel.Font = new Font("Segoe UI Semibold", 10F, FontStyle.Bold, GraphicsUnit.Point);
             btnCancel.Location = new Point(750, 420);
             btnCancel.Name = "btnCancel";

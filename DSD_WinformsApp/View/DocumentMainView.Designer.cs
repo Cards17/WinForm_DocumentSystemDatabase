@@ -42,7 +42,6 @@ namespace DSD_WinformsApp.View
             buttonDocument = new Button();
             buttonHome = new Button();
             panelDocumentButton = new Panel();
-            labelFilenameHidden = new Label();
             labelDownloadAllDocs = new Label();
             linkLabelDownloadAllDocs = new LinkLabel();
             labelDocumentPagination = new Label();
@@ -50,6 +49,7 @@ namespace DSD_WinformsApp.View
             iconBack = new PictureBox();
             comboBoxCategoryDropdown = new ComboBox();
             textBoxSearchBar = new TextBox();
+            labelFilenameHidden = new Label();
             comboBoxCategory = new ComboBox();
             pictureBox1 = new PictureBox();
             buttonSignOut = new Button();
@@ -124,7 +124,7 @@ namespace DSD_WinformsApp.View
             dataGridView1.RowHeadersWidth = 62;
             dataGridView1.RowTemplate.Height = 36;
             dataGridView1.RowTemplate.Resizable = DataGridViewTriState.False;
-            dataGridView1.Size = new Size(1235, 590);
+            dataGridView1.Size = new Size(1233, 590);
             dataGridView1.TabIndex = 0;
             // 
             // panel1
@@ -219,16 +219,6 @@ namespace DSD_WinformsApp.View
             panelDocumentButton.Size = new Size(1550, 830);
             panelDocumentButton.TabIndex = 2;
             // 
-            // labelFilenameHidden
-            // 
-            labelFilenameHidden.AutoSize = true;
-            labelFilenameHidden.Location = new Point(287, 9);
-            labelFilenameHidden.Name = "labelFilenameHidden";
-            labelFilenameHidden.Size = new Size(22, 25);
-            labelFilenameHidden.TabIndex = 11;
-            labelFilenameHidden.Text = "1";
-            labelFilenameHidden.Visible = false;
-            // 
             // labelDownloadAllDocs
             // 
             labelDownloadAllDocs.AutoSize = true;
@@ -313,6 +303,16 @@ namespace DSD_WinformsApp.View
             textBoxSearchBar.Size = new Size(320, 36);
             textBoxSearchBar.TabIndex = 3;
             textBoxSearchBar.TextChanged += textBoxSearchBar_TextChanged;
+            // 
+            // labelFilenameHidden
+            // 
+            labelFilenameHidden.AutoSize = true;
+            labelFilenameHidden.Location = new Point(287, 9);
+            labelFilenameHidden.Name = "labelFilenameHidden";
+            labelFilenameHidden.Size = new Size(22, 25);
+            labelFilenameHidden.TabIndex = 11;
+            labelFilenameHidden.Text = "1";
+            labelFilenameHidden.Visible = false;
             // 
             // comboBoxCategory
             // 
@@ -443,7 +443,7 @@ namespace DSD_WinformsApp.View
             dataGridViewManageUsers.RowHeadersVisible = false;
             dataGridViewManageUsers.RowHeadersWidth = 62;
             dataGridViewManageUsers.RowTemplate.Height = 36;
-            dataGridViewManageUsers.Size = new Size(1235, 590);
+            dataGridViewManageUsers.Size = new Size(1232, 590);
             dataGridViewManageUsers.TabIndex = 0;
             // 
             // panelUserDetails
@@ -483,6 +483,10 @@ namespace DSD_WinformsApp.View
             // buttonEditUser
             // 
             buttonEditUser.Cursor = Cursors.Hand;
+            buttonEditUser.FlatAppearance.BorderSize = 0;
+            buttonEditUser.FlatAppearance.MouseOverBackColor = Color.FromArgb(9, 142, 154);
+            buttonEditUser.FlatStyle = FlatStyle.Flat;
+            buttonEditUser.Font = new Font("Graphik", 10F, FontStyle.Regular, GraphicsUnit.Point);
             buttonEditUser.Location = new Point(780, 620);
             buttonEditUser.Name = "buttonEditUser";
             buttonEditUser.Size = new Size(100, 35);
@@ -494,6 +498,11 @@ namespace DSD_WinformsApp.View
             // buttonCloseUser
             // 
             buttonCloseUser.Cursor = Cursors.Hand;
+            buttonCloseUser.FlatAppearance.BorderSize = 0;
+            buttonCloseUser.FlatAppearance.MouseOverBackColor = Color.FromArgb(9, 142, 154);
+            buttonCloseUser.FlatStyle = FlatStyle.Flat;
+            buttonCloseUser.Font = new Font("Graphik", 10F, FontStyle.Regular, GraphicsUnit.Point);
+            buttonCloseUser.ForeColor = Color.Black;
             buttonCloseUser.Location = new Point(650, 620);
             buttonCloseUser.Name = "buttonCloseUser";
             buttonCloseUser.Size = new Size(100, 35);
@@ -505,6 +514,10 @@ namespace DSD_WinformsApp.View
             // buttonUsersDetailSave
             // 
             buttonUsersDetailSave.Cursor = Cursors.Hand;
+            buttonUsersDetailSave.FlatAppearance.BorderSize = 0;
+            buttonUsersDetailSave.FlatAppearance.MouseOverBackColor = Color.FromArgb(9, 142, 154);
+            buttonUsersDetailSave.FlatStyle = FlatStyle.Flat;
+            buttonUsersDetailSave.Font = new Font("Graphik", 10F, FontStyle.Regular, GraphicsUnit.Point);
             buttonUsersDetailSave.Location = new Point(520, 620);
             buttonUsersDetailSave.Name = "buttonUsersDetailSave";
             buttonUsersDetailSave.Size = new Size(100, 35);
@@ -517,47 +530,57 @@ namespace DSD_WinformsApp.View
             // 
             checkBoxEnableAdmin.AutoSize = true;
             checkBoxEnableAdmin.Cursor = Cursors.Hand;
-            checkBoxEnableAdmin.Location = new Point(499, 302);
+            checkBoxEnableAdmin.Font = new Font("Segoe UI", 10F, FontStyle.Regular, GraphicsUnit.Point);
+            checkBoxEnableAdmin.Location = new Point(735, 289);
             checkBoxEnableAdmin.Name = "checkBoxEnableAdmin";
-            checkBoxEnableAdmin.Size = new Size(148, 29);
+            checkBoxEnableAdmin.Size = new Size(140, 32);
             checkBoxEnableAdmin.TabIndex = 18;
-            checkBoxEnableAdmin.Text = "Enable Admin";
+            checkBoxEnableAdmin.Text = "Admin User";
             checkBoxEnableAdmin.UseVisualStyleBackColor = true;
             checkBoxEnableAdmin.CheckedChanged += checkBoxEnableAdmin_CheckedChanged;
             // 
             // textBoxUserEmailAdd
             // 
-            textBoxUserEmailAdd.Location = new Point(280, 500);
+            textBoxUserEmailAdd.Font = new Font("Segoe UI", 10F, FontStyle.Regular, GraphicsUnit.Point);
+            textBoxUserEmailAdd.Location = new Point(280, 504);
+            textBoxUserEmailAdd.Multiline = true;
             textBoxUserEmailAdd.Name = "textBoxUserEmailAdd";
-            textBoxUserEmailAdd.Size = new Size(600, 31);
+            textBoxUserEmailAdd.Size = new Size(600, 36);
             textBoxUserEmailAdd.TabIndex = 10;
             // 
             // textBoxUserJobTitle
             // 
+            textBoxUserJobTitle.Font = new Font("Segoe UI", 10F, FontStyle.Regular, GraphicsUnit.Point);
             textBoxUserJobTitle.Location = new Point(280, 450);
+            textBoxUserJobTitle.Multiline = true;
             textBoxUserJobTitle.Name = "textBoxUserJobTitle";
-            textBoxUserJobTitle.Size = new Size(600, 31);
+            textBoxUserJobTitle.Size = new Size(600, 36);
             textBoxUserJobTitle.TabIndex = 9;
             // 
             // textBoxUserLastName
             // 
-            textBoxUserLastName.Location = new Point(280, 400);
+            textBoxUserLastName.Font = new Font("Segoe UI", 10F, FontStyle.Regular, GraphicsUnit.Point);
+            textBoxUserLastName.Location = new Point(280, 395);
+            textBoxUserLastName.Multiline = true;
             textBoxUserLastName.Name = "textBoxUserLastName";
-            textBoxUserLastName.Size = new Size(600, 31);
+            textBoxUserLastName.Size = new Size(600, 36);
             textBoxUserLastName.TabIndex = 8;
             // 
             // textBoxUserFirstName
             // 
-            textBoxUserFirstName.Location = new Point(280, 350);
+            textBoxUserFirstName.Font = new Font("Segoe UI", 10F, FontStyle.Regular, GraphicsUnit.Point);
+            textBoxUserFirstName.Location = new Point(280, 340);
+            textBoxUserFirstName.Multiline = true;
             textBoxUserFirstName.Name = "textBoxUserFirstName";
-            textBoxUserFirstName.Size = new Size(600, 31);
+            textBoxUserFirstName.Size = new Size(600, 36);
             textBoxUserFirstName.TabIndex = 7;
             // 
             // textBoxID
             // 
-            textBoxID.Location = new Point(280, 300);
+            textBoxID.Font = new Font("Segoe UI", 10F, FontStyle.Regular, GraphicsUnit.Point);
+            textBoxID.Location = new Point(280, 285);
             textBoxID.Name = "textBoxID";
-            textBoxID.Size = new Size(181, 31);
+            textBoxID.Size = new Size(181, 34);
             textBoxID.TabIndex = 6;
             // 
             // pictureBoxUserProfile
@@ -573,45 +596,50 @@ namespace DSD_WinformsApp.View
             // labelUserId
             // 
             labelUserId.AutoSize = true;
-            labelUserId.Location = new Point(80, 300);
+            labelUserId.Font = new Font("Segoe UI", 10F, FontStyle.Regular, GraphicsUnit.Point);
+            labelUserId.Location = new Point(80, 287);
             labelUserId.Name = "labelUserId";
-            labelUserId.Size = new Size(34, 25);
+            labelUserId.Size = new Size(35, 28);
             labelUserId.TabIndex = 1;
             labelUserId.Text = "ID:";
             // 
             // labelFirstName
             // 
             labelFirstName.AutoSize = true;
-            labelFirstName.Location = new Point(80, 350);
+            labelFirstName.Font = new Font("Segoe UI", 10F, FontStyle.Regular, GraphicsUnit.Point);
+            labelFirstName.Location = new Point(80, 342);
             labelFirstName.Name = "labelFirstName";
-            labelFirstName.Size = new Size(93, 25);
+            labelFirstName.Size = new Size(101, 28);
             labelFirstName.TabIndex = 2;
             labelFirstName.Text = "Firstname:";
             // 
             // labelLastName
             // 
             labelLastName.AutoSize = true;
-            labelLastName.Location = new Point(80, 400);
+            labelLastName.Font = new Font("Segoe UI", 10F, FontStyle.Regular, GraphicsUnit.Point);
+            labelLastName.Location = new Point(80, 397);
             labelLastName.Name = "labelLastName";
-            labelLastName.Size = new Size(91, 25);
+            labelLastName.Size = new Size(98, 28);
             labelLastName.TabIndex = 3;
             labelLastName.Text = "Lastname:";
             // 
             // labelJobTitle
             // 
             labelJobTitle.AutoSize = true;
-            labelJobTitle.Location = new Point(80, 450);
+            labelJobTitle.Font = new Font("Segoe UI", 10F, FontStyle.Regular, GraphicsUnit.Point);
+            labelJobTitle.Location = new Point(80, 452);
             labelJobTitle.Name = "labelJobTitle";
-            labelJobTitle.Size = new Size(81, 25);
+            labelJobTitle.Size = new Size(89, 28);
             labelJobTitle.TabIndex = 4;
             labelJobTitle.Text = "Job Title:";
             // 
             // labelEmailAddress
             // 
             labelEmailAddress.AutoSize = true;
-            labelEmailAddress.Location = new Point(80, 500);
+            labelEmailAddress.Font = new Font("Segoe UI", 10F, FontStyle.Regular, GraphicsUnit.Point);
+            labelEmailAddress.Location = new Point(80, 506);
             labelEmailAddress.Name = "labelEmailAddress";
-            labelEmailAddress.Size = new Size(128, 25);
+            labelEmailAddress.Size = new Size(138, 28);
             labelEmailAddress.TabIndex = 5;
             labelEmailAddress.Text = "Email Address:";
             // 

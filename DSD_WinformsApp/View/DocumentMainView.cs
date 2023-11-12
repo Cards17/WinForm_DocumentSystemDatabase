@@ -360,6 +360,9 @@ namespace DSD_WinformsApp.View
 
             // Create the buttons and add them to the detailsForm
             CustomButton button1 = new CustomButton(ColorTranslator.FromHtml("#A5D7E8"), SystemColors.Control);
+            button1.FlatAppearance.BorderSize = 0;
+            button1.FlatAppearance.MouseOverBackColor = Color.FromArgb(9, 142, 154);
+            button1.FlatStyle = FlatStyle.Flat;
             button1.Text = "DETAILS";
             button1.Location = new Point(20, 35);
             button1.Height = 40;
@@ -369,8 +372,11 @@ namespace DSD_WinformsApp.View
             detailsForm.Controls.Add(button1);
 
             CustomButton button2 = new CustomButton(ColorTranslator.FromHtml("#A5D7E8"), SystemColors.Control);
+            button2.FlatAppearance.BorderSize = 0;
+            button2.FlatAppearance.MouseOverBackColor = Color.FromArgb(9, 142, 154);
+            button2.FlatStyle = FlatStyle.Flat;
             button2.Text = "HISTORY";
-            button2.Location = new Point(button1.Right + 10, 35);
+            button2.Location = new Point(button1.Right + 20, 35);
             button2.Height = button1.Height;
             button2.Width = button1.Width;
             button2.Font = new Font("Segoe UI", 9, FontStyle.Bold);
@@ -393,9 +399,11 @@ namespace DSD_WinformsApp.View
 
             int textBoxWidth = 450; // You can adjust the default width for TextBox controls
 
-
             // Create download button
             CustomButton downloadButton = new CustomButton(ColorTranslator.FromHtml("#A5D7E8"), SystemColors.Control);
+            downloadButton.FlatAppearance.BorderSize = 0;
+            downloadButton.FlatAppearance.MouseOverBackColor = Color.FromArgb(9, 142, 154);
+            downloadButton.FlatStyle = FlatStyle.Flat;
             downloadButton.Text = "Download";
             downloadButton.Name = "downloadButton";
             downloadButton.Location = new Point(groupBox.Right - (downloadButton.Width + 120), groupBox.Top - 50);
@@ -410,7 +418,7 @@ namespace DSD_WinformsApp.View
                 if (result == DialogResult.Yes)
                 {
                     downloadButton.Enabled = false;
-                    ConfirmDownloadDocument(selectedDocument);
+                    ConfirmDownloadDocument(selectedDocument, isAdmin);
                     downloadButton.Enabled = true; // Enable the button again after the download is complete
                 }
 
@@ -419,9 +427,12 @@ namespace DSD_WinformsApp.View
 
             // Create delete button
             CustomButton deleteButton = new CustomButton(ColorTranslator.FromHtml("#DA0B0B"), SystemColors.Control);
+            deleteButton.FlatAppearance.BorderSize = 0;
+            deleteButton.FlatAppearance.MouseOverBackColor = Color.FromArgb(9, 142, 154);
+            deleteButton.FlatStyle = FlatStyle.Flat;
             deleteButton.Text = "Delete";
             deleteButton.Name = "deleteButton";
-            deleteButton.Location = new Point(downloadButton.Left - (downloadButton.Width + 10), downloadButton.Top);
+            deleteButton.Location = new Point(downloadButton.Left - (downloadButton.Width + 20), downloadButton.Top);
             deleteButton.Height = 40;
             deleteButton.Width = 110;
             deleteButton.Visible = isAdmin;
@@ -444,7 +455,6 @@ namespace DSD_WinformsApp.View
             };
             groupBox.Controls.Add(deleteButton);
 
-
             // Create a TextBox for "Filename"
             TextBox filenameTextBox = new TextBox();
             filenameTextBox.Text = selectedDocument.Filename;
@@ -456,6 +466,9 @@ namespace DSD_WinformsApp.View
 
             // Create the "Upload File" button and pass the filenameTextBox as a parameter
             CustomButton uploadFileButton = new CustomButton(ColorTranslator.FromHtml("#A5D7E8"), SystemColors.Control);
+            uploadFileButton.FlatAppearance.BorderSize = 0;
+            uploadFileButton.FlatAppearance.MouseOverBackColor = Color.FromArgb(9, 142, 154);
+            uploadFileButton.FlatStyle = FlatStyle.Flat;
             uploadFileButton.Text = "Upload File";
             uploadFileButton.Location = new Point(filenameTextBox.Right + 10, filenameTextBox.Top - 5);
             uploadFileButton.Height = filenameTextBox.Height + 6;
@@ -727,8 +740,16 @@ namespace DSD_WinformsApp.View
                         {
                             try
                             {
-                                await _presenter.DeleteBackUpFile(selectedBackupFile); // Delete the backup file
+                                await _presenter.DeleteBackUpFile(selectedBackupFile); // Delete the backup file         
+                            }
 
+                            catch (Exception)
+                            {
+                                MessageBox.Show(detailsForm, $"An error has occured, please try again.", "Delete Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                            }
+
+                            finally
+                            {
                                 // Refresh the DataGridView
                                 relatedBackupFiles.Remove(selectedBackupFile);
                                 dataGridView2.DataSource = null;
@@ -756,10 +777,6 @@ namespace DSD_WinformsApp.View
                                 dataGridView2.Columns["BackupFilePath"].Visible = false;
                                 dataGridView2.Columns["Id"].Visible = false;
                             }
-                            catch (Exception ex)
-                            {
-                                MessageBox.Show(detailsForm, $"Error deleting the file: {ex.Message}", "Delete Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                            }
                         }
                     }
                 }
@@ -770,6 +787,9 @@ namespace DSD_WinformsApp.View
             #region Details Form Buttons
             // Create the Edit button
             CustomButton editButton = new CustomButton(ColorTranslator.FromHtml("#576CBC"), SystemColors.Control);
+            editButton.FlatAppearance.BorderSize = 0;
+            editButton.FlatAppearance.MouseOverBackColor = Color.FromArgb(9, 142, 154);
+            editButton.FlatStyle = FlatStyle.Flat;
             editButton.Text = "Edit";
             editButton.Name = "editButton";
             editButton.Location = new Point(groupBox.Right - editButton.Width, groupBox.Bottom + 10);
@@ -781,9 +801,12 @@ namespace DSD_WinformsApp.View
 
             // Create the Close button
             CustomButton closeButton = new CustomButton(ColorTranslator.FromHtml("#DA0B0B"), SystemColors.Control);
+            closeButton.FlatAppearance.BorderSize = 0;
+            closeButton.FlatAppearance.MouseOverBackColor = Color.FromArgb(9, 142, 154);
+            closeButton.FlatStyle = FlatStyle.Flat;
             closeButton.Text = "Close";
             closeButton.Name = "closeButton";
-            closeButton.Location = new Point(editButton.Left - 10 - closeButton.Width, groupBox.Bottom + 10);
+            closeButton.Location = new Point(editButton.Left - 20 - closeButton.Width, groupBox.Bottom + 10);
             closeButton.Height = editButton.Height;
             closeButton.Width = editButton.Width;
             closeButton.Click += CloseButton_Click;
@@ -792,9 +815,12 @@ namespace DSD_WinformsApp.View
 
             // Create the Save button using the custom button class
             CustomButton saveButton = new CustomButton(ColorTranslator.FromHtml("#05982E"), SystemColors.Control);
+            saveButton.FlatAppearance.BorderSize = 0;
+            saveButton.FlatAppearance.MouseOverBackColor = Color.FromArgb(9, 142, 154);
+            saveButton.FlatStyle = FlatStyle.Flat;
             saveButton.Text = "Save";
             saveButton.Name = "saveButton";
-            saveButton.Location = new Point(closeButton.Left - 10 - saveButton.Width, closeButton.Top);
+            saveButton.Location = new Point(closeButton.Left - 20 - saveButton.Width, closeButton.Top);
             saveButton.Height = closeButton.Height;
             saveButton.Width = closeButton.Width;
             saveButton.Enabled = false; // Disable the Save button initially
@@ -989,7 +1015,7 @@ namespace DSD_WinformsApp.View
 
         }
 
-        private void ConfirmDownloadDocument(DocumentDto selectedDocument)
+        private void ConfirmDownloadDocument(DocumentDto selectedDocument, bool isAdmin)
         {
             try
             {
@@ -1002,58 +1028,61 @@ namespace DSD_WinformsApp.View
 
                 string fileExtension = selectedDocument.FilenameExtension;
 
-                if (fileExtension == ".docx" || fileExtension == ".doc")
-                {
-                    // Save the file data to a temporary file
-                    string tempFilePath = Path.GetTempFileName();
-                    File.WriteAllBytes(tempFilePath, selectedDocument.FileData);
-
-                    // If it's a Word document, convert it to PDF using Office Interop
-                    Microsoft.Office.Interop.Word.Application word = new Microsoft.Office.Interop.Word.Application();
-                    Microsoft.Office.Interop.Word.Document doc = word.Documents.Open(tempFilePath);
-
-                    // Specify the destination file with a ".pdf" extension
-                    string pdfFilePath = Path.ChangeExtension(destinationFilePath, ".pdf");
-
-                    doc.SaveAs2(pdfFilePath, Microsoft.Office.Interop.Word.WdSaveFormat.wdFormatPDF);
-                    doc.Close();
-                    word.Quit();
-
-                    // Delete the temporary file
-                    File.Delete(tempFilePath);
-                }
-                else if (fileExtension == ".xlsx" || fileExtension == ".xls")
-                {
-                    // Save the file data to a temporary file
-                    string tempFilePath = Path.GetTempFileName();
-                    File.WriteAllBytes(tempFilePath, selectedDocument.FileData);
-
-                    // If it's an Excel document, convert it to PDF using Office Interop
-                    Microsoft.Office.Interop.Excel.Application excel = new Microsoft.Office.Interop.Excel.Application();
-                    Microsoft.Office.Interop.Excel.Workbook wb = excel.Workbooks.Open(tempFilePath);
-
-                    string pdfFilePath = Path.ChangeExtension(destinationFilePath, ".pdf"); // Specify the destination file with a ".pdf" extension
-
-                    wb.ExportAsFixedFormat(Microsoft.Office.Interop.Excel.XlFixedFormatType.xlTypePDF, pdfFilePath);
-                    wb.Close();
-                    excel.Quit();
-
-                    File.Delete(tempFilePath); // Delete the temporary file
-                }
-                else
+                if (isAdmin == true)
                 {
                     // For other file types, simply write the file data to the destination file
                     File.WriteAllBytes(destinationFilePath, fileData);
                 }
 
-                MessageBox.Show("Document downloaded successfully!", "Download Complete", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                else
+                {
+                    if (fileExtension == ".docx" || fileExtension == ".doc")
+                    {
+                        // Save the file data to a temporary file
+                        string tempFilePath = Path.GetTempFileName();
+                        File.WriteAllBytes(tempFilePath, selectedDocument.FileData);
+
+                        // If it's a Word document, convert it to PDF using Office Interop
+                        Microsoft.Office.Interop.Word.Application word = new Microsoft.Office.Interop.Word.Application();
+                        Microsoft.Office.Interop.Word.Document doc = word.Documents.Open(tempFilePath);
+
+                        // Specify the destination file with a ".pdf" extension
+                        string pdfFilePath = Path.ChangeExtension(destinationFilePath, ".pdf");
+
+                        doc.SaveAs2(pdfFilePath, Microsoft.Office.Interop.Word.WdSaveFormat.wdFormatPDF);
+                        doc.Close();
+                        word.Quit();
+
+                        // Delete the temporary file
+                        File.Delete(tempFilePath);
+                    }
+                    else if (fileExtension == ".xlsx" || fileExtension == ".xls")
+                    {
+                        // Save the file data to a temporary file
+                        string tempFilePath = Path.GetTempFileName();
+                        File.WriteAllBytes(tempFilePath, selectedDocument.FileData);
+
+                        // If it's an Excel document, convert it to PDF using Office Interop
+                        Microsoft.Office.Interop.Excel.Application excel = new Microsoft.Office.Interop.Excel.Application();
+                        Microsoft.Office.Interop.Excel.Workbook wb = excel.Workbooks.Open(tempFilePath);
+
+                        string pdfFilePath = Path.ChangeExtension(destinationFilePath, ".pdf"); // Specify the destination file with a ".pdf" extension
+
+                        wb.ExportAsFixedFormat(Microsoft.Office.Interop.Excel.XlFixedFormatType.xlTypePDF, pdfFilePath);
+                        wb.Close();
+                        excel.Quit();
+
+                        File.Delete(tempFilePath); // Delete the temporary file
+                    }
+                }
+
+                MessageBox.Show($"{selectedDocument.Filename} downloaded successfully!", "Download Complete", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
 
-            catch (Exception ex)
+            catch (Exception)
             {
-                MessageBox.Show($"Error downloading: {ex.Message}", "Download Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("An error occurred while downloading the document. Please try again.", "Download Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
-
         }
 
         private void UploadFileButton_Click(object? sender, EventArgs e, TextBox filenameTextBox)
@@ -1228,47 +1257,58 @@ namespace DSD_WinformsApp.View
 
         private async void buttonUsersDetailSave_Click(object sender, EventArgs e)
         {
-            string varUserSearchQuery = GetSearchUserQuery();
-            string varUserJobcatergoryQuery = GetFilterUsersCategory();
-
-            // Get modified data from the textboxes
-            int userId = int.Parse(textBoxID.Text);
-            UserRole userRole = checkBoxEnableAdmin.Checked ? UserRole.Admin : UserRole.User;
-            string firstname = textBoxUserFirstName.Text;
-            string lastname = textBoxUserLastName.Text;
-            string emailAddress = textBoxUserEmailAdd.Text;
-            string jobTitle = textBoxUserJobTitle.Text;
-
-            // create new user object from the modified data
-            UserCredentialsDto modifiedUser = new UserCredentialsDto
+            try
             {
-                UserId = userId,
-                UserRole = userRole,
-                Firstname = firstname,
-                Lastname = lastname,
-                EmailAddress = emailAddress,
-                JobTitle = jobTitle
-            };
+                string varUserSearchQuery = GetSearchUserQuery();
+                string varUserJobcatergoryQuery = GetFilterUsersCategory();
 
-            _presenter.EditUser(modifiedUser); // Edit the user in the database
+                // Get modified data from the textboxes
+                int userId = int.Parse(textBoxID.Text);
+                UserRole userRole = checkBoxEnableAdmin.Checked ? UserRole.Admin : UserRole.User;
+                string firstname = textBoxUserFirstName.Text;
+                string lastname = textBoxUserLastName.Text;
+                string emailAddress = textBoxUserEmailAdd.Text;
+                string jobTitle = textBoxUserJobTitle.Text;
 
-            // Return to Manage Users page
-            panelUserDetails.Visible = false;
-            panelManageUsers.Visible = true;
-            panelHome.Visible = false;
-            panelDocumentButton.Visible = false;
+                // create new user object from the modified data
+                UserCredentialsDto modifiedUser = new UserCredentialsDto
+                {
+                    UserId = userId,
+                    UserRole = userRole,
+                    Firstname = firstname,
+                    Lastname = lastname,
+                    EmailAddress = emailAddress,
+                    JobTitle = jobTitle
+                };
 
-            // Load the user by filter
-            await _presenter.LoadUsersByFilter(varUserSearchQuery, varUserJobcatergoryQuery);
+                _presenter.EditUser(modifiedUser); // Edit the user in the database     
 
-            // Clear the original values dictionary
-            originalValues.Clear();
+                await _presenter.LoadUsersByFilter(varUserSearchQuery, varUserJobcatergoryQuery); // Load the user by filter
+            }
 
-            // Reset the original checkbox state
-            originalCheckBoxState = checkBoxEnableAdmin.Checked;
+            catch (Exception)
+            {
+                // Show a custom error message for any other exceptions
+                MessageBox.Show("An error occurred while saving users details. Please try again.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
 
-            // Disable the Save button after saving
-            buttonUsersDetailSave.Enabled = false;
+            finally
+            {
+                // Return to Manage Users page
+                panelUserDetails.Visible = false;
+                panelManageUsers.Visible = true;
+                panelHome.Visible = false;
+                panelDocumentButton.Visible = false;
+
+                // Clear the original values dictionary
+                originalValues.Clear();
+
+                // Reset the original checkbox state
+                originalCheckBoxState = checkBoxEnableAdmin.Checked;
+
+                // Disable the Save button after saving
+                buttonUsersDetailSave.Enabled = false;
+            }
         }
 
         private void buttonCloseUser_Click(object sender, EventArgs e)
@@ -1322,9 +1362,7 @@ namespace DSD_WinformsApp.View
             }
         }
 
-        private void checkBoxEnableAdmin_CheckedChanged(object sender, EventArgs e)
-        {
-        }
+        private void checkBoxEnableAdmin_CheckedChanged(object sender, EventArgs e) { }
 
         // event when user delete button was clicked
         private async void dataGridViewManageUsers_DeleteButton_CellClick(object? sender, DataGridViewCellEventArgs e)
@@ -1334,20 +1372,25 @@ namespace DSD_WinformsApp.View
             {
                 UserCredentialsDto selectedUser = (UserCredentialsDto)dataGridViewManageUsers.Rows[e.RowIndex].DataBoundItem;
                 // Show the delete confirmation modal directly in the main form.
-                DialogResult result = MessageBox.Show($"Do you want to remove {selectedUser.UserName} as user ?", "Delete Confirmation", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
-
-                if (result == DialogResult.Yes)
+                DialogResult result = MessageBox.Show($"Do you want to remove {selectedUser.UserName} as user?", "Delete Confirmation", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+                try
                 {
-                    var currentUsersSearchQueryWhenItemDeleted = GetSearchUserQuery();
-                    var currentUsersFilterCategoryWhenItemDeleted = GetFilterUsersCategory();
+                    if (result == DialogResult.Yes)
+                    {
+                        var currentUsersSearchQueryWhenItemDeleted = GetSearchUserQuery();
+                        var currentUsersFilterCategoryWhenItemDeleted = GetFilterUsersCategory();
 
-                    await _presenter.DeleteUser(selectedUser);
-                    await _presenter.LoadUsersByFilter(currentUsersSearchQueryWhenItemDeleted, currentUsersFilterCategoryWhenItemDeleted);
+                        await _presenter.DeleteUser(selectedUser);
+                        await _presenter.LoadUsersByFilter(currentUsersSearchQueryWhenItemDeleted, currentUsersFilterCategoryWhenItemDeleted);
+                    }
                 }
-                else
+
+                catch (Exception)
                 {
-                    // User clicked "No" or closed the dialog, cancel the deletion
+                    // Show a custom error message for any other exceptions
+                    MessageBox.Show("An error occurred while deleting the user. Please try again.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
+
             }
         }
 
