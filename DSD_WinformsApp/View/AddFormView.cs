@@ -121,7 +121,6 @@ namespace DSD_WinformsApp.View
                     Notes = txtBoxNotes.Text,
                     CreatedBy = comboBoxCreatedBy.SelectedItem?.ToString() ?? "",
                     CreatedDate = DateTime.Now.Date,
-                    ModifiedDate = DateTime.Now.Date,
                 };
 
                 _presenter.SaveDocument(documentDto, fileDataBytes); // Save added document to database

@@ -535,7 +535,7 @@ namespace DSD_WinformsApp.View
 
             // Create a TextBox for the "Modified By" property and set its initial value
             TextBox modifiedByTextBox = new TextBox();
-            modifiedByTextBox.Text = selectedDocument.ModifiedBy;
+            modifiedByTextBox.Text = string.IsNullOrEmpty(selectedDocument.ModifiedBy)? "Not Applicable" : selectedDocument.ModifiedBy;
             modifiedByTextBox.ReadOnly = true;
             modifiedByTextBox.Multiline = true;
             modifiedByTextBox.Height = 36;
@@ -544,7 +544,7 @@ namespace DSD_WinformsApp.View
 
             // Create a TextBox for the "Modified Date" property and set its initial value
             TextBox modifiedDateTextBox = new TextBox();
-            modifiedDateTextBox.Text = selectedDocument.ModifiedDate.ToString("yyyy-MM-dd");
+            modifiedDateTextBox.Text = selectedDocument.ModifiedDate?.ToString("yyyy-MM-dd") ?? "Not Applicable";
             modifiedDateTextBox.ReadOnly = true;
             modifiedDateTextBox.Multiline = true;
             modifiedDateTextBox.Height = 36;
@@ -848,7 +848,7 @@ namespace DSD_WinformsApp.View
                     DateTime createdDate = DateTime.Parse(createdDateTextBox.Text);
                     string createdBy = createdByTextBox.Text;
                     string modifiedBy = labelHomePageUserLogin.Text;
-                    DateTime modifiedDate = DateTime.Parse(modifiedDateTextBox.Text);
+                    //DateTime modifiedDate = DateTime.Parse(modifiedDateTextBox.Text);
                     string notes = notesTextBox.Text;
 
                     // Check if the file name has been changed
@@ -868,7 +868,7 @@ namespace DSD_WinformsApp.View
                         CreatedDate = createdDate,
                         CreatedBy = createdBy,
                         ModifiedBy = modifiedBy,
-                        ModifiedDate = modifiedDate,
+                        ModifiedDate = DateTime.Now,
                         Notes = notes,
                         FilenameExtension = filenameExtension
                     };

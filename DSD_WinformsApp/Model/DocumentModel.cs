@@ -18,7 +18,7 @@ namespace DSD_WinformsApp.Model
         public DateTime CreatedDate { get; set; } = DateTime.Now.Date;
         public string CreatedBy { get; set; } = string.Empty;
         public string ModifiedBy { get; set; } = string.Empty;
-        public DateTime ModifiedDate { get; set; } = DateTime.Now.Date;
+        public DateTime? ModifiedDate { get; set; } 
         public string Notes { get; set; } = string.Empty;
         public string FilePath { get; set; } = string.Empty;
 
