@@ -137,11 +137,11 @@ namespace DSD_WinformsApp.Presenter
             document.FileData = fileDataBytes;
             _documentRepository.CreateDocument(document, fileDataBytes); // Pass fileDataBytes to the repository
         }
-        public void EditDocument(DocumentDto document, byte[] fileDataBytes)
+        public void EditDocument(DocumentDto document, byte[] fileDataBytes, bool isUploadSuccessful )
         {
             // Set the file data to the DocumentDto
             document.FileData = fileDataBytes;
-            _documentRepository.EditDocument(document.Id, document); // Pass fileDataBytes to the repository
+            _documentRepository.EditDocument(document.Id, document, isUploadSuccessful); // Pass fileDataBytes to the repository
         }
         public async Task SearchDocuments(string filterCriteria, string searchQuery)
         {

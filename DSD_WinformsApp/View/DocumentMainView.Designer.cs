@@ -682,7 +682,7 @@ namespace DSD_WinformsApp.View
             labelFooter.Anchor = AnchorStyles.Top;
             labelFooter.AutoSize = true;
             labelFooter.Font = new Font("Graphik", 9F, FontStyle.Italic, GraphicsUnit.Point);
-            labelFooter.Location = new Point(630, 927);
+            labelFooter.Location = new Point(630, 922);
             labelFooter.Name = "labelFooter";
             labelFooter.Size = new Size(519, 21);
             labelFooter.TabIndex = 10;

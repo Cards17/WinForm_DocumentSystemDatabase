@@ -6,7 +6,7 @@ namespace DSD_WinformsApp.Presenter
     {
         Task<bool> DeleteBackUpFile(BackUpFileDto file);
         Task<bool> DeleteDocumentWithBackups(DocumentDto document);
-        void EditDocument(DocumentDto document, byte[] fileDataBytes);
+        void EditDocument(DocumentDto document, byte[] fileDataBytes, bool isUploadSuccessful);
         Task<List<BackUpFileDto>> GetRelatedBackupFiles(int documentId);
 
         // Document Repository methods

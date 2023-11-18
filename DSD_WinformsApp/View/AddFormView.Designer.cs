@@ -52,7 +52,7 @@
             // 
             txtCategory.AutoSize = true;
             txtCategory.Font = new Font("Segoe UI", 10F, FontStyle.Regular, GraphicsUnit.Point);
-            txtCategory.Location = new Point(25, 204);
+            txtCategory.Location = new Point(25, 214);
             txtCategory.Name = "txtCategory";
             txtCategory.Size = new Size(192, 28);
             txtCategory.TabIndex = 5;
@@ -62,7 +62,7 @@
             // 
             Status_Label.AutoSize = true;
             Status_Label.Font = new Font("Segoe UI", 10F, FontStyle.Regular, GraphicsUnit.Point);
-            Status_Label.Location = new Point(25, 264);
+            Status_Label.Location = new Point(25, 274);
             Status_Label.Name = "Status_Label";
             Status_Label.Size = new Size(165, 28);
             Status_Label.TabIndex = 7;
@@ -72,7 +72,7 @@
             // 
             cmbStatus.Font = new Font("Segoe UI", 10F, FontStyle.Regular, GraphicsUnit.Point);
             cmbStatus.FormattingEnabled = true;
-            cmbStatus.Location = new Point(239, 256);
+            cmbStatus.Location = new Point(239, 266);
             cmbStatus.Name = "cmbStatus";
             cmbStatus.Size = new Size(250, 36);
             cmbStatus.TabIndex = 8;
@@ -81,7 +81,7 @@
             // 
             Notes_Label.AutoSize = true;
             Notes_Label.Font = new Font("Segoe UI", 10F, FontStyle.Regular, GraphicsUnit.Point);
-            Notes_Label.Location = new Point(519, 144);
+            Notes_Label.Location = new Point(519, 149);
             Notes_Label.Name = "Notes_Label";
             Notes_Label.Size = new Size(68, 28);
             Notes_Label.TabIndex = 11;
@@ -89,7 +89,7 @@
             // 
             // txtBoxNotes
             // 
-            txtBoxNotes.Location = new Point(519, 196);
+            txtBoxNotes.Location = new Point(519, 206);
             txtBoxNotes.MaxLength = 300;
             txtBoxNotes.Multiline = true;
             txtBoxNotes.Name = "txtBoxNotes";
@@ -101,7 +101,7 @@
             cmbCategories.Font = new Font("Segoe UI", 10F, FontStyle.Regular, GraphicsUnit.Point);
             cmbCategories.FormattingEnabled = true;
             cmbCategories.ItemHeight = 28;
-            cmbCategories.Location = new Point(239, 196);
+            cmbCategories.Location = new Point(239, 206);
             cmbCategories.MaximumSize = new Size(250, 0);
             cmbCategories.Name = "cmbCategories";
             cmbCategories.Size = new Size(250, 36);
@@ -121,7 +121,7 @@
             // 
             labelCreatedBy.AutoSize = true;
             labelCreatedBy.Font = new Font("Segoe UI", 10F, FontStyle.Regular, GraphicsUnit.Point);
-            labelCreatedBy.Location = new Point(27, 324);
+            labelCreatedBy.Location = new Point(27, 334);
             labelCreatedBy.Name = "labelCreatedBy";
             labelCreatedBy.Size = new Size(110, 28);
             labelCreatedBy.TabIndex = 9;
@@ -131,7 +131,7 @@
             // 
             comboBoxCreatedBy.Font = new Font("Segoe UI", 10F, FontStyle.Regular, GraphicsUnit.Point);
             comboBoxCreatedBy.FormattingEnabled = true;
-            comboBoxCreatedBy.Location = new Point(239, 316);
+            comboBoxCreatedBy.Location = new Point(239, 326);
             comboBoxCreatedBy.Name = "comboBoxCreatedBy";
             comboBoxCreatedBy.Size = new Size(250, 36);
             comboBoxCreatedBy.TabIndex = 10;
@@ -140,7 +140,7 @@
             // 
             labelDocVersion.AutoSize = true;
             labelDocVersion.Font = new Font("Segoe UI", 10F, FontStyle.Regular, GraphicsUnit.Point);
-            labelDocVersion.Location = new Point(25, 144);
+            labelDocVersion.Location = new Point(25, 149);
             labelDocVersion.Name = "labelDocVersion";
             labelDocVersion.Size = new Size(184, 28);
             labelDocVersion.TabIndex = 3;
@@ -149,7 +149,7 @@
             // textBoxDocumentVersion
             // 
             textBoxDocumentVersion.Font = new Font("Segoe UI", 10F, FontStyle.Regular, GraphicsUnit.Point);
-            textBoxDocumentVersion.Location = new Point(239, 136);
+            textBoxDocumentVersion.Location = new Point(239, 141);
             textBoxDocumentVersion.Multiline = true;
             textBoxDocumentVersion.Name = "textBoxDocumentVersion";
             textBoxDocumentVersion.Size = new Size(250, 36);
@@ -158,10 +158,10 @@
             // labelFilename
             // 
             labelFilename.AutoSize = true;
-            labelFilename.Font = new Font("Segoe UI", 10F, FontStyle.Regular, GraphicsUnit.Point);
-            labelFilename.Location = new Point(402, 86);
+            labelFilename.Font = new Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point);
+            labelFilename.Location = new Point(370, 85);
             labelFilename.Name = "labelFilename";
-            labelFilename.Size = new Size(0, 28);
+            labelFilename.Size = new Size(0, 50);
             labelFilename.TabIndex = 18;
             // 
             // labelFileUpload
@@ -250,7 +250,9 @@
             Controls.Add(cmbStatus);
             Controls.Add(Status_Label);
             Controls.Add(txtCategory);
+            FormBorderStyle = FormBorderStyle.FixedSingle;
             Icon = (Icon)resources.GetObject("$this.Icon");
+            MinimizeBox = false;
             Name = "AddFormView";
             Text = "Add Document Form";
             Load += AddForm_Load;

@@ -30,6 +30,8 @@ namespace DSD_WinformsApp.View
 
         private bool isVisible;
 
+        private bool isUploadSuccessful = false;
+
         public DocumentMainView(IUnitOfWork unitOfWork)
         {
             InitializeComponent();
@@ -535,7 +537,7 @@ namespace DSD_WinformsApp.View
 
             // Create a TextBox for the "Modified By" property and set its initial value
             TextBox modifiedByTextBox = new TextBox();
-            modifiedByTextBox.Text = string.IsNullOrEmpty(selectedDocument.ModifiedBy)? "Not Applicable" : selectedDocument.ModifiedBy;
+            modifiedByTextBox.Text = string.IsNullOrEmpty(selectedDocument.ModifiedBy) ? "No data available" : selectedDocument.ModifiedBy;
             modifiedByTextBox.ReadOnly = true;
             modifiedByTextBox.Multiline = true;
             modifiedByTextBox.Height = 36;
@@ -544,7 +546,7 @@ namespace DSD_WinformsApp.View
 
             // Create a TextBox for the "Modified Date" property and set its initial value
             TextBox modifiedDateTextBox = new TextBox();
-            modifiedDateTextBox.Text = selectedDocument.ModifiedDate?.ToString("yyyy-MM-dd") ?? "Not Applicable";
+            modifiedDateTextBox.Text = selectedDocument.ModifiedDate?.ToString("yyyy-MM-dd") ?? "No data available";
             modifiedDateTextBox.ReadOnly = true;
             modifiedDateTextBox.Multiline = true;
             modifiedDateTextBox.Height = 36;
@@ -873,7 +875,7 @@ namespace DSD_WinformsApp.View
                         FilenameExtension = filenameExtension
                     };
 
-                    _presenter.EditDocument(modifiedDocument, fileDataBytes); // Edit the document in the database
+                    _presenter.EditDocument(modifiedDocument, fileDataBytes, isUploadSuccessful); // Edit the document in the database
 
                     await _presenter.LoadDocumentsByFilter(GetSearchQuery(), GetFilterCategory()); // Load the filtered documents again to update the view
 
@@ -908,6 +910,7 @@ namespace DSD_WinformsApp.View
                 finally
                 {
                     isNewFileUploaded = false; // Reset the flag
+                    isUploadSuccessful = false; // Reset the flag
                     saveButton.Enabled = false; // Disable the Save button after save
                     editButton.Enabled = true; // Re-enable the Edit button after save
                 }
@@ -969,10 +972,20 @@ namespace DSD_WinformsApp.View
             {
                 foreach (Control control in groupBox.Controls)
                 {
-                    // Check if the control is a TextBox and make it editable, except for Created Date and Modified Date
-                    if (control is TextBox textBox && textBox != createdDateTextBox && textBox != modifiedDateTextBox)
+                    if (control is TextBox textBox)
                     {
-                        textBox.ReadOnly = false;
+                        filenameTextBox.Enabled = true;
+                        documentVersionTextBox.Enabled = true;
+                        notesTextBox.Enabled = true;
+                        createdDateTextBox.Enabled = false;
+                        createdByTextBox.Enabled = false;
+                        modifiedByTextBox.Enabled = false;
+                        modifiedDateTextBox.Enabled = false;
+
+                        createdByTextBox.BorderStyle = BorderStyle.None;
+                        createdDateTextBox.BorderStyle = BorderStyle.None;
+                        modifiedByTextBox.BorderStyle = BorderStyle.None;
+                        modifiedDateTextBox.BorderStyle = BorderStyle.None;
                     }
                 }
 
@@ -1125,6 +1138,13 @@ namespace DSD_WinformsApp.View
                         // Show a custom error message if the file has an invalid extension
                         MessageBox.Show("Invalid document type. Please select a Word, PDF, or Excel document.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     }
+
+                    isUploadSuccessful = true;
+                }
+
+                else
+                {
+                    isUploadSuccessful = false;
                 }
             }
             catch (Exception)
@@ -1517,7 +1537,22 @@ namespace DSD_WinformsApp.View
                 await _presenter.DownloadAllDocuments(); // Call presenter's DownloadAllDocuments method
             }
         }
-        private void buttonSignOut_Click(object sender, EventArgs e) => Application.Exit();
+        private void buttonSignOut_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                DialogResult result = MessageBox.Show($"Hello {labelHomePageUserLogin.Text}, do you want to sign out?", "Confirmation", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+
+                if (result == DialogResult.Yes)
+                {
+                    Application.Exit();
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"An error occurred during sign-out: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
         private void timerSearchBar_Tick(object? sender, EventArgs e)
         {
             timerSearchBar.Stop(); // Stop timer after interval

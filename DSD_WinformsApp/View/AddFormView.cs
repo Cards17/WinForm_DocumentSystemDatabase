@@ -22,6 +22,8 @@ namespace DSD_WinformsApp.View
 
         private string selectedFilePath = null!; // Class-level variable to store the selected file path
 
+        private string labelFilenameText = "";
+
         public AddFormView(IUnitOfWork unitOfWork, IDocumentPresenter presenter)
         {
             InitializeComponent();
@@ -43,7 +45,7 @@ namespace DSD_WinformsApp.View
 
         private void AddForm_Load(object sender, EventArgs e)
         {
-            MaximizeBox = false; // Remove the maximize box
+            //MaximizeBox = false; // Remove the maximize box
 
             btnSave.Enabled = false; // Disable the Save button initially
 
@@ -113,7 +115,7 @@ namespace DSD_WinformsApp.View
 
                 var documentDto = new DocumentDto
                 {
-                    Filename = labelFilename.Text,
+                    Filename = labelFilenameText,
                     FilenameExtension = labelDocumentNameWithExtension.Text,
                     DocumentVersion = textBoxDocumentVersion.Text.ToUpper(),
                     Category = cmbCategories.SelectedItem?.ToString() ?? "",
@@ -165,7 +167,15 @@ namespace DSD_WinformsApp.View
 
                     // Display only the file name without the extension in the label and the TextBox
                     string fileNameWithoutExtension = Path.GetFileNameWithoutExtension(openFileDialog.FileName);
-                    labelFilename.Text = fileNameWithoutExtension;
+
+                    // Limit characters per line for filename
+                    string dynamicText = fileNameWithoutExtension;
+                    int maxCharactersPerLine = 50;
+                    string firstLine = dynamicText.Length > maxCharactersPerLine ? dynamicText.Substring(0, maxCharactersPerLine) : dynamicText;
+                    string secondLine = dynamicText.Length > maxCharactersPerLine ? dynamicText.Substring(maxCharactersPerLine) : string.Empty;
+
+                    labelFilename.Text = dynamicText.Length > maxCharactersPerLine ? $"{firstLine}\n{secondLine}" : dynamicText;
+                    labelFilenameText = labelFilename.Text.Replace("\n", "");
 
                     // Get filename with extension for saving to db
                     string fileExtension = Path.GetExtension(openFileDialog.FileName);
@@ -200,52 +210,105 @@ namespace DSD_WinformsApp.View
             ValidateForm();
         }
 
+        private bool isProcessingValidation = false;
+
         private void ValidateForm()
         {
-            bool isValid = true;
-            errorProvider.Clear();
-
-
-            if (string.IsNullOrWhiteSpace(labelFilename.Text))
+            if (isProcessingValidation)
             {
-                errorProvider.SetError(buttonUploadDocs, "Upload file is required.");
-                isValid = false;
+                // Validation is already in progress, avoid recursion
+                return;
             }
 
-            if (string.IsNullOrWhiteSpace(textBoxDocumentVersion.Text))
+            isProcessingValidation = true;
+
+            try
             {
-                errorProvider.SetError(textBoxDocumentVersion, "Document Version is required.");
-                isValid = false;
+                bool isValid = true;
+                errorProvider.Clear();
+
+                // Document field validations
+                int maxLabelFilenameLength = 100;
+
+
+                
+                //labelFilename.AutoSize = true;
+
+                if (string.IsNullOrWhiteSpace(labelFilename.Text))
+                {
+                    errorProvider.SetError(buttonUploadDocs, "Upload document is required.");
+                    isValid = false;
+                }
+
+                else if (labelFilename.Text.Trim().Length > maxLabelFilenameLength)
+                {
+                    errorProvider.SetError(buttonUploadDocs, $"Uploaded document name must be {maxLabelFilenameLength} characters or less.");
+                    isValid = false;
+                }
+
+                // Document version field validations
+                int maxtextBoxDocumentVersionLength = 30;
+                int mintextBoxDocumentVersionLength = 5;
+
+                if (string.IsNullOrWhiteSpace(textBoxDocumentVersion.Text))
+                {
+                    errorProvider.SetError(textBoxDocumentVersion, "Document Version is required.");
+                    isValid = false;
+                }
+
+                else if (textBoxDocumentVersion.Text.Trim().Length < mintextBoxDocumentVersionLength || textBoxDocumentVersion.Text.Length > maxtextBoxDocumentVersionLength)
+                {
+                    errorProvider.SetError(textBoxDocumentVersion, $"Document No. must be within {mintextBoxDocumentVersionLength} and {maxtextBoxDocumentVersionLength} characters.");
+                    isValid = false;
+                }
+
+                if (cmbCategories.SelectedItem == null)
+                {
+                    errorProvider.SetError(cmbCategories, "Document Category is required.");
+                    isValid = false;
+                }
+
+                if (cmbStatus.SelectedItem == null)
+                {
+                    errorProvider.SetError(cmbStatus, "Status is required.");
+                    isValid = false;
+                }
+
+                if (comboBoxCreatedBy.SelectedItem == null)
+                {
+                    errorProvider.SetError(comboBoxCreatedBy, "Created by is required.");
+                    isValid = false;
+                }
+
+                // Notes field validation
+                int maxtxtBoxNotesLength = 150;
+
+                if (string.IsNullOrWhiteSpace(txtBoxNotes.Text))
+                {
+                    errorProvider.SetError(txtBoxNotes, "Notes are required.");
+                    isValid = false;
+                }
+
+                else if (txtBoxNotes.Text.Trim().Length >= maxtxtBoxNotesLength)
+                {
+                    errorProvider.SetError(txtBoxNotes, $"Notes must be {maxtxtBoxNotesLength} characters or less.");
+                    isValid = false;
+                }
+
+                // Enable or disable the Save button based on the validation result
+                btnSave.Enabled = isValid;
+                btnSave.BackColor = isValid ? ColorTranslator.FromHtml("#05982E") : SystemColors.Control;
             }
 
-            if (cmbCategories.SelectedItem == null)
+            finally
             {
-                errorProvider.SetError(cmbCategories, "Document Category is required.");
-                isValid = false;
+                isProcessingValidation = false;
             }
 
-            if (cmbStatus.SelectedItem == null)
-            {
-                errorProvider.SetError(cmbStatus, "Status is required.");
-                isValid = false;
-            }
 
-            if (comboBoxCreatedBy.SelectedItem == null)
-            {
-                errorProvider.SetError(comboBoxCreatedBy, "Created by is required.");
-                isValid = false;
-            }
-
-            if (string.IsNullOrWhiteSpace(txtBoxNotes.Text))
-            {
-                errorProvider.SetError(txtBoxNotes, "Notes are required.");
-                isValid = false;
-            }
-
-            // Enable or disable the Save button based on the validation result
-            btnSave.Enabled = isValid;
-            btnSave.BackColor = isValid ? ColorTranslator.FromHtml("#05982E") : SystemColors.Control;
         }
+
+
 
     }
 }
