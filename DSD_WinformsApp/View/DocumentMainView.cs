@@ -697,19 +697,17 @@ namespace DSD_WinformsApp.View
                         try
                         {
                             string sourceFilePath = selectedBackupFile.BackupFilePath; // Backup file path
-
-                            string docExtension = Path.GetExtension(sourceFilePath); // Get the file extension
                             string downloadsPath = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile); // Downloads folder path
-                            string destinationFilePath = Path.Combine(downloadsPath, "Downloads", selectedBackupFile.Filename + docExtension);
+                            string destinationFilePath = Path.Combine(downloadsPath, "Downloads", selectedBackupFile.Filename);
 
                             File.Copy(sourceFilePath, destinationFilePath, true); // Copy the file to the Downloads folder
 
                             // Show a message to indicate the download completion
                             MessageBox.Show(detailsForm, $"{selectedBackupFile.Filename} downloaded successfully!", "Download Complete", MessageBoxButtons.OK, MessageBoxIcon.Information);
                         }
-                        catch (Exception ex)
+                        catch (Exception)
                         {
-                            MessageBox.Show(detailsForm, $"Error downloading the file: {ex.Message}", "Download Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                            MessageBox.Show(detailsForm, $"An error occured while downloading the document.", "Download Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                         }
                     }
                 }
@@ -1041,7 +1039,7 @@ namespace DSD_WinformsApp.View
 
                 string fileExtension = selectedDocument.FilenameExtension;
 
-                if (isAdmin == true)
+                if (isAdmin)
                 {
                     // For other file types, simply write the file data to the destination file
                     File.WriteAllBytes(destinationFilePath, fileData);
@@ -1049,7 +1047,13 @@ namespace DSD_WinformsApp.View
 
                 else
                 {
-                    if (fileExtension == ".docx" || fileExtension == ".doc")
+                    if (fileExtension == ".pdf")
+                    {
+                        // For PDF files, save the file data directly
+                        File.WriteAllBytes(destinationFilePath, fileData);
+                    }
+
+                    else if (fileExtension == ".docx" || fileExtension == ".doc")
                     {
                         // Save the file data to a temporary file
                         string tempFilePath = Path.GetTempFileName();
@@ -1069,6 +1073,7 @@ namespace DSD_WinformsApp.View
                         // Delete the temporary file
                         File.Delete(tempFilePath);
                     }
+
                     else if (fileExtension == ".xlsx" || fileExtension == ".xls")
                     {
                         // Save the file data to a temporary file
@@ -1087,6 +1092,7 @@ namespace DSD_WinformsApp.View
 
                         File.Delete(tempFilePath); // Delete the temporary file
                     }
+
                 }
 
                 MessageBox.Show($"{selectedDocument.Filename} downloaded successfully!", "Download Complete", MessageBoxButtons.OK, MessageBoxIcon.Information);

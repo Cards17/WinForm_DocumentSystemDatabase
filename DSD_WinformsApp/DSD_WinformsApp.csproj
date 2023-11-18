@@ -64,6 +64,7 @@
 
   <ItemGroup>
     <Folder Include="Resources\BackupFiles\" />
+    <Folder Include="Resources\UploadedFiles\" />
   </ItemGroup>
 
 </Project>

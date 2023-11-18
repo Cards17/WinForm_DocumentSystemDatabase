@@ -52,119 +52,139 @@ namespace DSD_WinformsApp.Infrastructure.Data.Services
         // Delete a document
         public async Task<bool> DeleteDocument(int documentId)
         {
-            var document = await _dbContext.Documents.FindAsync(documentId);
-            if (document == null)
+            try
             {
-                return false; // Document not found, cannot delete.
+                var document = await _dbContext.Documents.FindAsync(documentId);
+                if (document == null)
+                {
+                    return false; // Document not found, cannot delete.
+                }
+
+                // Remove the associated file from the server
+                if (File.Exists(document.FilePath))
+                {
+                    File.Delete(document.FilePath);
+                }
+
+
+                // Delete associated backup files
+                var backupFilesToDelete = await _dbContext.BackupFiles
+                    .Where(b => b.Id == documentId)
+                    .ToListAsync();
+
+                foreach (var backupFile in backupFilesToDelete)
+                {
+                    // Delete the backup file from the file system
+                    File.Delete(backupFile.BackupFilePath);
+                }
+
+                _dbContext.Documents.Remove(document);
+                _dbContext.SaveChanges();
+                return true;
             }
 
-            // Remove the associated file from the server
-            if (File.Exists(document.FilePath))
+            catch (Exception)
             {
-                File.Delete(document.FilePath);
+                MessageBox.Show($"An unexpected error occurred while deleting the document. Please try again or contact support.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return false;
             }
 
-
-            // Delete associated backup files
-            var backupFilesToDelete = await _dbContext.BackupFiles
-                .Where(b => b.Id == documentId)
-                .ToListAsync();
-
-            foreach (var backupFile in backupFilesToDelete)
-            {
-                // Delete the backup file from the file system
-                File.Delete(backupFile.BackupFilePath);
-            }
-
-            _dbContext.Documents.Remove(document);
-            _dbContext.SaveChanges();
-            return true;
         }
 
         // Edit a document
         public async Task<bool> EditDocument(int documentId, DocumentDto updatedDocument, bool isUploadSuccessful)
         {
-            var existingDocument = await _dbContext.Documents.FindAsync(documentId);
-            if (existingDocument == null)
+            try
             {
-                return false; // Document not found, cannot edit.
-            }
-
-            // Update properties of the existing document with the data from the updatedDocument DTO
-            existingDocument.DocumentVersion = updatedDocument.DocumentVersion;
-            existingDocument.Category = updatedDocument.Category;
-            existingDocument.Status = updatedDocument.Status;
-            existingDocument.CreatedDate = updatedDocument.CreatedDate;
-            existingDocument.CreatedBy = updatedDocument.CreatedBy;
-            existingDocument.ModifiedBy = updatedDocument.ModifiedBy;
-            existingDocument.ModifiedDate = updatedDocument.ModifiedDate;
-            existingDocument.Notes = updatedDocument.Notes;
-
-
-            if (updatedDocument.Filename != existingDocument.Filename)
-            {
-                var fileName = Path.GetFileName(updatedDocument.Filename);
-                var fileNameExtension = updatedDocument.FilenameExtension;
-                var filePath = Path.Combine(@"C:\Users\ricardo.piquero.jr\source\repos\DSD Solution\DSD_WinformsApp\Resources\UploadedFiles", fileName + fileNameExtension);
-                // Save the updated file to the server
-                File.WriteAllBytes(filePath, updatedDocument.FileData);
-
-                existingDocument.Filename = updatedDocument.Filename; // Update the filename property
-                existingDocument.FilenameExtension = updatedDocument.FilenameExtension;
-
-                if (isUploadSuccessful)
+                var existingDocument = await _dbContext.Documents.FindAsync(documentId);
+                if (existingDocument == null)
                 {
-                    //Move the existing file to the backup folder
-                    if (File.Exists(existingDocument.FilePath))
-                    {
-                        var backupFolderPath = Path.Combine(@"C:\Users\ricardo.piquero.jr\source\repos\DSD Solution\DSD_WinformsApp\Resources\BackupFiles");
-                        if (!Directory.Exists(backupFolderPath))
-                        {
-                            Directory.CreateDirectory(backupFolderPath);
-                        }
-
-                        var backupFileName = Path.GetFileName(existingDocument.FilePath);
-                        var backupFilePath = Path.Combine(backupFolderPath, backupFileName);
-                        File.Move(existingDocument.FilePath, backupFilePath);
-
-                        // Calculate the new version for the next backup
-                        var latestBackupVersion = _dbContext.BackupFiles
-                            .Where(x => x.Id == existingDocument.Id)
-                            .OrderByDescending(x => x.Version)
-                            .FirstOrDefault();
-
-                        var newVersion = latestBackupVersion != null ? latestBackupVersion.Version + 1.0 : 0;
-
-                        // Create a new BackupFile record
-                        var newBackupFile = new BackUpFileModel
-                        {
-                            DocumentVersion = existingDocument.DocumentVersion,
-                            Filename = backupFileName,
-                            OriginalFilePath = existingDocument.FilePath,
-                            BackupFilePath = backupFilePath,
-                            BackupDate = DateTime.Now.Date,
-                            Id = existingDocument.Id,
-                            Version = newVersion
-
-                        };
-
-                        // Add the new record to the BackupFiles DbSet
-                        _dbContext.BackupFiles.Add(newBackupFile);
-                    }
+                    return false; // Document not found, cannot edit.
                 }
 
-                existingDocument.FilePath = filePath;
+                // Update properties of the existing document with the data from the updatedDocument DTO
+                existingDocument.DocumentVersion = updatedDocument.DocumentVersion;
+                existingDocument.Category = updatedDocument.Category;
+                existingDocument.Status = updatedDocument.Status;
+                existingDocument.CreatedDate = updatedDocument.CreatedDate;
+                existingDocument.CreatedBy = updatedDocument.CreatedBy;
+                existingDocument.ModifiedBy = updatedDocument.ModifiedBy;
+                existingDocument.ModifiedDate = updatedDocument.ModifiedDate;
+                existingDocument.Notes = updatedDocument.Notes;
+
+
+                if (updatedDocument.Filename != existingDocument.Filename)
+                {
+                    var fileName = Path.GetFileName(updatedDocument.Filename);
+                    var fileNameExtension = updatedDocument.FilenameExtension;
+                    var filePath = Path.Combine(@"C:\Users\ricardo.piquero.jr\source\repos\DSD Solution\DSD_WinformsApp\Resources\UploadedFiles", fileName + fileNameExtension);
+                    // Save the updated file to the server
+                    File.WriteAllBytes(filePath, updatedDocument.FileData);
+
+                    existingDocument.Filename = updatedDocument.Filename; // Update the filename property
+                    existingDocument.FilenameExtension = updatedDocument.FilenameExtension;
+
+                    if (isUploadSuccessful)
+                    {
+                        //Move the existing file to the backup folder
+                        if (File.Exists(existingDocument.FilePath))
+                        {
+                            var backupFolderPath = Path.Combine(@"C:\Users\ricardo.piquero.jr\source\repos\DSD Solution\DSD_WinformsApp\Resources\BackupFiles");
+                            if (!Directory.Exists(backupFolderPath))
+                            {
+                                Directory.CreateDirectory(backupFolderPath);
+                            }
+
+                            var backupFileName = Path.GetFileName(existingDocument.FilePath);
+                            var backupFilePath = Path.Combine(backupFolderPath, backupFileName);
+                            File.Move(existingDocument.FilePath, backupFilePath);
+
+                            // Calculate the new version for the next backup
+                            var latestBackupVersion = _dbContext.BackupFiles
+                                .Where(x => x.Id == existingDocument.Id)
+                                .OrderByDescending(x => x.Version)
+                                .FirstOrDefault();
+
+                            var newVersion = latestBackupVersion != null ? latestBackupVersion.Version + 1.0 : 0;
+
+                            // Create a new BackupFile record
+                            var newBackupFile = new BackUpFileModel
+                            {
+                                DocumentVersion = existingDocument.DocumentVersion,
+                                Filename = backupFileName,
+                                OriginalFilePath = existingDocument.FilePath,
+                                BackupFilePath = backupFilePath,
+                                BackupDate = DateTime.Now.Date,
+                                Id = existingDocument.Id,
+                                Version = newVersion
+
+                            };
+
+                            // Add the new record to the BackupFiles DbSet
+                            _dbContext.BackupFiles.Add(newBackupFile);
+                        }
+                    }
+
+                    existingDocument.FilePath = filePath;
+                }
+
+                else
+                {
+                    // If the file was not updated, keep the existing file path
+                    existingDocument.FilePath = existingDocument.FilePath;
+                }
+
+                // Save changes to the database
+                _dbContext.SaveChanges();
+                return true;
             }
 
-            else
+            catch (Exception)
             {
-                // If the file was not updated, keep the existing file path
-                existingDocument.FilePath = existingDocument.FilePath;
+                MessageBox.Show($"An unexpected error occurred while editing the document. Please try again or contact support.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return false;
             }
 
-            // Save changes to the database
-            _dbContext.SaveChanges();
-            return true;
         }
 
         public async Task<List<DocumentDto>> GetFilteredDocuments(string searchQuery, string filterCriteria)
