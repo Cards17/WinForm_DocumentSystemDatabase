@@ -30,9 +30,6 @@ namespace DSD_WinformsApp.View
             errorProvider = new ErrorProvider(); // Initialize the ErrorProvider component
 
             StartPosition = FormStartPosition.CenterScreen; // Set the form's start position to the center of the screen
-
-
-
         }
 
         private void LoginFormView_Load(object sender, EventArgs e)
@@ -195,12 +192,12 @@ namespace DSD_WinformsApp.View
                 }
                 else
                 {
-                    MessageBox.Show("Invalid credentials. Please try again.");
+                    MessageBox.Show($"Invalid credentials. Please try again.", "Invalid Credentials", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                MessageBox.Show(ex.Message);
+                MessageBox.Show($"An error has occured while signing in, please try again.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 

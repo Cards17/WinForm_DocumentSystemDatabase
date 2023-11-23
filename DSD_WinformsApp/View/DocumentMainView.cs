@@ -370,6 +370,7 @@ namespace DSD_WinformsApp.View
             button1.Height = 40;
             button1.Width = 130;
             button1.Font = new Font("Segoe UI", 9, FontStyle.Bold);
+            button1.Visible = isAdmin;
             button1.ForeColor = Color.White;
             detailsForm.Controls.Add(button1);
 
@@ -795,7 +796,7 @@ namespace DSD_WinformsApp.View
             editButton.Location = new Point(groupBox.Right - editButton.Width, groupBox.Bottom + 10);
             editButton.Height = 40;
             editButton.Width = 80;
-            editButton.Enabled = isAdmin; // Enable for admin only
+            editButton.Visible = isAdmin; // Enable for admin only
             editButton.Click += EditButton_Click;
             detailsForm.Controls.Add(editButton);
 
@@ -807,6 +808,7 @@ namespace DSD_WinformsApp.View
             closeButton.Text = "Close";
             closeButton.Name = "closeButton";
             closeButton.Location = new Point(editButton.Left - 20 - closeButton.Width, groupBox.Bottom + 10);
+            closeButton.Location = isAdmin ? new Point(editButton.Left - 20 - closeButton.Width, groupBox.Bottom + 10) : new Point(editButton.Left - 10, groupBox.Bottom + 10);
             closeButton.Height = editButton.Height;
             closeButton.Width = editButton.Width;
             closeButton.Click += CloseButton_Click;
@@ -823,6 +825,7 @@ namespace DSD_WinformsApp.View
             saveButton.Location = new Point(closeButton.Left - 20 - saveButton.Width, closeButton.Top);
             saveButton.Height = closeButton.Height;
             saveButton.Width = closeButton.Width;
+            saveButton.Visible = isAdmin;
             saveButton.Enabled = false; // Disable the Save button initially
 
             // Create a dictionary to store the original values of the TextBoxes
@@ -1039,6 +1042,7 @@ namespace DSD_WinformsApp.View
 
                 string fileExtension = selectedDocument.FilenameExtension;
 
+                // Check user access prviledges as admin
                 if (isAdmin)
                 {
                     // For other file types, simply write the file data to the destination file
