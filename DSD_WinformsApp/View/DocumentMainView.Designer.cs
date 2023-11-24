@@ -280,6 +280,7 @@ namespace DSD_WinformsApp.View
             // comboBoxCategoryDropdown
             // 
             comboBoxCategoryDropdown.Anchor = AnchorStyles.Top | AnchorStyles.Right;
+            comboBoxCategoryDropdown.BackColor = SystemColors.Window;
             comboBoxCategoryDropdown.FlatStyle = FlatStyle.Flat;
             comboBoxCategoryDropdown.Font = new Font("Segoe UI", 10F, FontStyle.Italic, GraphicsUnit.Point);
             comboBoxCategoryDropdown.FormattingEnabled = true;

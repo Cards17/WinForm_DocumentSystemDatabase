@@ -394,7 +394,7 @@ namespace DSD_WinformsApp.View
             groupBox.AutoSize = false;
             groupBox.Width = detailsForm.ClientSize.Width;
             groupBox.Height = detailsForm.ClientSize.Height;
-            groupBox.Location = new Point(20, 80);
+            groupBox.Location = new Point(20, 80); ;
             groupBox.Visible = true;
 
             // Add the GroupBox to the detailsForm
@@ -846,7 +846,8 @@ namespace DSD_WinformsApp.View
                     // Get the modified data from the TextBoxes and ComboBoxes
                     string documentVersion = documentVersionTextBox.Text.ToUpper();
                     string filename = filenameTextBox.Text;
-                    string filenameExtension = labelFilenameHidden.Text;
+                    //string filenameExtension = labelFilenameHidden.Text;
+                    string filenameExtension = selectedDocument.FilenameExtension;
                     string category = categoryComboBox.Text;
                     string status = statusComboBox.Text;
                     DateTime createdDate = DateTime.Parse(createdDateTextBox.Text);
@@ -948,7 +949,7 @@ namespace DSD_WinformsApp.View
             };
 
             // Adjust the size of the detailsForm to fit the GroupBox and its contents
-            detailsForm.ClientSize = new Size(groupBox.Right + 40, groupBox.Bottom + 80); 
+            detailsForm.ClientSize = new Size(groupBox.Right + 40, groupBox.Bottom + 80);
 
             // Handle the Click event of Button 1
             button1.Click += (sender, e) =>
@@ -989,6 +990,11 @@ namespace DSD_WinformsApp.View
                         modifiedByTextBox.BorderStyle = BorderStyle.None;
                         modifiedDateTextBox.BorderStyle = BorderStyle.None;
                     }
+                    else if (control is ComboBox comboBox)
+                    {
+                        statusComboBox.Enabled = true;
+                        categoryComboBox.Enabled = true;
+                    }
                 }
 
                 editButton.Enabled = false;
@@ -1017,14 +1023,14 @@ namespace DSD_WinformsApp.View
 
             // ComboBox SelectedIndexChanged event handler to track changes
             void ComboBox_SelectedIndexChanged(object? sender, EventArgs e)
-            {     
+            {
                 saveButton.Enabled = true; // Enable the Save button when changes are made in any of the ComboBoxes
-                
+
                 // Check if the selected value in the ComboBox has been reverted to the original value
                 if (sender is ComboBox comboBox && originalComboBoxValues.ContainsKey(comboBox))
                 {
                     if (comboBox.SelectedItem.ToString() == originalComboBoxValues[comboBox])
-                    {          
+                    {
                         saveButton.Enabled = false; // If the current value matches the original value, disable the Save button
                     }
                 }
@@ -1079,7 +1085,7 @@ namespace DSD_WinformsApp.View
                         doc.SaveAs2(pdfFilePath, Microsoft.Office.Interop.Word.WdSaveFormat.wdFormatPDF);
                         doc.Close();
                         word.Quit();
-                        
+
                         File.Delete(tempFilePath); // Delete the temporary file
                     }
 
@@ -1100,6 +1106,11 @@ namespace DSD_WinformsApp.View
                         excel.Quit();
 
                         File.Delete(tempFilePath); // Delete the temporary file
+                    }
+
+                    else
+                    {
+                        MessageBox.Show("An error occurred while downloading the document. Please try again.", "Download Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     }
 
                 }
@@ -1142,9 +1153,9 @@ namespace DSD_WinformsApp.View
                         {
                             MessageBox.Show($"{filenameTextBox.Text} already exists", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error); // Show an error message if the selected file is the same as the current file
                         }
-   
+
                         filenameTextBox.Enabled = false; // Disable editing of the TextBox
-                        
+
                         filenameTextBox.Tag = filePath; // Store the file path in the Tag property of the TextBox
                     }
                     else
@@ -1235,7 +1246,7 @@ namespace DSD_WinformsApp.View
             textBoxUserEmailAdd.Text = selectedUser.EmailAddress;
             textBoxUserJobTitle.Text = selectedUser.JobTitle;
             checkBoxEnableAdmin.Checked = selectedUser.UserRole == UserRole.Admin;
-        
+
             // Field status
             textBoxID.Enabled = false;
             textBoxUserFirstName.Enabled = false;
@@ -1537,7 +1548,7 @@ namespace DSD_WinformsApp.View
             DialogResult result = MessageBox.Show("Are you sure you want to download all documents?", "Download Confirmation", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
             if (result == DialogResult.Yes)
             {
-                await _presenter.DownloadAllDocuments(); 
+                await _presenter.DownloadAllDocuments();
             }
         }
 

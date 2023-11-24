@@ -30,7 +30,6 @@ namespace DSD_WinformsApp.View
             _unitOfWork = unitOfWork;
             _presenter = presenter;
 
-
             MaximizeBox = false; // Remove the maximize box
             MinimizeBox = false; // Remove the minimize box
 
@@ -40,13 +39,10 @@ namespace DSD_WinformsApp.View
             StatusComboBox();
             CategoryComboBox();
             CreatedByComboBox();
-
         }
 
         private void AddForm_Load(object sender, EventArgs e)
         {
-            //MaximizeBox = false; // Remove the maximize box
-
             btnSave.Enabled = false; // Disable the Save button initially
 
             labelFilename.Visible = false; // Hide the label that displays the selected file name
@@ -137,12 +133,11 @@ namespace DSD_WinformsApp.View
             {
                 DialogResult = DialogResult.OK; // Set DialogResult in the finally block
             }
-
         }
 
+        // Cancel button onclick event
         private void btnCancel_Click(object sender, EventArgs e)
         {
-            // Close the form and return DialogResult.Cancel
             DialogResult = DialogResult.Cancel;
         }
 
@@ -180,9 +175,8 @@ namespace DSD_WinformsApp.View
                     // Get filename with extension for saving to db
                     string fileExtension = Path.GetExtension(openFileDialog.FileName);
                     labelDocumentNameWithExtension.Text = fileExtension;
-
-                    // Check for duplicate file name in the repository
-                    bool hasDuplicateFileName = await _presenter.CheckForDuplicateFileName(fileNameWithoutExtension);
+                    
+                    bool hasDuplicateFileName = await _presenter.CheckForDuplicateFileName(fileNameWithoutExtension); // Check for duplicate file name in the repository
 
                     if (hasDuplicateFileName)
                     {
@@ -214,9 +208,9 @@ namespace DSD_WinformsApp.View
 
         private void ValidateForm()
         {
+            // Check validation if already running to avoid recursion.
             if (isProcessingValidation)
             {
-                // Validation is already in progress, avoid recursion
                 return;
             }
 
@@ -227,12 +221,7 @@ namespace DSD_WinformsApp.View
                 bool isValid = true;
                 errorProvider.Clear();
 
-                // Document field validations
-                int maxLabelFilenameLength = 100;
-
-
-                
-                //labelFilename.AutoSize = true;
+                int maxLabelFilenameLength = 100; // Set filename validation
 
                 if (string.IsNullOrWhiteSpace(labelFilename.Text))
                 {
@@ -304,11 +293,6 @@ namespace DSD_WinformsApp.View
             {
                 isProcessingValidation = false;
             }
-
-
         }
-
-
-
     }
 }
