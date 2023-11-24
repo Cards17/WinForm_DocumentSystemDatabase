@@ -830,6 +830,7 @@ namespace DSD_WinformsApp.View
 
             // Create a dictionary to store the original values of the TextBoxes
             var originalTextBoxValues = new Dictionary<TextBox, string>();
+            var originalComboBoxValues = new Dictionary<ComboBox, string?>();
 
             // Save button click event
             saveButton.Click += async (sender, e) =>
@@ -851,7 +852,6 @@ namespace DSD_WinformsApp.View
                     DateTime createdDate = DateTime.Parse(createdDateTextBox.Text);
                     string createdBy = createdByTextBox.Text;
                     string modifiedBy = labelHomePageUserLogin.Text;
-                    //DateTime modifiedDate = DateTime.Parse(modifiedDateTextBox.Text);
                     string notes = notesTextBox.Text;
 
                     // Check if the file name has been changed
@@ -928,8 +928,7 @@ namespace DSD_WinformsApp.View
                 {
                     if (control is TextBox textBox)
                     {
-                        // Store the original value of the TextBox
-                        originalTextBoxValues[textBox] = textBox.Text;
+                        originalTextBoxValues[textBox] = textBox.Text; // Store the original value of the TextBox
 
                         textBox.ReadOnly = false;
                         textBox.TextChanged += TextBox_TextChanged; // Attach the event handler to track changes
@@ -937,6 +936,8 @@ namespace DSD_WinformsApp.View
 
                     else if (control is ComboBox comboBox)
                     {
+                        originalComboBoxValues[comboBox] = comboBox.SelectedItem.ToString();
+
                         comboBox.Enabled = true; // Enable the ComboBox controls
                         comboBox.SelectedIndexChanged += ComboBox_SelectedIndexChanged; // Attach the event handler to track changes
                     }
@@ -947,7 +948,7 @@ namespace DSD_WinformsApp.View
             };
 
             // Adjust the size of the detailsForm to fit the GroupBox and its contents
-            detailsForm.ClientSize = new Size(groupBox.Right + 40, groupBox.Bottom + 80); // Add some buffer (e.g., 40 pixels) to avoid cutting off any controls.
+            detailsForm.ClientSize = new Size(groupBox.Right + 40, groupBox.Bottom + 80); 
 
             // Handle the Click event of Button 1
             button1.Click += (sender, e) =>
@@ -1009,24 +1010,29 @@ namespace DSD_WinformsApp.View
                 {
                     if (textBox.Text == originalTextBoxValues[textBox])
                     {
-                        // If the current value matches the original value, disable the Save button
-                        saveButton.Enabled = false;
+                        saveButton.Enabled = false; // If the current value matches the original value, disable the Save button
                     }
                 }
             }
 
             // ComboBox SelectedIndexChanged event handler to track changes
             void ComboBox_SelectedIndexChanged(object? sender, EventArgs e)
-            {
-                // Enable the Save button when changes are made in any of the ComboBoxes
-                saveButton.Enabled = true;
+            {     
+                saveButton.Enabled = true; // Enable the Save button when changes are made in any of the ComboBoxes
+                
+                // Check if the selected value in the ComboBox has been reverted to the original value
+                if (sender is ComboBox comboBox && originalComboBoxValues.ContainsKey(comboBox))
+                {
+                    if (comboBox.SelectedItem.ToString() == originalComboBoxValues[comboBox])
+                    {          
+                        saveButton.Enabled = false; // If the current value matches the original value, disable the Save button
+                    }
+                }
             }
 
-            // Show the detailsForm
-            detailsForm.ShowDialog();
+            detailsForm.ShowDialog(); // Show the detailsForm
 
             #endregion
-
         }
 
         private void ConfirmDownloadDocument(DocumentDto selectedDocument, bool isAdmin)
@@ -1051,9 +1057,9 @@ namespace DSD_WinformsApp.View
 
                 else
                 {
+                    // For PDF files, save the file data directly
                     if (fileExtension == ".pdf")
                     {
-                        // For PDF files, save the file data directly
                         File.WriteAllBytes(destinationFilePath, fileData);
                     }
 
@@ -1073,9 +1079,8 @@ namespace DSD_WinformsApp.View
                         doc.SaveAs2(pdfFilePath, Microsoft.Office.Interop.Word.WdSaveFormat.wdFormatPDF);
                         doc.Close();
                         word.Quit();
-
-                        // Delete the temporary file
-                        File.Delete(tempFilePath);
+                        
+                        File.Delete(tempFilePath); // Delete the temporary file
                     }
 
                     else if (fileExtension == ".xlsx" || fileExtension == ".xls")
@@ -1137,15 +1142,13 @@ namespace DSD_WinformsApp.View
                         {
                             MessageBox.Show($"{filenameTextBox.Text} already exists", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error); // Show an error message if the selected file is the same as the current file
                         }
-
-                        // Disable editing of the TextBox
-                        filenameTextBox.Enabled = false;
-                        // Store the file path in the Tag property of the TextBox
-                        filenameTextBox.Tag = filePath;
+   
+                        filenameTextBox.Enabled = false; // Disable editing of the TextBox
+                        
+                        filenameTextBox.Tag = filePath; // Store the file path in the Tag property of the TextBox
                     }
                     else
                     {
-                        // Show a custom error message if the file has an invalid extension
                         MessageBox.Show("Invalid document type. Please select a Word, PDF, or Excel document.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     }
 
@@ -1159,7 +1162,6 @@ namespace DSD_WinformsApp.View
             }
             catch (Exception)
             {
-                // Show a custom error message for any other exceptions
                 MessageBox.Show("An error occurred while selecting the document. Please try again.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
 
@@ -1173,9 +1175,9 @@ namespace DSD_WinformsApp.View
             return validExtensions.Contains(extension);
         }
 
+        // Add document button click event
         private async void pictureBox1_Click(object sender, EventArgs e)
         {
-            // Show AddFormView Form
             using (AddFormView newForm = new AddFormView(_unitOfWork, _presenter))
             {
                 newForm.StartPosition = FormStartPosition.CenterParent;
@@ -1186,7 +1188,6 @@ namespace DSD_WinformsApp.View
         }
 
         public void ShowDocumentView() => this.ShowDialog(); // Show documentMainView form
-
 
         private void DocumentViewForm_FormClosing(object? sender, FormClosingEventArgs e)
         {
@@ -1216,7 +1217,6 @@ namespace DSD_WinformsApp.View
             {
                 UserCredentialsDto selectedUser = (UserCredentialsDto)dataGridViewManageUsers.Rows[e.RowIndex].DataBoundItem;
 
-                // show panelUserDetails only
                 panelUserDetails.Visible = true;
                 panelManageUsers.Visible = false;
                 panelHome.Visible = false;
@@ -1230,21 +1230,18 @@ namespace DSD_WinformsApp.View
         {
             // Display the selected user's details in the textboxes
             textBoxID.Text = selectedUser.UserId.ToString();
-            textBoxID.Enabled = false;
-
             textBoxUserFirstName.Text = selectedUser.Firstname;
-            textBoxUserFirstName.Enabled = false;
-
             textBoxUserLastName.Text = selectedUser.Lastname;
-            textBoxUserLastName.Enabled = false;
-
             textBoxUserEmailAdd.Text = selectedUser.EmailAddress;
-            textBoxUserEmailAdd.Enabled = false;
-
             textBoxUserJobTitle.Text = selectedUser.JobTitle;
-            textBoxUserJobTitle.Enabled = false;
-
             checkBoxEnableAdmin.Checked = selectedUser.UserRole == UserRole.Admin;
+        
+            // Field status
+            textBoxID.Enabled = false;
+            textBoxUserFirstName.Enabled = false;
+            textBoxUserLastName.Enabled = false;
+            textBoxUserEmailAdd.Enabled = false;
+            textBoxUserJobTitle.Enabled = false;
             checkBoxEnableAdmin.Enabled = false;
 
             // Manage Users button state initially
@@ -1284,7 +1281,6 @@ namespace DSD_WinformsApp.View
             originalCheckBoxState = checkBoxEnableAdmin.Checked;
         }
 
-
         private async void buttonUsersDetailSave_Click(object sender, EventArgs e)
         {
             try
@@ -1318,7 +1314,6 @@ namespace DSD_WinformsApp.View
 
             catch (Exception)
             {
-                // Show a custom error message for any other exceptions
                 MessageBox.Show("An error occurred while saving users details. Please try again.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
 
@@ -1397,7 +1392,6 @@ namespace DSD_WinformsApp.View
         // event when user delete button was clicked
         private async void dataGridViewManageUsers_DeleteButton_CellClick(object? sender, DataGridViewCellEventArgs e)
         {
-
             if (e.RowIndex >= 0 && e.ColumnIndex == dataGridViewManageUsers.Columns["Delete"].Index)
             {
                 UserCredentialsDto selectedUser = (UserCredentialsDto)dataGridViewManageUsers.Rows[e.RowIndex].DataBoundItem;
@@ -1417,7 +1411,6 @@ namespace DSD_WinformsApp.View
 
                 catch (Exception)
                 {
-                    // Show a custom error message for any other exceptions
                     MessageBox.Show("An error occurred while deleting the user. Please try again.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
 
@@ -1430,7 +1423,6 @@ namespace DSD_WinformsApp.View
 
         private void textBoxSearchBar_TextChanged(object? sender, EventArgs e)
         {
-
             timerSearchBar.Interval = 400; // Set the interval for the document searchbar timer
             timerSearchBar.Start();
         }
@@ -1539,14 +1531,17 @@ namespace DSD_WinformsApp.View
             labelHello.Text = $"Hello, {username}!";
         }
 
+        // Download all documents click event
         private async void linkLabel1_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
             DialogResult result = MessageBox.Show("Are you sure you want to download all documents?", "Download Confirmation", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
             if (result == DialogResult.Yes)
             {
-                await _presenter.DownloadAllDocuments(); // Call presenter's DownloadAllDocuments method
+                await _presenter.DownloadAllDocuments(); 
             }
         }
+
+        // Button Sign out onclick event
         private void buttonSignOut_Click(object sender, EventArgs e)
         {
             try

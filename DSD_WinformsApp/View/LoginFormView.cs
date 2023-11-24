@@ -318,11 +318,8 @@ namespace DSD_WinformsApp.View
                 buttonHideEyeIcon.Visible = true;
                 buttonEyeIcon.Visible = false;
                 textBoxSignInPassword.TabIndex = 0;
-
             }
-
         }
-
         private void buttonHideEyeIcon_Click(object sender, EventArgs e)
         {
             // Hide the password from show to hide
