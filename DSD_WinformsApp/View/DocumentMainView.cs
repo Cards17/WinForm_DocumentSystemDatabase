@@ -32,6 +32,8 @@ namespace DSD_WinformsApp.View
 
         private bool isUploadSuccessful = false;
 
+        private ErrorProvider errorProvider = null!;
+
         public DocumentMainView(IUnitOfWork unitOfWork)
         {
             InitializeComponent();
@@ -41,6 +43,8 @@ namespace DSD_WinformsApp.View
             WindowState = FormWindowState.Maximized; // Set the initial window state to Maximized
 
             this.FormClosing += DocumentViewForm_FormClosing; // Form closing event handler
+
+            errorProvider = new ErrorProvider();
 
             ToggleAdminRights(isVisible); // Manage Users button visibility
 
@@ -54,10 +58,10 @@ namespace DSD_WinformsApp.View
 
             #region Manage Users Events
             // Attach TextChanged event handlers to the relevant text fields
-            textBoxUserFirstName.TextChanged += TextBox_TextChanged;
-            textBoxUserLastName.TextChanged += TextBox_TextChanged;
-            textBoxUserEmailAdd.TextChanged += TextBox_TextChanged;
-            textBoxUserJobTitle.TextChanged += TextBox_TextChanged;
+            textBoxUserFirstName.TextChanged += TextBoxUsers_TextChanged;
+            textBoxUserLastName.TextChanged += TextBoxUsers_TextChanged;
+            textBoxUserEmailAdd.TextChanged += TextBoxUsers_TextChanged;
+            textBoxUserJobTitle.TextChanged += TextBoxUsers_TextChanged;
 
             // Attach CheckedChanged event handler to the checkbox
             checkBoxEnableAdmin.CheckedChanged += CheckBox_CheckedChanged;
@@ -70,6 +74,8 @@ namespace DSD_WinformsApp.View
 
         private async void DocumentView_Load_1(object sender, EventArgs e)
         {
+            errorProvider.BlinkStyle = ErrorBlinkStyle.NeverBlink;
+
             string varDocSearchQuery = GetSearchQuery();
             string varDocCategoryQuery = GetFilterCategory();
             string varUserSearchQuery = GetSearchUserQuery();
@@ -844,16 +850,15 @@ namespace DSD_WinformsApp.View
                     byte[] fileDataBytes = isNewFileUploaded ? File.ReadAllBytes(filePath) : selectedDocument.FileData;
 
                     // Get the modified data from the TextBoxes and ComboBoxes
-                    string documentVersion = documentVersionTextBox.Text.ToUpper();
-                    string filename = filenameTextBox.Text;
-                    //string filenameExtension = labelFilenameHidden.Text;
+                    string documentVersion = documentVersionTextBox.Text.ToUpper().Trim();
+                    string filename = filenameTextBox.Text.Trim();
                     string filenameExtension = selectedDocument.FilenameExtension;
                     string category = categoryComboBox.Text;
                     string status = statusComboBox.Text;
                     DateTime createdDate = DateTime.Parse(createdDateTextBox.Text);
                     string createdBy = createdByTextBox.Text;
                     string modifiedBy = labelHomePageUserLogin.Text;
-                    string notes = notesTextBox.Text;
+                    string notes = notesTextBox.Text.Trim();
 
                     // Check if the file name has been changed
                     if (filename != Path.GetFileNameWithoutExtension(filePath))
@@ -1010,6 +1015,12 @@ namespace DSD_WinformsApp.View
             {
                 // Enable the Save button when changes are made in any of the TextBoxes
                 saveButton.Enabled = true;
+                errorProvider.Clear();
+
+                int maxDocNameLength = 100;
+                int maxtextBoxDocumentVersionLength = 30;
+                int mintextBoxDocumentVersionLength = 5;
+                int maxtxtBoxNotesLength = 150;
 
                 // Check if the value in the TextBox has been reverted to the original value
                 if (sender is TextBox textBox && originalTextBoxValues.ContainsKey(textBox))
@@ -1018,6 +1029,25 @@ namespace DSD_WinformsApp.View
                     {
                         saveButton.Enabled = false; // If the current value matches the original value, disable the Save button
                     }
+
+                    else if (filenameTextBox.Text.Length > maxDocNameLength)
+                    {
+                        errorProvider.SetError(filenameTextBox, $"Document name must be {maxDocNameLength} characters or less.");
+                        saveButton.Enabled = false;
+                    }
+
+                    else if (documentVersionTextBox.Text.Trim().Length < mintextBoxDocumentVersionLength || documentVersionTextBox.Text.Length > maxtextBoxDocumentVersionLength)
+                    {
+                        errorProvider.SetError(documentVersionTextBox, $"Document No. must be within {mintextBoxDocumentVersionLength} and {maxtextBoxDocumentVersionLength} characters.");
+                        saveButton.Enabled = false;
+                    }
+
+                    else if (notesTextBox.Text.Trim().Length >= maxtxtBoxNotesLength)
+                    {
+                        errorProvider.SetError(notesTextBox, $"Notes must be {maxtxtBoxNotesLength} characters or less.");
+                        saveButton.Enabled = false;
+                    }
+
                 }
             }
 
@@ -1355,7 +1385,7 @@ namespace DSD_WinformsApp.View
         }
 
         // event when user fields was changed
-        private void TextBox_TextChanged(object? sender, EventArgs e)
+        private void TextBoxUsers_TextChanged(object? sender, EventArgs e)
         {
             Control textBox = (Control)sender;
             string? originalValue;
