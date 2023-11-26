@@ -115,12 +115,19 @@ namespace DSD_WinformsApp.Infrastructure.Data.Services
 
                 if (updatedDocument.Filename != existingDocument.Filename)
                 {
-                    var fileName = Path.GetFileName(updatedDocument.Filename);
-                    var fileNameExtension = updatedDocument.FilenameExtension;
-                    var filePath = Path.Combine(@"C:\Users\ricardo.piquero.jr\source\repos\DSD Solution\DSD_WinformsApp\Resources\UploadedFiles", fileName + fileNameExtension);
-                    // Save the updated file to the server
-                    File.WriteAllBytes(filePath, updatedDocument.FileData);
+                    // Old File
+                    var oldFileName = Path.GetFileName(existingDocument.Filename);
+                    var oldFileNameExtension = existingDocument.FilenameExtension;
+                    var oldFilePath = Path.Combine(@"C:\Users\ricardo.piquero.jr\source\repos\DSD Solution\DSD_WinformsApp\Resources\UploadedFiles", oldFileName + oldFileNameExtension);
 
+                    // new file
+                    var newFileName = Path.GetFileName(updatedDocument.Filename);
+                    var newFileNameExtension = updatedDocument.FilenameExtension;
+                    var newFilePath = Path.Combine(@"C:\Users\ricardo.piquero.jr\source\repos\DSD Solution\DSD_WinformsApp\Resources\UploadedFiles", newFileName + newFileNameExtension);
+                   
+                    File.WriteAllBytes(newFilePath, updatedDocument.FileData); // Save the updated file to the server
+               
+                   
                     existingDocument.Filename = updatedDocument.Filename; // Update the filename property
                     existingDocument.FilenameExtension = updatedDocument.FilenameExtension;
 
@@ -157,7 +164,6 @@ namespace DSD_WinformsApp.Infrastructure.Data.Services
                                 BackupDate = DateTime.Now.Date,
                                 Id = existingDocument.Id,
                                 Version = newVersion
-
                             };
 
                             // Add the new record to the BackupFiles DbSet
@@ -165,7 +171,13 @@ namespace DSD_WinformsApp.Infrastructure.Data.Services
                         }
                     }
 
-                    existingDocument.FilePath = filePath;
+                    else
+                    {
+                        File.Delete(oldFilePath); // Remove old file
+                    }
+
+                    existingDocument.FilePath = newFilePath;
+                    
                 }
 
                 else

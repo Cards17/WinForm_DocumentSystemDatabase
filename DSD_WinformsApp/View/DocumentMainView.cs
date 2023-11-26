@@ -935,7 +935,6 @@ namespace DSD_WinformsApp.View
                     if (control is TextBox textBox)
                     {
                         originalTextBoxValues[textBox] = textBox.Text; // Store the original value of the TextBox
-
                         textBox.ReadOnly = false;
                         textBox.TextChanged += TextBox_TextChanged; // Attach the event handler to track changes
                     }
@@ -943,7 +942,6 @@ namespace DSD_WinformsApp.View
                     else if (control is ComboBox comboBox)
                     {
                         originalComboBoxValues[comboBox] = comboBox.SelectedItem.ToString();
-
                         comboBox.Enabled = true; // Enable the ComboBox controls
                         comboBox.SelectedIndexChanged += ComboBox_SelectedIndexChanged; // Attach the event handler to track changes
                     }
@@ -1014,7 +1012,7 @@ namespace DSD_WinformsApp.View
             void TextBox_TextChanged(object? sender, EventArgs e)
             {
                 // Enable the Save button when changes are made in any of the TextBoxes
-                saveButton.Enabled = true;
+                //saveButton.Enabled = true;
                 errorProvider.Clear();
 
                 int maxDocNameLength = 100;
@@ -1046,6 +1044,11 @@ namespace DSD_WinformsApp.View
                     {
                         errorProvider.SetError(notesTextBox, $"Notes must be {maxtxtBoxNotesLength} characters or less.");
                         saveButton.Enabled = false;
+                    }
+
+                    else
+                    {
+                        saveButton.Enabled = true;
                     }
 
                 }
