@@ -176,8 +176,7 @@ namespace DSD_WinformsApp.Infrastructure.Data.Services
                         File.Delete(oldFilePath); // Remove old file
                     }
 
-                    existingDocument.FilePath = newFilePath;
-                    
+                    existingDocument.FilePath = newFilePath; // Update filepath when file was updated.         
                 }
 
                 else

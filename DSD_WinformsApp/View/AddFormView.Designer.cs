@@ -161,7 +161,7 @@
             labelFilename.Font = new Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point);
             labelFilename.Location = new Point(370, 85);
             labelFilename.Name = "labelFilename";
-            labelFilename.Size = new Size(0, 50);
+            labelFilename.Size = new Size(0, 25);
             labelFilename.TabIndex = 18;
             // 
             // labelFileUpload
@@ -190,6 +190,7 @@
             buttonUploadDocs.FlatAppearance.MouseOverBackColor = Color.FromArgb(9, 142, 154);
             buttonUploadDocs.FlatStyle = FlatStyle.Flat;
             buttonUploadDocs.Font = new Font("Segoe UI Semibold", 9F, FontStyle.Bold, GraphicsUnit.Point);
+            buttonUploadDocs.ForeColor = Color.White;
             buttonUploadDocs.Location = new Point(239, 84);
             buttonUploadDocs.Name = "buttonUploadDocs";
             buttonUploadDocs.Size = new Size(112, 36);
@@ -205,6 +206,7 @@
             btnSave.FlatAppearance.MouseOverBackColor = Color.FromArgb(9, 142, 154);
             btnSave.FlatStyle = FlatStyle.Flat;
             btnSave.Font = new Font("Segoe UI Semibold", 10F, FontStyle.Bold, GraphicsUnit.Point);
+            btnSave.ForeColor = Color.White;
             btnSave.Location = new Point(600, 420);
             btnSave.Name = "btnSave";
             btnSave.Size = new Size(100, 36);
@@ -220,6 +222,7 @@
             btnCancel.FlatAppearance.MouseOverBackColor = Color.FromArgb(9, 142, 154);
             btnCancel.FlatStyle = FlatStyle.Flat;
             btnCancel.Font = new Font("Segoe UI Semibold", 10F, FontStyle.Bold, GraphicsUnit.Point);
+            btnCancel.ForeColor = Color.White;
             btnCancel.Location = new Point(750, 420);
             btnCancel.Name = "btnCancel";
             btnCancel.Size = new Size(100, 36);

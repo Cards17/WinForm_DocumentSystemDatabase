@@ -175,7 +175,7 @@ namespace DSD_WinformsApp.View
                     // Get filename with extension for saving to db
                     string fileExtension = Path.GetExtension(openFileDialog.FileName);
                     labelDocumentNameWithExtension.Text = fileExtension;
-                    
+
                     bool hasDuplicateFileName = await _presenter.CheckForDuplicateFileName(fileNameWithoutExtension); // Check for duplicate file name in the repository
 
                     if (hasDuplicateFileName)
